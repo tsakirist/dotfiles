@@ -10,7 +10,7 @@ black=$(tput setaf 0)
 red=$(tput setaf 1)
 reset=$(tput sgr0)
 
-# ----------------------------------------- Backup function ---------------------------------------------------------
+# -------------------------------------------- Functions -----------------------------------------------------------
 function backup() {
 	if [ -f ~/$1 ]; then
 		echo "Backing up ~/$1 file..."
@@ -18,9 +18,10 @@ function backup() {
 	fi
 }
 
-echo "---------------------- Welcome to my configuration installer ----------------------"
-echo "1. Do you want to ${bold}${red}fresh${reset} install everything?"
-echo "2. Do you want to ${bold}${red}selectively${reset} install everything?"
+echo "---------- This script provides an easy way to install my packages and configurations ----------"
+echo "${bold}What would you like to do?${reset}"
+echo "1. ${bold}${red}Fresh${reset} install everything?"
+echo "2. ${bold}${red}Selectively${reset} install everything?"
 read input
 
 if [[ $input -eq 1 ]]; then
