@@ -20,6 +20,14 @@ function backup() {
 	fi
 }
 
+function _reboot() {
+	echo "It is recommended to ${bold}${red}reboot${reset} after a fresh install of the packages and configurations."
+	read -n 1 -r -p "Would you like to reboot? [Y/n] " input
+	if [[ $input =~ ^([yY]) ]]; then
+		sudo reboot
+	fi
+}
+
 function _curl() {
 	if ! command -v curl > /dev/null 2>&1; then
 		echo "Installing ${bold}${red}cURL${reset}..."
@@ -68,6 +76,9 @@ function _vimrc() {
 	curl -sL -o ".vimrc" "https://drive.google.com/uc?export=download&id=1ghaarm0vqF8clf8kWtZCnW4rxNcs5MtZ"
 	echo "Moving .vimrc to root directory '/' ..."
 	mv .vimrc ~/.
+
+	# After downloading the .vimrc force install of plugins
+	vim +PlugClean +PlugInstall +qall
 }
 
 function _tmux() {
@@ -112,10 +123,13 @@ function _googlechrome() {
 	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 	sudo dpkg -i google-chrome-stable_current_amd64.deb
 	rm -f google-chrome-stable_current_amd64.deb
+
+	# Remove google chrome keyring pop-up
+	sudo sed -i '/^Exec=/s/$/ --password-store=basic %U/' /usr/share/applications/google-chrome.desktop
 }
 
 function _neofetch() {
-	sudo add-apt-repository ppa:dawidd0811/neofetch
+	sudo add-apt-repository -y ppa:dawidd0811/neofetch
 	sudo apt update && sudo apt install -y neofetch
 }
 
@@ -160,9 +174,24 @@ function _powerlineconfig() {
 	mv default.json "${HOME}/.local/lib/python2.7/site-packages/powerline/config_files/colorschemes"
 }
 
-# This function is used to install all the packages along with my configurations
+function _dconfsettings() {
+	curl -sL -o "settings.dconf" "https://drive.google.com/uc?export=download&id=19QoPT0f5-7IgI5ojYCNmU3vVTrrbmM8h"
+	dconf load / < settings.dconf
+}
+
+function _preload() {
+	sudo apt update && sudo apt install -y preload
+}
+
+function _vmswappiness() {
+	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.conf
+}
+
+# This function is used to install all my packages and configurations
 function _fresh_install() {
-	_curl && _xclip && neofetch
+	_dconfsettings
+	_preload && _vmswappiness
+	_curl && _xclip && _neofetch
 	_git && _gitconfig && _gitsofancy
 	_bashaliases
 	_vim && _vimrc
@@ -170,6 +199,7 @@ function _fresh_install() {
 	_sublimetext && _vscode
 	_googlechrome
 	_powerline && _powerlineconfig && _powerlinebashrc
+	_reboot
 }
 
 # This function is used to selectively install packages and configurations
@@ -184,7 +214,6 @@ echo "1. ${bold}${red}Fresh${reset} install everything?"
 echo "2. ${bold}${red}Selectively${reset} install everything?"
 read -s input
 
-
 if [[ $input -eq 1 ]]; then
 	_fresh_install
 elif [[ $input -eq 2 ]]; then
@@ -193,7 +222,6 @@ else
 	echo -e "Wrong input. Available options: [1, 2].\nExiting..."
 	exit
 fi
-
 
 # # ----------------------------------------- Package installations ---------------------------------------------------
 

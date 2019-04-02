@@ -25,18 +25,29 @@ augroup colorset
     autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
   augroup END
 
+" Coloring configurations
 syntax on
 colorscheme onedark
+
 "highlight LineNr term=bold cterm=None ctermfg=Red ctermbg=None
+
+" This displays the line numbers and controls the number of columns used for the line number
 set number
 set numberwidth=1
+
+" This is used to control the Ctrl + C command and copy to the system's clipboard
 set clipboard=unnamedplus
-"set background=dark
-set tabstop=4
-set shiftwidth=4
+
+" This inserts spaces when <Tab> is pressed. With this option set, if you want to enter a real tab character use Ctrl-V<Tab> key sequence
 set expandtab
 
-" these are required to enable powerline
+" This controls the number of space characters inserted when pressing the tab key
+set tabstop=4
+
+" This controls the number of space characeters inserted for identation
+set shiftwidth=4
+
+" These are required to enable powerline
 set rtp+=/home/tsakiris/.local/lib/python2.7/site-packages/powerline/bindings/vim
 set laststatus=2
 set t_Co=256
