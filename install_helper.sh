@@ -82,6 +82,7 @@ function _vimrc() {
 }
 
 function _tmux() {
+	echo "Installing ${bold}${red}tmux${reset}..."
 	sudo apt update && sudo apt install -y tmux
 }
 
@@ -97,7 +98,7 @@ function _tmuxconf() {
 function _tmuxbashrc() {
 	if ! grep -q "exec tmux" ~/.bashrc; then
 		backup .bashrc
-		echo "Appending commands to ~/.bashrc ..."
+		echo "Appending commands(tmux) to ~/.bashrc ..."
 		printf "\n%s\n%s\n%s\n\t%s\n%s\n" \
 			"# Add this to automatically start tmux with new shell" \
 			"tmux attach &> /dev/null" \
@@ -108,18 +109,21 @@ function _tmuxbashrc() {
 }
 
 function _sublimetext() {
+	echo "Installing ${bold}${red}Sublime Text 3${reset}..."
 	wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
 	echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 	sudo apt update && sudo apt install -y sublime-text
 }
 
 function _vscode() {
+	echo "Installing ${bold}${red}VSCode${reset}..."
 	wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
 	sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 	sudo apt update && sudo apt install -y code
 }
 
 function _googlechrome() {
+	ehco "Installing ${bold}${red}Google Chrome${reset}..."
 	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 	sudo dpkg -i google-chrome-stable_current_amd64.deb
 	rm -f google-chrome-stable_current_amd64.deb
@@ -129,28 +133,28 @@ function _googlechrome() {
 }
 
 function _neofetch() {
+	echo "Installing ${bold}${red}neofetch${reset}..."
 	sudo add-apt-repository -y ppa:dawidd0811/neofetch
 	sudo apt update && sudo apt install -y neofetch
 }
 
 function _xclip() {
+	echo "Installing ${bold}${red}xclip${reset}..."
 	sudo apt update && sudo apt install -y xclip
 }
 
 function _powerline() {
+	echo "Installing ${bold}${red}powerline${reset}..."
 	sudo apt install -y python-pip
 	pip install powerline-status
 	pip install powerline-gitstatus
-	if ! command -v powerline-daemon > /dev/null 2>&1; then
-		echo "${bold}${red}IMPORTANT${reset}"
-		echo "Issue a sudo reboot and check if powerline-daemon exists, if not perhaps install it with sudo apt powerline"
-	fi
 	sudo apt install -y fonts-powerline
 }
 
 function _powerlinebashrc() {
 	if ! grep -q "which powerline-daemon" ~/.bashrc; then
 		backup .bashrc
+		echo "Setting ${bold}${red}powerline bashrc${reset}..."
 		printf "\n%s\n%s\n\t%s\n\t%s\n\t%s\n\t%s\n%s\n" \
 			"# This is required for powerline to be enabled" \
 			"if [ -f \`which powerline-daemon\` ]; then" \
@@ -175,30 +179,37 @@ function _powerlineconfig() {
 }
 
 function _dconfsettings() {
+	echo "Setting ${bold}${red}dconf${reset} settings..."
 	curl -sL -o "settings.dconf" "https://drive.google.com/uc?export=download&id=19QoPT0f5-7IgI5ojYCNmU3vVTrrbmM8h"
 	dconf load / < settings.dconf
 }
 
 function _preload() {
+	echo "Installing ${bold}${red}preload${reset}..."
 	sudo apt update && sudo apt install -y preload
 }
 
 function _vmswappiness() {
+	echo "Changing ${bold}${red}vm.swappiness${reset} to 10..."
 	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.conf
 }
 
 # This function is used to install all my packages and configurations
 function _fresh_install() {
+	_curl
 	_dconfsettings
-	_preload && _vmswappiness
-	_curl && _xclip && _neofetch
-	_git && _gitconfig && _gitsofancy
 	_bashaliases
-	_vim && _vimrc
-	_tmux && _tmuxconf && _tmuxbashrc
-	_sublimetext && _vscode
+	_preload
+	_vmswappiness
+	_xclip
+	_neofetch
+	_git ;_gitconfig ; _gitsofancy
+	_vim ;_vimrc
+	_tmux ; _tmuxconf ; _tmuxbashrc
+	_powerline ; _powerlineconfig ; _powerlinebashrc
+	_sublimetext
+	_vscode
 	_googlechrome
-	_powerline && _powerlineconfig && _powerlinebashrc
 	_reboot
 }
 
