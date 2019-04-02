@@ -182,6 +182,7 @@ function _dconfsettings() {
 	echo "Setting ${bold}${red}dconf${reset} settings..."
 	curl -sL -o "settings.dconf" "https://drive.google.com/uc?export=download&id=19QoPT0f5-7IgI5ojYCNmU3vVTrrbmM8h"
 	dconf load / < settings.dconf
+	rm -f settings.dconf
 }
 
 function _preload() {
