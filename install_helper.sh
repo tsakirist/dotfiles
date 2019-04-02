@@ -59,10 +59,10 @@ function _gitsofancy() {
 
 function _bashaliases() {
 	backup .bash_aliases
-    echo "Downloading .bash_aliases from google drive..."
-    curl -L -o ".bash_aliases" "https://drive.google.com/uc?export=download&id=1SRNgX6n_Q3ZfAEUr2shIFjR1cqMM9I8c"
-    echo "Moving .bash_aliases to root directory '/' ..."
-    mv .bash_aliases ~/.
+	echo "Downloading .bash_aliases from google drive..."
+	curl -L -o ".bash_aliases" "https://drive.google.com/uc?export=download&id=1SRNgX6n_Q3ZfAEUr2shIFjR1cqMM9I8c"
+	echo "Moving .bash_aliases to root directory '/' ..."
+	mv .bash_aliases ~/.
 }
 
 function _vim() {
@@ -88,9 +88,9 @@ function _tmux() {
 
 function _tmuxconf() {
 	backup .tmux.conf
-    echo "Downloading tmux configuration file..."
-    curl -sL -o ".tmux.conf" "https://drive.google.com/uc?export=download&id=13odIqawxS_3RZqnajTRm0PD6mgAq6M7J"
-    echo "Moving tmux config file to root directory '/' ..."
+	echo "Downloading tmux configuration file..."
+	curl -sL -o ".tmux.conf" "https://drive.google.com/uc?export=download&id=13odIqawxS_3RZqnajTRm0PD6mgAq6M7J"
+	echo "Moving tmux config file to root directory '/' ..."
 	mv .tmux.conf ~/.
 }
 
