@@ -67,8 +67,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
 map <silent> <C-k><C-b> :NERDTreeToggle<CR>
 
-
-
 "---------------------------------------------------------------------------------------------------
 " These are common keyboard shortcuts to remind myself
 " <C-n> multiple cursors, <C-n> again to go to next, <C-x> to remove current cursor
