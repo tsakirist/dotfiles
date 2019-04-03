@@ -9,11 +9,14 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " Declare the list of plugins.
+Plug 'joshdick/onedark.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'vim-python/python-syntax'
-"Plug 'vim-jp/vim-cpp'
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'joshdick/onedark.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-eunuch'
+Plug 'scrooloose/nerdtree'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
@@ -51,3 +54,20 @@ set shiftwidth=4
 set rtp+=/home/tsakiris/.local/lib/python2.7/site-packages/powerline/bindings/vim
 set laststatus=2
 set t_Co=256
+
+" Open NERDTree automatically when vim starts
+"autocmd vimenter * NERDTree
+
+" Close NERDTree automatically when it is the only window left open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
+map <silent> <C-k><C-b> :NERDTreeToggle<CR>
+
+
+
+"---------------------------------------------------------------------------------------------------
+" These are common keyboard shortcuts to remind myself
+" <C-n> multiple cursors, <C-n> again to go to next, <C-x> to remove current cursor
+" <Shift+i> toggle hidden files in NERDTree
+" [count]\cc, comments out current line or count lines
