@@ -41,6 +41,9 @@ set numberwidth=1
 " This is used to control the Ctrl + C command and copy to the system's clipboard
 set clipboard=unnamedplus
 
+" This is used to preserve the clipboard when vim exits
+autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
+
 " This inserts spaces when <Tab> is pressed. With this option set, if you want to enter a real tab character use Ctrl-V<Tab> key sequence
 set expandtab
 
