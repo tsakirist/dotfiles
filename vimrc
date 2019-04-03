@@ -27,7 +27,7 @@ augroup colorset
 
 " Coloring configurations
 syntax on
-colorscheme onedark
+silent! colorscheme onedark
 
 "highlight LineNr term=bold cterm=None ctermfg=Red ctermbg=None
 
