@@ -282,6 +282,9 @@ screen-keyboard-enabled=false
 [org/gnome/desktop/a11y/keyboard]
 mousekeys-enable=false
 
+[org/gnome/desktop/datetime]
+automatic-timezone=true
+
 [org/gnome/desktop/background]
 picture-uri='file:///usr/share/backgrounds/warty-final-ubuntu.png'
 color-shading-type='solid'

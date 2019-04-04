@@ -140,8 +140,9 @@ function _sublimekeybindings() {
 
 function _vscode() {
 	echo "Installing ${bold}${red}VSCode${reset}..."
-	wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
-	sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+	curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+	sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ && rm -f microsoft.gpg
+	sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
 	sudo apt update && sudo apt install -y code
 }
 
@@ -225,8 +226,8 @@ function _showinfo() {
 
 function _showmenu() {
 	echo "What would you like to do?"
-	echo "1. ${bold}${red}Fresh${reset} install everything?"
-	echo "2. ${bold}${red}Selectively${reset} install everything?"
+	echo "1. ${bold}${red}Fresh${reset} install?"
+	echo "2. ${bold}${red}Selectively${reset} install?"
 	read -n 1 -s input
 }
 
