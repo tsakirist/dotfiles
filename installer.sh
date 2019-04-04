@@ -111,7 +111,6 @@ function _tmuxconf() {
 	_movetoroot .tmux.conf
 }
 
-# This function adds commands in the .bashrc to start tmux whenever a new bash is started
 function _tmuxbashrc() {
 	if ! grep -q "exec tmux" ~/.bashrc; then
 		_backup ~/.bashrc
@@ -203,7 +202,7 @@ function _powerlineconfig() {
 
 function _dconfsettings() {
 	echo "Setting ${bold}${red}dconf${reset} settings..."
-	curl -sL -o "settings.dconf" "https://drive.google.com/uc?export=download&id=19QoPT0f5-7IgI5ojYCNmU3vVTrrbmM8h"
+	curl -sL -o "settings.dconf" "https://drive.google.com/uc?export=download&id=1rtyDSK7QNDag3B2AI1DIWCBekg7Jqppo"
 	dconf load / < settings.dconf
 	rm -f settings.dconf
 }
