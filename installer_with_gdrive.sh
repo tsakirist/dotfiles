@@ -40,6 +40,19 @@ function _reboot() {
 	fi
 }
 
+function _prompt() {
+	local exec=false
+	echo -e "\u2022 Do you want to download/install ${bold}${red}${1//_}${reset} [Y/n] "
+	read -n 1 -s input
+	if [[ $input =~ ^([yY]) ]]; then
+		exec=true
+	fi
+
+	if [[ $exec == "true" ]]; then
+		$1
+	fi
+}
+
 function _curl() {
 	if ! command -v curl > /dev/null 2>&1; then
 		echo "Installing ${bold}${red}cURL${reset}..."
@@ -70,7 +83,7 @@ function _gitsofancy() {
 function _bashaliases() {
 	echo "Downloading .bash_aliases from google drive..."
 	curl -sL -o ".bash_aliases" "https://drive.google.com/uc?export=download&id=1SRNgX6n_Q3ZfAEUr2shIFjR1cqMM9I8c"
-    _movetoroot .bash_aliases    
+	_movetoroot .bash_aliases
 }
 
 function _vim() {
@@ -214,7 +227,7 @@ function _showmenu() {
 	echo "What would you like to do?"
 	echo "1. ${bold}${red}Fresh${reset} install everything?"
 	echo "2. ${bold}${red}Selectively${reset} install everything?"
-	read -s input
+	read -n 1 -s input
 }
 
 # ---------------------------------------------------------- Installers ------------------------------------------------------------
@@ -222,26 +235,41 @@ function _showmenu() {
 function _fresh_install() {
 	_curl &&
 	(
-	_dconfsettings
-	_bashaliases
-	_preload
-	_vmswappiness
-	_xclip
-	_neofetch
-	_git && _gitconfig && _gitsofancy
-	_vim && _vimrc
-	_tmux && _tmuxconf && _tmuxbashrc
-	_powerline && _powerlineconfig && _powerlinebashrc
-	_sublimetext && _sublimekeybindings
-	_vscode
-	_googlechrome
-	_reboot
+		_dconfsettings
+		_bashaliases
+		_preload
+		_vmswappiness
+		_xclip
+		_neofetch
+		_git && _gitconfig && _gitsofancy
+		_vim && _vimrc
+		_tmux && _tmuxconf && _tmuxbashrc
+		_powerline && _powerlineconfig && _powerlinebashrc
+		_sublimetext && _sublimekeybindings
+		_vscode
+		_googlechrome
+		_reboot
 	)
 }
 
 # This function is used to selectively install packages and configurations
 function _selective_install() {
-	echo "Remains to be implemented... :("
+	_curl &&
+	(
+		_prompt _dconfsettings
+		_prompt _bashaliases
+		_prompt _preload
+		_prompt _vmswappiness
+		_prompt _xclip 
+		_prompt _neofetch
+		_prompt _git && _prompt _gitconfig && _prompt _gitsofancy
+		_prompt _vim && _prompt _vimrc
+		_prompt _tmux && _prompt _tmuxconf && _prompt _tmuxbashrc
+		_prompt _powerline && _prompt _powerlineconfig && _prompt _powerlinebashrc
+		_prompt _sublimetext && _prompt _sublimekeybindings
+		_prompt _vscode
+		_prompt _googlechrome
+	)
 }
 
 # -------------------------------------------------------------- Main -------------------------------------------------------------
