@@ -21,9 +21,9 @@ function _root_check() {
 }
 
 function _movetoroot() {
-	if [[ $ROOT_DIR != "true" ]]; then
+	if [[ $ROOT_DIR == "false" ]]; then
         echo "Moving $1 to '~/' directory"
-		mv $1 ~/$1 --backup=numbered
+		mv $1 ~/$1 -v --backup=numbered
 	fi
 }
 
@@ -69,7 +69,7 @@ function _gitsofancy() {
 
 function _bashaliases() {
 	echo "Downloading .bash_aliases from google drive..."
-	curl -L -o ".bash_aliases" "https://drive.google.com/uc?export=download&id=1SRNgX6n_Q3ZfAEUr2shIFjR1cqMM9I8c"
+	curl -sL -o ".bash_aliases" "https://drive.google.com/uc?export=download&id=1SRNgX6n_Q3ZfAEUr2shIFjR1cqMM9I8c"
     _movetoroot .bash_aliases    
 }
 
@@ -117,7 +117,12 @@ function _sublimetext() {
 	wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
 	echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 	sudo apt update && sudo apt install -y sublime-text
-	echo "${bold}${red}Download sublimetext keybindings.json from Google Drive or copy paste the bindings from there!${reset}."
+}
+
+function _sublimekeybindings() {
+	echo "Downloading ${bold}${red}Sublime keybindings${reset}..."
+	curl -sL -o "Default (Linux).sublime-keymap" "https://drive.google.com/uc?export=download&id=1lSWPKl_QWBzH2X5ZLgv1bgOV2eka4rL-"
+    mv -v "Default (Linux).sublime-keymap" $HOME/.config/sublime-text-3/Packages/User
 }
 
 function _vscode() {
@@ -202,6 +207,7 @@ function _vmswappiness() {
 function _showinfo() {
 	echo "${bold}${start_underline}This script provides an easy way to install my packages and my configurations.${end_underline}${reset}"
 	echo "Script is executed from: ${bold}$(pwd)${reset}"
+	echo "{ROOT_DIR=${ROOT_DIR}}"
 }
 
 function _showmenu() {
@@ -222,11 +228,11 @@ function _fresh_install() {
 	_vmswappiness
 	_xclip
 	_neofetch
-	_git ;_gitconfig ; _gitsofancy
-	_vim ;_vimrc
-	_tmux ; _tmuxconf ; _tmuxbashrc
-	_powerline ; _powerlineconfig ; _powerlinebashrc
-	_sublimetext
+	_git && _gitconfig && _gitsofancy
+	_vim && _vimrc
+	_tmux && _tmuxconf && _tmuxbashrc
+	_powerline && _powerlineconfig && _powerlinebashrc
+	_sublimetext && _sublimekeybindings
 	_vscode
 	_googlechrome
 	_reboot
