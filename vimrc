@@ -17,6 +17,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-eunuch'
 Plug 'scrooloose/nerdtree'
+Plug 'ervandew/supertab'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
