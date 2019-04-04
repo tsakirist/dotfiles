@@ -3,7 +3,7 @@
 # This script provides an easy way to install my preferred packages along with my configurations.
 # Author: Tsakiris Tryfon
 
-# -------------------------------------------------------- Color commands ---------------------------------------------------------
+# -------------------------------------------------------- Font commands ----------------------------------------------------------
 bold=$(tput bold)
 start_underline=$(tput smul)
 end_underline=$(tput rmul)
@@ -231,7 +231,6 @@ function _showmenu() {
 }
 
 # ---------------------------------------------------------- Installers ------------------------------------------------------------
-# This function is used to install all my packages and configurations
 function _fresh_install() {
 	_curl &&
 	(
@@ -252,7 +251,6 @@ function _fresh_install() {
 	)
 }
 
-# This function is used to selectively install packages and configurations
 function _selective_install() {
 	_curl &&
 	(
@@ -272,7 +270,7 @@ function _selective_install() {
 	)
 }
 
-# -------------------------------------------------------------- Main -------------------------------------------------------------
+# -------------------------------------------------------------- Main --------------------------------------------------------------
 _root_check
 _showinfo
 _showmenu
