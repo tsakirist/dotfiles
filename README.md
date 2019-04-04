@@ -2,6 +2,16 @@
 This repository holds all the required pieces to install my packages and my configurations on a new Linux machine.
 
 ## Instructions
-* clone the repository and enter the directory
-* give executable rights to the installer with **chmod +x install_helper.sh**
-* start the installer with **./installer_helper.sh**
+__Method 1__
+* Clone the repository and enter the directory
+* Give executable rights to the installer with **chmod +x installer.sh**
+* Start the installer with **./installer.sh**
+
+__Method 2__
+* Download the installer_with_gdrive.sh
+* Give executable rights to the installer if needed with **chmod +x installer_with_gdrive.sh**
+* Start the installer with **./installer_with_gdrive.sh**
+
+### TODOS
+- [x] Installer with google drive links-urls
+- [ ] Installer with local files from the repository
