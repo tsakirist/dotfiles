@@ -107,7 +107,6 @@ function _tmux() {
 function _tmuxconf() {
 	echo "Downloading ${bold}${red}tmux${reset} configuration file..."
 	curl -sL -o ".tmux.conf" "https://drive.google.com/uc?export=download&id=13odIqawxS_3RZqnajTRm0PD6mgAq6M7J"
-	echo "Moving tmux config file to root directory '/' ..."
 	_movetoroot .tmux.conf
 }
 
@@ -189,7 +188,7 @@ function _powerlinebashrc() {
 }
 
 function _powerlineconfig() {
-	echo "Downloading ${bold}${red}themes/shell/default.json${reset} from google drive...."
+	echo "Downloading ${bold}${red}themes/shell/default.json${reset} from google drive..."
 	curl -sL -o "default.json" "https://drive.google.com/uc?export=download&id=1mo9sQwoqe0iHc31maXtB-CWkqencH3KB"
 	echo "Moving default.json to ${HOME}/.local/lib/python2.7/site-packages/powerline/config_files/themes/shell"
 	mv default.json "${HOME}/.local/lib/python2.7/site-packages/powerline/config_files/themes/shell" -v --backup=numbered
