@@ -68,7 +68,7 @@ function _git() {
 }
 
 function _gitconfig() {
-	echo "Downloading .gitconfig from google drive..."
+	echo "Downloading ${bold}${red}.gitconfig${reset} from google drive..."
 	curl -sL -o ".gitconfig" "https://drive.google.com/uc?export=download&id=12o89u5IXSbrrkZdhhd4LVJe9RdXEFDzm"
 	_movetoroot .gitconfig
 }
@@ -81,7 +81,7 @@ function _gitsofancy() {
 }
 
 function _bashaliases() {
-	echo "Downloading .bash_aliases from google drive..."
+	echo "Downloading ${bold}${red}.bash_aliases${reset} from google drive..."
 	curl -sL -o ".bash_aliases" "https://drive.google.com/uc?export=download&id=1SRNgX6n_Q3ZfAEUr2shIFjR1cqMM9I8c"
 	_movetoroot .bash_aliases
 }
@@ -92,7 +92,7 @@ function _vim() {
 }
 
 function _vimrc() {
-	echo "Downloading .vimrc file from google drive..."
+	echo "Downloading ${bold}${red}.vimrc${reset} file from google drive..."
 	curl -sL -o ".vimrc" "https://drive.google.com/uc?export=download&id=1ghaarm0vqF8clf8kWtZCnW4rxNcs5MtZ"
     _movetoroot .vimrc
     # After downloading the .vimrc force install of plugins
@@ -105,7 +105,7 @@ function _tmux() {
 }
 
 function _tmuxconf() {
-	echo "Downloading tmux configuration file..."
+	echo "Downloading ${bold}${red}tmux${reset} configuration file..."
 	curl -sL -o ".tmux.conf" "https://drive.google.com/uc?export=download&id=13odIqawxS_3RZqnajTRm0PD6mgAq6M7J"
 	echo "Moving tmux config file to root directory '/' ..."
 	_movetoroot .tmux.conf
@@ -189,12 +189,12 @@ function _powerlinebashrc() {
 }
 
 function _powerlineconfig() {
-	echo "Downloading themes/shell/default.json from google drive...."
+	echo "Downloading ${bold}${red}themes/shell/default.json${reset} from google drive...."
 	curl -sL -o "default.json" "https://drive.google.com/uc?export=download&id=1mo9sQwoqe0iHc31maXtB-CWkqencH3KB"
 	echo "Moving default.json to ${HOME}/.local/lib/python2.7/site-packages/powerline/config_files/themes/shell"
 	mv default.json "${HOME}/.local/lib/python2.7/site-packages/powerline/config_files/themes/shell" -v --backup=numbered
 
-	echo "Downloading colorschemes/default.json from google drive..."
+	echo "Downloading ${bold}${red}colorschemes/default.json${reset} from google drive..."
 	curl -sL -o "default.json" "https://drive.google.com/uc?export=download&id=19ASDQ_jIMxfTzSxlpmv51egsCLzhv0Sh"
 	echo "Moving default.json to ${HOME}/.local/lib/python2.7/site-packages/powerline/config_files/colorschemes"
 	mv default.json "${HOME}/.local/lib/python2.7/site-packages/powerline/config_files/colorschemes" -v --backup=numbered
@@ -220,7 +220,6 @@ function _vmswappiness() {
 function _showinfo() {
 	echo "${bold}${start_underline}This script provides an easy way to install my packages and my configurations.${end_underline}${reset}"
 	echo "Script is executed from: ${bold}$(pwd)${reset}"
-	echo "{ROOT_DIR=${ROOT_DIR}}"
 }
 
 function _showmenu() {
