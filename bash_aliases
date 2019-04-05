@@ -13,6 +13,7 @@ alias fstat='stat --format "%a"'
 alias pf='ps aux | grep'
 alias lsize='du -sh *'
 alias lsizesort='du -sh * | sort -hr'
+alias showkernels='dpkg --list | grep linux-image'
 
 # This is to change launcher position
 alias lpos='gsettings set com.canonical.Unity.Launcher launcher-position'
