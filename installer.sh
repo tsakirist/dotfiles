@@ -45,7 +45,7 @@ function _prompt() {
 function _checkfile() {
     if [ ! -f "$1" ]; then
         echo "${bold}${red}ERROR${reset}: Can't find ${1} in this directory. Installer needs all the contents of" \
-        "the github repository."
+             "the github repository."
         echo "You should issue the command: > git clone https://github.com/tsakirist/configurations.git"
         exit 1
     fi
@@ -129,7 +129,7 @@ function _sublimetext() {
 }
 
 function _sublimekeybindings() {
-    _checkfile sublime/'Default (Linux).sublime-keymap'
+    _checkfile "sublime/Default (Linux).sublime-keymap"
     echo -e "\u2301 Setting ${bold}${red}sublime keybindings${reset} ..."
     cp -v --backup=numbered "sublime/Default (Linux).sublime-keymap" "$HOME/.config/sublime-text-3/Packages/User/"
 }
@@ -141,7 +141,7 @@ function _sublimesettings() {
 }
 
 function _sublimepackages() {
-    _checkfile sublime/Package Control.sublime-settings
+    _checkfile "sublime/Package Control.sublime-settings"
     echo -e "\u2301 Setting ${bold}${red}sublime packages${reset} ..."
     cp -v --backup=numbered "sublime/Package Control.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
