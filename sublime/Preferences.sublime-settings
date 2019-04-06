@@ -1,10 +1,11 @@
 {
-	"font_size": 10,
-	"ignored_packages":
-	[
-		"Vintage"
-	],
-	"show_encoding": true,
-	"theme": "Adaptive.sublime-theme",
+    "theme": "Adaptive.sublime-theme",
+    "font_size": 10,
+    "ignored_packages":
+    [
+        "Vintage"
+    ],
+    "show_encoding": true,
     "rulers": [120],
+    "translate_tabs_to_spaces": true,
 }
