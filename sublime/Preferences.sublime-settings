@@ -1,0 +1,10 @@
+{
+	"font_size": 10,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"show_encoding": true,
+	"theme": "Adaptive.sublime-theme",
+    "rulers": [120],
+}

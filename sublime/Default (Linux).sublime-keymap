@@ -1,0 +1,26 @@
+[
+	{ "keys": ["ctrl+b"], "command": "goto_definition" },
+	{ "keys": ["ctrl+t"], "command": "find_under" },
+	{ "keys": ["ctrl+tab"], "command": "next_view" },
+	{ "keys": ["ctrl+shift+tab"], "command": "prev_view" },
+	{
+		"keys": ["alt+1"],
+		"command": "set_layout",
+		"args":
+		{
+			"cols": [0.0, 1.0],
+			"rows": [0.0, 1.0],
+			"cells": [[0, 0, 1, 1]]
+		}
+	},
+	{
+		"keys": ["alt+2"],
+		"command": "set_layout",
+		"args":
+		{
+			"cols": [0.0, 0.5, 1.0],
+			"rows": [0.0, 1.0],
+			"cells": [[0, 0, 1, 1], [1, 0, 2, 1]]
+		}
+	},
+]
