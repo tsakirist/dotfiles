@@ -6,14 +6,8 @@ This repository holds all the required pieces to install my packages and my conf
 
 * Clone the repository and enter the directory
 * Give executable rights to the installer if needed with **chmod +x installer.sh**
-* Start the installer with **./v2_installer.sh**
+* Start the installer with **./installer.sh**
 
 ### TODOS
 
-- [x] Installer with google drive links-urls
-- [x] Installer with local files from the repository
 - [ ] VSCode extensions and settings
-
-#### Important Notice
-
-./installer.sh is `deprecated` and shouldn't be used.

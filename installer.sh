@@ -166,8 +166,7 @@ function _googlechrome() {
 
 function _neofetch() {
     echo -e "\u2301 Installing ${bold}${red}neofetch${reset} ..."
-    sudo add-apt-repository -y ppa:dawidd0811/neofetch
-    sudo apt update && sudo apt install -y neofetch
+    sudo apt install -y neofetch
 }
 
 function _xclip() {
