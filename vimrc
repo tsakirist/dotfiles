@@ -1,3 +1,11 @@
+"---------------------------------------------------------------------------------------------------
+" These are common keyboard shortcuts to remind myself
+" <C-n> multiple cursors, <C-n> again to go to next, <C-x> to remove current cursor
+" <Shift+i> toggle hidden files in NERDTree
+" [count]\cc, comments out current line or count lines
+" [count]\cu, uncomments the current line or count lines
+"---------------------------------------------------------------------------------------------------
+
 " Automate the process of installing vim-plug when required
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -26,7 +34,7 @@ call plug#end()
 augroup colorset
     autocmd!
     let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-    autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
+    autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white }) 
   augroup END
 
 " Coloring configurations
@@ -68,8 +76,9 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
 map <silent> <C-k><C-b> :NERDTreeToggle<CR>
 
-"---------------------------------------------------------------------------------------------------
-" These are common keyboard shortcuts to remind myself
-" <C-n> multiple cursors, <C-n> again to go to next, <C-x> to remove current cursor
-" <Shift+i> toggle hidden files in NERDTree
-" [count]\cc, comments out current line or count lines
+" Set a ruler at column:120
+set colorcolumn=120
+highlight colorcolumn ctermbg=black
+
+" Add space after commenting with NerdCommenter
+let g:NERDSpaceDelims=1
