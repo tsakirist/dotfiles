@@ -14,6 +14,11 @@ black=$(tput setaf 0)
 red=$(tput setaf 1)
 reset=$(tput sgr0)
 
+# ---------------------------------------------------- Symbols ---------------------------------------------------------
+
+thunder="\u2301"
+bullet="\u2022"
+
 # ---------------------------------------------------- Functions -------------------------------------------------------
 
 function _backup() {
@@ -31,7 +36,7 @@ function _reboot() {
 
 function _prompt() {
     local exec=false
-    echo -e "\u2022 Do you want to download/install ${bold}${red}${1//_}${reset} [Y/n] "
+    echo -e "${bullet} Do you want to download/install ${bold}${red}${1//_}${reset} [Y/n] "
     read -n 1 -s input
     if [[ $input =~ ^([yY]) ]]; then
         exec=true
@@ -53,27 +58,27 @@ function _checkfile() {
 
 function _curl() {
     if ! command -v curl > /dev/null 2>&1; then
-        echo -e "\u2301 Installing ${bold}${red}cURL${reset} ..."
+        echo -e "${thunder} Installing ${bold}${red}cURL${reset} ..."
         sudo apt install -y curl
     fi
 }
 
 function _git() {
     if ! command -v git > /dev/null 2>&1; then
-        echo -e "\u2301 Installing ${bold}${red}git${reset} ..."
+        echo -e "${thunder} Installing ${bold}${red}git${reset} ..."
         sudo apt install -y git
     fi
 }
 
 function _gitconfig() {
     _checkfile gitconfig
-    echo -e "\u2301 Setting ${bold}${red}.gitconfig${reset} ..."
+    echo -e "${thunder} Setting ${bold}${red}.gitconfig${reset} ..."
     cp -v --backup=numbered gitconfig ~/.gitconfig
 }
 
 function _gitsofancy() {
     if ! command -v diff-so-fancy > /dev/null 2>&1; then
-        echo -e "\u2301 Setting ${bold}${red}git-diff-so-fancy${reset} ..."
+        echo -e "${thunder} Setting ${bold}${red}git-diff-so-fancy${reset} ..."
         wget -q "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy"
         chmod +x diff-so-fancy && sudo mv diff-so-fancy /usr/bin/
     fi
@@ -81,48 +86,49 @@ function _gitsofancy() {
 
 function _bashaliases() {
     _checkfile bash_aliases
-    echo -e "\u2301 Setting ${bold}${red}.bash_aliases${reset} ..."
+    echo -e "${thunder} Setting ${bold}${red}.bash_aliases${reset} ..."
     cp -v --backup=numbered bash_aliases ~/.bash_aliases
 }
 
+function _bashextra() {
+    _checkfile bash_extra
+    echo -e "${thunder} Setting ${bold}${red}.bash_extra${reset} ..."
+    cp -v --backup=numbered bash_extra ~/.bash_extra
+}
+
+function _bashrcextend() {
+    echo -e "${thunder} Appending command to .bashrc to source .bash_extra ..."
+    printf "\n%s\n%s\n" \
+        "# Source a seperate file with extra commands/configurations." \
+        "[ -f ~/.bash_extra ] && . ~/.bash_extra" \
+        >> ~/.bashrc
+}
+
 function _vim() {
-    echo -e "\u2301 Installing ${bold}${red}vim${reset} ..."
+    echo -e "${thunder} Installing ${bold}${red}vim${reset} ..."
     sudo apt install -y vim vim-gnome
 }
 
 function _vimrc() {
     _checkfile vimrc
-    echo -e "\u2301 Setting ${bold}${red}.vimrc${reset} ..."
+    echo -e "${thunder} Setting ${bold}${red}.vimrc${reset} ..."
     cp -v --backup=numbered vimrc ~/.vimrc
     vim +PlugClean +PlugInstall +qall
 }
 
 function _tmux() {
-    echo -e "\u2301 Installing ${bold}${red}tmux${reset} ..."
+    echo -e "${thunder} Installing ${bold}${red}tmux${reset} ..."
     sudo apt install -y tmux
 }
 
 function _tmuxconf() {
     _checkfile tmux.conf
-    echo -e "\u2301 Setting ${bold}${red}.tmux.conf${reset} ..."
+    echo -e "${thunder} Setting ${bold}${red}.tmux.conf${reset} ..."
     cp -v --backup=numbered tmux.conf ~/.tmux.conf
 }
 
-function _tmuxbashrc() {
-    if ! grep -q "exec tmux" ~/.bashrc; then
-        _backup ~/.bashrc
-        echo "\u2301 Appending commands (tmux) to ~/.bashrc ..."
-        printf "\n%s\n%s\n%s\n\t%s\n%s\n" \
-            "# Add this to automatically start tmux with new shell" \
-            "tmux attach &> /dev/null" \
-            'if [ -z "$TMUX" ]; then' \
-            "exec tmux" \
-            "fi" >> ~/.bashrc
-    fi
-}
-
 function _sublimetext() {
-    echo -e "\u2301 Installing ${bold}${red}SublimeText 3${reset} ..."
+    echo -e "${thunder} Installing ${bold}${red}SublimeText 3${reset} ..."
     wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
     sudo apt update && sudo apt install -y sublime-text
@@ -130,24 +136,24 @@ function _sublimetext() {
 
 function _sublimekeybindings() {
     _checkfile "sublime/Default (Linux).sublime-keymap"
-    echo -e "\u2301 Setting ${bold}${red}sublime keybindings${reset} ..."
+    echo -e "${thunder} Setting ${bold}${red}sublime keybindings${reset} ..."
     cp -v --backup=numbered "sublime/Default (Linux).sublime-keymap" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
 function _sublimesettings() {
     _checkfile sublime/Preferences.sublime-settings
-    echo -e "\u2301 Setting ${bold}${red}sublime settings${reset} ..."
+    echo -e "${thunder} Setting ${bold}${red}sublime settings${reset} ..."
     cp -v --backup=numbered "sublime/Preferences.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
 function _sublimepackages() {
     _checkfile "sublime/Package Control.sublime-settings"
-    echo -e "\u2301 Setting ${bold}${red}sublime packages${reset} ..."
+    echo -e "${thunder} Setting ${bold}${red}sublime packages${reset} ..."
     cp -v --backup=numbered "sublime/Package Control.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
 function _vscode() {
-    echo -e "\u2301 Installing ${bold}${red}Visual Studio Code${reset} ..."
+    echo -e "${thunder} Installing ${bold}${red}Visual Studio Code${reset} ..."
     curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
     sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ && rm -f microsoft.gpg
     sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > \
@@ -156,7 +162,7 @@ function _vscode() {
 }
 
 function _googlechrome() {
-    echo -e "\u2301 Installing ${bold}${red}Google Chrome${reset} ..."
+    echo -e "${thunder} Installing ${bold}${red}Google Chrome${reset} ..."
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo dpkg -i google-chrome-stable_current_amd64.deb
     rm -f google-chrome-stable_current_amd64.deb
@@ -165,63 +171,48 @@ function _googlechrome() {
 }
 
 function _neofetch() {
-    echo -e "\u2301 Installing ${bold}${red}neofetch${reset} ..."
+    echo -e "${thunder} Installing ${bold}${red}neofetch${reset} ..."
     sudo apt install -y neofetch
 }
 
 function _xclip() {
-    echo -e "\u2301 Installing ${bold}${red}xclip${reset} ..."
+    echo -e "${thunder} Installing ${bold}${red}xclip${reset} ..."
     sudo apt install -y xclip
 }
 
 function _powerline() {
-    echo -e "\u2301 Installing ${bold}${red}powerline${reset} ..."
+    echo -e "${thunder} Installing ${bold}${red}powerline${reset} ..."
     sudo apt install -y python-pip
     pip install powerline-status
     pip install powerline-gitstatus
     sudo apt install -y fonts-powerline
 }
 
-function _powerlinebashrc() {
-    if ! grep -q "which powerline-daemon" ~/.bashrc; then
-        _backup ~/.bashrc
-        echo -e "\u2301 Setting ${bold}${red}powerline bashrc${reset} ..."
-        printf "\n%s\n%s\n\t%s\n\t%s\n\t%s\n\t%s\n%s\n" \
-            "# This is required for powerline to be enabled" \
-            "if [ -f \`which powerline-daemon\` ]; then" \
-            "powerline-daemon -q" \
-            "POWERLINE_BASH_CONTINUATION=1" \
-            "POWERLINE_BASH_SELECT=1" \
-            '. "${HOME}/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh"' \
-            "fi" >> ~/.bashrc
-    fi
-}
-
 function _powerlineconfig() {
     _checkfile powerline_configs/themes/shell/default.json && _checkfile powerline_configs/colorschemes/default.json
 
-    echo -e "\u2301 Setting ${bold}${red}themes/shell/default.json${reset} ..."
+    echo -e "${thunder} Setting ${bold}${red}themes/shell/default.json${reset} ..."
     cp -v --backup=numbered "powerline_configs/themes/shell/default.json" \
         "$HOME/.local/lib/python2.7/site-packages/powerline/config_files/themes/shell"
 
-    echo -e "\u2301 Setting ${bold}${red}colorschemes/default.json${reset} ..."
+    echo -e "${thunder} Setting ${bold}${red}colorschemes/default.json${reset} ..."
     cp -v --backup=numbered "powerline_configs/colorschemes/default.json" \
         "$HOME/.local/lib/python2.7/site-packages/powerline/config_files/colorschemes"
 }
 
 function _dconfsettings() {
     _checkfile dconf/settings.dconf
-    echo -e "\u2301 Setting ${bold}${red}dconf_settings${reset} ..."
+    echo -e "${thunder} Setting ${bold}${red}dconf_settings${reset} ..."
     dconf load / < dconf/settings.dconf
 }
 
 function _preload() {
-    echo -e "\u2301 Installing ${bold}${red}preload${reset} ..."
+    echo -e "${thunder} Installing ${bold}${red}preload${reset} ..."
     sudo apt install -y preload
 }
 
 function _vmswappiness() {
-    echo -e "\u2301 Changing ${bold}${red}vm.swappiness${reset} to 10 ..."
+    echo -e "${thunder} Changing ${bold}${red}vm.swappiness${reset} to 10 ..."
     echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.conf > /dev/null 2>&1;
 }
 
@@ -244,7 +235,7 @@ function _showmenu() {
 function _fresh_install() {
     _curl && _git
     _dconfsettings
-    _bashaliases
+    _bashaliases ; _bashextra ; _bashrcextend
     _preload
     _vmswappiness
     _xclip
@@ -262,7 +253,7 @@ function _fresh_install() {
 function _selective_install_1b1() {
     _curl && _git
     _prompt _dconfsettings
-    _prompt _bashaliases
+    _prompt _bashaliases ; _prompt _bashextra ; _prompt _bashrcextend
     _prompt _preload
     _prompt _vmswappiness
     _prompt _xclip 
@@ -280,7 +271,7 @@ function _selective_install_1b1() {
 
 # In case we don't want to update the packages lists for testing we just need to provide a cmd argument
 if [[ "$#" -eq 0 ]]; then
-    echo -e "\u2301 Updating apt package lists ..."
+    echo -e "${thunder} Updating apt package lists ..."
     sudo apt update
 fi
 
@@ -296,3 +287,4 @@ else
     echo -e "[${red}x${reset}] Wrong input. Available options: [1, 2]."
     exit
 fi
+
