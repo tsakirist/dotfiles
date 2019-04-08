@@ -211,6 +211,11 @@ function _tree() {
     sudo apt install -y tree
 }
 
+function _htop() {
+    echo -e "${thunder} Installing ${bold}${red}htop${reset} ..."
+    sudo apt install -y htop
+}
+
 function _showinfo() {
     echo "${bold}${start_underline}This script provides an easy way to install my packages and my configurations." \
          "${end_underline}${reset}"
@@ -229,7 +234,7 @@ function _showmenu() {
 # ----------------------------------------------------- Installers -----------------------------------------------------
 
 function _fresh_install() {
-    _checkcommand curl && _checkcommand _git
+    _checkcommand curl && _checkcommand git
     _dconfsettings
     _bashrc && _bashaliases
     _preload
@@ -270,7 +275,7 @@ function _selective_install_1b1() {
 function _guimenu() {
     local SIZE=$(stty size)
     OPT=$(whiptail --title "Selectively install packages/configurations" \
-        --menu "Select your packages" ${SIZE} 12 \
+        --menu "Select your packages" ${SIZE} 22 \
         "1"  "    dconf_settings" \
         "2"  "    bashrc" \
         "3"  "    bash_aliases" \
@@ -282,6 +287,16 @@ function _guimenu() {
         "9"  "    tree" \
         "10" "    gitconfig" \
         "11" "    gitsofancy" \
+        "12" "    vim" \
+        "13" "    vimrc" \
+        "14" "    tmux" \
+        "15" "    tmux.conf" \
+        "16" "    powerline" \
+        "17" "    powerline_config" \
+        "18" "    sublime text 3" \
+        "19" "    sublime settings" \
+        "20" "    sublime keybindings" \
+        "21" "    sublime packages" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -303,9 +318,16 @@ function _selective_install_1b1_gui() {
             9 ) _tree ;;
             10) _gitconfig ;;
             11) _gitsofancy ;;
-            12) ;;
-            13) ;;
-            14) ;;
+            12) _vim ;;
+            13) _vimrc ;;
+            14) _tmux ;;
+            15) _tmuxconf ;;
+            16) _powerline ;;
+            17) _powerlineconfig ;;
+            18) _sublimetext ;;
+            19) _sublimesettings ;;
+            20) _sublimekeybindings ;;
+            21) _sublimepackages ;;
             Q ) exit_status=1 ;;
         esac
     done
