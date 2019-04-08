@@ -267,6 +267,50 @@ function _selective_install_1b1() {
     _prompt _googlechrome
 }
 
+function _guimenu() {
+    local SIZE=$(stty size)
+    OPT=$(whiptail --title "Selectively install packages/configurations" \
+        --menu "Select your packages" ${SIZE} 12 \
+        "1"  "    dconf_settings" \
+        "2"  "    bashrc" \
+        "3"  "    bash_aliases" \
+        "4"  "    preload" \
+        "5"  "    vmswappiness" \
+        "6"  "    xclip" \
+        "7"  "    neofetch" \
+        "8"  "    cmake" \
+        "9"  "    tree" \
+        "10" "    gitconfig" \
+        "11" "    gitsofancy" \
+        "Q"  "    Quit" \
+        3>&1 1>&2 2>&3)
+}
+
+function _selective_install_1b1_gui() {
+    _checkcommand curl && _checkcommand git && _checkcommand whiptail
+    exit_status=0
+    while [[ $exit_status -eq 0 ]]; do
+        _guimenu
+        case $OPT in
+            1 ) _dconfsettings ;;
+            2 ) _bashrc ;;
+            3 ) _bashaliases ;;
+            4 ) _preload ;;
+            5 ) _vmswappiness ;;
+            6 ) _xclip ;;
+            7 ) _neofetch ;;
+            8 ) _cmake ;;
+            9 ) _tree ;;
+            10) _gitconfig ;;
+            11) _gitsofancy ;;
+            12) ;;
+            13) ;;
+            14) ;;
+            Q ) exit_status=1 ;;
+        esac
+    done
+}
+
 # -------------------------------------------------------- Main --------------------------------------------------------
 
 # In case we don't want to update the packages lists for testing we just need to provide a cmd argument
@@ -283,6 +327,8 @@ if [[ $input -eq 1 ]]; then
     _fresh_install
 elif [[ $input -eq 2 ]]; then
     _selective_install_1b1
+elif [[ $input -eq 3 ]]; then
+    _selective_install_1b1_gui
 else
     echo -e "[${red}x${reset}] Wrong input. Available options: [1, 2]."
     exit
