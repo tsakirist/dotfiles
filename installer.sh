@@ -228,6 +228,7 @@ function _showmenu() {
     echo "What would you like to do?"
     echo "1. ${bold}${red}Fresh${reset} install?"
     echo "2. ${bold}${red}Selectively${reset} install 1-by-1?"
+    echo "3. ${bold}${red}Selectively${reset} install 1-by-1 with GUI?"
     read -n 1 -s input
     echo "-----------------------------------------------------------"
 }
@@ -246,8 +247,8 @@ function _fresh_install() {
     _tree
     _gitconfig && _gitsofancy
     _vim && _vimrc
-    _tmux && ( _tmuxconf ; _tmuxbashrc )
-    _powerline && ( _powerlineconfig ; _powerlinebashrc )
+    _tmux && _tmuxconf
+    _powerline && _powerlineconfig
     _sublimetext && ( _sublimesettings ; _sublimekeybindings ; _sublimepackages )
     _vscode
     _googlechrome
@@ -263,11 +264,11 @@ function _selective_install_1b1() {
     _prompt _xclip 
     _prompt _neofetch
     _prompt _cmake
-    _promt _tree
+    _prompt _tree
     _prompt _gitconfig ; _prompt _gitsofancy
     _prompt _vim ; _prompt _vimrc
-    _prompt _tmux ; _prompt _tmuxconf ; _prompt _tmuxbashrc
-    _prompt _powerline ; _prompt _powerlineconfig ; _prompt _powerlinebashrc
+    _prompt _tmux ; _prompt _tmuxconf
+    _prompt _powerline ; _prompt _powerlineconfig
     _prompt _sublimetext ; _prompt _sublimesettings ; _prompt _sublimekeybindings ; _prompt _sublimepackages
     _prompt _vscode
     _prompt _googlechrome
