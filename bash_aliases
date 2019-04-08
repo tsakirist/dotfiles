@@ -1,4 +1,5 @@
 alias ls='ls --color -hN --group-directories-first'
+alias l='ls'
 alias lf='ls | grep'
 alias llf='ls -l | grep'
 alias ll='ls -l'
