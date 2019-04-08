@@ -18,9 +18,6 @@ alias showkernels='dpkg --list | grep linux-image'
 # This is to change launcher position
 alias lpos='gsettings set com.canonical.Unity.Launcher launcher-position'
 
-# This is for OpenVPN
-alias vpn='sh $HOME/Documents/OpenVPN_UTH_Config/start.sh'
-
 # This is for neofetch
 alias neo='neofetch'
 
@@ -34,3 +31,6 @@ alias xclip='xclip -selection clipboard'
 
 # This is to prompt before every removal with 'rm'
 alias rm='rm -i'
+
+# This is to log out
+alias logout='gnome-session-quit'

@@ -27,3 +27,8 @@ fi
 # This command allows to enter a directory by merely typing the directory name w/o 'cd'
 shopt -s autocd
 
+# This is to get an approximation of the memory usage of a process
+mem () { 
+    ps -eo rss,pid,euser,args:100 --sort %mem | grep --color=auto -v grep | grep --color=auto -i $@ \
+        | awk '{printf $1/1024 " MB"; $1=""; print }'
+}
