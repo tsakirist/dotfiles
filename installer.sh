@@ -208,6 +208,16 @@ function _vmswappiness() {
     echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.conf > /dev/null 2>&1;
 }
 
+function _cmake() {
+    echo -e "${thunder} Installing ${bold}${red}cmake${reset} ..."
+    sudo apt install -y cmake
+}
+
+function _tree() {
+    echo -e "${thunder} Installing ${bold}${red}tree${reset} ..."
+    sudo apt install -y tree
+}
+
 function _showinfo() {
     echo "${bold}${start_underline}This script provides an easy way to install my packages and my configurations." \
          "${end_underline}${reset}"
@@ -232,6 +242,8 @@ function _fresh_install() {
     _vmswappiness
     _xclip
     _neofetch
+    _cmake
+    _tree
     _gitconfig && _gitsofancy
     _vim && _vimrc
     _tmux && ( _tmuxconf ; _tmuxbashrc )
@@ -250,6 +262,8 @@ function _selective_install_1b1() {
     _prompt _vmswappiness
     _prompt _xclip 
     _prompt _neofetch
+    _prompt _cmake
+    _promt _tree
     _prompt _gitconfig ; _prompt _gitsofancy
     _prompt _vim ; _prompt _vimrc
     _prompt _tmux ; _prompt _tmuxconf ; _prompt _tmuxbashrc
