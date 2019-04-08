@@ -84,24 +84,16 @@ function _gitsofancy() {
     fi
 }
 
+function _bashrc() {
+    _checkfile bashrc
+    echo -e "${thunder} Setting ${bold}${red}.bashrc${reset} ..."
+    cp -v --backup=numbered bashrc ~/.bashrc
+}
+
 function _bashaliases() {
     _checkfile bash_aliases
     echo -e "${thunder} Setting ${bold}${red}.bash_aliases${reset} ..."
     cp -v --backup=numbered bash_aliases ~/.bash_aliases
-}
-
-function _bashextra() {
-    _checkfile bash_extra
-    echo -e "${thunder} Setting ${bold}${red}.bash_extra${reset} ..."
-    cp -v --backup=numbered bash_extra ~/.bash_extra
-}
-
-function _bashrcextend() {
-    echo -e "${thunder} Appending command to .bashrc to source .bash_extra ..."
-    printf "\n%s\n%s\n" \
-        "# Source a seperate file with extra commands/configurations." \
-        "[ -f ~/.bash_extra ] && . ~/.bash_extra" \
-        >> ~/.bashrc
 }
 
 function _vim() {
@@ -235,7 +227,7 @@ function _showmenu() {
 function _fresh_install() {
     _curl && _git
     _dconfsettings
-    _bashaliases ; _bashextra ; _bashrcextend
+    _bashrc && _bashaliases
     _preload
     _vmswappiness
     _xclip
@@ -253,7 +245,7 @@ function _fresh_install() {
 function _selective_install_1b1() {
     _curl && _git
     _prompt _dconfsettings
-    _prompt _bashaliases ; _prompt _bashextra ; _prompt _bashrcextend
+    _prompt _bashrc ; _prompt _bashaliases
     _prompt _preload
     _prompt _vmswappiness
     _prompt _xclip 
