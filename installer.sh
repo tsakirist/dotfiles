@@ -56,17 +56,10 @@ function _checkfile() {
     fi
 }
 
-function _curl() {
-    if ! command -v curl > /dev/null 2>&1; then
-        echo -e "${thunder} Installing ${bold}${red}cURL${reset} ..."
-        sudo apt install -y curl
-    fi
-}
-
-function _git() {
-    if ! command -v git > /dev/null 2>&1; then
-        echo -e "${thunder} Installing ${bold}${red}git${reset} ..."
-        sudo apt install -y git
+function _checkcommand() {
+    if ! command -v $1 > /dev/null 2>&1; then
+        echo -e "${thunder} Installing required package ${bold}${red}${1}${reset} ..."
+        sudo apt install -y $1
     fi
 }
 
@@ -236,7 +229,7 @@ function _showmenu() {
 # ----------------------------------------------------- Installers -----------------------------------------------------
 
 function _fresh_install() {
-    _curl && _git
+    _checkcommand curl && _checkcommand _git
     _dconfsettings
     _bashrc && _bashaliases
     _preload
@@ -256,7 +249,7 @@ function _fresh_install() {
 }
 
 function _selective_install_1b1() {
-    _curl && _git
+    _checkcommand curl && _checkcommand git
     _prompt _dconfsettings
     _prompt _bashrc ; _prompt _bashaliases
     _prompt _preload
