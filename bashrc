@@ -99,6 +99,8 @@ fi
 # This command allows to enter a directory by merely typing the directory name w/o 'cd'
 shopt -s autocd
 
+# NOTE: The defined functions below follow the POSIX standard of sh.
+
 # This function returns an approximation of the memory usage of a process
 mem () { 
     ps -eo rss,pid,euser,args:100 --sort %mem | grep --color=auto -v grep | grep --color=auto -i $@ \
@@ -127,4 +129,17 @@ extract () {
             echo "'$archive' is not a valid file!"
         fi
     done
+}
+
+# This command serves the contents of the passed directory in an HTTP server port 8000
+serve() {
+    echo $#
+    if [[ $# -ne 0 ]]; then
+        saved_path=$(pwd)
+        cd $1 
+        python3 -m http.server
+        cd $saved_path
+    else
+        python3 -m http.server
+    fi
 }
