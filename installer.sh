@@ -81,6 +81,7 @@ function _bashrc() {
     _checkfile bashrc
     echo -e "${thunder} Setting ${bold}${red}.bashrc${reset} ..."
     cp -v --backup=numbered bashrc ~/.bashrc
+    echo "Sourcing ~/.bashrc ..."
     source ~/.bashrc
 }
 
@@ -278,7 +279,7 @@ function _selective_install_1b1() {
 function _guimenu() {
     local SIZE=$(stty size)
     OPT=$(whiptail --title "Selectively install packages/configurations" \
-        --menu "Select the packages or/and the configurations you want to set." ${SIZE} 25 \
+        --menu "Select the packages and the configurations you want to set." ${SIZE} 25 \
         "1"  "    dconf_settings" \
         "2"  "    bashrc" \
         "3"  "    bash_aliases" \
@@ -313,9 +314,9 @@ function _selective_install_1b1_gui() {
     while [[ $exit_status -eq 0 ]]; do
         _guimenu
         case $OPT in
-            1 ) _dconfsettings ;;
-            2 ) _bashrc ;;
-            3 ) _bashaliases ;;
+            1 ) _dconfsettings && sleep 2 ;;
+            2 ) _bashrc && sleep 2 ;;
+            3 ) _bashaliases && sleep 2 ;;
             4 ) _preload ;;
             5 ) _vmswappiness ;;
             6 ) _xclip ;;
@@ -323,18 +324,18 @@ function _selective_install_1b1_gui() {
             8 ) _htop ;;
             9 ) _cmake ;;
             10) _tree ;;
-            11) _gitconfig ;;
+            11) _gitconfig && sleep 2 ;;
             12) _gitsofancy ;;
             13) _vim ;;
-            14) _vimrc ;;
+            14) _vimrc && sleep 2 ;;
             15) _tmux ;;
-            16) _tmuxconf ;;
+            16) _tmuxconf && sleep 2 ;;
             17) _powerline ;;
-            18) _powerlineconfig ;;
+            18) _powerlineconfig && sleep 2 ;;
             19) _sublimetext ;;
-            20) _sublimesettings ;;
-            21) _sublimekeybindings ;;
-            22) _sublimepackages ;;
+            20) _sublimesettings && sleep 2 ;;
+            21) _sublimekeybindings && sleep 2 ;;
+            22) _sublimepackages && sleep 2 ;;
             23) _vscode ;;
             24) _googlechrome ;;
             Q ) exit_status=1 ;;
@@ -345,7 +346,7 @@ function _selective_install_1b1_gui() {
 # -------------------------------------------------------- Main --------------------------------------------------------
 
 # In case we don't want to update the packages lists for testing we just need to provide a cmd argument
-if [[ "$#" -eq 0 ]]; then
+if [[ $# -eq 0 ]]; then
     echo -e "${thunder} Updating apt package lists ..."
     sudo apt update
 fi
