@@ -25,7 +25,7 @@ shopt -s histappend
 # HISTFILESIZE=2000
 HISTSIZE=
 HISTFILESIZE=
-HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S:   "
+HISTTIMEFORMAT="%d/%m/%Y %H:%M:%S:   "
 
 # Disable CTRL-s and CTRL-q
 [[ $- =~ i ]] && stty -ixoff -ixon
@@ -91,15 +91,17 @@ if [ -f `which powerline-daemon` ]; then
 fi
 
 # Add this to automatically start tmux with new shell
-tmux attach &> /dev/null
-if [ -z "$TMUX" ]; then
-    exec tmux
-fi
+# tmux attach &> /dev/null
+# if [ -z "$TMUX" ]; then
+#     exec tmux
+# fi
 
 # This command allows to enter a directory by merely typing the directory name w/o 'cd'
 shopt -s autocd
 
-# NOTE: The defined functions below follow the POSIX standard of sh.
+# NOTE:
+# The defined functions below follow the POSIX standard for functions, for sh.
+# Without using the keyword `function`
 
 # This function returns an approximation of the memory usage of a process
 mem () { 
@@ -107,7 +109,7 @@ mem () {
         | awk '{printf $1/1024 " MB"; $1=""; print }'
 }
 
-# This function extracts any archive
+# This function extracts any archive supplied as argument
 extract () {
     for archive in $*; do
         if [ -f $archive ] ; then
@@ -133,10 +135,15 @@ extract () {
 
 # This command serves the contents of the passed directory in an HTTP server port 8000
 serve() {
-    echo $#
     if [[ $# -ne 0 ]]; then
+        if [ ! -d $1 ]; then
+            echo "ERROR: '$1' is not a valid directory."
+            return 1
+        fi
         saved_path=$(pwd)
-        cd $1 
+        cd $1
+        served_path=$(pwd)
+        echo "Serving '$served_path' ..."
         python3 -m http.server
         cd $saved_path
     else

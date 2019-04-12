@@ -81,6 +81,7 @@ function _bashrc() {
     _checkfile bashrc
     echo -e "${thunder} Setting ${bold}${red}.bashrc${reset} ..."
     cp -v --backup=numbered bashrc ~/.bashrc
+    source ~/.bashrc
 }
 
 function _bashaliases() {
@@ -241,6 +242,7 @@ function _fresh_install() {
     _vmswappiness
     _xclip
     _neofetch
+    _htop
     _cmake
     _tree
     _gitconfig && _gitsofancy
@@ -261,6 +263,7 @@ function _selective_install_1b1() {
     _prompt _vmswappiness
     _prompt _xclip 
     _prompt _neofetch
+    _prompt _htop
     _prompt _cmake
     _prompt _tree
     _prompt _gitconfig ; _prompt _gitsofancy
@@ -275,7 +278,7 @@ function _selective_install_1b1() {
 function _guimenu() {
     local SIZE=$(stty size)
     OPT=$(whiptail --title "Selectively install packages/configurations" \
-        --menu "Select your packages" ${SIZE} 22 \
+        --menu "Select the packages or/and the configurations you want to set." ${SIZE} 25 \
         "1"  "    dconf_settings" \
         "2"  "    bashrc" \
         "3"  "    bash_aliases" \
@@ -283,20 +286,23 @@ function _guimenu() {
         "5"  "    vmswappiness" \
         "6"  "    xclip" \
         "7"  "    neofetch" \
-        "8"  "    cmake" \
-        "9"  "    tree" \
-        "10" "    gitconfig" \
-        "11" "    gitsofancy" \
-        "12" "    vim" \
-        "13" "    vimrc" \
-        "14" "    tmux" \
-        "15" "    tmux.conf" \
-        "16" "    powerline" \
-        "17" "    powerline_config" \
-        "18" "    sublime text 3" \
-        "19" "    sublime settings" \
-        "20" "    sublime keybindings" \
-        "21" "    sublime packages" \
+        "8"  "    htop" \
+        "9"  "    cmake" \
+        "10" "    tree" \
+        "11" "    gitconfig" \
+        "12" "    gitsofancy" \
+        "13" "    vim" \
+        "14" "    vimrc" \
+        "15" "    tmux" \
+        "16" "    tmux.conf" \
+        "17" "    powerline" \
+        "18" "    powerline_config" \
+        "19" "    sublime text 3" \
+        "20" "    sublime settings" \
+        "21" "    sublime keybindings" \
+        "22" "    sublime packages" \
+        "23" "    vscode" \
+        "24" "    google chrome" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -314,20 +320,23 @@ function _selective_install_1b1_gui() {
             5 ) _vmswappiness ;;
             6 ) _xclip ;;
             7 ) _neofetch ;;
-            8 ) _cmake ;;
-            9 ) _tree ;;
-            10) _gitconfig ;;
-            11) _gitsofancy ;;
-            12) _vim ;;
-            13) _vimrc ;;
-            14) _tmux ;;
-            15) _tmuxconf ;;
-            16) _powerline ;;
-            17) _powerlineconfig ;;
-            18) _sublimetext ;;
-            19) _sublimesettings ;;
-            20) _sublimekeybindings ;;
-            21) _sublimepackages ;;
+            8 ) _htop ;;
+            9 ) _cmake ;;
+            10) _tree ;;
+            11) _gitconfig ;;
+            12) _gitsofancy ;;
+            13) _vim ;;
+            14) _vimrc ;;
+            15) _tmux ;;
+            16) _tmuxconf ;;
+            17) _powerline ;;
+            18) _powerlineconfig ;;
+            19) _sublimetext ;;
+            20) _sublimesettings ;;
+            21) _sublimekeybindings ;;
+            22) _sublimepackages ;;
+            23) _vscode ;;
+            24) _googlechrome ;;
             Q ) exit_status=1 ;;
         esac
     done
