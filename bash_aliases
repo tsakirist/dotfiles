@@ -13,21 +13,17 @@ alias l='ls'
 alias lf='ls | grep'
 alias llf='ls -l | grep'
 alias ll='ls -l'
-alias la='ls -aF'
-alias laf='ls -a | grep'
+alias la='ls -AF'
+alias laf='ls -A | grep'
 alias l1='ls -1'
-alias la1='ls -a1'
+alias la1='ls -A1'
 alias li='ls -i'
 alias hf='history | grep'
 alias h='history'
 alias fstat='stat --format "%a"'
 alias pf='ps aux | grep'
-alias lsize='du -sh *'
-alias lsizesort='du -sh * | sort -hr'
+alias lsize='du -sh * | sort -hr'
 alias showkernels='dpkg --list | grep linux-image'
-
-# This is to change launcher position
-alias lpos='gsettings set com.canonical.Unity.Launcher launcher-position'
 
 # This is for neofetch
 alias neo='neofetch'
@@ -45,3 +41,6 @@ alias rm='rm -i'
 
 # This is to log out
 alias logout='gnome-session-quit'
+
+# This is to change launcher position @ Ubuntu 16.04
+alias lpos='gsettings set com.canonical.Unity.Launcher launcher-position'
