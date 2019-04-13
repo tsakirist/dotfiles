@@ -42,5 +42,9 @@ alias rm='rm -i'
 # This is to log out
 alias logout='gnome-session-quit'
 
+# These are for cmake, in order to build and clean the produced files
+alias cbuild='cmake -H. -Bbuild && make -C build'
+alias cclean='[ -d build ] && make clean -C build && rm -rI build'
+
 # This is to change launcher position @ Ubuntu 16.04
 alias lpos='gsettings set com.canonical.Unity.Launcher launcher-position'
