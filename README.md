@@ -5,8 +5,8 @@ This repository holds all the required pieces to install my packages and my conf
 ## Instructions
 
 * Clone the repository and enter the directory
-* Give executable rights to the installer if needed with **chmod +x installer.sh**
-* Start the installer with **./installer.sh**
+* Give executable rights to the installer if needed with `chmod +x installer.sh`
+* Start the installer with `./installer.sh`
 
 ### TODOS
 

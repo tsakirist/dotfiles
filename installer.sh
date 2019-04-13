@@ -2,7 +2,6 @@
 
 # This script provides an easy way to install my preferred packages along with my configurations.
 # Author: Tsakiris Tryfon
-# Version: 2.0
 # This version uses local files from github repository.
 
 # -------------------------------------------------- Font commands -----------------------------------------------------
@@ -219,7 +218,8 @@ function _htop() {
 }
 
 function _showinfo() {
-    echo "${bold}${start_underline}This script provides an easy way to install my packages and my configurations." \
+    echo "${bold}${start_underline}" \
+         "This script provides an easy way to install my packages and my configurations." \
          "${end_underline}${reset}"
     echo "Script is executed from: ${bold}$(pwd)${reset}"
 }
@@ -230,7 +230,7 @@ function _showmenu() {
     echo "2. ${bold}${red}Selectively${reset} install 1-by-1?"
     echo "3. ${bold}${red}Selectively${reset} install 1-by-1 with GUI?"
     read -n 1 -s input
-    echo "-----------------------------------------------------------"
+    echo "---------------------------------------------------------------------------------"
 }
 
 # ----------------------------------------------------- Installers -----------------------------------------------------
@@ -279,7 +279,7 @@ function _selective_install_1b1() {
 function _guimenu() {
     local SIZE=$(stty size)
     OPT=$(whiptail --title "Selectively install packages/configurations" \
-        --menu "Select the packages and the configurations you want to set." ${SIZE} 25 \
+        --menu "Select the packages and the configurations that you want to install/set." ${SIZE} 25 \
         "1"  "    dconf_settings" \
         "2"  "    bashrc" \
         "3"  "    bash_aliases" \
@@ -338,12 +338,12 @@ function _selective_install_1b1_gui() {
             22) _sublimepackages && sleep 2 ;;
             23) _vscode ;;
             24) _googlechrome ;;
-            Q ) exit_status=1 ;;
+            Q | *) exit_status=1 ;;
         esac
     done
 }
 
-# -------------------------------------------------------- Main --------------------------------------------------------
+# ------------------------------------------------------- Main ---------------------------------------------------------
 
 # In case we don't want to update the packages lists for testing we just need to provide a cmd argument
 if [[ $# -eq 0 ]]; then
@@ -362,7 +362,7 @@ elif [[ $input -eq 2 ]]; then
 elif [[ $input -eq 3 ]]; then
     _selective_install_1b1_gui
 else
-    echo -e "[${red}x${reset}] Wrong input. Available options: [1, 2]."
-    exit
+    echo -e "[${red}x${reset}] Wrong input. Available options: [1, 2, 3]."
+    exit 1
 fi
 
