@@ -6,6 +6,8 @@
 " [count]\cu, uncomments the current line or count lines
 "---------------------------------------------------------------------------------------------------
 
+" --------------------- Plugin installer configurations ---------------------
+
 " Automate the process of installing vim-plug when required
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -13,10 +15,10 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC 
 endif
 
-" Plugins will be downloaded under the specified directory.
+" Plugins will be downloaded under the specified directory
 call plug#begin('~/.vim/plugged')
 
-" Declare the list of plugins.
+" Declare the list of plugins
 Plug 'joshdick/onedark.vim'
 Plug 'sjl/badwolf'
 Plug 'sheerun/vim-polyglot'
@@ -26,9 +28,25 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdtree'
 Plug 'ervandew/supertab'
+Plug 'regedarek/ZoomWin'
 
-" List ends here. Plugins become visible to Vim after this call.
+" List ends here. Plugins become visible to Vim after this call
 call plug#end()
+
+" --------------------- General configurations ---------------------
+
+" Function/command to zoom-in and zoom-out from a window
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
 
 " Change linenumber coloring to white
 augroup colorset
@@ -40,6 +58,7 @@ augroup colorset
 " Coloring configurations
 syntax on
 silent! colorscheme onedark
+" silent! colorscheme badwolf
 
 "highlight LineNr term=bold cterm=None ctermfg=Red ctermbg=None
 
@@ -73,15 +92,25 @@ set t_Co=256
 " Close NERDTree automatically when it is the only window left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
-map <silent> <C-k><C-b> :NERDTreeToggle<CR>
-
 " Set a ruler at column:120
 set colorcolumn=120
 highlight colorcolumn ctermbg=black
 
+" This is to open windows always below or right
+set splitbelow
+set splitright
+
+" Always highlight the line being edited
+set cursorline
+
 " Add space after commenting with NerdCommenter
 let g:NERDSpaceDelims=1
+
+" --------------------- Keybindings ---------------------
+
+" Command and key mapping to enable the zoom-in and zoom-out
+command! ZoomToggle call s:ZoomToggle()
+nnoremap <silent> <leader>z :ZoomToggle<CR>
 
 " Keybinds to move lines like sublime text 3
 nnoremap <silent> <C-S-Up> :m-2<CR>
@@ -92,9 +121,13 @@ inoremap <C-S-Down> <Esc>:m+<CR>
 " This is to hit ESC when inside a :term to get into normal mode
 tnoremap <Esc> <C-\><C-N>
 
-" This is to open windows always below or right
-set splitbelow
-set splitright
+" Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
+map <silent> <C-k><C-b> :NERDTreeToggle<CR>
 
-" Always highlight the line being edited
-set cursorline
+" This mapping inserts a blank line with Enter without leaving normal mode
+nnoremap <silent> <leader><CR> o<Esc>
+
+" This is to save the file with ctrl+s
+nnoremap <C-s> :w<CR>
+inoremap <C-s> <Esc>:w<CR>a
+vnoremap <C-s> <Esc>:w<CR>
