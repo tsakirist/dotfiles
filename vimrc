@@ -18,12 +18,12 @@ call plug#begin('~/.vim/plugged')
 
 " Declare the list of plugins.
 Plug 'joshdick/onedark.vim'
+Plug 'sjl/badwolf'
 Plug 'sheerun/vim-polyglot'
 Plug 'vim-python/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-eunuch'
 Plug 'scrooloose/nerdtree'
 Plug 'ervandew/supertab'
 
@@ -82,3 +82,19 @@ highlight colorcolumn ctermbg=black
 
 " Add space after commenting with NerdCommenter
 let g:NERDSpaceDelims=1
+
+" Keybinds to move lines like sublime text 3
+nnoremap <silent> <C-S-Up> :m-2<CR>
+nnoremap <silent> <C-S-Down> :m+<CR>
+inoremap <C-S-Up> <Esc>:m-2<CR>
+inoremap <C-S-Down> <Esc>:m+<CR>
+
+" This is to hit ESC when inside a :term to get into normal mode
+tnoremap <Esc> <C-\><C-N>
+
+" This is to open windows always below or right
+set splitbelow
+set splitright
+
+" Always highlight the line being edited
+set cursorline
