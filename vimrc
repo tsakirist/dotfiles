@@ -118,6 +118,11 @@ nnoremap <silent> <C-S-Down> :m+<CR>
 inoremap <C-S-Up> <Esc>:m-2<CR>
 inoremap <C-S-Down> <Esc>:m+<CR>
 
+" This is to duplicate a line like sublime text 3
+nnoremap <C-S-d> Yp<CR>
+inoremap <C-S-d> <Esc>Yp<CR>a
+vnoremap <C-S-d> <Esc>Yp<CR>
+
 " This is to hit ESC when inside a :term to get into normal mode
 tnoremap <Esc> <C-\><C-N>
 

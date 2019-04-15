@@ -314,9 +314,9 @@ function _selective_install_1b1_gui() {
     while [[ $exit_status -eq 0 ]]; do
         _guimenu
         case $OPT in
-            1 ) _dconfsettings && sleep 3 ;;
-            2 ) _bashrc && sleep 3 ;;
-            3 ) _bashaliases && sleep 3 ;;
+            1 ) _dconfsettings && sleep 2 ;;
+            2 ) _bashrc && sleep 2 ;;
+            3 ) _bashaliases && sleep 2 ;;
             4 ) _preload ;;
             5 ) _vmswappiness ;;
             6 ) _xclip ;;
@@ -324,18 +324,18 @@ function _selective_install_1b1_gui() {
             8 ) _htop ;;
             9 ) _cmake ;;
             10) _tree ;;
-            11) _gitconfig && sleep 3 ;;
+            11) _gitconfig && sleep 2 ;;
             12) _gitsofancy ;;
             13) _vim ;;
-            14) _vimrc && sleep 3 ;;
+            14) _vimrc && sleep 2 ;;
             15) _tmux ;;
-            16) _tmuxconf && sleep 3 ;;
+            16) _tmuxconf && sleep 2 ;;
             17) _powerline ;;
-            18) _powerlineconfig && sleep 3 ;;
+            18) _powerlineconfig && sleep 2 ;;
             19) _sublimetext ;;
-            20) _sublimesettings && sleep 3 ;;
-            21) _sublimekeybindings && sleep 3 ;;
-            22) _sublimepackages && sleep 3 ;;
+            20) _sublimesettings && sleep 2 ;;
+            21) _sublimekeybindings && sleep 2 ;;
+            22) _sublimepackages && sleep 2 ;;
             23) _vscode ;;
             24) _googlechrome ;;
             Q | *) exit_status=1 ;;
