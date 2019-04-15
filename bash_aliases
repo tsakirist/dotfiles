@@ -48,3 +48,6 @@ alias cclean='[ -d build ] && make clean -C build && rm -rI build'
 
 # This is to change launcher position @ Ubuntu 16.04
 alias lpos='gsettings set com.canonical.Unity.Launcher launcher-position'
+
+# This provides vim with the argument '-p' that opens file in tabs
+alias vim='vim -p'
