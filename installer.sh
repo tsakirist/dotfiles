@@ -217,6 +217,16 @@ function _htop() {
     sudo apt install -y htop
 }
 
+function _gnometweaks() {
+    echo -e "${thunder} Installing ${bold}${red}gnome-tweaks${reset} ..."
+    sudo apt install -y gnome-tweaks
+}
+
+function _gnomeshellextensions() {
+    echo -e "${thunder} Installing ${bold}${red}gnome-shell-extensions${reset} ..."
+    sudo apt install -y gnome-shell-extension-weather gnome-shell-extension-dashtodock
+} 
+
 function _showinfo() {
     echo "${bold}${start_underline}" \
          "This script provides an easy way to install my packages and my configurations." \
@@ -246,6 +256,8 @@ function _fresh_install() {
     _htop
     _cmake
     _tree
+    _gnometweaks
+    _gnomeshellextensions
     _gitconfig && _gitsofancy
     _vim && _vimrc
     _tmux && _tmuxconf
@@ -267,6 +279,8 @@ function _selective_install_1b1() {
     _prompt _htop
     _prompt _cmake
     _prompt _tree
+    _prompt _gnometweaks
+    _prompt _gnomeshellextensions
     _prompt _gitconfig ; _prompt _gitsofancy
     _prompt _vim ; _prompt _vimrc
     _prompt _tmux ; _prompt _tmuxconf
@@ -279,7 +293,7 @@ function _selective_install_1b1() {
 function _guimenu() {
     local SIZE=$(stty size)
     OPT=$(whiptail --title "Selectively install packages/configurations" \
-        --menu "Select the packages and the configurations that you want to install/set." ${SIZE} 25 \
+        --menu "Select the packages and the configurations that you want to install/set." ${SIZE} 27 \
         "1"  "    dconf_settings" \
         "2"  "    bashrc" \
         "3"  "    bash_aliases" \
@@ -290,20 +304,22 @@ function _guimenu() {
         "8"  "    htop" \
         "9"  "    cmake" \
         "10" "    tree" \
-        "11" "    gitconfig" \
-        "12" "    gitsofancy" \
-        "13" "    vim" \
-        "14" "    vimrc" \
-        "15" "    tmux" \
-        "16" "    tmux.conf" \
-        "17" "    powerline" \
-        "18" "    powerline_config" \
-        "19" "    sublime text 3" \
-        "20" "    sublime settings" \
-        "21" "    sublime keybindings" \
-        "22" "    sublime packages" \
-        "23" "    vscode" \
-        "24" "    google chrome" \
+        "11" "    gnome-tweaks" \
+        "12" "    gnome-shell-extensions" \
+        "13" "    gitconfig" \
+        "14" "    gitsofancy" \
+        "15" "    vim" \
+        "16" "    vimrc" \
+        "17" "    tmux" \
+        "18" "    tmux.conf" \
+        "19" "    powerline" \
+        "20" "    powerline_config" \
+        "21" "    sublime text 3" \
+        "22" "    sublime settings" \
+        "23" "    sublime keybindings" \
+        "24" "    sublime packages" \
+        "25" "    vscode" \
+        "26" "    google chrome" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -314,32 +330,35 @@ function _selective_install_1b1_gui() {
     while [[ $exit_status -eq 0 ]]; do
         _guimenu
         case $OPT in
-            1 ) _dconfsettings && sleep 2 ;;
-            2 ) _bashrc && sleep 2 ;;
-            3 ) _bashaliases && sleep 2 ;;
+            1 ) _dconfsettings ;;
+            2 ) _bashrc ;;
+            3 ) _bashaliases ;;
             4 ) _preload ;;
             5 ) _vmswappiness ;;
             6 ) _xclip ;;
             7 ) _neofetch ;;
             8 ) _htop ;;
             9 ) _cmake ;;
-            10) _tree ;;
-            11) _gitconfig && sleep 2 ;;
-            12) _gitsofancy ;;
-            13) _vim ;;
-            14) _vimrc && sleep 2 ;;
-            15) _tmux ;;
-            16) _tmuxconf && sleep 2 ;;
-            17) _powerline ;;
-            18) _powerlineconfig && sleep 2 ;;
-            19) _sublimetext ;;
-            20) _sublimesettings && sleep 2 ;;
-            21) _sublimekeybindings && sleep 2 ;;
-            22) _sublimepackages && sleep 2 ;;
-            23) _vscode ;;
-            24) _googlechrome ;;
+            10) _tree  ;;
+            11) _gnometweaks ;;
+            12) _gnomeshellextensions ;;
+            13) _gitconfig ;;
+            14) _gitsofancy ;;
+            15) _vim ;;
+            16) _vimrc ;;
+            17) _tmux ;;
+            18) _tmuxconf ;;
+            19) _powerline ;;
+            20) _powerlineconfig ;;
+            21) _sublimetext ;;
+            22) _sublimesettings ;;
+            23) _sublimekeybindings ;;
+            24) _sublimepackages ;;
+            25) _vscode ;;
+            26) _googlechrome ;;
             Q | *) exit_status=1 ;;
         esac
+        sleep 2
     done
 }
 
