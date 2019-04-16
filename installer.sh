@@ -358,7 +358,8 @@ function _selective_install_1b1_gui() {
             26) _googlechrome ;;
             Q | *) exit_status=1 ;;
         esac
-        sleep 2
+        # Sleep only when user hasn't selected Quit
+        [ $exit_status -eq 0 ] && sleep 2
     done
 }
 

@@ -28,7 +28,8 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdtree'
 Plug 'ervandew/supertab'
-Plug 'regedarek/ZoomWin'
+" Plug 'airblade/vim-gutter'
+Plug 'mhinz/vim-signify'
 
 " List ends here. Plugins become visible to Vim after this call
 call plug#end()
