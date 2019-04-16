@@ -4,6 +4,7 @@
 " <Shift+i> toggle hidden files in NERDTree
 " [count]\cc, comments out current line or count lines
 " [count]\cu, uncomments the current line or count lines
+" [count]<leader>c<space> Toggles the comment state of the lines
 "---------------------------------------------------------------------------------------------------
 
 " --------------------- Plugin installer configurations ---------------------
@@ -28,7 +29,6 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdtree'
 Plug 'ervandew/supertab'
-" Plug 'airblade/vim-gutter'
 Plug 'mhinz/vim-signify'
 
 " List ends here. Plugins become visible to Vim after this call
@@ -47,6 +47,12 @@ function! s:ZoomToggle() abort
         vertical resize
         let t:zoomed = 1
     endif
+endfunction
+
+" Function to make a whole word search faster
+function! SearchWord(word)
+    let @/ = '\<' . a:word . '\>'
+    normal n
 endfunction
 
 " Change linenumber coloring to white
@@ -93,19 +99,24 @@ set t_Co=256
 " Close NERDTree automatically when it is the only window left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" Set a ruler at column:120
-set colorcolumn=120
-highlight colorcolumn ctermbg=black
+" Highlight the current line and also highlight the column @120 (ruler)
+" These have been disabled even though they are much needed, because they slow down the the moving up/down process
+" set colorcolumn=120
+" highlight colorcolumn ctermbg=black
+" set cursorline
 
 " This is to open windows always below or right
 set splitbelow
 set splitright
 
-" Always highlight the line being edited
-set cursorline
+" This sets the maximum text width before vim automatically wraps it
+set textwidth=120
 
 " Add space after commenting with NerdCommenter
 let g:NERDSpaceDelims=1
+
+" Change the delete sign of git-signify from '_' to '-'
+let g:signify_sign_delete = '-'
 
 " --------------------- Keybindings ---------------------
 
@@ -121,9 +132,9 @@ inoremap <C-S-Down> <Esc>:m+<CR>
 
 " This is to duplicate a line like sublime text 3
 " m` and `` just sets a mark named '`' and returns to that mark
-nnoremap <C-S-d> m`yyp``<CR>
-inoremap <C-S-d> <Esc>m`yyp``<CR>A
-vnoremap <C-S-d> <Esc>m`yyp``<CR>
+nnoremap <leader>d m`yyp``<CR>
+inoremap <leader>d <Esc>m`yyp``<CR>A
+vnoremap <leader>d <Esc>m`yyp``<CR>
 
 " This is to hit ESC when inside a :term to get into normal mode
 tnoremap <Esc> <C-\><C-N>
@@ -136,5 +147,9 @@ nnoremap <silent> <leader><CR> o<Esc>
 
 " This is to save the file with ctrl+s
 nnoremap <C-s> :w<CR>
-inoremap <C-s> <Esc>:w<CR>a
+inoremap <C-s> <Esc>:w<CR>
 vnoremap <C-s> <Esc>:w<CR>
+
+" This is to make the whole word search proc with <leader>/
+command! -nargs=1 SearchWord call SearchWord(<f-args>)
+nnoremap <leader>/ :SearchWord 
