@@ -30,7 +30,8 @@ blacklist=@as []
 text-scale-factor=1.0
 
 [com/ubuntu/update-notifier]
-release-check-time=uint32 1552663040
+regular-auto-launch-interval=7
+release-check-time=uint32 1555146821
 no-show-notifications=true
 
 [com/ubuntu/user-interface]
@@ -55,11 +56,11 @@ overrides={'Gtk/ShellShowsAppMenu': <1>}
 hinting='slight'
 
 [org/gnome/settings-daemon/peripherals/keyboard]
-numlock-state='off'
+numlock-state='on'
 
 [org/gnome/shell]
 command-history=['subl']
-enabled-extensions=['ubuntu-appindicators@ubuntu.com', 'dash-to-dock@micxgx.gmail.com', 'user-theme@gnome-shell-extensions.gcampax.github.com']
+enabled-extensions=['ubuntu-appindicators@ubuntu.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com', 'openweather-extension@jenslody.de']
 enable-hot-corners=false
 favorite-apps=['org.gnome.Nautilus.desktop', 'google-chrome.desktop', 'firefox.desktop', 'libreoffice-writer.desktop', 'org.gnome.Software.desktop', 'gnome-control-center.desktop', 'thunderbird.desktop', 'sublime_text.desktop', 'code.desktop', 'org.gnome.Terminal.desktop']
 
@@ -67,13 +68,16 @@ favorite-apps=['org.gnome.Nautilus.desktop', 'google-chrome.desktop', 'firefox.d
 name='Flat-Remix-Darkest'
 
 [org/gnome/shell/extensions/dash-to-dock]
+middle-click-action='launch'
 animate-show-apps=true
-show-apps-at-top=true
+shift-click-action='launch'
+shift-middle-click-action='minimize'
 extend-height=false
 dock-fixed=false
 force-straight-corner=false
 click-action='cycle-windows'
 intellihide-mode='FOCUS_APPLICATION_WINDOWS'
+show-apps-at-top=true
 preferred-monitor=0
 multi-monitor=false
 custom-background-color=false
@@ -87,6 +91,27 @@ background-color='#ef2929'
 running-indicator-style='SQUARES'
 icon-size-fixed=false
 transparency-mode='FIXED'
+
+[org/gnome/shell/extensions/openweather]
+weather-provider='openweathermap'
+menu-alignment=75.0
+days-forecast=2
+unit='celsius'
+geolocation-provider='openstreetmaps'
+actual-city=0
+use-default-owm-key=true
+show-text-in-panel=true
+show-comment-in-panel=true
+use-symbolic-icons=true
+position-in-panel='right'
+wind-speed-unit='kph'
+translate-condition=true
+city='40.5122349,21.6785518>Ptolemaida, Kozani>-1'
+wind-direction=true
+use-text-on-buttons=false
+pressure-unit='Pa'
+show-comment-in-forecast=false
+decimal-places=1
 
 [org/gnome/gedit/preferences/ui]
 show-tabs-mode='auto'
@@ -129,7 +154,7 @@ search-filter-time-type='last_modified'
 
 [org/gnome/nautilus/window-state]
 sidebar-width=201
-geometry='890x533+236+103'
+geometry='890x532+391+177'
 maximized=false
 
 [org/gnome/nautilus/desktop]
@@ -141,6 +166,10 @@ name-column-width=250
 sort-type='ascending'
 list-mode='as-folder'
 show-path=false
+
+[org/gnome/file-roller/dialogs/extract]
+skip-newer=false
+recreate-folders=true
 
 [org/gnome/file-roller/ui]
 sidebar-width=200
@@ -161,6 +190,9 @@ window-size=(1366, 693)
 backend='local'
 prompt-check='disabled'
 
+[org/gnome/deja-dup/goa]
+type='google'
+
 [org/gnome/deja-dup/local]
 folder='/home/tsakiris/deja-dup'
 
@@ -178,26 +210,35 @@ toolkit-accessibility=false
 [org/gnome/desktop/notifications]
 application-children=['org-gnome-tweaks', 'org-gnome-nautilus', 'org-gnome-terminal', 'apport-gtk', 'google-chrome', 'update-manager', 'gnome-control-center']
 
-[org/gnome/desktop/notifications/application/google-chrome]
-application-id='google-chrome.desktop'
-
-[org/gnome/desktop/notifications/application/org-gnome-terminal]
-application-id='org.gnome.Terminal.desktop'
-
-[org/gnome/desktop/notifications/application/apport-gtk]
-application-id='apport-gtk.desktop'
-
 [org/gnome/desktop/notifications/application/org-gnome-tweaks]
 application-id='org.gnome.tweaks.desktop'
 
-[org/gnome/desktop/notifications/application/update-manager]
-application-id='update-manager.desktop'
+[org/gnome/desktop/notifications/application/org-gnome-nautilus]
+application-id='org.gnome.Nautilus.desktop'
+
+[org/gnome/desktop/notifications/application/google-chrome]
+application-id='google-chrome.desktop'
 
 [org/gnome/desktop/notifications/application/gnome-control-center]
 application-id='gnome-control-center.desktop'
 
-[org/gnome/desktop/notifications/application/org-gnome-nautilus]
-application-id='org.gnome.Nautilus.desktop'
+[org/gnome/desktop/notifications/application/sublime-text]
+application-id='sublime_text.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-terminal]
+application-id='org.gnome.Terminal.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-software]
+application-id='org.gnome.Software.desktop'
+
+[org/gnome/desktop/notifications/application/update-manager]
+application-id='update-manager.desktop'
+
+[org/gnome/desktop/notifications/application/software-properties-gtk]
+application-id='software-properties-gtk.desktop'
+
+[org/gnome/desktop/notifications/application/apport-gtk]
+application-id='apport-gtk.desktop'
 
 [org/gnome/desktop/app-folders]
 folder-children=['Utilities', 'Sundry']
@@ -213,6 +254,11 @@ translate=true
 categories=['X-GNOME-Sundry']
 apps=['alacarte.desktop', 'authconfig.desktop', 'ca.desrt.dconf-editor.desktop', 'fedora-release-notes.desktop', 'firewall-config.desktop', 'flash-player-properties.desktop', 'gconf-editor.desktop', 'gnome-abrt.desktop', 'gnome-power-statistics.desktop', 'ibus-setup-anthy.desktop', 'ibus-setup.desktop', 'ibus-setup-hangul.desktop', 'ibus-setup-libbopomofo.desktop', 'ibus-setup-libpinyin.desktop', 'ibus-setup-m17n.desktop', 'ibus-setup-typing-booster.desktop', 'im-chooser.desktop', 'itweb-settings.desktop', 'jhbuild.desktop', 'javaws.desktop', 'java-1.7.0-openjdk-jconsole.desktop', 'java-1.7.0-openjdk-policytool.desktop', 'log4j-chainsaw.desktop', 'log4j-logfactor5.desktop', 'nm-connection-editor.desktop', 'orca.desktop', 'setroubleshoot.desktop', 'system-config-date.desktop', 'system-config-firewall.desktop', 'system-config-keyboard.desktop', 'system-config-language.desktop', 'system-config-printer.desktop', 'system-config-users.desktop', 'vino-preferences.desktop']
 name='X-GNOME-Sundry.directory'
+
+[org/gnome/desktop/app-folders/folders/YaST]
+translate=true
+categories=['X-SuSE-YaST']
+name='suse-yast.directory'
 
 [org/gnome/desktop/screensaver]
 lock-delay=uint32 0
@@ -272,7 +318,7 @@ switch-to-workspace-up=['<Control><Alt>Up']
 close=['<Alt>F4']
 
 [org/gnome/desktop/session]
-idle-delay=uint32 600
+idle-delay=uint32 900
 
 [org/gnome/desktop/a11y]
 always-show-universal-access-status=false
@@ -300,7 +346,7 @@ mru-sources=[('xkb', 'us'), ('xkb', 'gr')]
 sources=[('xkb', 'us'), ('xkb', 'gr')]
 
 [org/gnome/control-center]
-last-panel='keyboard'
+last-panel='wifi'
 
 [org/gnome/eog/view]
 background-color='rgb(0,0,0)'
@@ -339,7 +385,8 @@ statusbar-visible=false
 locations=['file:///home/tsakiris/Music']
 
 [org/gnome/software]
-check-timestamp=int64 1553108804
+check-timestamp=int64 1555434481
+install-timestamp=int64 1554384255
 
 [org/gnome/mutter]
 center-new-windows=true
@@ -360,7 +407,7 @@ schema-version=uint32 3
 [org/gtk/settings/file-chooser]
 sort-column='name'
 sidebar-width=196
-window-position=(245, 92)
+window-position=(401, 224)
 show-size-column=true
 show-hidden=false
 window-size=(876, 578)
@@ -512,8 +559,8 @@ show-details=true
 first-run=false
 check-new-release-ignore='bionic'
 window-height=400
-launch-time=int64 1553110326
-launch-count=4
+launch-time=int64 1555434600
+launch-count=5
 window-width=645
 
 [apps/indicator-session]
@@ -523,7 +570,7 @@ show-real-name-on-panel=false
 keyrings-selected=['secret-service://login', 'secret-service:///org/freedesktop/secrets/collection/login']
 
 [ca/desrt/dconf-editor]
-saved-view='/org/gnome/desktop/wm/keybindings/'
+saved-view='/org/gnome/shell/extensions/'
 show-warning=false
 window-height=600
 window-width=800
