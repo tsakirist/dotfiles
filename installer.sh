@@ -48,9 +48,8 @@ function _prompt() {
 
 function _checkfile() {
     if [ ! -f "$1" ]; then
-        echo "${bold}${red}ERROR${reset}: Can't find ${1} in this directory. Installer needs all the contents of" \
-             "the github repository."
-        echo "You should issue the command: > git clone https://github.com/tsakirist/configurations.git"
+        echo "${bold}${red}ERROR${reset}: Can't find ${1} in this directory."
+        echo "You should run the installer from within the github repository. (git clone https://github.com/tsakirist/configurations.git)"
         exit 1
     fi
 }
