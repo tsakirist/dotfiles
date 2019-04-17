@@ -292,8 +292,9 @@ function _selective_install_1b1() {
 
 function _guimenu() {
     local SIZE=$(stty size)
+    local ROWS=$(stty size | cut -d ' ' -f 1)
     OPT=$(whiptail --title "Selectively install packages/configurations" \
-        --menu "Select the packages and the configurations that you want to install/set." ${SIZE} 27 \
+        --menu "Select the packages and the configurations that you want to install/set." ${SIZE} $((ROWS-10)) \
         "1"  "    dconf_settings" \
         "2"  "    bashrc" \
         "3"  "    bash_aliases" \
