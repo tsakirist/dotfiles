@@ -52,3 +52,5 @@ alias lpos='gsettings set com.canonical.Unity.Launcher launcher-position'
 
 # This provides vim with the argument '-p' that opens file in tabs
 alias vim='vim -p'
+alias nvim='nvim -p'
+alias nv='nvim ~/.vimrc'

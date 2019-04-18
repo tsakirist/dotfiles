@@ -33,6 +33,7 @@ Plug 'mhinz/vim-signify'
 
 if has('nvim')
     Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
 endif
 
 " List ends here. Plugins become visible to Vim after this call
@@ -54,6 +55,7 @@ function! s:ZoomToggle() abort
 endfunction
 
 " Function to trim trailing whitespace
+" https://vi.stackexchange.com/a/456
 function! TrimTrailWhitespace()
     let l:save = winsaveview()
     keeppatterns %s/\s\+$//e

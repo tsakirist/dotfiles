@@ -98,7 +98,7 @@ function _vimrc() {
     _checkfile vimrc
     echo -e "${thunder} Setting ${bold}${red}.vimrc${reset} ..."
     cp -v --backup=numbered vimrc ~/.vimrc
-    vim +PlugClean +PlugInstall +qall
+    vim +PlugInstall +qall
 }
 
 function _tmux() {
@@ -224,7 +224,7 @@ function _gnometweaks() {
 function _gnomeshellextensions() {
     echo -e "${thunder} Installing ${bold}${red}gnome-shell-extensions${reset} ..."
     sudo apt install -y gnome-shell-extension-weather gnome-shell-extension-dashtodock
-} 
+}
 
 function _showinfo() {
     echo "${bold}${start_underline}" \
@@ -273,7 +273,7 @@ function _selective_install_1b1() {
     _prompt _bashrc ; _prompt _bashaliases
     _prompt _preload
     _prompt _vmswappiness
-    _prompt _xclip 
+    _prompt _xclip
     _prompt _neofetch
     _prompt _htop
     _prompt _cmake
