@@ -115,10 +115,11 @@ endif
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Highlight the current line and also highlight the column @120 (ruler)
-" These have been disabled even though they are much needed, because they slow down the the moving up/down process
-" set colorcolumn=120
-" highlight colorcolumn ctermbg=black
-" set cursorline
+if has('nvim')
+    set colorcolumn=120
+    highlight colorcolumn ctermbg=black
+    set cursorline
+endif
 
 " Open windows always below or right
 set splitbelow
