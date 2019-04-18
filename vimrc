@@ -79,13 +79,13 @@ set clipboard=unnamedplus
 " This is used to preserve the clipboard when vim exits
 autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
 
-" This inserts spaces when <Tab> is pressed. With this option set, if you want to enter a real tab character use Ctrl-V<Tab> key sequence
+" Insert spaces when <Tab> is pressed. With this option set, if you want to enter a real tab character use Ctrl-V<Tab> key sequence
 set expandtab
 
-" This controls the number of space characters inserted when pressing the tab key
+" Controls the number of space characters inserted when pressing the tab key
 set tabstop=4
 
-" This controls the number of space characeters inserted for identation
+" Controls the number of space characeters inserted for identation
 set shiftwidth=4
 
 " These are required to enable powerline
@@ -105,11 +105,11 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " highlight colorcolumn ctermbg=black
 " set cursorline
 
-" This is to open windows always below or right
+" Open windows always below or right
 set splitbelow
 set splitright
 
-" This sets the maximum text width before vim automatically wraps it
+" Set the maximum text width before vim automatically wraps it
 set textwidth=120
 
 " Add space after commenting with NerdCommenter
@@ -130,26 +130,26 @@ nnoremap <silent> <C-S-Down> :m+<CR>
 inoremap <C-S-Up> <Esc>:m-2<CR>
 inoremap <C-S-Down> <Esc>:m+<CR>
 
-" This is to duplicate a line like sublime text 3
+" Duplicate a line like sublime text 3
 " m` and `` just sets a mark named '`' and returns to that mark
 nnoremap <leader>d m`yyp``<CR>
 inoremap <leader>d <Esc>m`yyp``<CR>A
 vnoremap <leader>d <Esc>m`yyp``<CR>
 
-" This is to hit ESC when inside a :term to get into normal mode
+" Hitting ESC when inside a :term to get into normal mode
 tnoremap <Esc> <C-\><C-N>
 
 " Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
 map <silent> <C-k><C-b> :NERDTreeToggle<CR>
 
-" This mapping inserts a blank line with Enter without leaving normal mode
+" Insert a blank line with <leader>Enter without leaving normal mode
 nnoremap <silent> <leader><CR> o<Esc>
 
-" This is to save the file with ctrl+s
+" Save files with ctrl+s
 nnoremap <C-s> :w<CR>
 inoremap <C-s> <Esc>:w<CR>
 vnoremap <C-s> <Esc>:w<CR>
 
-" This is to make the whole word search proc with <leader>/
+" Make the whole-word search proc with <leader>/
 command! -nargs=1 SearchWord call SearchWord(<f-args>)
 nnoremap <leader>/ :SearchWord 
