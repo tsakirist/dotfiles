@@ -13,7 +13,7 @@
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC 
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 " Plugins will be downloaded under the specified directory
@@ -40,7 +40,7 @@ call plug#end()
 
 " --------------------- General configurations ---------------------
 
-" Function/command to zoom-in and zoom-out from a window
+" Function to zoom-in and zoom-out from a window
 function! s:ZoomToggle() abort
     if exists('t:zoomed') && t:zoomed
         execute t:zoom_winrestcmd
@@ -53,6 +53,13 @@ function! s:ZoomToggle() abort
     endif
 endfunction
 
+" Function to trim trailing whitespace
+function! TrimTrailWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfunction
+
 " Function to make a whole word search faster
 function! SearchWord(word)
     let @/ = '\<' . a:word . '\>'
@@ -63,7 +70,7 @@ endfunction
 augroup colorset
     autocmd!
     let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-    autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white }) 
+    autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white })
   augroup END
 
 " Coloring configurations
@@ -103,7 +110,7 @@ endif
 "autocmd vimenter * NERDTree
 
 " Close NERDTree automatically when it is the only window left open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Highlight the current line and also highlight the column @120 (ruler)
 " These have been disabled even though they are much needed, because they slow down the the moving up/down process
@@ -123,6 +130,9 @@ let g:NERDSpaceDelims=1
 
 " Change the delete sign of git-signify from '_' to '-'
 let g:signify_sign_delete = '-'
+
+" Remove trailing whitespaces on file save
+autocmd BufWritePre * :call TrimTrailWhitespace()
 
 " --------------------- Keybindings ---------------------
 
@@ -158,7 +168,11 @@ vnoremap <C-s> <Esc>:w<CR>
 
 " Make the whole-word search proc with <leader>/
 command! -nargs=1 SearchWord call SearchWord(<f-args>)
-nnoremap <leader>/ :SearchWord 
+nnoremap <leader>/ :SearchWord
 
 " Easiliy toggle comments @NERDCommenter, this mapping works on all modes
 map <leader><leader> <leader>c<Space><CR>
+
+" Clear highlighting on escape in normal mode
+nnoremap <esc> :noh<return><esc>
+nnoremap <esc>^[ <esc>^[
