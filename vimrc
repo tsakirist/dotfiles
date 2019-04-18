@@ -31,6 +31,10 @@ Plug 'scrooloose/nerdtree'
 Plug 'ervandew/supertab'
 Plug 'mhinz/vim-signify'
 
+if has('nvim')
+    Plug 'vim-airline/vim-airline'
+endif
+
 " List ends here. Plugins become visible to Vim after this call
 call plug#end()
 
@@ -88,10 +92,12 @@ set tabstop=4
 " Controls the number of space characeters inserted for identation
 set shiftwidth=4
 
-" These are required to enable powerline
-set rtp+=/home/tsakiris/.local/lib/python2.7/site-packages/powerline/bindings/vim
-set laststatus=2
-set t_Co=256
+" These are required to enable powerline only for vim, NOT neovim
+if !has('nvim')
+    set rtp+=/home/tsakiris/.local/lib/python2.7/site-packages/powerline/bindings/vim
+    set laststatus=2
+    set t_Co=256
+endif
 
 " Open NERDTree automatically when vim starts
 "autocmd vimenter * NERDTree
@@ -153,3 +159,6 @@ vnoremap <C-s> <Esc>:w<CR>
 " Make the whole-word search proc with <leader>/
 command! -nargs=1 SearchWord call SearchWord(<f-args>)
 nnoremap <leader>/ :SearchWord 
+
+" Easiliy toggle comments @NERDCommenter, this mapping works on all modes
+map <leader><leader> <leader>c<Space><CR>
