@@ -30,6 +30,8 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdtree'
 Plug 'ervandew/supertab'
 Plug 'mhinz/vim-signify'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'deoplete-plugins/deoplete-jedi'
 
 if has('nvim')
     Plug 'vim-airline/vim-airline'
