@@ -104,9 +104,10 @@ export VISUAL=nvim
 export EDITOR="$VISUAL"
 
 # ----------------------------------------------------- Functions -----------------------------------------------------
+
 # NOTE:
 # The defined functions below follow the POSIX standard for functions, for sh.
-# Without using the keyword `function`
+# i.e. without using the keyword `function`
 
 # This function returns an approximation of the memory usage of a process
 mem () {
@@ -149,6 +150,7 @@ serve() {
         cd $1
         served_path=$(pwd)
         echo "Serving '$served_path' ..."
+        echo "IP: $(hostname -I)"
         python3 -m http.server
         cd $saved_path
     else

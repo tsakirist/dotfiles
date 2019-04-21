@@ -80,8 +80,7 @@ function _bashrc() {
     _checkfile bashrc
     echo -e "${thunder} Setting ${bold}${red}.bashrc${reset} ..."
     cp -v --backup=numbered bashrc ~/.bashrc
-    echo "Sourcing ~/.bashrc ..."
-    source ~/.bashrc
+    echo -e "You should source the ${bold}${red}~/.bashrc${reset} for the changes to have effect ..."
 }
 
 function _bashaliases() {

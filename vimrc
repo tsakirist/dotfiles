@@ -137,7 +137,7 @@ set textwidth=120
 let g:NERDSpaceDelims=1
 
 " Change the delete sign of git-signify from '_' to '-'
-let g:signify_sign_delete = '-'
+let g:signify_sign_delete='-'
 
 " Remove trailing whitespaces on file save
 autocmd BufWritePre * :call TrimTrailWhitespace()
@@ -185,9 +185,14 @@ nnoremap <leader>/ :SearchWord
 " Easiliy toggle comments @NERDCommenter, this mapping works on all modes
 map <leader><leader> <leader>c<Space><CR>
 
-" Clear highlighting on escape in normal mode
+" Clear highlighting with escape when in normal mode
 nnoremap <silent> <esc> :noh<return><esc>
 nnoremap <silent> <esc>^[ <esc>^[
 
-" Command to source the vimrc automatically
+" Keymap to source the vimrc automatically
 nnoremap <silent> <leader>sc :source $MYVIMRC<CR>
+
+" Keymaps to quit current buffer with Ctrl+q
+nnoremap <silent> <C-q> <Esc>:q<CR>
+inoremap <silent> <C-q> <Esc>:q<CR>
+vnoremap <silent> <C-q> <Esc>:q<CR>

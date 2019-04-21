@@ -25,6 +25,7 @@ alias fstat='stat --format "%a"'
 alias pf='ps aux | grep'
 alias lsize='du -sh * | sort -hr'
 alias showkernels='dpkg --list | grep linux-image'
+alias sb='echo "Sourcing ~/.bashrc ..." && source ~/.bashrc'
 
 # This is for neofetch
 alias neo='neofetch'
@@ -50,7 +51,7 @@ alias cclean='[ -d build ] && make clean -C build && rm -rI build'
 # This is to change launcher position @ Ubuntu 16.04
 alias lpos='gsettings set com.canonical.Unity.Launcher launcher-position'
 
-# This provides vim with the argument '-p' that opens file in tabs
+# This provides nvim with the argument '-p' that opens multiple file in seperate tabs
 alias vim='nvim -p'
 alias vi='nvim -p'
 alias nvi='nvim -p'
