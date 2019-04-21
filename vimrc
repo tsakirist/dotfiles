@@ -126,6 +126,9 @@ set splitbelow
 set splitright
 
 " Set the maximum text width before vim automatically wraps it
+" 't' is required in format options to wrap text in insert mode
+" if a line is longer than textwidth it may not be wraped if 'l' is in format options
+set fo+=t
 set textwidth=120
 
 " Add space after commenting with NerdCommenter
@@ -144,10 +147,14 @@ command! ZoomToggle call s:ZoomToggle()
 nnoremap <silent> <leader>z :ZoomToggle<CR>
 
 " Keybinds to move lines like sublime text 3
+" https://vim.fandom.com/wiki/Moving_lines_up_or_down
+" gv=gv re-selects the visual block after each operation
 nnoremap <silent> <C-S-Up> :m-2<CR>
 nnoremap <silent> <C-S-Down> :m+<CR>
-inoremap <C-S-Up> <Esc>:m-2<CR>
-inoremap <C-S-Down> <Esc>:m+<CR>
+inoremap <silent> <C-S-Up> <Esc>:m-2<CR>
+inoremap <silent> <C-S-Down> <Esc>:m+<CR>
+vnoremap <silent> <C-S-Up> :m '<-2<CR>gv=gv
+vnoremap <silent> <C-S-Down> :m '>+1<CR>gv=gv
 
 " Duplicate a line like sublime text 3
 " m` and `` just sets a mark named '`' and returns to that mark
@@ -177,5 +184,8 @@ nnoremap <leader>/ :SearchWord
 map <leader><leader> <leader>c<Space><CR>
 
 " Clear highlighting on escape in normal mode
-nnoremap <esc> :noh<return><esc>
-nnoremap <esc>^[ <esc>^[
+nnoremap <silent> <esc> :noh<return><esc>
+nnoremap <silent> <esc>^[ <esc>^[
+
+" Command to source the vimrc automatically
+nnoremap <silent> <leader>sc :source $MYVIMRC<CR>

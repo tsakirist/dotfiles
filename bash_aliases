@@ -51,6 +51,7 @@ alias cclean='[ -d build ] && make clean -C build && rm -rI build'
 alias lpos='gsettings set com.canonical.Unity.Launcher launcher-position'
 
 # This provides vim with the argument '-p' that opens file in tabs
-alias vim='vim -p'
+alias vim='nvim -p'
+alias vi='nvim -p'
 alias nvim='nvim -p'
 alias nv='nvim ~/.vimrc'

@@ -49,7 +49,8 @@ function _prompt() {
 function _checkfile() {
     if [ ! -f "$1" ]; then
         echo "${bold}${red}ERROR${reset}: Can't find ${1} in this directory."
-        echo "You should run the installer from within the github repository. (git clone https://github.com/tsakirist/configurations.git)"
+        echo "You should run the installer from within the github repository."
+             "git clone https://github.com/tsakirist/configurations.git"
         exit 1
     fi
 }
@@ -99,6 +100,20 @@ function _vimrc() {
     echo -e "${thunder} Setting ${bold}${red}.vimrc${reset} ..."
     cp -v --backup=numbered vimrc ~/.vimrc
     vim +PlugInstall +qall
+}
+
+function _nvim() {
+    echo -e "${thunder} Installing ${bold}${red}neovim${reset} ..."
+    sudo apt install -y neovim
+}
+
+function _nvimrc() {
+    _checkfile vimrc && _checkfile init.vim
+    echo -e "${thunder} Setting ${bold}${red}.vimrc and init.vim${reset} ..."
+    cp -v --backup=numbered vimrc ~/.vimrc
+    mkdir -v -p ~/.config/nvim/
+    cp -v --backup=numbered init.vim ~/.config/nvim/
+    nvim +PlugInstall +qall
 }
 
 function _tmux() {
@@ -258,7 +273,7 @@ function _fresh_install() {
     _gnometweaks
     _gnomeshellextensions
     _gitconfig && _gitsofancy
-    _vim && _vimrc
+    _nvim && _nvimrc
     _tmux && _tmuxconf
     _powerline && _powerlineconfig
     _sublimetext && ( _sublimesettings ; _sublimekeybindings ; _sublimepackages )
@@ -281,7 +296,7 @@ function _selective_install_1b1() {
     _prompt _gnometweaks
     _prompt _gnomeshellextensions
     _prompt _gitconfig ; _prompt _gitsofancy
-    _prompt _vim ; _prompt _vimrc
+    _prompt _nvim ; _prompt _nvimrc
     _prompt _tmux ; _prompt _tmuxconf
     _prompt _powerline ; _prompt _powerlineconfig
     _prompt _sublimetext ; _prompt _sublimesettings ; _prompt _sublimekeybindings ; _prompt _sublimepackages
@@ -308,8 +323,8 @@ function _guimenu() {
         "12" "    gnome-shell-extensions" \
         "13" "    gitconfig" \
         "14" "    gitsofancy" \
-        "15" "    vim" \
-        "16" "    vimrc" \
+        "15" "    neovim" \
+        "16" "    neovimrc" \
         "17" "    tmux" \
         "18" "    tmux.conf" \
         "19" "    powerline" \
@@ -344,8 +359,8 @@ function _selective_install_1b1_gui() {
             12) _gnomeshellextensions ;;
             13) _gitconfig ;;
             14) _gitsofancy ;;
-            15) _vim ;;
-            16) _vimrc ;;
+            15) _nvim ;;
+            16) _nvimrc ;;
             17) _tmux ;;
             18) _tmuxconf ;;
             19) _powerline ;;
