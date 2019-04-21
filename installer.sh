@@ -104,7 +104,9 @@ function _vimrc() {
 
 function _nvim() {
     echo -e "${thunder} Installing ${bold}${red}neovim${reset} ..."
-    sudo apt install -y neovim
+    sudo sh -c 'echo "deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu bionic main" > \
+                /etc/apt/sources.list.d/neovim.list'
+    sudo apt update && sudo apt install -y neovim
 }
 
 function _nvimrc() {
@@ -130,7 +132,8 @@ function _tmuxconf() {
 function _sublimetext() {
     echo -e "${thunder} Installing ${bold}${red}SublimeText 3${reset} ..."
     wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-    echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+    sudo sh -c 'echo "deb https://download.sublimetext.com/ apt/stable/" > \
+                /etc/apt/sources.list.d/sublime-text.list'
     sudo apt update && sudo apt install -y sublime-text
 }
 

@@ -99,12 +99,17 @@ fi
 # This command allows to enter a directory by merely typing the directory name w/o 'cd'
 shopt -s autocd
 
+# Make neovim default editor
+export VISUAL=nvim
+export EDITOR="$VISUAL"
+
+# ----------------------------------------------------- Functions -----------------------------------------------------
 # NOTE:
 # The defined functions below follow the POSIX standard for functions, for sh.
 # Without using the keyword `function`
 
 # This function returns an approximation of the memory usage of a process
-mem () { 
+mem () {
     ps -eo rss,pid,euser,args:100 --sort %mem | grep --color=auto -v grep | grep --color=auto -i $@ \
         | awk '{printf $1/1024 " MB"; $1=""; print }'
 }
