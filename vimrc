@@ -196,3 +196,7 @@ nnoremap <silent> <leader>sc :source $MYVIMRC<CR>
 nnoremap <silent> <C-q> <Esc>:q<CR>
 inoremap <silent> <C-q> <Esc>:q<CR>
 vnoremap <silent> <C-q> <Esc>:q<CR>
+
+" Keymaps to open terminals horizontally and vertically
+command! -nargs=* HT split | terminal <args>
+command! -nargs=* VT vsplit | terminal <args>
