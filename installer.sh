@@ -2,7 +2,10 @@
 
 # This script provides an easy way to install my preferred packages along with my configurations.
 # Author: Tsakiris Tryfon
-# This version uses local files from github repository.
+
+# --------------------------------------------- Whiptail size variables ------------------------------------------------
+SIZE=$(stty size)
+ROWS=$(stty size | cut -d ' ' -f 1)
 
 # -------------------------------------------------- Font commands -----------------------------------------------------
 
@@ -243,20 +246,15 @@ function _gnomeshellextensions() {
     sudo apt install -y gnome-shell-extension-weather gnome-shell-extension-dashtodock
 }
 
-function _showinfo() {
-    echo "${bold}${start_underline}" \
-         "This script provides an easy way to install my packages and my configurations." \
-         "${end_underline}${reset}"
-    echo "Script is executed from: ${bold}$(pwd)${reset}"
-}
-
 function _showmenu() {
-    echo "What would you like to do?"
-    echo "1. ${bold}${red}Fresh${reset} install?"
-    echo "2. ${bold}${red}Selectively${reset} install 1-by-1?"
-    echo "3. ${bold}${red}Selectively${reset} install 1-by-1 with GUI?"
-    read -n 1 -s input
-    echo "---------------------------------------------------------------------------------"
+    _checkcommand whiptail
+    INPUT=$(whiptail --title "This script provides an easy way to install my packages and my configurations." \
+        --menu "\nScript is executed from $(pwd)" ${SIZE} $((ROWS-10)) \
+        "1"  "    Fresh installation" \
+        "2"  "    Selective installation" \
+        "Q"  "    Quit" \
+        3>&1 1>&2 2>&3)
+    echo $INPUT
 }
 
 # ----------------------------------------------------- Installers -----------------------------------------------------
@@ -284,33 +282,9 @@ function _fresh_install() {
     _reboot
 }
 
-function _selective_install_1b1() {
-    _checkcommand curl && _checkcommand git
-    _prompt _dconfsettings
-    _prompt _bashrc ; _prompt _bashaliases
-    _prompt _preload
-    _prompt _vmswappiness
-    _prompt _xclip
-    _prompt _neofetch
-    _prompt _htop
-    _prompt _cmake
-    _prompt _tree
-    _prompt _gnometweaks
-    _prompt _gnomeshellextensions
-    _prompt _gitconfig ; _prompt _gitsofancy
-    _prompt _nvim ; _prompt _nvimrc
-    _prompt _tmux ; _prompt _tmuxconf
-    _prompt _powerline ; _prompt _powerlineconfig
-    _prompt _sublimetext ; _prompt _sublimesettings ; _prompt _sublimekeybindings ; _prompt _sublimepackages
-    _prompt _vscode
-    _prompt _googlechrome
-}
-
 function _guimenu() {
-    local SIZE=$(stty size)
-    local ROWS=$(stty size | cut -d ' ' -f 1)
     OPT=$(whiptail --title "Selectively install packages/configurations" \
-        --menu "Select the packages and the configurations that you want to install/set." ${SIZE} $((ROWS-10)) \
+        --menu "\nSelect the packages and the configurations that you want to install/set." ${SIZE} $((ROWS-10)) \
         "1"  "    dconf_settings" \
         "2"  "    bashrc" \
         "3"  "    bash_aliases" \
@@ -322,8 +296,7 @@ function _guimenu() {
         "9"  "    cmake" \
         "10" "    tree" \
         "11" "    gnome-tweaks" \
-        "12" "    gnome-shell-extensions" \
-        "13" "    gitconfig" \
+        "12" "    gnome-shell-extensions" \ "13" "    gitconfig" \
         "14" "    gitsofancy" \
         "15" "    neovim" \
         "16" "    neovimrc" \
@@ -341,8 +314,8 @@ function _guimenu() {
         3>&1 1>&2 2>&3)
 }
 
-function _selective_install_1b1_gui() {
-    _checkcommand curl && _checkcommand git && _checkcommand whiptail
+function _selective_install() {
+    _checkcommand curl && _checkcommand git
     exit_status=0
     while [[ $exit_status -eq 0 ]]; do
         _guimenu
@@ -388,18 +361,13 @@ if [[ $# -eq 0 ]]; then
     sudo apt update
 fi
 
-clear
-_showinfo
 _showmenu
 
-if [[ $input -eq 1 ]]; then
+if [[ $INPUT -eq 1 ]]; then
     _fresh_install
-elif [[ $input -eq 2 ]]; then
-    _selective_install_1b1
-elif [[ $input -eq 3 ]]; then
-    _selective_install_1b1_gui
+elif [[ $INPUT -eq 2 ]]; then
+    _selective_install
 else
-    echo -e "[${red}x${reset}] Wrong input. Available options: [1, 2, 3]."
     exit 1
 fi
 

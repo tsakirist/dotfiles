@@ -100,8 +100,14 @@ set expandtab
 " Controls the number of space characters inserted when pressing the tab key
 set tabstop=4
 
-" Controls the number of space characeters inserted for identation
+" Controls the number of space characters inserted for identation
 set shiftwidth=4
+
+" This makes searches case insensitive
+set ignorecase
+
+" This makes searches with a single capital letter to be case sensitive
+set smartcase
 
 " These are required to enable powerline only for vim, NOT neovim
 if !has('nvim')
