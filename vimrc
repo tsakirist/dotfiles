@@ -91,8 +91,6 @@ set numberwidth=1
 " This is used to control the Ctrl + C command and copy to the system's clipboard
 set clipboard=unnamedplus
 
-" This is used to preserve the clipboard when vim exits
-autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
 
 " Insert spaces when <Tab> is pressed. With this option set, if you want to enter a real tab character use Ctrl-V<Tab> key sequence
 set expandtab
@@ -115,12 +113,6 @@ if !has('nvim')
     set laststatus=2
     set t_Co=256
 endif
-
-" Open NERDTree automatically when vim starts
-"autocmd vimenter * NERDTree
-
-" Close NERDTree automatically when it is the only window left open
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Highlight the current line and also highlight the column @120 (ruler)
 if has('nvim')
@@ -145,8 +137,19 @@ let g:NERDSpaceDelims=1
 " Change the delete sign of git-signify from '_' to '-'
 let g:signify_sign_delete='-'
 
+let g:airline_theme='term'
+
 " Remove trailing whitespaces on file save
 autocmd BufWritePre * :call TrimTrailWhitespace()
+
+" This is used to preserve the clipboard when vim exits
+autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
+
+" Close NERDTree automatically when it is the only window left open
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Open NERDTree automatically when vim starts
+"autocmd vimenter * NERDTree
 
 " --------------------- Keybindings ---------------------
 
