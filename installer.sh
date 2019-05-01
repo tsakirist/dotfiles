@@ -4,6 +4,7 @@
 # Author: Tsakiris Tryfon
 
 # --------------------------------------------- Whiptail size variables ------------------------------------------------
+
 SIZE=$(stty size)
 ROWS=$(stty size | cut -d ' ' -f 1)
 
@@ -43,7 +44,6 @@ function _prompt() {
     if [[ $input =~ ^([yY]) ]]; then
         exec=true
     fi
-
     if [[ $exec == "true" ]]; then
         $1
     fi
@@ -155,6 +155,12 @@ function _sublimepackages() {
     _checkfile "sublime/Package Control.sublime-settings"
     echo -e "${thunder} Setting ${bold}${red}sublime packages${reset} ..."
     cp -v --backup=numbered "sublime/Package Control.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
+}
+
+function _sublimeterminus() {
+    _checkfile "sublime/Terminus.sublime-settings"
+    echo -e "${thunder} Setting ${bold}${red}sublime terminus settings${reset} ..."
+    cp -v --backup=numbered "sublime/Terminus.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
 function _vscode() {
@@ -276,7 +282,7 @@ function _fresh_install() {
     _nvim && _nvimrc
     _tmux && _tmuxconf
     _powerline && _powerlineconfig
-    _sublimetext && ( _sublimesettings ; _sublimekeybindings ; _sublimepackages )
+    _sublimetext && (_sublimesettings ; _sublimekeybindings ; _sublimepackages ; _sublimeterminus)
     _vscode
     _googlechrome
     _reboot
@@ -296,7 +302,8 @@ function _guimenu() {
         "9"  "    cmake" \
         "10" "    tree" \
         "11" "    gnome-tweaks" \
-        "12" "    gnome-shell-extensions" \ "13" "    gitconfig" \
+        "12" "    gnome-shell-extensions" \
+        "13" "    gitconfig" \
         "14" "    gitsofancy" \
         "15" "    neovim" \
         "16" "    neovimrc" \
@@ -308,8 +315,9 @@ function _guimenu() {
         "22" "    sublime settings" \
         "23" "    sublime keybindings" \
         "24" "    sublime packages" \
-        "25" "    vscode" \
-        "26" "    google chrome" \
+        "25" "    sublime terminus settings" \
+        "26" "    vscode" \
+        "27" "    google chrome" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -344,8 +352,9 @@ function _selective_install() {
             22) _sublimesettings ;;
             23) _sublimekeybindings ;;
             24) _sublimepackages ;;
-            25) _vscode ;;
-            26) _googlechrome ;;
+            25) _sublimeterminus ;;
+            26) _vscode ;;
+            27) _googlechrome ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit

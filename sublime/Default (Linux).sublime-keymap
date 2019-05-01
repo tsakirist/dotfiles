@@ -23,4 +23,8 @@
             "cells": [[0, 0, 1, 1], [1, 0, 2, 1]]
         }
     },
+    {
+        "keys": ["ctrl+`"],
+        "command": "toggle_terminus_panel"
+    },
 ]
