@@ -139,16 +139,16 @@ function _sublimetext() {
     sudo apt update && sudo apt install -y sublime-text
 }
 
-function _sublimekeybindings() {
-    _checkfile "sublime/Default (Linux).sublime-keymap"
-    echo -e "${thunder} Setting ${bold}${red}sublime keybindings${reset} ..."
-    cp -v --backup=numbered "sublime/Default (Linux).sublime-keymap" "$HOME/.config/sublime-text-3/Packages/User/"
-}
-
 function _sublimesettings() {
     _checkfile sublime/Preferences.sublime-settings
     echo -e "${thunder} Setting ${bold}${red}sublime settings${reset} ..."
     cp -v --backup=numbered "sublime/Preferences.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
+}
+
+function _sublimekeybindings() {
+    _checkfile "sublime/Default (Linux).sublime-keymap"
+    echo -e "${thunder} Setting ${bold}${red}sublime keybindings${reset} ..."
+    cp -v --backup=numbered "sublime/Default (Linux).sublime-keymap" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
 function _sublimepackages() {
@@ -161,6 +161,10 @@ function _sublimeterminus() {
     _checkfile "sublime/Terminus.sublime-settings"
     echo -e "${thunder} Setting ${bold}${red}sublime terminus settings${reset} ..."
     cp -v --backup=numbered "sublime/Terminus.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
+}
+
+function _sublimeallconfigs() {
+    _sublimesettings && _sublimekeybindings && _sublimepackages && _sublimeterminus
 }
 
 function _vscode() {
@@ -312,12 +316,9 @@ function _guimenu() {
         "19" "    powerline" \
         "20" "    powerline_config" \
         "21" "    sublime text 3" \
-        "22" "    sublime settings" \
-        "23" "    sublime keybindings" \
-        "24" "    sublime packages" \
-        "25" "    sublime terminus settings" \
-        "26" "    vscode" \
-        "27" "    google chrome" \
+        "22" "    sublime text 3: settings + keybindings + packages" \
+        "23" "    vscode" \
+        "24" "    google chrome" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -349,12 +350,9 @@ function _selective_install() {
             19) _powerline ;;
             20) _powerlineconfig ;;
             21) _sublimetext ;;
-            22) _sublimesettings ;;
-            23) _sublimekeybindings ;;
-            24) _sublimepackages ;;
-            25) _sublimeterminus ;;
-            26) _vscode ;;
-            27) _googlechrome ;;
+            22) _sublimeallconfigs ;;
+            23) _vscode ;;
+            24) _googlechrome ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit
@@ -363,12 +361,6 @@ function _selective_install() {
 }
 
 # ------------------------------------------------------- Main ---------------------------------------------------------
-
-# In case we don't want to update the packages lists for testing we just need to provide a cmd argument
-if [[ $# -eq 0 ]]; then
-    echo -e "${thunder} Updating apt package lists ..."
-    sudo apt update
-fi
 
 _showmenu
 
