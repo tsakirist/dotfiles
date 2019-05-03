@@ -1,6 +1,6 @@
 # configurations
 
-This repository holds all the required pieces to install my packages and my configurations on a new Linux machine.
+This repository holds all the necessary files needed to install my configurations and settings on a new Linux machine.
 
 ## Instructions
 
