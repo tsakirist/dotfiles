@@ -149,6 +149,9 @@ autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
 " Close NERDTree automatically when it is the only window left open
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+" Automatically enter in insert mode when in terminal pane
+autocmd TermOpen,BufEnter,WinEnter * if &buftype == 'terminal' | :startinsert | endif
+
 " Open NERDTree automatically when vim starts
 "autocmd vimenter * NERDTree
 
@@ -188,10 +191,6 @@ nnoremap <C-s> :w<CR>
 inoremap <C-s> <Esc>:w<CR>
 vnoremap <C-s> <Esc>:w<CR>
 
-" Make the whole-word search proc with <leader>/
-command! -nargs=1 SearchWord call SearchWord(<f-args>)
-nnoremap <leader>/ :SearchWord
-
 " Easiliy toggle comments @NERDCommenter, this mapping works on all modes
 map <leader><leader> <leader>c<Space><CR>
 
@@ -210,3 +209,7 @@ vnoremap <silent> <C-q> <Esc>:q<CR>
 " Keymaps to open terminals horizontally and vertically
 command! -nargs=* HT split  | terminal <args>
 command! -nargs=* VT vsplit | terminal <args>
+
+" Make the whole-word search proc with <leader>/
+command! -nargs=1 SearchWord call SearchWord(<f-args>)
+nnoremap <leader>/ :SearchWord
