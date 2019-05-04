@@ -137,7 +137,8 @@ let g:NERDSpaceDelims=1
 " Change the delete sign of git-signify from '_' to '-'
 let g:signify_sign_delete='-'
 
-let g:airline_theme='term'
+" let g:airline_theme='term'
+let g:airline_theme='solarized_flood'
 
 " Remove trailing whitespaces on file save
 autocmd BufWritePre * :call TrimTrailWhitespace()
@@ -207,5 +208,5 @@ inoremap <silent> <C-q> <Esc>:q<CR>
 vnoremap <silent> <C-q> <Esc>:q<CR>
 
 " Keymaps to open terminals horizontally and vertically
-command! -nargs=* HT split | terminal <args>
+command! -nargs=* HT split  | terminal <args>
 command! -nargs=* VT vsplit | terminal <args>
