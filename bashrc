@@ -110,6 +110,7 @@ export EDITOR="$VISUAL"
 # i.e. without using the keyword `function`
 
 # This function returns an approximation of the memory usage of a process
+# https://stackoverflow.com/questions/3853655/in-linux-how-to-tell-how-much-memory-processes-are-using
 mem () {
     ps -eo rss,pid,euser,args:100 --sort %mem | grep --color=auto -v grep | grep --color=auto -i $@ \
         | awk '{printf $1/1024 " MB"; $1=""; print }'

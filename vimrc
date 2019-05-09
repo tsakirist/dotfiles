@@ -1,13 +1,13 @@
-"---------------------------------------------------------------------------------------------------
+"--------------------------------------------------------------------------------------------------
 " These are common keyboard shortcuts to remind myself
 " <C-n> multiple cursors, <C-n> again to go to next, <C-x> to remove current cursor
 " <Shift+i> toggle hidden files in NERDTree
 " [count]\cc, comments out current line or count lines
 " [count]\cu, uncomments the current line or count lines
 " [count]<leader>c<space> Toggles the comment state of the lines
-"---------------------------------------------------------------------------------------------------
+"--------------------------------------------------------------------------------------------------
 
-" --------------------- Plugin installer configurations ---------------------
+" ---------------------------------- Plugin installer configurations ------------------------------
 
 " Automate the process of installing vim-plug when required
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -28,20 +28,20 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdtree'
-Plug 'ervandew/supertab'
 Plug 'mhinz/vim-signify'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'deoplete-plugins/deoplete-jedi'
-
-if has('nvim')
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-endif
+" Plug 'ervandew/supertab'
 
 " List ends here. Plugins become visible to Vim after this call
 call plug#end()
 
-" --------------------- General configurations ---------------------
+" ------------------------------------- General Configurations ------------------------------------
 
 " Function to zoom-in and zoom-out from a window
 function! s:ZoomToggle() abort
@@ -91,8 +91,8 @@ set numberwidth=1
 " This is used to control the Ctrl + C command and copy to the system's clipboard
 set clipboard=unnamedplus
 
-
-" Insert spaces when <Tab> is pressed. With this option set, if you want to enter a real tab character use Ctrl-V<Tab> key sequence
+" Insert spaces when <Tab> is pressed. With this option set, if you want to enter a real tab character use Ctrl-V<Tab>
+" key sequence
 set expandtab
 
 " Controls the number of space characters inserted when pressing the tab key
@@ -107,19 +107,10 @@ set ignorecase
 " This makes searches with a single capital letter to be case sensitive
 set smartcase
 
-" These are required to enable powerline only for vim, NOT neovim
-if !has('nvim')
-    set rtp+=/home/tsakiris/.local/lib/python2.7/site-packages/powerline/bindings/vim
-    set laststatus=2
-    set t_Co=256
-endif
-
 " Highlight the current line and also highlight the column @120 (ruler)
-if has('nvim')
-    set colorcolumn=120
-    highlight colorcolumn ctermbg=black
-    set cursorline
-endif
+set colorcolumn=120
+highlight colorcolumn ctermbg=black
+set cursorline
 
 " Open windows always below or right
 set splitbelow
@@ -155,11 +146,7 @@ autocmd TermOpen,BufEnter,WinEnter * if &buftype == 'terminal' | :startinsert | 
 " Open NERDTree automatically when vim starts
 "autocmd vimenter * NERDTree
 
-" --------------------- Keybindings ---------------------
-
-" Command and key mapping to enable the zoom-in and zoom-out
-command! ZoomToggle call s:ZoomToggle()
-nnoremap <silent> <leader>z :ZoomToggle<CR>
+" ------------------------------------------ Keybindings ------------------------------------------
 
 " Keybinds to move lines like sublime text 3
 " https://vim.fandom.com/wiki/Moving_lines_up_or_down
@@ -191,8 +178,9 @@ nnoremap <C-s> :w<CR>
 inoremap <C-s> <Esc>:w<CR>
 vnoremap <C-s> <Esc>:w<CR>
 
-" Easiliy toggle comments @NERDCommenter, this mapping works on all modes
+" Easiliy toggle comments @NERDCommenter
 map <leader><leader> <leader>c<Space><CR>
+imap <leader><leader> <Esc><leader>c<Space><CR>
 
 " Clear highlighting with escape when in normal mode
 nnoremap <silent> <esc> :noh<return><esc>
@@ -206,10 +194,20 @@ nnoremap <silent> <C-q> <Esc>:q<CR>
 inoremap <silent> <C-q> <Esc>:q<CR>
 vnoremap <silent> <C-q> <Esc>:q<CR>
 
-" Keymaps to open terminals horizontally and vertically
+" Commands/Keymaps to open terminals horizontally and vertically
 command! -nargs=* HT split  | terminal <args>
 command! -nargs=* VT vsplit | terminal <args>
+
+nnoremap <silent> <leader>ht :HT<CR>
+nnoremap <silent> <leader>vt :VT<CR>
 
 " Make the whole-word search proc with <leader>/
 command! -nargs=1 SearchWord call SearchWord(<f-args>)
 nnoremap <leader>/ :SearchWord
+
+" Command and key mapping to enable the zoom-in and zoom-out
+command! ZoomToggle call s:ZoomToggle()
+nnoremap <silent> <leader>z :ZoomToggle<CR>
+
+" ---------------------------------------- COC Intelisense ----------------------------------------
+" source ~/.vim/coc/coc.config.vim
