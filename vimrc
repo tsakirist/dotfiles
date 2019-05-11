@@ -180,7 +180,8 @@ vnoremap <C-s> <Esc>:w<CR>
 
 " Easiliy toggle comments @NERDCommenter
 map <leader><leader> <leader>c<Space><CR>
-imap <leader><leader> <Esc><leader>c<Space><CR>
+" Toggling comment in insert mode keeps insert mode :startinsert
+imap <leader><leader> <Esc><leader>c<Space>:startinsert<CR>
 
 " Clear highlighting with escape when in normal mode
 nnoremap <silent> <esc> :noh<return><esc>
