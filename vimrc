@@ -31,6 +31,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'mhinz/vim-signify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'Yggdroot/indentLine'
 
 " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
