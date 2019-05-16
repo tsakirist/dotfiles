@@ -71,13 +71,6 @@ function! SearchWord(word)
     normal n
 endfunction
 
-" Change linenumber coloring to white
-augroup colorset
-    autocmd!
-    let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-    autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white })
-  augroup END
-
 " Coloring configurations
 syntax on
 silent! colorscheme onedark
@@ -118,19 +111,13 @@ set splitbelow
 set splitright
 
 " Set the maximum text width before vim automatically wraps it
-" 't' is required in format options to wrap text in insert mode
-" if a line is longer than textwidth it may not be wraped if 'l' is in format options
-set fo+=t
 set textwidth=120
 
-" Add space after commenting with NerdCommenter
-let g:NERDSpaceDelims=1
-
-" Change the delete sign of git-signify from '_' to '-'
-let g:signify_sign_delete='-'
-
-" let g:airline_theme='term'
-let g:airline_theme='solarized_flood'
+" Format options configuration:
+" 't' is required in format options to wrap text in insert mode
+" if a line is longer than textwidth it may not be wraped if 'l' is in format options
+" Disable <CR> key from autocommenting when pressing enter in a commented line
+autocmd BufEnter * set fo+=t fo-=r
 
 " Remove trailing whitespaces on file save
 autocmd BufWritePre * :call TrimTrailWhitespace()
@@ -141,11 +128,34 @@ autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
 " Close NERDTree automatically when it is the only window left open
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" Automatically enter in insert mode when in terminal pane
-autocmd TermOpen,BufEnter,WinEnter * if &buftype == 'terminal' | :startinsert | endif
+" Groupped configurations of :term
+augroup TerminalConfigs
+    " Clear old autocommands of this group
+    autocmd!
+    " Automatically enter in insert mode when in terminal pane
+    autocmd TermOpen,BufEnter,WinEnter * if &buftype == 'terminal' | :startinsert | endif
+    " Disable linenumbering when in terminal
+    autocmd TermOpen * setlocal nonumber norelativenumber
+augroup END
+
+" Change linenumber coloring to white
+augroup colorset
+    autocmd!
+    let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
+    autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white })
+augroup END
 
 " Open NERDTree automatically when vim starts
 "autocmd vimenter * NERDTree
+"
+" Add space after commenting with NerdCommenter
+let g:NERDSpaceDelims=1
+
+" Change the delete sign of git-signify from '_' to '-'
+let g:signify_sign_delete='-'
+
+" let g:airline_theme='term'
+let g:airline_theme='solarized_flood'
 
 " ------------------------------------------ Keybindings ------------------------------------------
 
