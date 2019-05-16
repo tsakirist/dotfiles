@@ -176,6 +176,12 @@ function _vscode() {
     sudo apt update && sudo apt install -y code
 }
 
+function _vscodeextensions() {
+    _checkfile code.extensions
+    echo -e "${thunder} Installing ${bold}${red}vscode extensions${reset} ..."
+    cat code.extensions | xargs -L1 code --install-extension
+}
+
 function _googlechrome() {
     echo -e "${thunder} Installing ${bold}${red}Google Chrome${reset} ..."
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -287,7 +293,7 @@ function _fresh_install() {
     _tmux && _tmuxconf
     _powerline && _powerlineconfig
     _sublimetext && (_sublimesettings ; _sublimekeybindings ; _sublimepackages ; _sublimeterminus)
-    _vscode
+    _vscode && _vscodeextensions
     _googlechrome
     _reboot
 }
@@ -318,6 +324,7 @@ function _guimenu() {
         "21" "    sublime text 3" \
         "22" "    sublime text 3: settings + keybindings + packages" \
         "23" "    vscode" \
+        "24" "    vscode extensions" \
         "24" "    google chrome" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
@@ -352,7 +359,8 @@ function _selective_install() {
             21) _sublimetext ;;
             22) _sublimeallconfigs ;;
             23) _vscode ;;
-            24) _googlechrome ;;
+            24) _vscodeextensions ;;
+            25) _googlechrome ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit
