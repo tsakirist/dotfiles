@@ -169,9 +169,11 @@ inoremap <silent> <C-S-Down> <Esc>:m+<CR>
 vnoremap <silent> <C-S-Up> :m '<-2<CR>gv=gv
 vnoremap <silent> <C-S-Down> :m '>+1<CR>gv=gv
 
-" Duplicate a line like sublime text 3
-" m` and `` just sets a mark named '`' and returns to that mark
-nnoremap <leader>d m`yyp``<CR>
+" Duplicate the current line
+" 'm' sets a mark that we can return afterwards by using '`' followed by the mark's name
+" :normal properly handles a [count] prepended before the command e.g. 3w, 5d etc
+" http://vimcasts.org/episodes/creating-mappings-that-accept-a-count/
+nnoremap <leader>d  :normal m`yyp``<CR>
 inoremap <leader>d <Esc>m`yyp``<CR>A
 vnoremap <leader>d <Esc>m`yyp``<CR>
 
