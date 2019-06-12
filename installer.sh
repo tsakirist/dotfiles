@@ -377,6 +377,6 @@ if [[ $INPUT -eq 1 ]]; then
 elif [[ $INPUT -eq 2 ]]; then
     _selective_install
 else
-    exit 1
+    exit 0
 fi
 
