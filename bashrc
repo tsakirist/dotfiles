@@ -106,7 +106,7 @@ export EDITOR="$VISUAL"
 # ----------------------------------------------------- Functions -----------------------------------------------------
 
 # NOTE:
-# The defined functions below follow the POSIX standard for functions, for sh.
+# The defined functions below follow the POSIX standard for functions.
 # i.e. without using the keyword `function`
 
 # This function returns an approximation of the memory usage of a process
@@ -140,7 +140,7 @@ extract () {
     done
 }
 
-# This command serves the contents of the passed directory in an HTTP server port 8000
+# This command serves the contents of the passed directory in an HTTP server at port:8000
 serve() {
     if [[ $# -ne 0 ]]; then
         if [ ! -d $1 ]; then
