@@ -155,6 +155,8 @@ serve() {
         python3 -m http.server
         cd $saved_path
     else
+        echo "Serving current directory '.'"
+        echo "IP: $(hostname -I)"
         python3 -m http.server
     fi
 }
