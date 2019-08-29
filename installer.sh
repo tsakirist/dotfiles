@@ -256,6 +256,11 @@ function _gnomeshellextensions() {
     sudo apt install -y gnome-shell-extension-weather gnome-shell-extension-dashtodock
 }
 
+function _java() {
+    echo -e "${thunder} Installing ${bold}${red}java and javac${reset} ..."
+    sudo apt install -y default-jre default-jdk
+}
+
 function _showmenu() {
     _checkcommand whiptail
     INPUT=$(whiptail --title "This script provides an easy way to install my packages and my configurations." \
@@ -314,10 +319,11 @@ function _guimenu() {
         "18" "    tmux.conf" \
         "19" "    powerline" \
         "20" "    powerline_config" \
-        "21" "    sublime text 3" \
-        "22" "    sublime text 3: settings + keybindings + packages" \
-        "23" "    vscode" \
-        "24" "    google chrome" \
+        "21" "    java & javac" \
+        "22" "    sublime text 3" \
+        "23" "    sublime text 3: settings + keybindings + packages" \
+        "24" "    vscode" \
+        "25" "    google chrome" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -348,10 +354,11 @@ function _selective_install() {
             18) _tmuxconf ;;
             19) _powerline ;;
             20) _powerlineconfig ;;
-            21) _sublimetext ;;
-            22) _sublimeallconfigs ;;
-            23) _vscode ;;
-            24) _googlechrome ;;
+            21) _java ;;
+            22) _sublimetext ;;
+            23) _sublimeallconfigs ;;
+            24) _vscode ;;
+            25) _googlechrome ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit
