@@ -143,7 +143,7 @@ extract () {
 # This command serves the contents of the passed directory in an HTTP server at port:8000
 serve() {
     if [[ $# -ne 0 ]]; then
-        if [ ! -d $1 ]; then
+        if [ ! -d "$1" ]; then
             echo "ERROR: '$1' is not a valid directory."
             return 1
         fi
@@ -159,4 +159,15 @@ serve() {
         echo "IP: $(hostname -I)"
         python3 -m http.server
     fi
+}
+
+# This fixes the permissions on files and directories
+perms() {
+    if [[ $# -eq 0 ]]; then
+        dest=.
+    else
+        dest=$1
+    fi
+    find "$dest" -type d | xargs chmod -v 755
+    find "$dest" -type f | xargs chmod -v 644
 }
