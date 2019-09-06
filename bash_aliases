@@ -26,6 +26,7 @@ alias pf='ps aux | grep'
 alias lsize='du -sh * | sort -hr'
 alias showkernels='dpkg --list | grep linux-image'
 alias sc='echo "Sourcing ~/.bashrc ..." && source ~/.bashrc'
+alias openports='lsof -i -n -P'
 
 # This is for neofetch
 alias neo='neofetch'
