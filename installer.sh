@@ -39,7 +39,7 @@ function _reboot() {
 
 function _prompt() {
     local exec=false
-    echo -e "${bullet} Do you want to download/install ${bold}${red}${1//_}${reset} [Y/n] "
+    echo -e "${bullet} Do you want to download/install ${bold}${red}${1}${reset} [Y/n] "
     read -n 1 -s input
     if [[ $input =~ ^([yY]) ]]; then
         exec=true

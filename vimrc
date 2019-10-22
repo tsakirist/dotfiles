@@ -217,7 +217,7 @@ nnoremap <silent> <leader>vt :VT<CR>
 
 " Make the whole-word search proc with <leader>/
 command! -nargs=1 SearchWord call SearchWord(<f-args>)
-nnoremap <leader>/ :SearchWord
+nnoremap <leader>/ :SearchWord 
 
 " Command and key mapping to enable the zoom-in and zoom-out
 command! ZoomToggle call s:ZoomToggle()
