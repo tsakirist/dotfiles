@@ -91,9 +91,8 @@ if [ -f `which powerline-daemon` ]; then
 fi
 
 # Add this to automatically start tmux with new shell
-tmux attach &> /dev/null
 if [ -z "$TMUX" ]; then
-    tmux
+    tmux attach 2> /dev/null || tmux new-session
 fi
 
 # This command allows to enter a directory by merely typing the directory name w/o 'cd'
