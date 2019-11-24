@@ -217,11 +217,17 @@ nnoremap <silent> <leader>vt :VT<CR>
 
 " Make the whole-word search proc with <leader>/
 command! -nargs=1 SearchWord call SearchWord(<f-args>)
-nnoremap <leader>/ :SearchWord 
+nnoremap <leader>/ :SearchWord
 
 " Command and key mapping to enable the zoom-in and zoom-out
 command! ZoomToggle call s:ZoomToggle()
 nnoremap <silent> <leader>z :ZoomToggle<CR>
+
+" Add mouse support and change the default mouse scrolling wheel options
+set mouse=a
+nnoremap <ScrollWheelDown> 4<C-e>
+xnoremap <ScrollWheelUp>   4<C-y>
+xnoremap <ScrollWheelDown> 4<C-e>
 
 " ---------------------------------------- COC Intelisense ----------------------------------------
 " source ~/.vim/coc/coc.config.vim
