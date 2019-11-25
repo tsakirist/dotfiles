@@ -403,11 +403,11 @@ mousekeys-enable=false
 automatic-timezone=true
 
 [org/gnome/desktop/background]
-picture-uri='file:///home/tsakiris/Pictures/Wallpapers/175230.jpg'
+picture-uri='file:///usr/share/backgrounds/warty-final-ubuntu.png'
 color-shading-type='solid'
-primary-color='#000000'
+primary-color='#2c001e'
 picture-options='zoom'
-secondary-color='#000000'
+secondary-color='#2c001e'
 
 [org/gnome/desktop/input-sources]
 xkb-options=['grp:alt_shift_toggle']
