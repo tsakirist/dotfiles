@@ -108,13 +108,38 @@ function _bashrc() {
     _checkfile bashrc
     _print s .bashrc
     cp -v --backup=numbered bashrc ~/.bashrc
-    echo -e "You should source the ${bold}${red}~/.bashrc${reset} for the changes to have effect ..."
 }
 
 function _bashaliases() {
     _checkfile bash_aliases
     _print s .bash_aliases
     cp -v --backup=numbered bash_aliases ~/.bash_aliases
+}
+
+function _zsh() {
+    _print i zsh
+    sudo apt install -y zsh
+    # Issue chsh -s $(which zsh) to change the default shell
+}
+
+function _zshrc() {
+    _checkfile zshrc
+    _print s .zshrc
+    cp -v --backup=numbered zshrc ~/.zshrc
+}
+
+function _zshaliases() {
+    _checkfile zsh_aliases
+    _print s .zsh_aliases
+    cp -v --backup=numbered zsh_aliases ~/.zsh_aliases
+}
+
+function _omz() {
+    local zsh_custom=${HOME}/.oh-my-zsh/custom
+    _print i oh-my-zsh
+    _zshrc
+    sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    sh -c "$(git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${zsh_custom}/themes/powerlevel10k)"
 }
 
 function _vim() {
@@ -131,8 +156,9 @@ function _vimrc() {
 
 function _nvim() {
     _print i neovim
-    sudo sh -c 'echo "deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu bionic main" > \
-                /etc/apt/sources.list.d/neovim.list'
+    # sudo sh -c 'echo "deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu bionic main" > \
+    #             /etc/apt/sources.list.d/neovim.list'
+    sudo add-apt-repository ppa:neovim-ppa/stable
     sudo apt update && sudo apt install -y neovim
 }
 
@@ -287,23 +313,11 @@ function _java() {
     sudo apt install -y default-jre default-jdk
 }
 
-function _zsh() {
-    _print i zsh
-    sudo apt install -y zsh
-    _change_shell zsh
-}
-
-function _omz() {
-    _print i oh-my-zsh
-    sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    cp -v --backup=numbered zshrc ~/.zshrc
-    sh -c "$(git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k)"
-}
-
 function _tilix() {
     _print i tilix
-    sudo sh -c 'echo "deb http://ppa.launchpad.net/webupd8team/terminix/ubuntu bionic main" > \
-            /etc/apt/sources.list.d/webupd8team-ubuntu-terminix-bionic.list'
+    sudo add-apt-repository ppa:webupd8team/terminix -y
+    # sudo sh -c 'echo "deb http://ppa.launchpad.net/webupd8team/terminix/ubuntu bionic main" > \
+    #         /etc/apt/sources.list.d/webupd8team-ubuntu-terminix-bionic.list'
     sudo apt update && sudo apt install -y tilix 
 }
 
@@ -341,6 +355,7 @@ function _fresh_install() {
     _googlechrome
     _tilix
     _zsh
+    _zshrc && _zshaliases
     _omz
     _reboot
 }
@@ -375,7 +390,9 @@ function _guimenu() {
         "25" "    google chrome" \
         "26" "    tilix" \
         "27" "    zsh" \
-        "28" "    oh-my-zsh" \
+        "28" "    zshrc" \
+        "29" "    zsh_aliases" \
+        "30" "    oh-my-zsh" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -413,7 +430,9 @@ function _selective_install() {
             25) _googlechrome ;;
             26) _tilix ;;
             27) _zsh ;;
-            28) _omz ;;
+            28) _zshrc ;;
+            29) _zshaliases ;;
+            30) _omz ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit
