@@ -161,14 +161,13 @@ function _nvim() {
     _print i "neovim"
     # sudo sh -c 'echo "deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu bionic main" > \
     #             /etc/apt/sources.list.d/neovim.list'
-    sudo add-apt-repository ppa:neovim-ppa/stable
+    sudo add-apt-repository ppa:neovim-ppa/stable -y
     sudo apt update && sudo apt install -y neovim
 }
 
 function _nvimrc() {
     _checkfile vimrc && _checkfile init.vim
     _print s ".vimrc and init.vim"
-    echo -e "${thunder} Setting ${bold}${red}.vimrc and init.vim${reset} ..."
     cp -v --backup=numbered vimrc ~/.vimrc
     mkdir -v -p ~/.config/nvim/
     cp -v --backup=numbered init.vim ~/.config/nvim/
@@ -332,6 +331,14 @@ function _setwlp() {
     gsettings set org.gnome.desktop.background picture-uri "$file" 
 }
 
+function _installfonts() {
+    _print i "Fonts"
+    local font_dest="${HOME}/.local/share/fonts"
+    cp -v fonts/* "${font_dest}"
+    # Build font cache
+    fc-cache -f
+}
+
 function _showmenu() {
     _checkcommand whiptail
     INPUT=$(whiptail --title "This script provides an easy way to install my packages and my configurations." \
@@ -346,7 +353,7 @@ function _showmenu() {
 
 function _fresh_install() {
     _checkcommand curl && _checkcommand git
-    _dconfsettings && _setwlp
+    _dconfsettings && _setwlp && _installfonts
     _bashrc && _bashaliases
     _preload
     _vmswappiness
@@ -405,6 +412,7 @@ function _guimenu() {
         "29" "    zsh_aliases" \
         "30" "    oh-my-zsh" \
         "31" "    set wallpaper" \
+        "32" "    install fonts" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -446,6 +454,7 @@ function _selective_install() {
             29) _zshaliases ;;
             30) _omz ;;
             31) _setwlp ;;
+            32) _installfonts ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit
