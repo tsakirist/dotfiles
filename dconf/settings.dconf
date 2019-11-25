@@ -29,9 +29,56 @@ blacklist=@as []
 [com/canonical/unity/interface]
 text-scale-factor=1.0
 
+[com/gexperts/Tilix/profiles/2b7c4080-0ddd-46c5-8f23-563fd3ba789d]
+dim-transparency-percent=0
+foreground-color='#EFEFEF'
+visible-name='tsakiris'
+login-shell=true
+palette=['#000000', '#CC0000', '#4D9A05', '#C3A000', '#3464A3', '#754F7B', '#05979A', '#D3D6CF', '#545652', '#EF2828', '#89E234', '#FBE84F', '#729ECF', '#AC7EA8', '#34E2E2', '#EDEDEB']
+bold-is-bright=true
+badge-color='#AC7EA8'
+badge-color-set=true
+default-size-columns=140
+default-size-rows=34
+cursor-shape='block'
+cursor-colors-set=false
+highlight-colors-set=false
+use-system-font=false
+bold-color-set=false
+font='Hack Nerd Font 11.5'
+use-theme-colors=false
+background-color='#303030'
+background-transparency-percent=9
+badge-text=''
+
+[com/gexperts/Tilix]
+quake-specific-monitor=0
+prompt-on-close=false
+tab-position='top'
+use-overlay-scrollbar=true
+sidebar-on-right=true
+auto-hide-mouse=true
+terminal-title-style='none'
+theme-variant='dark'
+session-name='${title}'
+control-scroll-zoom=true
+quake-hide-headerbar=false
+enable-wide-handle=false
+use-tabs=false
+warn-vte-config-issue=false
+terminal-title-show-when-single=false
+window-style='borderless'
+
+[com/gexperts/Tilix/keybindings]
+app-new-session='<Primary><Shift>t'
+app-new-window='<Primary><Shift>n'
+app-preferences='<Alt>p'
+win-view-sidebar='F12'
+terminal-reset-and-clear='<Primary><Shift>l'
+
 [com/ubuntu/update-notifier]
 regular-auto-launch-interval=7
-release-check-time=uint32 1555146821
+release-check-time=uint32 1574592899
 no-show-notifications=true
 
 [com/ubuntu/user-interface]
@@ -48,8 +95,14 @@ sleep-inactive-battery-timeout=300
 night-light-enabled=false
 
 [org/gnome/settings-daemon/plugins/media-keys]
-terminal='<Alt>t'
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
+terminal='<Primary><Alt>t'
 home='<Super>e'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0]
+binding='<Alt>t'
+command='tilix'
+name='Launch Tilix'
 
 [org/gnome/settings-daemon/plugins/xsettings]
 overrides={'Gtk/ShellShowsAppMenu': <1>}
@@ -59,10 +112,11 @@ hinting='slight'
 numlock-state='on'
 
 [org/gnome/shell]
+app-picker-view=uint32 1
 command-history=['subl']
-enabled-extensions=['ubuntu-appindicators@ubuntu.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com', 'openweather-extension@jenslody.de']
+enabled-extensions=['ubuntu-appindicators@ubuntu.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'openweather-extension@jenslody.de', 'dash-to-dock@micxgx.gmail.com']
 enable-hot-corners=false
-favorite-apps=['org.gnome.Nautilus.desktop', 'google-chrome.desktop', 'firefox.desktop', 'libreoffice-writer.desktop', 'org.gnome.Software.desktop', 'gnome-control-center.desktop', 'thunderbird.desktop', 'sublime_text.desktop', 'code.desktop', 'org.gnome.Terminal.desktop']
+favorite-apps=['org.gnome.Nautilus.desktop', 'google-chrome.desktop', 'firefox.desktop', 'libreoffice-writer.desktop', 'org.gnome.Software.desktop', 'gnome-control-center.desktop', 'thunderbird.desktop', 'sublime_text.desktop', 'code.desktop', 'com.gexperts.Tilix.desktop', 'org.gnome.Terminal.desktop']
 
 [org/gnome/shell/extensions/user-theme]
 name='Flat-Remix-Darkest'
@@ -123,7 +177,7 @@ tree-view=true
 root='file:///'
 
 [org/gnome/gedit/plugins]
-active-plugins=['spell', 'time', 'docinfo', 'modelines', 'filebrowser']
+active-plugins=['spell', 'filebrowser', 'modelines', 'docinfo', 'time']
 
 [org/gnome/gedit/state/window]
 size=(900, 692)
@@ -154,11 +208,20 @@ search-filter-time-type='last_modified'
 
 [org/gnome/nautilus/window-state]
 sidebar-width=201
-geometry='890x532+391+177'
+geometry='890x502+393+183'
 maximized=false
 
 [org/gnome/nautilus/desktop]
 trash-icon-visible=true
+
+[org/gnome/power-manager]
+info-history-type='charge'
+info-stats-type='discharge-accuracy'
+info-last-device='wakeups'
+info-page-number=3
+
+[org/gnome/evince/default]
+window-ratio=(3.2748538011695905, 1.3223880597014925)
 
 [org/gnome/file-roller/listing]
 sort-method='name'
@@ -203,12 +266,13 @@ migrated=true
 [org/gnome/desktop/interface]
 clock-show-date=true
 gtk-im-module='gtk-im-context-simple'
+clock-show-seconds=false
 enable-animations=true
 show-battery-percentage=true
 toolkit-accessibility=false
 
 [org/gnome/desktop/notifications]
-application-children=['org-gnome-tweaks', 'org-gnome-nautilus', 'org-gnome-terminal', 'apport-gtk', 'google-chrome', 'update-manager', 'gnome-control-center']
+application-children=['org-gnome-tweaks', 'org-gnome-nautilus', 'org-gnome-terminal', 'apport-gtk', 'google-chrome', 'update-manager', 'gnome-control-center', 'code', 'sublime-text', 'com-gexperts-tilix']
 
 [org/gnome/desktop/notifications/application/org-gnome-tweaks]
 application-id='org.gnome.tweaks.desktop'
@@ -221,6 +285,9 @@ application-id='google-chrome.desktop'
 
 [org/gnome/desktop/notifications/application/gnome-control-center]
 application-id='gnome-control-center.desktop'
+
+[org/gnome/desktop/notifications/application/com-gexperts-tilix]
+application-id='com.gexperts.Tilix.desktop'
 
 [org/gnome/desktop/notifications/application/sublime-text]
 application-id='sublime_text.desktop'
@@ -239,6 +306,9 @@ application-id='software-properties-gtk.desktop'
 
 [org/gnome/desktop/notifications/application/apport-gtk]
 application-id='apport-gtk.desktop'
+
+[org/gnome/desktop/notifications/application/code]
+application-id='code.desktop'
 
 [org/gnome/desktop/app-folders]
 folder-children=['Utilities', 'Sundry']
@@ -333,11 +403,11 @@ mousekeys-enable=false
 automatic-timezone=true
 
 [org/gnome/desktop/background]
-picture-uri='file:///usr/share/backgrounds/warty-final-ubuntu.png'
+picture-uri='file:///home/tsakiris/Pictures/Wallpapers/175230.jpg'
 color-shading-type='solid'
-primary-color='#2c001e'
+primary-color='#000000'
 picture-options='zoom'
-secondary-color='#2c001e'
+secondary-color='#000000'
 
 [org/gnome/desktop/input-sources]
 xkb-options=['grp:alt_shift_toggle']
@@ -346,7 +416,7 @@ mru-sources=[('xkb', 'us'), ('xkb', 'gr')]
 sources=[('xkb', 'us'), ('xkb', 'gr')]
 
 [org/gnome/control-center]
-last-panel='wifi'
+last-panel='keyboard'
 
 [org/gnome/eog/view]
 background-color='rgb(0,0,0)'
@@ -385,7 +455,7 @@ statusbar-visible=false
 locations=['file:///home/tsakiris/Music']
 
 [org/gnome/software]
-check-timestamp=int64 1555434481
+check-timestamp=int64 1574593499
 install-timestamp=int64 1554384255
 
 [org/gnome/mutter]
@@ -399,7 +469,9 @@ default-size-columns=140
 background-transparency-percent=20
 use-theme-transparency=false
 default-size-rows=35
+use-system-font=false
 use-transparent-background=true
+font='Hack Nerd Font 11'
 
 [org/gnome/terminal/legacy]
 schema-version=uint32 3
@@ -407,7 +479,7 @@ schema-version=uint32 3
 [org/gtk/settings/file-chooser]
 sort-column='name'
 sidebar-width=196
-window-position=(401, 224)
+window-position=(402, 167)
 show-size-column=true
 show-hidden=false
 window-size=(876, 578)
@@ -417,7 +489,7 @@ sort-order='ascending'
 location-mode='path-bar'
 
 [org/gtk/settings/color-chooser]
-selected-color=(true, 0.93725490196078431, 0.16078431372549021, 0.16078431372549021, 1.0)
+selected-color=(true, 0.54117647058823526, 0.88627450980392153, 0.20392156862745098, 1.0)
 
 [org/compiz]
 existing-profiles=['Default', 'unity']
@@ -559,8 +631,8 @@ show-details=true
 first-run=false
 check-new-release-ignore='bionic'
 window-height=400
-launch-time=int64 1555434600
-launch-count=5
+launch-time=int64 1574594407
+launch-count=22
 window-width=645
 
 [apps/indicator-session]
@@ -570,7 +642,7 @@ show-real-name-on-panel=false
 keyrings-selected=['secret-service://login', 'secret-service:///org/freedesktop/secrets/collection/login']
 
 [ca/desrt/dconf-editor]
-saved-view='/org/gnome/shell/extensions/'
+saved-view='/com/gexperts/Tilix/'
 show-warning=false
 window-height=600
 window-width=800
