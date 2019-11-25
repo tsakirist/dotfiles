@@ -92,13 +92,13 @@ function _change_shell() {
 
 function _gitconfig() {
     _checkfile gitconfig
-    _print s .gitconfig
+    _print s ".gitconfig"
     cp -v --backup=numbered gitconfig ~/.gitconfig
 }
 
 function _gitsofancy() {
     if ! command -v diff-so-fancy > /dev/null 2>&1; then
-        _print s git-diff-so-fancy
+        _print s "git-diff-so-fancy"
         wget -q "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy"
         chmod +x diff-so-fancy && sudo mv diff-so-fancy /usr/bin/
     fi
@@ -106,56 +106,56 @@ function _gitsofancy() {
 
 function _bashrc() {
     _checkfile bashrc
-    _print s .bashrc
+    _print s ".bashrc"
     cp -v --backup=numbered bashrc ~/.bashrc
 }
 
 function _bashaliases() {
     _checkfile bash_aliases
-    _print s .bash_aliases
+    _print s ".bash_aliases"
     cp -v --backup=numbered bash_aliases ~/.bash_aliases
 }
 
 function _zsh() {
-    _print i zsh
+    _print i "zsh"
     sudo apt install -y zsh
     # Issue chsh -s $(which zsh) to change the default shell
 }
 
 function _zshrc() {
     _checkfile zshrc
-    _print s .zshrc
+    _print s ".zshrc"
     cp -v --backup=numbered zshrc ~/.zshrc
 }
 
 function _zshaliases() {
     _checkfile zsh_aliases
-    _print s .zsh_aliases
+    _print s ".zsh_aliases"
     cp -v --backup=numbered zsh_aliases ~/.zsh_aliases
 }
 
 function _omz() {
     local zsh_custom=${HOME}/.oh-my-zsh/custom
-    _print i oh-my-zsh
+    _print i "oh-my-zsh"
     _zshrc
     sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     sh -c "$(git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${zsh_custom}/themes/powerlevel10k)"
 }
 
 function _vim() {
-    _print i vim
+    _print i "vim"
     sudo apt install -y vim vim-gnome
 }
 
 function _vimrc() {
     _checkfile vimrc
-    _print s .vimrc
+    _print s ".vimrc"
     cp -v --backup=numbered vimrc ~/.vimrc
     vim +PlugInstall +qall
 }
 
 function _nvim() {
-    _print i neovim
+    _print i "neovim"
     # sudo sh -c 'echo "deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu bionic main" > \
     #             /etc/apt/sources.list.d/neovim.list'
     sudo add-apt-repository ppa:neovim-ppa/stable
@@ -164,7 +164,7 @@ function _nvim() {
 
 function _nvimrc() {
     _checkfile vimrc && _checkfile init.vim
-    _print s .vimrc and init.vim
+    _print s ".vimrc and init.vim"
     echo -e "${thunder} Setting ${bold}${red}.vimrc and init.vim${reset} ..."
     cp -v --backup=numbered vimrc ~/.vimrc
     mkdir -v -p ~/.config/nvim/
@@ -173,18 +173,18 @@ function _nvimrc() {
 }
 
 function _tmux() {
-    _print i tmux
+    _print i "tmux"
     sudo apt install -y tmux
 }
 
 function _tmuxconf() {
     _checkfile tmux.conf
-    _print s .tmux.conf
+    _print s ".tmux.conf"
     cp -v --backup=numbered tmux.conf ~/.tmux.conf
 }
 
 function _sublimetext() {
-    _print i SublimeText 3
+    _print i "SublimeText 3"
     wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     sudo sh -c 'echo "deb https://download.sublimetext.com/ apt/stable/" > \
                 /etc/apt/sources.list.d/sublime-text.list'
@@ -193,25 +193,25 @@ function _sublimetext() {
 
 function _sublimesettings() {
     _checkfile sublime/Preferences.sublime-settings
-    _print s sublime settings
+    _print s "sublime settings"
     cp -v --backup=numbered "sublime/Preferences.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
 function _sublimekeybindings() {
     _checkfile "sublime/Default (Linux).sublime-keymap"
-    _print s sublime keybindings
+    _print s "sublime keybindings"
     cp -v --backup=numbered "sublime/Default (Linux).sublime-keymap" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
 function _sublimepackages() {
     _checkfile "sublime/Package Control.sublime-settings"
-    _print s sublime packages
+    _print s "sublime packages"
     cp -v --backup=numbered "sublime/Package Control.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
 function _sublimeterminus() {
     _checkfile "sublime/Terminus.sublime-settings"
-    _print s sublime terminus settings
+    _print s "sublime terminus settings"
     cp -v --backup=numbered "sublime/Terminus.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
@@ -220,7 +220,7 @@ function _sublimeallconfigs() {
 }
 
 function _vscode() {
-    _print i Visual Studio Code
+    _print i "Visual Studio Code"
     curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
     sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ && rm -f microsoft.gpg
     sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > \
@@ -229,7 +229,7 @@ function _vscode() {
 }
 
 function _googlechrome() {
-    _print i Google Chrome
+    _print i "Google Chrome"
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo dpkg -i google-chrome-stable_current_amd64.deb
     rm -f google-chrome-stable_current_amd64.deb
@@ -238,17 +238,17 @@ function _googlechrome() {
 }
 
 function _neofetch() {
-    _print i neofetch
+    _print i "neofetch"
     sudo apt install -y neofetch
 }
 
 function _xclip() {
-    _print i xclip
+    _print i "xclip"
     sudo apt install -y xclip
 }
 
 function _powerline() {
-    _print i powerline
+    _print i "powerline"
     sudo apt install -y python-pip
     pip install powerline-status
     pip install powerline-gitstatus
@@ -258,67 +258,78 @@ function _powerline() {
 function _powerlineconfig() {
     _checkfile powerline_configs/themes/shell/default.json && _checkfile powerline_configs/colorschemes/default.json
 
-    _print s themes/shell/default.json
+    _print s "themes/shell/default.json"
     cp -v --backup=numbered "powerline_configs/themes/shell/default.json" \
         "$HOME/.local/lib/python2.7/site-packages/powerline/config_files/themes/shell"
 
-    _print s colorschemes/default.json
+    _print s "colorschemes/default.json"
     cp -v --backup=numbered "powerline_configs/colorschemes/default.json" \
         "$HOME/.local/lib/python2.7/site-packages/powerline/config_files/colorschemes"
 }
 
 function _dconfsettings() {
     _checkfile dconf/settings.dconf
-    _print s dconf_settings
+    _print s "dconf_settings"
     dconf load / < dconf/settings.dconf
 }
 
 function _preload() {
-    _print i preload
+    _print i "preload"
     sudo apt install -y preload
 }
 
 function _vmswappiness() {
-    _print c vm.swappiness to 10
+    _print c "vm.swappiness to 10"
     echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.conf > /dev/null 2>&1;
 }
 
 function _cmake() {
-    _print i cmake
+    _print i "cmake"
     sudo apt install -y cmake
 }
 
 function _tree() {
-    _print i tree
+    _print i "tree"
     sudo apt install -y tree
 }
 
 function _htop() {
-    _print i htop
+    _print i "htop"
     sudo apt install -y htop
 }
 
 function _gnometweaks() {
-    _print i gnome-tweaks
+    _print i "gnome-tweaks"
     sudo apt install -y gnome-tweaks
 }
 
 function _gnomeshellextensions() {
-    _print i gnome-shell-extensions
+    _print i "gnome-shell-extensions"
     sudo apt install -y gnome-shell-extension-weather gnome-shell-extension-dashtodock
 }
 
 function _java() {
-    _print i java and javac
+    _print i "java and javac"
     sudo apt install -y default-jre default-jdk
 }
 
 function _tilix() {
-    _print i tilix
+    _print i "tilix"
     sudo add-apt-repository ppa:webupd8team/terminix -y
     # sudo sh -c 'echo "deb http://ppa.launchpad.net/webupd8team/terminix/ubuntu bionic main" > \
     #         /etc/apt/sources.list.d/webupd8team-ubuntu-terminix-bionic.list'
     sudo apt update && sudo apt install -y tilix 
+}
+
+function _setwlp() {
+    local wlp_dir="wallpapers"
+    local wlp="${wlp_dir}/1.jpg" # default wlp
+    if [[ $# -eq 1 ]]; then
+        wlp="${wlp_dir}/$1"
+    fi
+    local FILE="'file://$(readlink -e "${wlp}")'" 
+    _print s "Wallpaper ${FILE}"
+    gsettings set org.gnome.desktop.background picture-uri "$FILE" 
 }
 
 function _showmenu() {
@@ -335,7 +346,7 @@ function _showmenu() {
 
 function _fresh_install() {
     _checkcommand curl && _checkcommand git
-    _dconfsettings
+    _dconfsettings && _setwlp
     _bashrc && _bashaliases
     _preload
     _vmswappiness
@@ -393,6 +404,7 @@ function _guimenu() {
         "28" "    zshrc" \
         "29" "    zsh_aliases" \
         "30" "    oh-my-zsh" \
+        "31" "    set wallpaper" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -433,6 +445,7 @@ function _selective_install() {
             28) _zshrc ;;
             29) _zshaliases ;;
             30) _omz ;;
+            31) _setwlp ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit
