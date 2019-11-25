@@ -66,7 +66,7 @@ function _checkcommand() {
 }
 
 function _print() {
-    local action="Undefined"
+    local action
     if [[ $# -gt 1 ]]; then
         case "$1" in
             "s" ) action="Setting" ;;
@@ -75,6 +75,19 @@ function _print() {
         esac
         echo -e "${thunder} ${action} ${bold}${red}${*:2}${reset} ..."
     fi
+}
+
+function _change_shell() {
+    local shell
+    if [[ $# -eq 1 ]]; then
+        case "$1" in
+            "bash") shell="bash" ;;
+            "zsh" ) shell="zsh" ;;
+        esac
+    fi
+    _print c shell to $(which ${shell})
+    # Issue the command to change the default shell
+    chsh -s $(which ${shell})
 }
 
 function _gitconfig() {
@@ -277,10 +290,22 @@ function _java() {
 function _zsh() {
     _print i zsh
     sudo apt install -y zsh
+    _change_shell zsh
 }
 
-# function _tilix() {
-# }
+function _omz() {
+    _print i oh-my-zsh
+    sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    cp -v --backup=numbered zshrc ~/.zshrc
+    sh -c "$(git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k)"
+}
+
+function _tilix() {
+    _print i tilix
+    sudo sh -c 'echo "deb http://ppa.launchpad.net/webupd8team/terminix/ubuntu bionic main" > \
+            /etc/apt/sources.list.d/webupd8team-ubuntu-terminix-bionic.list'
+    sudo apt update && sudo apt install -y tilix 
+}
 
 function _showmenu() {
     _checkcommand whiptail
@@ -314,6 +339,9 @@ function _fresh_install() {
     _sublimetext && (_sublimesettings ; _sublimekeybindings ; _sublimepackages ; _sublimeterminus)
     _vscode && _vscodeextensions
     _googlechrome
+    _tilix
+    _zsh
+    _omz
     _reboot
 }
 
@@ -345,6 +373,9 @@ function _guimenu() {
         "23" "    sublime text 3: settings + keybindings + packages" \
         "24" "    vscode" \
         "25" "    google chrome" \
+        "26" "    tilix" \
+        "27" "    zsh" \
+        "28" "    oh-my-zsh" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -380,6 +411,9 @@ function _selective_install() {
             23) _sublimeallconfigs ;;
             24) _vscode ;;
             25) _googlechrome ;;
+            26) _tilix ;;
+            27) _zsh ;;
+            28) _omz ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit
