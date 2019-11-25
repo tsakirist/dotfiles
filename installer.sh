@@ -119,7 +119,10 @@ function _bashaliases() {
 function _zsh() {
     _print i "zsh"
     sudo apt install -y zsh
-    # Issue chsh -s $(which zsh) to change the default shell
+    local msg="Would you like to change the default shell to zsh?\nThis will issue 'chsh -s $(which zsh)' command."
+    if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
+            chsh -s $(which zsh)
+    fi
 }
 
 function _zshrc() {
@@ -322,14 +325,11 @@ function _tilix() {
 }
 
 function _setwlp() {
-    local wlp_dir="wallpapers"
-    local wlp="${wlp_dir}/1.jpg" # default wlp
-    if [[ $# -eq 1 ]]; then
-        wlp="${wlp_dir}/$1"
-    fi
-    local FILE="'file://$(readlink -e "${wlp}")'" 
+    local path="wallpapers/1.jpg" # my custom default wallpaper
+    _checkfile $path
+    local file="'file://$(readlink -e "${path}")'" 
     _print s "Wallpaper ${FILE}"
-    gsettings set org.gnome.desktop.background picture-uri "$FILE" 
+    gsettings set org.gnome.desktop.background picture-uri "$file" 
 }
 
 function _showmenu() {
@@ -411,7 +411,7 @@ function _guimenu() {
 
 function _selective_install() {
     _checkcommand curl && _checkcommand git
-    exit_status=0
+    local exit_status=0
     while [[ $exit_status -eq 0 ]]; do
         _guimenu
         case $OPT in
