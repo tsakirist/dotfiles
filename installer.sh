@@ -1,4 +1,4 @@
-# !/usr/bin/env bash
+#!/usr/bin/env bash
 
 # This script provides an easy way to install my preferred packages along with my configurations.
 # Author: Tsakiris Tryfon
