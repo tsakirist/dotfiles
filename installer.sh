@@ -269,6 +269,12 @@ function _powerlineconfig() {
         "$HOME/.local/lib/python2.7/site-packages/powerline/config_files/colorschemes"
 }
 
+function _dconftilix() {
+    _checkfile dconf/tilix.dconf
+    _print s "Tilix dconf settings"
+    dconf load /com/gexperts/Tilix/ < dconf/tilix.dconf
+}
+
 function _dconfsettings() {
     _checkfile dconf/settings.dconf
     _print s "dconf_settings"
