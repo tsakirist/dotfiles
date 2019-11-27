@@ -281,6 +281,10 @@ function _dconfsettings() {
     dconf load / < dconf/settings.dconf
 }
 
+function _dconf() {
+    _dconfsettings && _dconftilix
+}
+
 function _preload() {
     _print i "preload"
     sudo apt install -y preload
@@ -359,7 +363,9 @@ function _showmenu() {
 
 function _fresh_install() {
     _checkcommand curl && _checkcommand git
-    _dconfsettings && _setwlp && _installfonts
+    _dconf
+    _setwlp
+    _installfonts
     _bashrc && _bashaliases
     _preload
     _vmswappiness
@@ -384,10 +390,22 @@ function _fresh_install() {
     _reboot
 }
 
+function _dconfgui() {
+    local opt=$(whiptail --title "dconf settings" --menu "\nWhich dconf settings would you like to apply?" \
+                ${SIZE} $((ROWS-10)) \
+                "1" "    dconf general settings" \
+                "2" "    dconf tilix settings" \
+                3>&1 1>&2 2>&3) 
+    case $opt in
+        1 ) _dconfsettings ;;
+        2 ) _dconftilix ;;
+    esac
+}
+
 function _guimenu() {
     OPT=$(whiptail --title "Selectively install packages/configurations" \
         --menu "\nSelect the packages and the configurations that you want to install/set." ${SIZE} $((ROWS-10)) \
-        "1"  "    dconf_settings" \
+        "1"  "    dconf settings" \
         "2"  "    bashrc" \
         "3"  "    bash_aliases" \
         "4"  "    preload" \
@@ -429,7 +447,7 @@ function _selective_install() {
     while [[ $exit_status -eq 0 ]]; do
         _guimenu
         case $OPT in
-            1 ) _dconfsettings ;;
+            1 ) _dconfgui ;;
             2 ) _bashrc ;;
             3 ) _bashaliases ;;
             4 ) _preload ;;
