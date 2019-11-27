@@ -252,9 +252,8 @@ function _vscode() {
 
 function _googlechrome() {
     _print i "Google Chrome"
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    sudo dpkg -i google-chrome-stable_current_amd64.deb
-    rm -f google-chrome-stable_current_amd64.deb
+    wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google_chrome.deb
+    sudo dpkg -i /tmp/google_chrome.deb
     # Remove google chrome keyring pop-up
     sudo sed -i '/^Exec=/s/$/ --password-store=basic %U/' "/usr/share/applications/google-chrome.desktop"
 }
@@ -390,7 +389,7 @@ function _fd() {
 
 function _bat() {
     _print i "bat: a clone of cat with syntax highlighting"
-    wget -q https://github.com/sharkdp/bat/releases/download/v0.12.1/bat-musl_0.12.1_amd64.deb -o /tmp/bat.deb
+    wget -q https://github.com/sharkdp/bat/releases/download/v0.12.1/bat-musl_0.12.1_amd64.deb -O /tmp/bat.deb
     sudo dpkg -i /tmp/bat.deb
 }
 
