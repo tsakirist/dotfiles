@@ -116,6 +116,16 @@ function _bashaliases() {
     cp -v --backup=numbered bash_aliases ~/.bash_aliases
 }
 
+function _bashfunctions() {
+    _checkfile bash_functions
+    _print s ".bash_functions"
+    cp -v --backup=numbered bash_functions ~/.bash_functions
+}
+
+function _bashconfig() {
+    _bashrc && _bashaliases && _bashfunctions
+}
+
 function _zsh() {
     _print i "zsh"
     sudo apt install -y zsh
@@ -135,6 +145,16 @@ function _zshaliases() {
     _checkfile zsh_aliases
     _print s ".zsh_aliases"
     cp -v --backup=numbered zsh_aliases ~/.zsh_aliases
+}
+
+function _zshfunctions () {
+    _checkfile zsh_functions
+    _print s ".zsh_functions"
+    cp -v --backup=numbered zsh_functions ~/.zsh_functions
+}
+
+function _zshconfig() {
+    _zshrc && _zshaliases && _zshfunctions
 }
 
 function _omz() {
@@ -179,7 +199,7 @@ function _tmux() {
     sudo apt install -y tmux
 }
 
-function _tmuxconf() {
+function _tmuxconfig() {
     _checkfile tmux.conf
     _print s ".tmux.conf"
     cp -v --backup=numbered tmux.conf ~/.tmux.conf
@@ -217,7 +237,7 @@ function _sublimeterminus() {
     cp -v --backup=numbered "sublime/Terminus.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
-function _sublimeallconfigs() {
+function _sublimeconfig() {
     _sublimesettings && _sublimekeybindings && _sublimepackages && _sublimeterminus
 }
 
@@ -271,7 +291,7 @@ function _powerlineconfig() {
 
 function _dconftilix() {
     _checkfile dconf/tilix.dconf
-    _print s "Tilix dconf settings"
+    _print s "tilix dconf settings"
     dconf load /com/gexperts/Tilix/ < dconf/tilix.dconf
 }
 
@@ -293,6 +313,7 @@ function _preload() {
 function _vmswappiness() {
     _print c "vm.swappiness to 10"
     echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.conf > /dev/null 2>&1;
+    echo "Swappiness value:" $(cat /proc/sys/vm/swappiness)
 }
 
 function _cmake() {
@@ -326,7 +347,7 @@ function _java() {
 }
 
 function _tilix() {
-    _print i "tilix"
+    _print i "tilix: a terminal emulator"
     sudo add-apt-repository ppa:webupd8team/terminix -y
     # sudo sh -c 'echo "deb http://ppa.launchpad.net/webupd8team/terminix/ubuntu bionic main" > \
     #         /etc/apt/sources.list.d/webupd8team-ubuntu-terminix-bionic.list'
@@ -342,11 +363,35 @@ function _setwlp() {
 }
 
 function _installfonts() {
-    _print i "Fonts"
+    _print i "fonts"
     local font_dest="${HOME}/.local/share/fonts"
     cp -v fonts/* "${font_dest}"
     # Build font cache
     fc-cache -f
+}
+
+function _fzfconfig() {
+    _checkfile fzf.config
+    _print s "fzf configuration"
+    cp -v --backup=numbered fzf.config ~/.fzf.config
+}
+
+function _fzf() {
+    _print i "fzf: Fuzzy finder"
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install --key-bindings --completion
+}
+
+function _fd() {
+    _print i "fd: an improved version of find"
+    wget -q https://github.com/sharkdp/fd/releases/download/v7.4.0/fd-musl_7.4.0_amd64.deb -O /tmp/fd.deb
+    sudo dpkg -i /tmp/fd.deb
+}
+
+function _bat() {
+    _print i "bat: a clone of cat with syntax highlighting"
+    wget -q https://github.com/sharkdp/bat/releases/download/v0.12.1/bat-musl_0.12.1_amd64.deb -o /tmp/bat.deb
+    sudo dpkg -i /tmp/bat.deb
 }
 
 function _showmenu() {
@@ -366,9 +411,14 @@ function _fresh_install() {
     _dconf
     _setwlp
     _installfonts
-    _bashrc && _bashaliases
-    _preload
-    _vmswappiness
+    _zsh && _zshconfig && _omz
+    _bashconfig
+    _tilix
+    _fzf && _fzfconfig
+    _fd
+    _bat
+    _nvim && _nvimrc
+    _tmux && _tmuxconfig
     _xclip
     _neofetch
     _htop
@@ -377,16 +427,13 @@ function _fresh_install() {
     _gnometweaks
     _gnomeshellextensions
     _gitconfig && _gitsofancy
-    _nvim && _nvimrc
-    _tmux && _tmuxconf
     _powerline && _powerlineconfig
-    _sublimetext && (_sublimesettings ; _sublimekeybindings ; _sublimepackages ; _sublimeterminus)
-    _vscode && _vscodeextensions
+    _java
+    _sublimetext && _sublimeconfig
+    _vscode
     _googlechrome
-    _tilix
-    _zsh
-    _zshrc && _zshaliases
-    _omz
+    _preload
+    _vmswappiness
     _reboot
 }
 
@@ -406,37 +453,39 @@ function _guimenu() {
     OPT=$(whiptail --title "Selectively install packages/configurations" \
         --menu "\nSelect the packages and the configurations that you want to install/set." ${SIZE} $((ROWS-10)) \
         "1"  "    dconf settings" \
-        "2"  "    bashrc" \
-        "3"  "    bash_aliases" \
-        "4"  "    preload" \
-        "5"  "    vmswappiness" \
-        "6"  "    xclip" \
-        "7"  "    neofetch" \
-        "8"  "    htop" \
-        "9"  "    cmake" \
-        "10" "    tree" \
-        "11" "    gnome-tweaks" \
-        "12" "    gnome-shell-extensions" \
-        "13" "    gitconfig" \
-        "14" "    gitsofancy" \
-        "15" "    neovim" \
-        "16" "    neovimrc" \
-        "17" "    tmux" \
-        "18" "    tmux.conf" \
-        "19" "    powerline" \
-        "20" "    powerline_config" \
-        "21" "    java & javac" \
-        "22" "    sublime text 3" \
-        "23" "    sublime text 3: settings + keybindings + packages" \
-        "24" "    vscode" \
-        "25" "    google chrome" \
-        "26" "    tilix" \
-        "27" "    zsh" \
-        "28" "    zshrc" \
-        "29" "    zsh_aliases" \
-        "30" "    oh-my-zsh" \
-        "31" "    set wallpaper" \
-        "32" "    install fonts" \
+        "2"  "    zsh" \
+        "3"  "    zshrc, zsh_aliases, zsh_functions" \
+        "4"  "    oh-my-zsh" \
+        "5"  "    bashrc, bash_aliases, bash_functions" \
+        "6"  "    tilix: terminal emulator" \
+        "7"  "    fzf: fuzzy finder" \
+        "8"  "    fzf configuration" \
+        "9"  "    fd: improved version of find" \
+        "10" "    bat: a cat clone with syntax highlighting" \
+        "11" "    neovim" \
+        "12" "    neovimrc" \
+        "13" "    tmux: terminal multiplexer" \
+        "14" "    tmux configuration" \
+        "15" "    xclip" \
+        "16" "    neofetch" \
+        "17" "    htop" \
+        "18" "    cmake" \
+        "19" "    tree" \
+        "20" "    gnome-tweaks" \
+        "21" "    gnome-shell-extensions" \
+        "22" "    gitconfig" \
+        "23" "    gitsofancy" \
+        "24" "    powerline" \
+        "25" "    powerline configuration" \
+        "26" "    java & javac" \
+        "27" "    sublime text 3" \
+        "28" "    sublime text 3: settings, keybindings, packages" \
+        "29" "    vscode" \
+        "30" "    google chrome" \
+        "31" "    preload" \
+        "32" "    vmswappiness" \
+        "33" "    set wallpaper" \
+        "34" "    install fonts" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -448,37 +497,39 @@ function _selective_install() {
         _guimenu
         case $OPT in
             1 ) _dconfgui ;;
-            2 ) _bashrc ;;
-            3 ) _bashaliases ;;
-            4 ) _preload ;;
-            5 ) _vmswappiness ;;
-            6 ) _xclip ;;
-            7 ) _neofetch ;;
-            8 ) _htop ;;
-            9 ) _cmake ;;
-            10) _tree  ;;
-            11) _gnometweaks ;;
-            12) _gnomeshellextensions ;;
-            13) _gitconfig ;;
-            14) _gitsofancy ;;
-            15) _nvim ;;
-            16) _nvimrc ;;
-            17) _tmux ;;
-            18) _tmuxconf ;;
-            19) _powerline ;;
-            20) _powerlineconfig ;;
-            21) _java ;;
-            22) _sublimetext ;;
-            23) _sublimeallconfigs ;;
-            24) _vscode ;;
-            25) _googlechrome ;;
-            26) _tilix ;;
-            27) _zsh ;;
-            28) _zshrc ;;
-            29) _zshaliases ;;
-            30) _omz ;;
-            31) _setwlp ;;
-            32) _installfonts ;;
+            2 ) _zsh ;;
+            3 ) _zshconfig ;;
+            4 ) _omz ;;
+            5 ) _bashconfig ;;
+            6 ) _tilix ;;
+            7 ) _fzf ;;
+            8 ) _fzfconfig ;;
+            9 ) _fd ;;
+            10) _bat  ;;
+            11) _nvim ;;
+            12) _nvimrc ;;
+            13) _tmux ;;
+            14) _tmuxconfig ;;
+            15) _xclip ;;
+            16) _neofetch ;;
+            17) _htop ;;
+            18) _cmake ;;
+            19) _tree ;;
+            20) _gnometweaks ;;
+            21) _gnomeshellextensions ;;
+            22) _gitconfig ;;
+            23) _gitsofancy ;;
+            24) _powerline ;;
+            25) _powerlineconfig ;;
+            26) _java ;;
+            27) _sublimetext ;;
+            28) _sublimeconfig ;;
+            29) _vscode ;;
+            30) _googlechrome ;;
+            31) _preload ;;
+            32) _vmswappiness ;;
+            33) _setwlp ;;
+            34) _installfonts ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit
