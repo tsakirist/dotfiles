@@ -114,3 +114,9 @@ source $ZSH/oh-my-zsh.sh
 
 # Source my custom functions
 [ -f ~/.zsh_functions ] && . ~/.zsh_functions
+
+# Source fzf, to be able to use it
+[ -f ~/.fzf.zsh ] && . ~/.fzf.zsh
+
+# Source my fzf configurations
+[ -f ~/.fzf.config ] && . ~/.fzf.config

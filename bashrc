@@ -104,3 +104,9 @@ export EDITOR="$VISUAL"
 
 # Source my custom functions
 [ -f ~/.bash_functions ] && . ~/.bash_functions
+
+# Source fzf, to be able to use it
+[ -f ~/.bash.zsh ] && . ~/.bash.zsh
+
+# Source my fzf configurations
+[ -f ~/.fzf.config ] && . ~/.fzf.config
