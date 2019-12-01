@@ -399,10 +399,23 @@ function _bat() {
     sudo dpkg -i /tmp/bat.deb
 }
 
+function _checkroot() {
+    # Sudo is necessary for a complete unattended installation
+    if [ "$EUID" -ne 0 ]; then
+        echo -e "${thunder} Trying to get ${start_underline}${bold}${red}root${reset} access rights... "
+        sudo "$0" "$@"
+        exit $?
+    fi
+}
+
 function _showmenu() {
     _checkcommand whiptail
+    local is_root="false"
+    if [ "$EUID" -eq 0 ]; then
+        is_root="true"
+    fi
     INPUT=$(whiptail --title "This script provides an easy way to install my packages and my configurations." \
-        --menu "\nScript is executed from $(pwd)" ${SIZE} $((ROWS-10)) \
+        --menu "\nScript is executed from $(pwd)\n-- root: ${is_root}" ${SIZE} $((ROWS-10)) \
         "1"  "    Fresh installation" \
         "2"  "    Selective installation" \
         "Q"  "    Quit" \
@@ -543,6 +556,7 @@ function _selective_install() {
 }
 
 # ------------------------------------------------------- Main ---------------------------------------------------------
+_checkroot
 
 _showmenu
 
