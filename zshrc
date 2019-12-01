@@ -106,6 +106,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Set custom HIST_STAMPS for history
+HIST_STAMPS="%d/%m/%y %T"
+
 # setopt configurations
 unsetopt histverify
 
