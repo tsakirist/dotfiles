@@ -88,6 +88,8 @@ function _change_shell() {
     _print c shell to $(which ${shell})
     # Issue the command to change the default shell
     chsh -s $(which ${shell})
+    echo "In order for the ${start_underline}change${end_underline} to take effect you need to" \
+         "${bold}${red}logout${reset}."
 }
 
 function _gitconfig() {
@@ -131,7 +133,7 @@ function _zsh() {
     sudo apt install -y zsh
     local msg="Would you like to change the default shell to zsh?\nThis will issue 'chsh -s $(which zsh)' command."
     if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
-            chsh -s $(which zsh)
+        chsh -s $(which zsh)
     fi
 }
 
