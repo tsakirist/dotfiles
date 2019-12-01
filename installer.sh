@@ -160,9 +160,9 @@ function _zshconfig() {
 function _omz() {
     local zsh_custom=${HOME}/.oh-my-zsh/custom
     _print i "oh-my-zsh"
-    _zshrc
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     sh -c "$(git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${zsh_custom}/themes/powerlevel10k)"
+    _zshrc
 }
 
 function _vim() {
@@ -363,8 +363,12 @@ function _setwlp() {
 
 function _installfonts() {
     _print i "fonts"
-    local font_dest="${HOME}/.local/share/fonts"
-    cp -v fonts/* "${font_dest}"
+    local destination_dir="${HOME}/.local/share/fonts"
+    # We need to check if directory exist, if not create
+    if [ ! -d "$font_dest" ]; then
+        mkdir -v -p "$destination_dir"
+    fi
+    cp -v fonts/* "$destination_dir"
     # Build font cache
     fc-cache -f
 }
