@@ -352,15 +352,15 @@ function _tilix() {
     sudo add-apt-repository ppa:webupd8team/terminix -y
     # sudo sh -c 'echo "deb http://ppa.launchpad.net/webupd8team/terminix/ubuntu bionic main" > \
     #         /etc/apt/sources.list.d/webupd8team-ubuntu-terminix-bionic.list'
-    sudo apt update && sudo apt install -y tilix 
+    sudo apt update && sudo apt install -y tilix
 }
 
 function _setwlp() {
     local path="wallpapers/1.jpg" # my custom default wallpaper
     _checkfile $path
-    local file="'file://$(readlink -e "${path}")'" 
+    local file="'file://$(readlink -e "${path}")'"
     _print s "Wallpaper ${FILE}"
-    gsettings set org.gnome.desktop.background picture-uri "$file" 
+    gsettings set org.gnome.desktop.background picture-uri "$file"
 }
 
 function _installfonts() {
@@ -400,22 +400,26 @@ function _bat() {
 }
 
 function _checkroot() {
-    # Sudo is necessary for a complete unattended installation
+    local msg="$(printf '%s\n' \
+               "Would you like to have a completely unattended installation?"  \
+               "This will execute the installer with sudo to elevate privileges.")"
     if [ "$EUID" -ne 0 ]; then
-        echo -e "${thunder} Trying to get ${start_underline}${bold}${red}root${reset} access rights... "
-        sudo "$0" "$@"
-        exit $?
+        if (whiptail --title "Installer Privileges" --yesno "$msg" 8 78); then
+            echo -e "${thunder} Trying to get ${start_underline}${bold}${red}root${reset} access rights... "
+            sudo "$0" "$@"
+            exit $?
+        fi
     fi
 }
 
 function _showmenu() {
     _checkcommand whiptail
-    local is_root="false"
+    local is_root="no"
     if [ "$EUID" -eq 0 ]; then
-        is_root="true"
+        is_root="yes"
     fi
     INPUT=$(whiptail --title "This script provides an easy way to install my packages and my configurations." \
-        --menu "\nScript is executed from $(pwd)\n-- root: ${is_root}" ${SIZE} $((ROWS-10)) \
+        --menu "\nScript is executed from $(pwd)\n-- root privileges: ${is_root}" ${SIZE} $((ROWS-10)) \
         "1"  "    Fresh installation" \
         "2"  "    Selective installation" \
         "Q"  "    Quit" \
@@ -460,7 +464,7 @@ function _dconfgui() {
                 ${SIZE} $((ROWS-10)) \
                 "1" "    dconf general settings" \
                 "2" "    dconf tilix settings" \
-                3>&1 1>&2 2>&3) 
+                3>&1 1>&2 2>&3)
     case $opt in
         1 ) _dconfsettings ;;
         2 ) _dconftilix ;;
