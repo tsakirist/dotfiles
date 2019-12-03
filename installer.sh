@@ -399,6 +399,12 @@ function _bat() {
     sudo dpkg -i /tmp/bat.deb
 }
 
+function _rg() {
+    _print i "rg: ripgrep recursive search for a pattern in files"
+    wget -q https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb -O /tmp/rg.deb
+    sudo dpkg -i /tmp/rg.deb
+}
+
 function _checkroot() {
     local msg="$(printf '%s\n' \
                "Would you like to have a completely unattended installation?"  \
@@ -439,6 +445,7 @@ function _fresh_install() {
     _fzf && _fzfconfig
     _fd
     _bat
+    _rg
     _nvim && _nvimrc
     _tmux && _tmuxconfig
     _xclip
@@ -484,30 +491,31 @@ function _guimenu() {
         "8"  "    fzf configuration" \
         "9"  "    fd: improved version of find" \
         "10" "    bat: a cat clone with syntax highlighting" \
-        "11" "    neovim" \
-        "12" "    neovimrc" \
-        "13" "    tmux: terminal multiplexer" \
-        "14" "    tmux configuration" \
-        "15" "    xclip" \
-        "16" "    neofetch" \
-        "17" "    htop" \
-        "18" "    cmake" \
-        "19" "    tree" \
-        "20" "    gnome-tweaks" \
-        "21" "    gnome-shell-extensions" \
-        "22" "    gitconfig" \
-        "23" "    gitsofancy" \
-        "24" "    powerline" \
-        "25" "    powerline configuration" \
-        "26" "    java & javac" \
-        "27" "    sublime text 3" \
-        "28" "    sublime text 3: settings, keybindings, packages" \
-        "29" "    vscode" \
-        "30" "    google chrome" \
-        "31" "    preload" \
-        "32" "    vmswappiness" \
-        "33" "    set wallpaper" \
-        "34" "    install fonts" \
+        "11" "    rg: ripgrep recursive search for a pattern in files" \
+        "12" "    neovim" \
+        "13" "    neovimrc" \
+        "14" "    tmux: terminal multiplexer" \
+        "15" "    tmux configuration" \
+        "16" "    xclip" \
+        "17" "    neofetch" \
+        "18" "    htop" \
+        "19" "    cmake" \
+        "20" "    tree" \
+        "21" "    gnome-tweaks" \
+        "22" "    gnome-shell-extensions" \
+        "23" "    gitconfig" \
+        "24" "    gitsofancy" \
+        "25" "    powerline" \
+        "26" "    powerline configuration" \
+        "27" "    java & javac" \
+        "28" "    sublime text 3" \
+        "29" "    sublime text 3: settings, keybindings, packages" \
+        "30" "    vscode" \
+        "31" "    google chrome" \
+        "32" "    preload" \
+        "33" "    vmswappiness" \
+        "34" "    set wallpaper" \
+        "35" "    install fonts" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -527,31 +535,32 @@ function _selective_install() {
             7 ) _fzf ;;
             8 ) _fzfconfig ;;
             9 ) _fd ;;
-            10) _bat  ;;
-            11) _nvim ;;
-            12) _nvimrc ;;
-            13) _tmux ;;
-            14) _tmuxconfig ;;
-            15) _xclip ;;
-            16) _neofetch ;;
-            17) _htop ;;
-            18) _cmake ;;
-            19) _tree ;;
-            20) _gnometweaks ;;
-            21) _gnomeshellextensions ;;
-            22) _gitconfig ;;
-            23) _gitsofancy ;;
-            24) _powerline ;;
-            25) _powerlineconfig ;;
-            26) _java ;;
-            27) _sublimetext ;;
-            28) _sublimeconfig ;;
-            29) _vscode ;;
-            30) _googlechrome ;;
-            31) _preload ;;
-            32) _vmswappiness ;;
-            33) _setwlp ;;
-            34) _installfonts ;;
+            10) _bat ;;
+            11) _rg ;;
+            12) _nvim ;;
+            13) _nvimrc ;;
+            14) _tmux ;;
+            15) _tmuxconfig ;;
+            16) _xclip ;;
+            17) _neofetch ;;
+            18) _htop ;;
+            19) _cmake ;;
+            20) _tree ;;
+            21) _gnometweaks ;;
+            22) _gnomeshellextensions ;;
+            23) _gitconfig ;;
+            24) _gitsofancy ;;
+            25) _powerline ;;
+            26) _powerlineconfig ;;
+            27) _java ;;
+            28) _sublimetext ;;
+            29) _sublimeconfig ;;
+            30) _vscode ;;
+            31) _googlechrome ;;
+            32) _preload ;;
+            33) _vmswappiness ;;
+            34) _setwlp ;;
+            35) _installfonts ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit
