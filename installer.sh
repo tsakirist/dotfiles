@@ -473,8 +473,8 @@ function _dconfgui() {
                 "2" "    dconf tilix settings" \
                 3>&1 1>&2 2>&3)
     case $opt in
-        1 ) _dconfsettings ;;
-        2 ) _dconftilix ;;
+        1) _dconfsettings ;;
+        2) _dconftilix ;;
     esac
 }
 
