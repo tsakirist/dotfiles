@@ -1,14 +1,19 @@
 {
     "theme": "Adaptive.sublime-theme",
-    "font_size": 10,
+    "color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
+    "font_size": 10.5,
+    "font_face": "Fira Code Medium",
     "ignored_packages":
     [
         "Vintage"
     ],
-    "show_encoding": true,
-    "rulers": [120],
+    "rulers":
+    [
+        120
+    ],
     "tab_size": 4,
+    "show_encoding": true,
+    "bold_folder_labels": true,
     "translate_tabs_to_spaces": true,
     "ensure_newline_at_eof_on_save": true,
-    "bold_folder_labels": true,
 }
