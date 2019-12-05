@@ -365,14 +365,7 @@ function _setwlp() {
 
 function _installfonts() {
     _print i "fonts"
-    local destination_dir="${HOME}/.local/share/fonts"
-    # We need to check if directory exist, if not create
-    if [ ! -d "$font_dest" ]; then
-        mkdir -v -p "$destination_dir"
-    fi
-    cp -v fonts/* "$destination_dir"
-    # Build font cache
-    fc-cache -f
+    sudo apt install fonts-firacode
 }
 
 function _fzfconfig() {
