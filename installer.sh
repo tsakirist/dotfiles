@@ -162,8 +162,14 @@ function _zshconfig() {
 function _omz() {
     local zsh_custom=${HOME}/.oh-my-zsh/custom
     _print i "oh-my-zsh"
+    # Install Oh-my-zsh
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    sh -c "$(git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${zsh_custom}/themes/powerlevel10k)"
+    # Install powerlevel10k theme
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $zsh_custom/themes/powerlevel10k
+    # Install zsh autosuggestions
+    git clone https://github.com/zsh-users/zsh-autosuggestions $zsh_custom/plugins/zsh-autosuggestions
+    # Install zsh syntax highlighting and apply a specific theme
+    git clone https://github.com/zdharma/fast-syntax-highlighting.git $zsh_custom/plugins/fast-syntax-highlighting
     _zshrc
 }
 
