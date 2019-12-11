@@ -6,7 +6,6 @@
 " [count]\cu, uncomments the current line or count lines
 " [count]<leader>c<space> Toggles the comment state of the lines
 "--------------------------------------------------------------------------------------------------
-
 " ---------------------------------- Plugin installer configurations ------------------------------
 
 " Automate the process of installing vim-plug when required
@@ -32,6 +31,7 @@ Plug 'mhinz/vim-signify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'Yggdroot/indentLine'
+Plug 'ryanoasis/vim-devicons'
 
 " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
@@ -112,6 +112,9 @@ set splitright
 
 " Set the maximum text width before vim automatically wraps it
 set textwidth=120
+
+" Set default encoding
+set encoding=UTF-8
 
 " Format options configuration:
 " 't' is required in format options to wrap text in insert mode
@@ -225,6 +228,7 @@ nnoremap <silent> <leader>z :ZoomToggle<CR>
 
 " Add mouse support and change the default mouse scrolling wheel options
 set mouse=a
+nnoremap <ScrollWheelUp>   4<C-y>
 nnoremap <ScrollWheelDown> 4<C-e>
 xnoremap <ScrollWheelUp>   4<C-y>
 xnoremap <ScrollWheelDown> 4<C-e>
