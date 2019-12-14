@@ -33,6 +33,10 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'Yggdroot/indentLine'
 Plug 'ryanoasis/vim-devicons'
 
+" Add the path of .fzf inside vim and enable the seperate vim plugin
+Plug '~/.fzf'
+Plug 'junegunn/fzf.vim'
+
 " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -75,6 +79,9 @@ endfunction
 syntax on
 silent! colorscheme onedark
 " silent! colorscheme badwolf
+
+" Set true colors inside neovim
+set termguicolors
 
 "highlight LineNr term=bold cterm=None ctermfg=Red ctermbg=None
 
@@ -157,8 +164,8 @@ let g:NERDSpaceDelims=1
 " Change the delete sign of git-signify from '_' to '-'
 let g:signify_sign_delete='-'
 
-" let g:airline_theme='term'
-let g:airline_theme='solarized_flood'
+let g:airline_theme='onedark'
+" let g:airline_theme='solarized_flood'
 
 " ------------------------------------------ Keybindings ------------------------------------------
 
@@ -235,3 +242,17 @@ xnoremap <ScrollWheelDown> 4<C-e>
 
 " ---------------------------------------- COC Intelisense ----------------------------------------
 " source ~/.vim/coc/coc.config.vim
+
+" ----------------------------------- FZF Plugins configuration -----------------------------------
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+
+function! RipgrepFzf(query, fullscreen)
+let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
