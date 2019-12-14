@@ -93,9 +93,9 @@ function _change_shell() {
 }
 
 function _gitconfig() {
-    _checkfile gitconfig
+    _checkfile git/gitconfig
     _print s ".gitconfig"
-    cp -v --backup=numbered gitconfig ~/.gitconfig
+    cp -v --backup=numbered git/gitconfig ~/.gitconfig
 }
 
 function _gitsofancy() {
@@ -107,21 +107,21 @@ function _gitsofancy() {
 }
 
 function _bashrc() {
-    _checkfile bashrc
+    _checkfile bash/bashrc
     _print s ".bashrc"
-    cp -v --backup=numbered bashrc ~/.bashrc
+    cp -v --backup=numbered bash/bashrc ~/.bashrc
 }
 
 function _bashaliases() {
-    _checkfile bash_aliases
+    _checkfile bash/bash_aliases
     _print s ".bash_aliases"
-    cp -v --backup=numbered bash_aliases ~/.bash_aliases
+    cp -v --backup=numbered bash/bash_aliases ~/.bash_aliases
 }
 
 function _bashfunctions() {
-    _checkfile bash_functions
+    _checkfile bash/bash_functions
     _print s ".bash_functions"
-    cp -v --backup=numbered bash_functions ~/.bash_functions
+    cp -v --backup=numbered bash/bash_functions ~/.bash_functions
 }
 
 function _bashconfig() {
@@ -138,21 +138,21 @@ function _zsh() {
 }
 
 function _zshrc() {
-    _checkfile zshrc
+    _checkfile zsh/zshrc
     _print s ".zshrc"
-    cp -v --backup=numbered zshrc ~/.zshrc
+    cp -v --backup=numbered zsh/zshrc ~/.zshrc
 }
 
 function _zshaliases() {
-    _checkfile zsh_aliases
+    _checkfile zsh/zsh_aliases
     _print s ".zsh_aliases"
-    cp -v --backup=numbered zsh_aliases ~/.zsh_aliases
+    cp -v --backup=numbered zsh/zsh_aliases ~/.zsh_aliases
 }
 
 function _zshfunctions () {
-    _checkfile zsh_functions
+    _checkfile zsh/zsh_functions
     _print s ".zsh_functions"
-    cp -v --backup=numbered zsh_functions ~/.zsh_functions
+    cp -v --backup=numbered zsh/zsh_functions ~/.zsh_functions
 }
 
 function _zshconfig() {
@@ -179,9 +179,9 @@ function _vim() {
 }
 
 function _vimrc() {
-    _checkfile vimrc
+    _checkfile neovim/vimrc
     _print s ".vimrc"
-    cp -v --backup=numbered vimrc ~/.vimrc
+    cp -v --backup=numbered neovim/vimrc ~/.vimrc
     vim +PlugInstall +qall
 }
 
@@ -194,11 +194,11 @@ function _nvim() {
 }
 
 function _nvimrc() {
-    _checkfile vimrc && _checkfile init.vim
+    _checkfile neovim/vimrc && _checkfile neovim/init.vim
     _print s ".vimrc and init.vim"
-    cp -v --backup=numbered vimrc ~/.vimrc
+    cp -v --backup=numbered neovim/vimrc ~/.vimrc
     mkdir -v -p ~/.config/nvim/
-    cp -v --backup=numbered init.vim ~/.config/nvim/
+    cp -v --backup=numbered neovim/init.vim ~/.config/nvim/
     nvim +PlugInstall +qall
 }
 
@@ -208,9 +208,9 @@ function _tmux() {
 }
 
 function _tmuxconfig() {
-    _checkfile tmux.conf
+    _checkfile tmux/tmux.conf
     _print s ".tmux.conf"
-    cp -v --backup=numbered tmux.conf ~/.tmux.conf
+    cp -v --backup=numbered tmux/tmux.conf ~/.tmux.conf
 }
 
 function _sublimetext() {
@@ -222,7 +222,7 @@ function _sublimetext() {
 }
 
 function _sublimesettings() {
-    _checkfile sublime/Preferences.sublime-settings
+    _checkfile tmux/sublime/Preferences.sublime-settings
     _print s "sublime settings"
     cp -v --backup=numbered "sublime/Preferences.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
@@ -362,9 +362,9 @@ function _tilix() {
 }
 
 function _setwlp() {
-    local path="wallpapers/1.jpg" # my custom default wallpaper
-    _checkfile $path
-    local file="'file://$(readlink -e "${path}")'"
+    local wlp="wallpapers/1.jpg" # my custom default wallpaper
+    _checkfile $wlp
+    local file="'file://$(readlink -e "${wlp}")'"
     _print s "Wallpaper ${FILE}"
     gsettings set org.gnome.desktop.background picture-uri "$file"
 }
@@ -375,9 +375,9 @@ function _installfonts() {
 }
 
 function _fzfconfig() {
-    _checkfile fzf.config
+    _checkfile fzf/fzf.config
     _print s "fzf configuration"
-    cp -v --backup=numbered fzf.config ~/.fzf.config
+    cp -v --backup=numbered fzf/fzf.config ~/.fzf.config
 }
 
 function _fzf() {
@@ -424,7 +424,7 @@ function _showmenu() {
         is_root="yes"
     fi
     INPUT=$(whiptail --title "This script provides an easy way to install my packages and my configurations." \
-        --menu "\nScript is executed from $(pwd)\n-- root privileges: ${is_root}" ${SIZE} $((ROWS-10)) \
+        --menu "\nScript is executed from $(pwd)" ${SIZE} $((ROWS-10)) \
         "1"  "    Fresh installation" \
         "2"  "    Selective installation" \
         "Q"  "    Quit" \
@@ -568,7 +568,7 @@ function _selective_install() {
 }
 
 # ------------------------------------------------------- Main ---------------------------------------------------------
-_checkroot
+# _checkroot
 
 _showmenu
 
