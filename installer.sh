@@ -304,8 +304,14 @@ function _dconftilix() {
 
 function _dconfsettings() {
     _checkfile dconf/settings.dconf
-    _print s "dconf_settings"
+    _print s "dconf settings"
     dconf load / < dconf/settings.dconf
+}
+
+function _dconfsettingswthemes() {
+    _checkfile dconf/settings_with_themes.dconf
+    _print s "dconf settings with themes"
+    dconf load / < dconf/settings_with_themes
 }
 
 function _dconf() {
@@ -343,9 +349,22 @@ function _gnometweaks() {
     sudo apt install -y gnome-tweaks
 }
 
+function _arcmenu() {
+    print i "Arc-Menu extension"
+    # Install prerequisites
+    sudo apt install -y gnome-menus gettext libgettextpo-dev
+    pushd /tmp
+    git clone https://gitlab.com/LinxGem33/Arc-Menu.git
+    make uninstall
+    make install
+    popd
+}
+
 function _gnomeshellextensions() {
     _print i "gnome-shell-extensions"
-    sudo apt install -y gnome-shell-extension-weather gnome-shell-extension-dashtodock
+    # This installs a minimal set of extensions
+    sudo apt install -y gnome-shell-extensions
+    _arcmenu
 }
 
 function _java() {
@@ -469,11 +488,13 @@ function _dconfgui() {
     local opt=$(whiptail --title "dconf settings" --menu "\nWhich dconf settings would you like to apply?" \
                 ${SIZE} $((ROWS-10)) \
                 "1" "    dconf general settings" \
-                "2" "    dconf tilix settings" \
+                "2" "    dconf general settings with themes" \
+                "3" "    dconf tilix settings" \
                 3>&1 1>&2 2>&3)
     case $opt in
         1) _dconfsettings ;;
-        2) _dconftilix ;;
+        2) _dconfsettingswthemes ;;
+        3) _dconftilix ;;
     esac
 }
 
@@ -579,4 +600,3 @@ elif [[ $INPUT -eq 2 ]]; then
 else
     exit 0
 fi
-
