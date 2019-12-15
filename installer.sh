@@ -314,8 +314,9 @@ function _dconfsettingswthemes() {
     dconf load / < dconf/settings_with_themes
 }
 
+# By default it includes dconf settings with themes applied
 function _dconf() {
-    _dconfsettings && _dconftilix
+    _dconfsettingswthemes && _dconftilix
 }
 
 function _preload() {
@@ -365,6 +366,24 @@ function _gnomeshellextensions() {
     # This installs a minimal set of extensions
     sudo apt install -y gnome-shell-extensions
     _arcmenu
+}
+
+function _arctheme() {
+    print i "Arc-theme"
+    sudo apt install -y arc-theme
+}
+
+function _papirusfolders() {
+    print i "Papirus folders script"
+    sudo add-apt-repository ppa:papirus/papirus -y
+    sudo apt update && sudo apt install -y papirus-folders
+    # Issue papirus-folders -C deeporange to change folders color
+}
+
+function _papirusicons() {
+    print i "Papirus icons"
+    sudo add-apt-repository ppa:papirus/papirus -y
+    sudo apt update && sudo apt install -y papirus-icon-theme 
 }
 
 function _java() {
@@ -457,6 +476,8 @@ function _fresh_install() {
     _dconf
     _setwlp
     _installfonts
+    _arctheme
+    _papirusicons && _papirusfolders
     _zsh && _zshconfig && _omz
     _bashconfig
     _tilix
@@ -536,6 +557,8 @@ function _guimenu() {
         "33" "    vmswappiness" \
         "34" "    set wallpaper" \
         "35" "    install fonts" \
+        "36" "    arc-theme" \
+        "37" "    papirus icons and folder changer script" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -581,6 +604,8 @@ function _selective_install() {
             33) _vmswappiness ;;
             34) _setwlp ;;
             35) _installfonts ;;
+            36) _arctheme ;;
+            37) _papirusicons && _papirusfolders ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit
