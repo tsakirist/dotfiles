@@ -341,7 +341,14 @@ function _preload() {
 
 function _vmswappiness() {
     _print c "vm.swappiness to 10"
-    echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.conf > /dev/null 2>&1;
+    local value=10
+    local file="/etc/sysctl.conf"
+    if grep -q "^vm.swappiness" $file; then
+        sudo sed -i -e "s/\(^vm.swappiness=\).*/\1$value/" $file
+    else
+        echo "vm.swappiness=${value}" | sudo tee -a $file > /dev/null 2>&1;
+    fi
+    sudo sysctl --system
     echo "Swappiness value:" $(cat /proc/sys/vm/swappiness)
 }
 
