@@ -56,10 +56,10 @@ quake-width-percent=75
 terminal-title-show-when-single=false
 
 [com/gexperts/Tilix/profiles/2b7c4080-0ddd-46c5-8f23-563fd3ba789d]
-dim-transparency-percent=0
+badge-text=''
 foreground-color='#A1B0B8'
 visible-name='tsakiris'
-use-system-font=false
+dim-transparency-percent=0
 login-shell=true
 palette=['#252525', '#FF5252', '#C3D82C', '#FFC135', '#42A5F5', '#D81B60', '#00ACC1', '#F5F5F5', '#708284', '#FF5252', '#C3D82C', '#FFC135', '#42A5F5', '#D81B60', '#00ACC1', '#F5F5F5']
 bold-is-bright=true
@@ -71,14 +71,15 @@ default-size-rows=34
 cursor-shape='block'
 cursor-colors-set=false
 highlight-colors-set=false
-badge-position='southeast'
+badge-position='northeast'
+use-system-font=false
 bold-color-set=false
 font='Fira Code Medium 10'
-use-theme-colors=false
+use-theme-colors=true
 scroll-on-output=true
 background-color='#263238'
-background-transparency-percent=9
-badge-text=''
+background-transparency-percent=7
+badge-font='Monospace 9'
 
 [com/gexperts/Tilix/keybindings]
 terminal-scroll-down='<Primary><Shift>Page_Up'
@@ -138,7 +139,7 @@ app-picker-view=uint32 0
 command-history=['subl', 'r', 'subl']
 enabled-extensions=['ubuntu-appindicators@ubuntu.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'arc-menu@linxgem33.com', 'dash-to-dock@micxgx.gmail.com', 'openweather-extension@jenslody.de']
 enable-hot-corners=false
-favorite-apps=['org.gnome.Nautilus.desktop', 'google-chrome.desktop', 'firefox.desktop', 'libreoffice-writer.desktop', 'org.gnome.Software.desktop', 'gnome-control-center.desktop', 'thunderbird.desktop', 'sublime_text.desktop', 'code.desktop', 'com.gexperts.Tilix.desktop']
+favorite-apps=['org.gnome.Nautilus.desktop', 'google-chrome.desktop', 'firefox.desktop', 'libreoffice-writer.desktop', 'org.gnome.Software.desktop', 'gnome-control-center.desktop', 'org.gnome.tweaks.desktop', 'thunderbird.desktop', 'sublime_text.desktop', 'code.desktop', 'com.gexperts.Tilix.desktop']
 
 [org/gnome/shell/window-switcher]
 app-icon-mode='both'
@@ -212,17 +213,19 @@ menu-font-size=9
 menu-arrow-size=0
 multi-monitor=false
 menu-corner-radius=0
-pinned-app-list=['Google Chrome', 'google-chrome', 'google-chrome.desktop', 'Tilix', 'com.gexperts.Tilix', 'com.gexperts.Tilix.desktop', 'Sublime Text', 'sublime-text', 'sublime_text.desktop', 'Visual Studio Code', '/usr/share/pixmaps/com.visualstudio.code.png', 'code.desktop', 'Arc Menu Settings', 'emblem-system-symbolic', 'gnome-shell-extension-prefs arc-menu@linxgem33.com']
-menu-color='rgba(28, 28, 28, 0.98)'
-show-terminal-shortcut=false
 menu-hotkey='Custom'
+menu-color='rgba(28, 28, 28, 0.98)'
+pinned-app-list=['Google Chrome', 'google-chrome', 'google-chrome.desktop', 'Tilix', 'com.gexperts.Tilix', 'com.gexperts.Tilix.desktop', 'Sublime Text', 'sublime-text', 'sublime_text.desktop', 'Visual Studio Code', '/usr/share/pixmaps/com.visualstudio.code.png', 'code.desktop', 'Arc Menu Settings', 'emblem-system-symbolic', 'gnome-shell-extension-prefs arc-menu@linxgem33.com']
+show-terminal-shortcut=false
 highlight-color='rgba(238, 238, 236, 0.1)'
 avatar-style='Circular'
+disable-hotkey-onkeyrelease=true
 menu-button-color='rgb(238,238,236)'
 vert-separator=true
 border-color='rgb(63,62,64)'
 position-in-panel='Left'
 disable-activities-hotcorner=false
+enable-pinned-apps=true
 enable-custom-arc-menu-layout=false
 menu-layout='Default'
 menu-foreground-color='rgba(211, 218, 227, 1)'
@@ -237,6 +240,7 @@ menu-width=242
 separator-color='rgb(63,62,64)'
 custom-menu-button-icon='/home/tsakiris/Pictures/Icons/start-here.png'
 enable-custom-arc-menu=false
+custom-menu-button-text='Menu'
 enable-menu-button-arrow=false
 menu-keybinding=['<Super>q']
 
@@ -252,7 +256,7 @@ show-tabs-mode='auto'
 side-panel-visible=true
 
 [org/gnome/gedit/plugins/filebrowser]
-virtual-root='file:///home/tsakiris/Documents/configurations/git'
+virtual-root='file:///home/tsakiris/Desktop'
 tree-view=true
 root='file:///'
 
@@ -288,7 +292,7 @@ search-filter-time-type='last_modified'
 
 [org/gnome/nautilus/window-state]
 sidebar-width=201
-geometry='890x495+359+204'
+geometry='890x502+345+217'
 maximized=false
 
 [org/gnome/nautilus/desktop]
@@ -498,11 +502,11 @@ mousekeys-enable=false
 automatic-timezone=true
 
 [org/gnome/desktop/background]
-picture-uri='file:///home/tsakiris/Documents/configurations/wallpapers/1.jpg'
+picture-uri='file:///usr/share/backgrounds/warty-final-ubuntu.png'
 color-shading-type='solid'
-primary-color='#000000000000'
+primary-color='#2c001e'
 picture-options='zoom'
-secondary-color='#000000000000'
+secondary-color='#2c001e'
 
 [org/gnome/desktop/input-sources]
 xkb-options=['grp:alt_shift_toggle']
@@ -511,7 +515,7 @@ mru-sources=[('xkb', 'us'), ('xkb', 'gr')]
 sources=[('xkb', 'us'), ('xkb', 'gr')]
 
 [org/gnome/control-center]
-last-panel='keyboard'
+last-panel='background'
 
 [org/gnome/eog/view]
 background-color='rgb(0,0,0)'
@@ -550,7 +554,7 @@ statusbar-visible=false
 locations=['file:///home/tsakiris/Music']
 
 [org/gnome/software]
-check-timestamp=int64 1576412477
+check-timestamp=int64 1576495308
 install-timestamp=int64 1554384255
 
 [org/gnome/mutter]
@@ -565,7 +569,7 @@ foreground-color='rgb(211,215,207)'
 palette=['rgb(46,52,54)', 'rgb(204,0,0)', 'rgb(78,154,6)', 'rgb(196,160,0)', 'rgb(52,101,164)', 'rgb(117,80,123)', 'rgb(6,152,154)', 'rgb(211,215,207)', 'rgb(85,87,83)', 'rgb(239,41,41)', 'rgb(138,226,52)', 'rgb(252,233,79)', 'rgb(114,159,207)', 'rgb(173,127,168)', 'rgb(52,226,226)', 'rgb(238,238,236)']
 default-size-columns=140
 default-size-rows=35
-use-system-font=false
+use-system-font=true
 use-transparent-background=true
 use-theme-colors=false
 font='Hack Nerd Font 11'
@@ -579,7 +583,7 @@ schema-version=uint32 3
 [org/gtk/settings/file-chooser]
 sort-column='name'
 sidebar-width=196
-window-position=(402, 166)
+window-position=(577, 200)
 show-size-column=true
 show-hidden=false
 window-size=(876, 578)
@@ -592,8 +596,8 @@ location-mode='path-bar'
 recent-emoji=[(([uint32 128526], 'smiling face with sunglasses', ':sunglasses:'), uint32 0)]
 
 [org/gtk/settings/color-chooser]
-selected-color=(true, 0.93333333333333335, 0.93333333333333335, 0.92549019607843142, 1.0)
-custom-colors=[(0.24705882352941178, 0.24313725490196078, 0.25098039215686274, 1.0), (0.83921568627450982, 0.83921568627450982, 0.83921568627450982, 1.0), (0.94117647058823528, 0.94117647058823528, 0.94117647058823528, 1.0)]
+selected-color=(true, 0.63137254901960782, 0.69019607843137254, 0.72156862745098038, 1.0)
+custom-colors=[(0.32941176470588235, 0.33725490196078434, 0.32156862745098042, 1.0), (0.14901960784313725, 0.19607843137254899, 0.2196078431372549, 1.0), (0.14901960784313725, 0.19607843137254902, 0.2196078431372549, 1.0), (0.63137254901960782, 0.69019607843137254, 0.72156862745098038, 1.0), (0.18823529411764706, 0.039215686274509803, 0.14117647058823529, 1.0), (0.24705882352941178, 0.24313725490196078, 0.25098039215686274, 1.0), (0.83921568627450982, 0.83921568627450982, 0.83921568627450982, 1.0), (0.94117647058823528, 0.94117647058823528, 0.94117647058823528, 1.0)]
 
 [org/compiz]
 existing-profiles=['Default', 'unity']
@@ -746,7 +750,7 @@ show-real-name-on-panel=false
 keyrings-selected=['secret-service://login', 'secret-service:///org/freedesktop/secrets/collection/login']
 
 [ca/desrt/dconf-editor]
-saved-view='/com/gexperts/Tilix/'
+saved-view='/org/gnome/desktop/applications/terminal/'
 show-warning=false
 window-height=600
 window-width=800
