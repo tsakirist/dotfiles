@@ -326,7 +326,7 @@ function _dconfsettings() {
 function _dconfsettingswthemes() {
     _checkfile dconf/settings_with_themes.dconf
     _print s "dconf settings with themes"
-    dconf load / < dconf/settings_with_themes
+    dconf load / < dconf/settings_with_themes.dconf
 }
 
 # By default it includes dconf settings with themes applied
@@ -379,7 +379,7 @@ function _arcmenu() {
 function _gnomeshellextensions() {
     _print i "gnome-shell-extensions"
     # This installs a minimal set of extensions
-    sudo apt install -y gnome-shell-extensions
+    sudo apt install -y gnome-shell-extensions gnome-shell-extension-weather gnome-shell-extension-dashtodock
     _arcmenu
 }
 
@@ -392,7 +392,7 @@ function _papirusfolders() {
     _print i "Papirus folders script"
     sudo add-apt-repository ppa:papirus/papirus -y
     sudo apt update && sudo apt install -y papirus-folders
-    # Issue papirus-folders -C deeporange to change folders color
+    papirus-folders -C deeporange
 }
 
 function _papirusicons() {
@@ -488,8 +488,6 @@ function _showmenu() {
 
 function _fresh_install() {
     _checkcommand curl && _checkcommand git
-    _dconf
-    _setwlp
     _installfonts
     _arctheme
     _papirusicons && _papirusfolders
@@ -517,6 +515,8 @@ function _fresh_install() {
     _googlechrome
     _preload
     _vmswappiness
+    _dconf
+    _setwlp
     _reboot
 }
 
