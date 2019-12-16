@@ -6,6 +6,7 @@
 " [count]\cu, uncomments the current line or count lines
 " [count]<leader>c<space> Toggles the comment state of the lines
 "--------------------------------------------------------------------------------------------------
+
 " ---------------------------------- Plugin installer configurations ------------------------------
 
 " Automate the process of installing vim-plug when required
@@ -27,11 +28,12 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdtree'
+Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-signify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'Yggdroot/indentLine'
-Plug 'ryanoasis/vim-devicons'
+Plug 'junegunn/goyo.vim'
 
 " Add the path of .fzf inside vim and enable the seperate vim plugin
 Plug '~/.fzf'
@@ -167,7 +169,25 @@ let g:signify_sign_delete='-'
 let g:airline_theme='onedark'
 " let g:airline_theme='solarized_flood'
 
+" Goyo configuration
+let g:goyo_width="80%"
+let g:goyo_height="85%"
+let g:goyo_linenr=0
+
+
 " ------------------------------------------ Keybindings ------------------------------------------
+
+" Toggle line numbers
+nnoremap <silent> <leader>l :set nu!<CR>
+
+" Toggle Goyo - distraction free writing
+nnoremap <silent> <leader>g :Goyo<CR>
+
+" Toggle between folds
+nnoremap <expr> <f2> &foldlevel ? 'zM' :'zR'
+
+" Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
+map <silent> <C-k><C-b> :NERDTreeToggle<CR>
 
 " Keybinds to move lines like sublime text 3
 " https://vim.fandom.com/wiki/Moving_lines_up_or_down
@@ -189,9 +209,6 @@ vnoremap <leader>d <Esc>m`yyp``<CR>
 
 " Hitting ESC when inside a :term to get into normal mode
 tnoremap <Esc> <C-\><C-N>
-
-" Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
-map <silent> <C-k><C-b> :NERDTreeToggle<CR>
 
 " Insert a blank line with <leader>Enter without leaving normal mode
 nnoremap <silent> <leader><CR> o<Esc>
