@@ -32,7 +32,7 @@ function _backup() {
 function _reboot() {
     echo "It is recommended to ${bold}${red}reboot${reset} after a fresh install of the packages and configurations."
     read -n 1 -r -p "Would you like to reboot? [Y/n] " input
-    if [[ $input =~ ^([yY]) ]]; then
+    if [[ "$input" =~ ^([yY])$ ]]; then
         sudo reboot
     fi
 }
@@ -41,7 +41,7 @@ function _prompt() {
     local exec=false
     echo -e "${bullet} Do you want to download/install ${bold}${red}${1}${reset} [Y/n] "
     read -n 1 -s input
-    if [[ $input =~ ^([yY]) ]]; then
+    if [[ "$input" =~ ^([yY])$ ]]; then
         exec=true
     fi
     if [[ $exec == "true" ]]; then
