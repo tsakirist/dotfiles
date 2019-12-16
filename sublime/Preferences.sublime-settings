@@ -1,6 +1,6 @@
 {
     "bold_folder_labels": true,
-    "color_scheme": "Packages/Theme - Seti Monokai/scheme/Seti Monokai.tmTheme",
+    "color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
     "ensure_newline_at_eof_on_save": true,
     "font_face": "Fira Code Medium",
     "font_size": 10.5,

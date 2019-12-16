@@ -213,6 +213,21 @@ function _tmuxconfig() {
     cp -v --backup=numbered tmux/tmux.conf ~/.tmux.conf
 }
 
+function _sublimepkgctrl() {
+    # Create the necessary folder for Package Control and install it manually
+    if [ ! -f "${HOME}/.config/sublime-text-3/Installed Packages/Package Control.sublime-package" ]; then
+        wget -q "https://packagecontrol.io/Package%20Control.sublime-package" \
+             -P "${HOME}/.config/sublime-text-3/Installed Packages"
+    fi
+}
+
+function _sublimeinit() {
+    # Create some necessary folders in order to be able to copy settings
+    mkdir -v -p "${HOME}/.config/sublime-text-3/Installed Packages"
+    mkdir -v -p "${HOME}/.config/sublime-text-3/Packages/User/"
+    _sublimepkgctrl
+}
+
 function _sublimetext() {
     _print i "SublimeText 3"
     wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
@@ -222,7 +237,7 @@ function _sublimetext() {
 }
 
 function _sublimesettings() {
-    _checkfile tmux/sublime/Preferences.sublime-settings
+    _checkfile sublime/Preferences.sublime-settings
     _print s "sublime settings"
     cp -v --backup=numbered "sublime/Preferences.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
@@ -351,7 +366,7 @@ function _gnometweaks() {
 }
 
 function _arcmenu() {
-    print i "Arc-Menu extension"
+    _print i "Arc-Menu extension"
     # Install prerequisites
     sudo apt install -y gnome-menus gettext libgettextpo-dev
     pushd /tmp
@@ -369,19 +384,19 @@ function _gnomeshellextensions() {
 }
 
 function _arctheme() {
-    print i "Arc-theme"
+    _print i "Arc-theme"
     sudo apt install -y arc-theme
 }
 
 function _papirusfolders() {
-    print i "Papirus folders script"
+    _print i "Papirus folders script"
     sudo add-apt-repository ppa:papirus/papirus -y
     sudo apt update && sudo apt install -y papirus-folders
     # Issue papirus-folders -C deeporange to change folders color
 }
 
 function _papirusicons() {
-    print i "Papirus icons"
+    _print i "Papirus icons"
     sudo add-apt-repository ppa:papirus/papirus -y
     sudo apt update && sudo apt install -y papirus-icon-theme
 }
@@ -497,7 +512,7 @@ function _fresh_install() {
     _gitconfig && _gitsofancy
     _powerline && _powerlineconfig
     _java
-    _sublimetext && _sublimeconfig
+    _sublimetext && _sublimeinit && _sublimeconfig
     _vscode
     _googlechrome
     _preload
@@ -597,7 +612,7 @@ function _selective_install() {
             26) _powerlineconfig ;;
             27) _java ;;
             28) _sublimetext ;;
-            29) _sublimeconfig ;;
+            29) _sublimeinit && _sublimeconfig ;;
             30) _vscode ;;
             31) _googlechrome ;;
             32) _preload ;;
