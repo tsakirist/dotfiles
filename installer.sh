@@ -383,7 +383,7 @@ function _papirusfolders() {
 function _papirusicons() {
     print i "Papirus icons"
     sudo add-apt-repository ppa:papirus/papirus -y
-    sudo apt update && sudo apt install -y papirus-icon-theme 
+    sudo apt update && sudo apt install -y papirus-icon-theme
 }
 
 function _java() {
