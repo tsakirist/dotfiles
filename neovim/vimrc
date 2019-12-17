@@ -34,13 +34,13 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'Yggdroot/indentLine'
 Plug 'junegunn/goyo.vim'
-Plug '~/.fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'dkprice/vim-easygrep'
+
+Plug '~/.fzf'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-
-" Plug 'deoplete-plugins/deoplete-jedi'
 " Plug 'ervandew/supertab'
 
 " List ends here. Plugins become visible to Vim after this call
@@ -182,14 +182,37 @@ let g:goyo_width="80%"
 let g:goyo_height="85%"
 let g:goyo_linenr=0
 
+" Vim-Signify configuration options
+" ---------------------------------
 " Change the delete sign of git-signify from '_' to '-'
 let g:signify_sign_delete='-'
 
+" Airline configuration options
+" -----------------------------
+" Change airline theme
 let g:airline_theme='onedark'
-" let g:airline_theme='solarized_flood'
 
+" Enable tabline extension
+let g:airline#extensions#tabline#enabled=1
+
+" Add powerline fonts to populate powerline symbols
+let g:airline_powerline_fonts=1
+
+" Change the tabline separators
+" let g:airline#extensions#tabline#left_sep=' '
+" let g:airline#extensions#tabline#left_alt_sep='|'
+
+" Deoplete configuration options
+" ------------------------------
 " Enable deoplete autocompletion
 let g:deoplete#enable_at_startup=1
+
+" EasyGrep configuration options
+" ------------------------------
+" Make EasyGrep search only in the current buffer
+let g:EasyGrepMode=1
+let g:EasyGrepSearchCurrentBufferOnly=1
+let g:EasyGrepIgnoreCase=0
 
 " ------------------------------------------ Keybindings ------------------------------------------
 
@@ -197,10 +220,10 @@ let g:deoplete#enable_at_startup=1
 nnoremap <silent> <leader>l :set nu!<CR>
 
 " Toggle Goyo - distraction free writing
-nnoremap <silent> <leader>g :Goyo<CR>
+nnoremap <silent> <F1> :Goyo<CR>
 
 " Toggle between folds
-nnoremap <expr> <f2> &foldlevel ? 'zM' :'zR'
+nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
 
 " Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
 map <silent> <C-k><C-b> :NERDTreeToggle<CR>
@@ -234,6 +257,14 @@ nnoremap <C-s> :w<CR>
 inoremap <C-s> <Esc>:w<CR>
 vnoremap <C-s> <Esc>:w<CR>
 
+" Keymaps to quit current buffer with ctrl+q
+nnoremap <silent> <C-q> <Esc>:q<CR>
+inoremap <silent> <C-q> <Esc>:q<CR>
+vnoremap <silent> <C-q> <Esc>:q<CR>
+
+" Keymap to quit all buffers with shift+q
+nnoremap <silent> <S-q> <Esc>:qa<CR>
+
 " Easiliy toggle comments @NERDCommenter
 map <leader><leader> <leader>c<Space><CR>
 
@@ -241,16 +272,11 @@ map <leader><leader> <leader>c<Space><CR>
 imap <leader><leader> <Esc><leader>c<Space>:startinsert<CR>
 
 " Clear highlighting with escape when in normal mode
-nnoremap <silent> <esc> :noh<return><esc>
-nnoremap <silent> <esc>^[ <esc>^[
+nnoremap <silent> <Esc> :noh<return><Esc>
+nnoremap <silent> <Esc>^[ <Esc>^[
 
 " Keymap to source the vimrc automatically
 nnoremap <silent> <leader>sc :source $MYVIMRC<CR>
-
-" Keymaps to quit current buffer with Ctrl+q
-nnoremap <silent> <C-q> <Esc>:q<CR>
-inoremap <silent> <C-q> <Esc>:q<CR>
-vnoremap <silent> <C-q> <Esc>:q<CR>
 
 " Commands/Keymaps to open terminals horizontally and vertically
 command! -nargs=* HT split  | terminal <args>
@@ -275,9 +301,9 @@ xnoremap <ScrollWheelUp>   4<C-y>
 xnoremap <ScrollWheelDown> 4<C-e>
 
 " Git-signify keybinds to use the plugin more easily
-nnoremap <silent> <leader>ghl :SignifyToggleHighlight<CR>
-nnoremap <silent> <leader>gf  :SignifyFold<CR>
-nnoremap <silent> <leader>gd  :SignifyDiff<CR>
+nnoremap <silent> <leader>gh :SignifyToggleHighlight<CR>
+nnoremap <silent> <leader>gf :SignifyFold<CR>
+nnoremap <silent> <leader>gd :SignifyDiff<CR>
 
 " Deoplete keybindings
 " --------------------
