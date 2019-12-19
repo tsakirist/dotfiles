@@ -103,6 +103,8 @@ function _print() {
             "c") action="Changing" ;;
         esac
         echo -ne "${thunder} ${action} ${bold}${red}${*:2}${reset}..."
+        # Insert a newline for formatting options
+        [ "$1" != "i" ] && echo
     fi
 }
 
