@@ -15,14 +15,43 @@ start_underline=$(tput smul)
 end_underline=$(tput rmul)
 black=$(tput setaf 0)
 red=$(tput setaf 1)
+green=$(tput setaf 2)
 reset=$(tput sgr0)
 
 # ---------------------------------------------------- Symbols ---------------------------------------------------------
 
 thunder="\u2301"
 bullet="\u2022"
+cross="\u2718"
+tick="\u2714"
+spinner=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
 
 # ---------------------------------------------------- Functions -------------------------------------------------------
+
+function _spin() {
+    local PID=$1
+    # Make the cursor invisible for the duration
+    tput civis
+    # Print some whitespace before the spinner
+    echo -ne "  "
+    while [ -d  /proc/$PID ]; do
+        for i in "${spinner[@]}"; do
+            echo -ne "\b$i"
+            sleep .1
+        done
+    done
+    # Output a symbol, denoting the successful or not, installation of the package
+    [ $? -eq 0 ] && echo -e "${green}\b${tick}${reset}" || echo -e "${red}\b${cross}${reset}"
+    # Bring back the cursor to normal
+    tput cnorm
+}
+
+function _install() {
+    # Install the package in the background and suppress any outputs from STDOUT
+    # -qq: option implies --yes and also is less verbose
+    sudo apt-get -qq install "$*" > /dev/null &
+    _spin $!
+}
 
 function _backup() {
     echo "Backing up $1 ..."
@@ -60,8 +89,8 @@ function _checkfile() {
 
 function _checkcommand() {
     if ! command -v $1 > /dev/null 2>&1; then
-        echo -e "${thunder} Installing required package ${bold}${red}${1}${reset} ..."
-        sudo apt install -y $1
+        echo -ne "${thunder} Installing required package ${bold}${red}${1}${reset}..."
+        _install $1
     fi
 }
 
@@ -69,11 +98,11 @@ function _print() {
     local action
     if [[ $# -gt 1 ]]; then
         case "$1" in
-            "s" ) action="Setting" ;;
-            "i" ) action="Installing" ;;
-            "c" ) action="Changing" ;;
+            "s") action="Setting" ;;
+            "i") action="Installing" ;;
+            "c") action="Changing" ;;
         esac
-        echo -e "${thunder} ${action} ${bold}${red}${*:2}${reset} ..."
+        echo -ne "${thunder} ${action} ${bold}${red}${*:2}${reset}..."
     fi
 }
 
@@ -130,7 +159,7 @@ function _bashconfig() {
 
 function _zsh() {
     _print i "zsh"
-    sudo apt install -y zsh
+    _install zsh
     local msg="Would you like to change the default shell to zsh?\nThis will issue 'chsh -s $(which zsh)' command."
     if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
         chsh -s $(which zsh)
@@ -175,7 +204,7 @@ function _omz() {
 
 function _vim() {
     _print i "vim"
-    sudo apt install -y vim vim-gnome
+    _install vim vim-gnome
 }
 
 function _vimrc() {
@@ -190,7 +219,7 @@ function _nvim() {
     # sudo sh -c 'echo "deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu bionic main" > \
     #             /etc/apt/sources.list.d/neovim.list'
     sudo add-apt-repository ppa:neovim-ppa/stable -y
-    sudo apt update && sudo apt install -y neovim
+    sudo apt-get -qq update && _install neovim
 }
 
 function _nvimrc() {
@@ -204,7 +233,7 @@ function _nvimrc() {
 
 function _tmux() {
     _print i "tmux"
-    sudo apt install -y tmux
+    _install tmux
 }
 
 function _tmuxconfig() {
@@ -233,7 +262,7 @@ function _sublimetext() {
     wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     sudo sh -c 'echo "deb https://download.sublimetext.com/ apt/stable/" > \
                 /etc/apt/sources.list.d/sublime-text.list'
-    sudo apt update && sudo apt install -y sublime-text
+    sudo apt-get -qq update && _install sublime-text
 }
 
 function _sublimesettings() {
@@ -270,7 +299,7 @@ function _vscode() {
     sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ && rm -f microsoft.gpg
     sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > \
                 /etc/apt/sources.list.d/vscode.list'
-    sudo apt update && sudo apt install -y code
+    sudo apt-get -qq update && _install code
 }
 
 function _googlechrome() {
@@ -283,20 +312,20 @@ function _googlechrome() {
 
 function _neofetch() {
     _print i "neofetch"
-    sudo apt install -y neofetch
+    _install neofetch
 }
 
 function _xclip() {
     _print i "xclip"
-    sudo apt install -y xclip
+    _install xclip
 }
 
 function _powerline() {
     _print i "powerline"
-    sudo apt install -y python-pip
+    _install python-pip
     pip install powerline-status
     pip install powerline-gitstatus
-    sudo apt install -y fonts-powerline
+    _install fonts-powerline
 }
 
 function _powerlineconfig() {
@@ -336,7 +365,7 @@ function _dconf() {
 
 function _preload() {
     _print i "preload"
-    sudo apt install -y preload
+    _install preload
 }
 
 function _vmswappiness() {
@@ -354,28 +383,28 @@ function _vmswappiness() {
 
 function _cmake() {
     _print i "cmake"
-    sudo apt install -y cmake
+    _install cmake
 }
 
 function _tree() {
     _print i "tree"
-    sudo apt install -y tree
+    _install tree
 }
 
 function _htop() {
     _print i "htop"
-    sudo apt install -y htop
+    _install htop
 }
 
 function _gnometweaks() {
     _print i "gnome-tweaks"
-    sudo apt install -y gnome-tweaks
+    _install gnome-tweaks
 }
 
 function _arcmenu() {
     _print i "Arc-Menu extension"
     # Install prerequisites
-    sudo apt install -y gnome-menus gettext libgettextpo-dev
+    _install gnome-menus gettext libgettextpo-dev
     pushd /tmp
     git clone https://gitlab.com/LinxGem33/Arc-Menu.git
     make uninstall
@@ -386,31 +415,31 @@ function _arcmenu() {
 function _gnomeshellextensions() {
     _print i "gnome-shell-extensions"
     # This installs a minimal set of extensions
-    sudo apt install -y gnome-shell-extensions gnome-shell-extension-weather gnome-shell-extension-dashtodock
+    _install gnome-shell-extensions gnome-shell-extension-weather gnome-shell-extension-dashtodock
     _arcmenu
 }
 
 function _arctheme() {
     _print i "Arc-theme"
-    sudo apt install -y arc-theme
+    _install arc-theme
 }
 
 function _papirusfolders() {
     _print i "Papirus folders script"
     sudo add-apt-repository ppa:papirus/papirus -y
-    sudo apt update && sudo apt install -y papirus-folders
+    sudo apt-get -qq update && _install papirus-folders
     papirus-folders -C deeporange
 }
 
 function _papirusicons() {
     _print i "Papirus icons"
     sudo add-apt-repository ppa:papirus/papirus -y
-    sudo apt update && sudo apt install -y papirus-icon-theme
+    sudo apt-get -qq update && _install papirus-icon-theme
 }
 
 function _java() {
     _print i "java and javac"
-    sudo apt install -y default-jre default-jdk
+    _install default-jre default-jdk
 }
 
 function _tilix() {
@@ -418,7 +447,7 @@ function _tilix() {
     sudo add-apt-repository ppa:webupd8team/terminix -y
     # sudo sh -c 'echo "deb http://ppa.launchpad.net/webupd8team/terminix/ubuntu bionic main" > \
     #         /etc/apt/sources.list.d/webupd8team-ubuntu-terminix-bionic.list'
-    sudo apt update && sudo apt install -y tilix
+    sudo apt-get -qq update && _install tilix
 }
 
 function _setwlp() {
@@ -471,16 +500,22 @@ function _checkroot() {
     if [ "$EUID" -ne 0 ]; then
         if (whiptail --title "Installer Privileges" --yesno "$msg" 8 78); then
             echo -e "${thunder} Trying to get ${start_underline}${bold}${red}root${reset} access rights... "
-            sudo "$0" "$@"
+            sudo -s "$0" "$@"
             exit $?
         fi
     fi
 }
 
+function _validateroot() {
+    # This function will validate user's timestamp without running any commnad
+    # It will prompt for password and keep it in cache, which is 15 mins by default
+    sudo -v
+}
+
 function _showmenu() {
     _checkcommand whiptail
     local INFO="---------------------- System Information -----------------------\n"
-    INFO+="$(hostnamectl | tail -n 3 | cut -c3-)" 
+    INFO+="$(hostnamectl | tail -n 3 | cut -c3-)"
     INPUT=$(whiptail --title "This script provides an easy way to install my packages and my configurations." \
         --menu "\nScript is executed from '$(pwd)'\n\n${INFO}" ${SIZE} 3 \
         "1"  "    Fresh installation of everything" \
@@ -634,8 +669,8 @@ function _selective_install() {
 }
 
 # ------------------------------------------------------- Main ---------------------------------------------------------
-# _checkroot
 
+_validateroot
 _showmenu
 
 if [[ $INPUT -eq 1 ]]; then
