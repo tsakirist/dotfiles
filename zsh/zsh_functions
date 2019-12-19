@@ -67,3 +67,8 @@ perms() {
     find "$dest" -type d | xargs chmod -v 755
     find "$dest" -type f | xargs chmod -v 644
 }
+
+# This issue's help bash function while inside zsh
+help() {
+    $(which bash) -c "help $1"
+}
