@@ -479,57 +479,19 @@ function _checkroot() {
 
 function _showmenu() {
     _checkcommand whiptail
-    local is_root="no"
-    if [ "$EUID" -eq 0 ]; then
-        is_root="yes"
-    fi
+    local INFO="---------------------- System Information -----------------------\n"
+    INFO+="$(hostnamectl | tail -n 3 | cut -c3-)" 
     INPUT=$(whiptail --title "This script provides an easy way to install my packages and my configurations." \
-        --menu "\nScript is executed from $(pwd)" ${SIZE} $((ROWS-10)) \
-        "1"  "    Fresh installation" \
+        --menu "\nScript is executed from '$(pwd)'\n\n${INFO}" ${SIZE} 3 \
+        "1"  "    Fresh installation of everything" \
         "2"  "    Selective installation" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
 
-# ----------------------------------------------------- Installers -----------------------------------------------------
-
-function _fresh_install() {
-    _checkcommand curl && _checkcommand git
-    _installfonts
-    _arctheme
-    _papirusicons && _papirusfolders
-    _zsh && _zshconfig && _omz
-    _bashconfig
-    _tilix
-    _fzf && _fzfconfig
-    _fd
-    _bat
-    _rg
-    _nvim && _nvimrc
-    _tmux && _tmuxconfig
-    _xclip
-    _neofetch
-    _htop
-    _cmake
-    _tree
-    _gnometweaks
-    _gnomeshellextensions
-    _gitconfig && _gitsofancy
-    _powerline && _powerlineconfig
-    _java
-    _sublimetext && _sublimeinit && _sublimeconfig
-    _vscode
-    _googlechrome
-    _preload
-    _vmswappiness
-    _dconf
-    _setwlp
-    _reboot
-}
-
 function _dconfgui() {
     local opt=$(whiptail --title "dconf settings" --menu "\nWhich dconf settings would you like to apply?" \
-                ${SIZE} $((ROWS-10)) \
+                ${SIZE} 3 \
                 "1" "    dconf general settings" \
                 "2" "    dconf general settings with themes" \
                 "3" "    dconf tilix settings" \
@@ -583,6 +545,42 @@ function _guimenu() {
         "37" "    papirus icons and folder changer script" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
+}
+
+# ----------------------------------------------------- Installers -----------------------------------------------------
+
+function _fresh_install() {
+    _checkcommand curl && _checkcommand git
+    _installfonts
+    _arctheme
+    _papirusicons && _papirusfolders
+    _zsh && _zshconfig && _omz
+    _bashconfig
+    _tilix
+    _fzf && _fzfconfig
+    _fd
+    _bat
+    _rg
+    _nvim && _nvimrc
+    _tmux && _tmuxconfig
+    _xclip
+    _neofetch
+    _htop
+    _cmake
+    _tree
+    _gnometweaks
+    _gnomeshellextensions
+    _gitconfig && _gitsofancy
+    _powerline && _powerlineconfig
+    _java
+    _sublimetext && _sublimeinit && _sublimeconfig
+    _vscode
+    _googlechrome
+    _preload
+    _vmswappiness
+    _dconf
+    _setwlp
+    _reboot
 }
 
 function _selective_install() {
