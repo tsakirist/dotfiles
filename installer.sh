@@ -212,7 +212,8 @@ function _omz() {
     _print i "oh-my-zsh"
     _spin &
     # Install Oh-my-zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended \
+     &> /dev/null
     # Install powerlevel10k theme
     git clone -q --depth=1 https://github.com/romkatv/powerlevel10k.git $zsh_custom/themes/powerlevel10k
     # Install zsh autosuggestions
