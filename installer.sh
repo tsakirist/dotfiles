@@ -46,6 +46,15 @@ function _spin() {
     tput cnorm
 }
 
+function _checkppa() {
+    for i in "$@"; do
+        if ! grep -Rq "^deb.*$i" /etc/apt/sources.list.d/*.list; then
+            sudo add-apt-repository -y ppa:$i > /dev/null
+            sudo apt-get -qq update
+        fi
+    done
+}
+
 function _install() {
     # Install the package in the background and suppress any outputs from STDOUT
     # -qq: option implies --yes and also is less verbose
@@ -220,8 +229,9 @@ function _nvim() {
     _print i "neovim"
     # sudo sh -c 'echo "deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu bionic main" > \
     #             /etc/apt/sources.list.d/neovim.list'
-    sudo add-apt-repository ppa:neovim-ppa/stable -y
-    sudo apt-get -qq update && _install neovim
+    # sudo add-apt-repository ppa:neovim-ppa/stable -y
+    _checkppa neovim-ppa/stable
+    _install neovim
 }
 
 function _nvimrc() {
@@ -307,7 +317,7 @@ function _vscode() {
 function _googlechrome() {
     _print i "Google Chrome"
     wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google_chrome.deb
-    sudo dpkg -i /tmp/google_chrome.deb
+    sudo dpkg -i /tmp/google_chrome.deb > /dev/null
     # Remove google chrome keyring pop-up
     sudo sed -i '/^Exec=/s/$/ --password-store=basic %U/' "/usr/share/applications/google-chrome.desktop"
 }
@@ -428,15 +438,17 @@ function _arctheme() {
 
 function _papirusfolders() {
     _print i "Papirus folders script"
-    sudo add-apt-repository ppa:papirus/papirus -y
-    sudo apt-get -qq update && _install papirus-folders
-    papirus-folders -C deeporange
+    # sudo add-apt-repository ppa:papirus/papirus -y
+    _checkppa papirus/papirus
+    _install papirus-folders
+    sudo papirus-folders -C deeporange > /dev/null
 }
 
 function _papirusicons() {
     _print i "Papirus icons"
-    sudo add-apt-repository ppa:papirus/papirus -y
-    sudo apt-get -qq update && _install papirus-icon-theme
+    # sudo add-apt-repository ppa:papirus/papirus -y
+    _checkppa papirus/papirus
+    _install papirus-icon-theme
 }
 
 function _java() {
@@ -446,10 +458,11 @@ function _java() {
 
 function _tilix() {
     _print i "tilix: a terminal emulator"
-    sudo add-apt-repository ppa:webupd8team/terminix -y
+    # sudo add-apt-repository ppa:webupd8team/terminix -y
     # sudo sh -c 'echo "deb http://ppa.launchpad.net/webupd8team/terminix/ubuntu bionic main" > \
     #         /etc/apt/sources.list.d/webupd8team-ubuntu-terminix-bionic.list'
-    sudo apt-get -qq update && _install tilix
+    _checkppa webupd8team/terminix
+    _install tilix
 }
 
 function _setwlp() {
@@ -480,7 +493,7 @@ function _fzf() {
 function _fd() {
     _print i "fd: an improved version of find"
     wget -q https://github.com/sharkdp/fd/releases/download/v7.4.0/fd-musl_7.4.0_amd64.deb -O /tmp/fd.deb
-    sudo dpkg -i /tmp/fd.deb
+    sudo dpkg -i /tmp/fd.deb > /dev/null
 }
 
 function _bat() {
@@ -492,7 +505,7 @@ function _bat() {
 function _rg() {
     _print i "rg: ripgrep recursive search for a pattern in files"
     wget -q https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb -O /tmp/rg.deb
-    sudo dpkg -i /tmp/rg.deb
+    sudo dpkg -i /tmp/rg.deb > /dev/null
 }
 
 function _checkroot() {
