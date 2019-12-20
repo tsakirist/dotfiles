@@ -49,7 +49,7 @@ function _spin() {
 function _install() {
     # Install the package in the background and suppress any outputs from STDOUT
     # -qq: option implies --yes and also is less verbose
-    sudo apt-get -qq install "$*" > /dev/null &
+    sudo apt-get -qq install "$@" > /dev/null &
     _spin $!
 }
 
@@ -160,17 +160,11 @@ function _bashconfig() {
 }
 
 function _zsh() {
-    # If supplied with argument -y, then it won't ask for the confirmation and assume the answer is yes
     _print i "zsh"
     _install zsh
-    if [ $# -eq 0 ]; then
-        local msg="Would you like to change the default shell to zsh?\nThis will issue 'chsh -s $(which zsh)' command."
-        if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
-            chsh -s $(which zsh)
-        fi
-    else
-        [ "$1" == "-y" ] && chsh -s $(which zsh) ||
-        echo "${red}ERROR${reset}: Wrong supplied argument '$1' @_zsh:line $LINENO" && exit 1
+    local msg="Would you like to change the default shell to zsh?\nThis will issue 'chsh -s $(which zsh)' command."
+    if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
+        chsh -s $(which zsh)
     fi
 }
 
@@ -492,7 +486,7 @@ function _fd() {
 function _bat() {
     _print i "bat: a clone of cat with syntax highlighting"
     wget -q https://github.com/sharkdp/bat/releases/download/v0.12.1/bat-musl_0.12.1_amd64.deb -O /tmp/bat.deb
-    sudo dpkg -i /tmp/bat.deb
+    sudo dpkg -i /tmp/bat.deb > /dev/null
 }
 
 function _rg() {
@@ -597,7 +591,7 @@ function _fresh_install() {
     _installfonts
     _arctheme
     _papirusicons && _papirusfolders
-    _zsh -y && _zshconfig && _omz
+    _zsh && _zshconfig && _omz
     _bashconfig
     _tilix
     _fzf && _fzfconfig
