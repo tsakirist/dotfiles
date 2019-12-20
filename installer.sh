@@ -179,14 +179,9 @@ function _zsh() {
     _spin &
     _aptinstall zsh
     _endspin $! $?
-    if [ $# -eq 0 ]; then
-        local msg="Would you like to change the default shell to zsh?\nThis will issue 'chsh -s $(which zsh)' command."
-        if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
-            chsh -s $(which zsh)
-        fi
-    else
-        [ "$1" == "-y" ] && chsh -s $(which zsh) ||
-        echo "${red}ERROR${reset}: Wrong supplied argument '$1' @_zsh:line $LINENO" && exit 1
+    local msg="Would you like to change the default shell to zsh?\nThis will issue 'chsh -s $(which zsh)' command."
+    if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
+        chsh -s $(which zsh)
     fi
 }
 
