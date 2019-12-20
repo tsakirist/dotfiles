@@ -29,28 +29,41 @@ spinner=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
 # ---------------------------------------------------- Functions -------------------------------------------------------
 
 function _spin() {
-    local PID=$1
     # Make the cursor invisible for the duration
     tput civis
     # Print some whitespace before the spinner
     echo -ne "  "
-    while [ -d  /proc/$PID ]; do
+    while true; do
         for i in "${spinner[@]}"; do
             echo -ne "\b$i"
             sleep .1
         done
     done
-    # Output a symbol, denoting the successful or not, installation of the package
-    [ $? -eq 0 ] && echo -e "${green}\b${tick}${reset}" || echo -e "${red}\b${cross}${reset}"
-    # Bring back the cursor to normal
+}
+
+function _endspin() {
+    local PID=$1
+    local LAST_STATUS=$2
+    # Disown or Wait is necessary to suppress shell's output when a background job is killed
+    # disown $PID
+    kill -9 $PID
+    wait $PID 2> /dev/null
+    [ $LAST_STATUS -eq 0 ] && echo -e "${green}\b${tick}${reset}" || echo -e "${red}\b${cross}${reset}"
     tput cnorm
 }
 
-function _install() {
-    # Install the package in the background and suppress any outputs from STDOUT
+function _aptinstall() {
     # -qq: option implies --yes and also is less verbose
-    sudo apt-get -qq install "$*" > /dev/null &
-    _spin $!
+    sudo apt-get -qq install "$@" > /dev/null
+}
+
+function _checkppa() {
+    for i in "$@"; do
+        if ! grep -Rq "^deb.*$i" /etc/apt/sources.list.d/*.list; then
+            sudo add-apt-repository -y ppa:$i > /dev/null
+            sudo apt-get -qq update
+        fi
+    done
 }
 
 function _backup() {
@@ -90,7 +103,9 @@ function _checkfile() {
 function _checkcommand() {
     if ! command -v $1 > /dev/null 2>&1; then
         echo -ne "${thunder} Installing required package ${bold}${red}${1}${reset}..."
-        _install $1
+        _spin &
+        _aptinstall $1
+        _spin $! $?
     fi
 }
 
@@ -161,11 +176,18 @@ function _bashconfig() {
 
 function _zsh() {
     _print i "zsh"
-    _install zsh
-    local msg="Would you like to change the default shell to zsh?\nThis will issue 'chsh -s $(which zsh)' command."
-    if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
-        chsh -s $(which zsh)
+    _spin &
+    _aptinstall zsh
+    if [ $# -eq 0 ]; then
+        local msg="Would you like to change the default shell to zsh?\nThis will issue 'chsh -s $(which zsh)' command."
+        if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
+            chsh -s $(which zsh)
+        fi
+    else
+        [ "$1" == "-y" ] && chsh -s $(which zsh) ||
+        echo "${red}ERROR${reset}: Wrong supplied argument '$1' @_zsh:line $LINENO" && exit 1
     fi
+    _endspin $! $?
 }
 
 function _zshrc() {
@@ -193,20 +215,24 @@ function _zshconfig() {
 function _omz() {
     local zsh_custom=${HOME}/.oh-my-zsh/custom
     _print i "oh-my-zsh"
+    _spin &
     # Install Oh-my-zsh
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     # Install powerlevel10k theme
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $zsh_custom/themes/powerlevel10k
+    git clone -q --depth=1 https://github.com/romkatv/powerlevel10k.git $zsh_custom/themes/powerlevel10k
     # Install zsh autosuggestions
-    git clone https://github.com/zsh-users/zsh-autosuggestions $zsh_custom/plugins/zsh-autosuggestions
+    git clone -q https://github.com/zsh-users/zsh-autosuggestions $zsh_custom/plugins/zsh-autosuggestions
     # Install zsh syntax highlighting and apply a specific theme
-    git clone https://github.com/zdharma/fast-syntax-highlighting.git $zsh_custom/plugins/fast-syntax-highlighting
+    git clone -q https://github.com/zdharma/fast-syntax-highlighting.git $zsh_custom/plugins/fast-syntax-highlighting
+    _endspin $! $?
     _zshrc
 }
 
 function _vim() {
     _print i "vim"
-    _install vim vim-gnome
+    _spin &
+    _aptinstall vim vim-gnome
+    _endspin $! $?
 }
 
 function _vimrc() {
@@ -218,10 +244,11 @@ function _vimrc() {
 
 function _nvim() {
     _print i "neovim"
-    # sudo sh -c 'echo "deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu bionic main" > \
-    #             /etc/apt/sources.list.d/neovim.list'
-    sudo add-apt-repository ppa:neovim-ppa/stable -y
-    sudo apt-get -qq update && _install neovim
+    _spin &
+    _checkppa neovim-ppa/stable
+    # sudo add-apt-repository ppa:neovim-ppa/stable -y > /dev/null
+    sudo apt-get -qq update && _aptinstall neovim
+    _endspin $! $?
 }
 
 function _nvimrc() {
@@ -235,7 +262,9 @@ function _nvimrc() {
 
 function _tmux() {
     _print i "tmux"
-    _install tmux
+    _spin &
+    _aptinstall tmux
+    _endspin $! $?
 }
 
 function _tmuxconfig() {
@@ -261,10 +290,12 @@ function _sublimeinit() {
 
 function _sublimetext() {
     _print i "SublimeText 3"
+    _spin &
     wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     sudo sh -c 'echo "deb https://download.sublimetext.com/ apt/stable/" > \
                 /etc/apt/sources.list.d/sublime-text.list'
-    sudo apt-get -qq update && _install sublime-text
+    sudo apt-get -qq update && _aptinstall sublime-text
+    _endspin $! $?
 }
 
 function _sublimesettings() {
@@ -297,37 +328,47 @@ function _sublimeconfig() {
 
 function _vscode() {
     _print i "Visual Studio Code"
+    _spin &
     curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
     sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ && rm -f microsoft.gpg
     sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > \
                 /etc/apt/sources.list.d/vscode.list'
-    sudo apt-get -qq update && _install code
+    sudo apt-get -qq update && _aptinstall code
+    _endspin $! $?
 }
 
 function _googlechrome() {
     _print i "Google Chrome"
+    _spin &
     wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google_chrome.deb
-    sudo dpkg -i /tmp/google_chrome.deb
+    sudo dpkg -i /tmp/google_chrome.deb > /dev/null
+    _endspin $! $?
     # Remove google chrome keyring pop-up
     sudo sed -i '/^Exec=/s/$/ --password-store=basic %U/' "/usr/share/applications/google-chrome.desktop"
 }
 
 function _neofetch() {
     _print i "neofetch"
-    _install neofetch
+    _spin &
+    _aptinstall neofetch
+    _endspin $! $?
 }
 
 function _xclip() {
     _print i "xclip"
-    _install xclip
+    _spin &
+    _aptinstall xclip
+    _endspin $! $?
 }
 
 function _powerline() {
     _print i "powerline"
-    _install python-pip
-    pip install powerline-status
-    pip install powerline-gitstatus
-    _install fonts-powerline
+    _spin &
+    _aptinstall python-pip
+    pip install -q powerline-status
+    pip install -q powerline-gitstatus
+    _aptinstall fonts-powerline
+    _endspin $! $?
 }
 
 function _powerlineconfig() {
@@ -367,7 +408,9 @@ function _dconf() {
 
 function _preload() {
     _print i "preload"
-    _install preload
+    _spin &
+    _aptinstall preload
+    _endspin $! $?
 }
 
 function _vmswappiness() {
@@ -385,71 +428,84 @@ function _vmswappiness() {
 
 function _cmake() {
     _print i "cmake"
-    _install cmake
+    _spin &
+    _aptinstall cmake
+    _endspin $! $?
 }
 
 function _tree() {
     _print i "tree"
-    _install tree
+    _spin &
+    _aptinstall tree
+    _endspin $! $?
 }
 
 function _htop() {
     _print i "htop"
-    _install htop
+    _spin &
+    _aptinstall htop
+    _endspin $! $?
 }
 
 function _gnometweaks() {
     _print i "gnome-tweaks"
-    _install gnome-tweaks
+    _spin &
+    _aptinstall gnome-tweaks
+    _endspin $! $?
 }
 
 function _arcmenu() {
     _print i "Arc-Menu extension"
+    _spin &
     # Install prerequisites
-    _install gnome-menus gettext libgettextpo-dev
-    pushd /tmp
-    git clone https://gitlab.com/LinxGem33/Arc-Menu.git
-    make uninstall
-    make install
-    popd
+    _aptinstall gnome-menus gettext libgettextpo-dev
+    pushd /tmp > /dev/null
+    git -q clone https://gitlab.com/LinxGem33/Arc-Menu.git
+    make --quiet uninstall
+    make --quiet install
+    popd > /dev/null
+    _endspin $! $?
 }
 
 function _gnomeshellextensions() {
     _print i "gnome-shell-extensions"
+    _spin &
     # This installs a minimal set of extensions
-    _install gnome-shell-extensions gnome-shell-extension-weather gnome-shell-extension-dashtodock
+    _aptinstall gnome-shell-extensions gnome-shell-extension-weather gnome-shell-extension-dashtodock
+    _endspin $! $?
     _arcmenu
 }
 
 function _arctheme() {
     _print i "Arc-theme"
-    _install arc-theme
-}
-
-function _papirusfolders() {
-    _print i "Papirus folders script"
-    sudo add-apt-repository ppa:papirus/papirus -y
-    sudo apt-get -qq update && _install papirus-folders
-    papirus-folders -C deeporange
+    _spin &
+    _aptinstall arc-theme
+    _endspin $! $?
 }
 
 function _papirusicons() {
-    _print i "Papirus icons"
-    sudo add-apt-repository ppa:papirus/papirus -y
-    sudo apt-get -qq update && _install papirus-icon-theme
+    _print i "Papirus icons and folders script"
+    _spin &
+    _checkppa papirus/papirus
+    _aptinstall papirus-icon-theme papirus-folders
+    _endspin $! $?
+    sudo papirus-folders -C deeporange
 }
 
 function _java() {
     _print i "java and javac"
-    _install default-jre default-jdk
+    _spin &
+    _aptinstall default-jre default-jdk
+    _endspin $! $?
 }
 
 function _tilix() {
     _print i "tilix: a terminal emulator"
-    sudo add-apt-repository ppa:webupd8team/terminix -y
-    # sudo sh -c 'echo "deb http://ppa.launchpad.net/webupd8team/terminix/ubuntu bionic main" > \
-    #         /etc/apt/sources.list.d/webupd8team-ubuntu-terminix-bionic.list'
-    sudo apt-get -qq update && _install tilix
+    _spin &
+    _checkppa webupd8team/terminix
+    # sudo add-apt-repository ppa:webupd8team/terminix -y > /dev/null
+    sudo apt-get -qq update && _aptinstall tilix
+    _endspin $! $?
 }
 
 function _setwlp() {
@@ -462,7 +518,9 @@ function _setwlp() {
 
 function _installfonts() {
     _print i "fonts"
-    sudo apt install fonts-firacode
+    _spin &
+    _aptinstall fonts-firacode
+    _endspin $! $?
 }
 
 function _fzfconfig() {
@@ -473,26 +531,34 @@ function _fzfconfig() {
 
 function _fzf() {
     _print i "fzf: Fuzzy finder"
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install --key-bindings --completion --no-update-rc
+    _spin &
+    git clone -q --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install --key-bindings --completion --no-update-rc > /dev/null
+    _endspin $! $?
 }
 
 function _fd() {
     _print i "fd: an improved version of find"
+    _spin &
     wget -q https://github.com/sharkdp/fd/releases/download/v7.4.0/fd-musl_7.4.0_amd64.deb -O /tmp/fd.deb
-    sudo dpkg -i /tmp/fd.deb
+    sudo dpkg -i /tmp/fd.deb > /dev/null
+    _endspin $! $?
 }
 
 function _bat() {
     _print i "bat: a clone of cat with syntax highlighting"
+    _spin &
     wget -q https://github.com/sharkdp/bat/releases/download/v0.12.1/bat-musl_0.12.1_amd64.deb -O /tmp/bat.deb
-    sudo dpkg -i /tmp/bat.deb
+    sudo dpkg -i /tmp/bat.deb > /dev/null
+    _endspin $! $?
 }
 
 function _rg() {
     _print i "rg: ripgrep recursive search for a pattern in files"
+    _spin &
     wget -q https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb -O /tmp/rg.deb
-    sudo dpkg -i /tmp/rg.deb
+    sudo dpkg -i /tmp/rg.deb > /dev/null
+    _endspin $! $?
 }
 
 function _checkroot() {
@@ -509,7 +575,7 @@ function _checkroot() {
 }
 
 function _validateroot() {
-    # This function will validate user's timestamp without running any commnad
+    # This function will validate user's sudo timestamp without running any commnad
     # It will prompt for password and keep it in cache, which is 15 mins by default
     sudo -v
 }
@@ -591,7 +657,7 @@ function _fresh_install() {
     _installfonts
     _arctheme
     _papirusicons && _papirusfolders
-    _zsh && _zshconfig && _omz
+    _zsh -y && _zshconfig && _omz
     _bashconfig
     _tilix
     _fzf && _fzfconfig
@@ -662,7 +728,7 @@ function _selective_install() {
             34) _setwlp ;;
             35) _installfonts ;;
             36) _arctheme ;;
-            37) _papirusicons && _papirusfolders ;;
+            37) _papirusicons ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit
