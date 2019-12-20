@@ -228,6 +228,9 @@ nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
 " Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
 map <silent> <C-k><C-b> :NERDTreeToggle<CR>
 
+" Set Ctrl-t to jump to next occurence of the word under cursor
+nnoremap <silent> <C-t> *
+
 " Keybinds to move lines like sublime text 3
 " https://vim.fandom.com/wiki/Moving_lines_up_or_down
 " gv=gv re-selects the visual block after each operation
@@ -272,6 +275,7 @@ map <leader><leader> <leader>c<Space><CR>
 imap <leader><leader> <Esc><leader>c<Space>:startinsert<CR>
 
 " Clear highlighting with escape when in normal mode
+" https://stackoverflow.com/a/1037182/6654329
 nnoremap <silent> <Esc> :noh<return><Esc>
 nnoremap <silent> <Esc>^[ <Esc>^[
 
@@ -330,3 +334,4 @@ function! RipgrepFzf(query, fullscreen)
 endfunction
 
 command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
+
