@@ -62,7 +62,3 @@ alias nv='nvim -p'
 alias nvi='nvim -p'
 alias nvim='nvim -p'
 alias nvv='nvim ~/.vimrc'
-
-# Run-help is kinda the equivalent of help in bash
-# It's used to display information on shell built-ins
-alias help=run-help
