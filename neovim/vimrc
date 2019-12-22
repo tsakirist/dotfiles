@@ -22,6 +22,8 @@ call plug#begin('~/.vim/plugged')
 " Declare the list of plugins
 Plug 'joshdick/onedark.vim'
 Plug 'sjl/badwolf'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
 Plug 'vim-python/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -29,17 +31,21 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'ryanoasis/vim-devicons'
-Plug 'mhinz/vim-signify'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'Yggdroot/indentLine'
 Plug 'junegunn/goyo.vim'
-Plug 'junegunn/fzf.vim'
 Plug 'dkprice/vim-easygrep'
+Plug 'tpope/vim-surround'
+Plug 'jiangmiao/auto-pairs'
+Plug 'inside/vim-search-pulse'
+Plug 'mhinz/vim-signify'
+Plug 'tpope/vim-fugitive'
 
+Plug 'junegunn/fzf.vim'
 Plug '~/.fzf'
+
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
+" Plug 'mhinz/vim-startify'
 " Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 " Plug 'ervandew/supertab'
 
@@ -221,6 +227,7 @@ nnoremap <silent> <leader>l :set nu!<CR>
 
 " Toggle Goyo - distraction free writing
 nnoremap <silent> <F1> :Goyo<CR>
+nnoremap <silent> <leader>1 :Goyo<CR>
 
 " Toggle between folds
 nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
@@ -334,4 +341,3 @@ function! RipgrepFzf(query, fullscreen)
 endfunction
 
 command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
-
