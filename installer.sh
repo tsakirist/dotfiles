@@ -13,9 +13,10 @@ ROWS=$(stty size | cut -d ' ' -f 1)
 bold=$(tput bold)
 start_underline=$(tput smul)
 end_underline=$(tput rmul)
-black=$(tput setaf 0)
-red=$(tput setaf 1)
-green=$(tput setaf 2)
+black_fg=$(tput setaf 0)
+red_fg=$(tput setaf 1)
+green_fg=$(tput setaf 2)
+black_bg=$(tput setab 0)
 reset=$(tput sgr0)
 
 # ---------------------------------------------------- Symbols ---------------------------------------------------------
@@ -48,7 +49,7 @@ function _backup() {
 }
 
 function _reboot() {
-    echo "It is recommended to ${bold}${red}reboot${reset} after a fresh install of the packages and configurations."
+    echo "It is recommended to ${bold}${red_fg}reboot${reset} after a fresh install of the packages and configurations."
     read -n 1 -r -p "Would you like to reboot? [Y/n] " input
     if [[ "$input" =~ ^([yY])$ ]]; then
         sudo reboot
@@ -57,7 +58,7 @@ function _reboot() {
 
 function _prompt() {
     local exec=false
-    echo -e "${bullet} Do you want to download/install ${bold}${red}${1}${reset} [Y/n] "
+    echo -e "${bullet} Do you want to download/install ${bold}${red_fg}${1}${reset} [Y/n] "
     read -n 1 -s input
     if [[ "$input" =~ ^([yY])$ ]]; then
         exec=true
@@ -69,7 +70,7 @@ function _prompt() {
 
 function _checkfile() {
     if [ ! -f "$1" ]; then
-        echo "${bold}${red}ERROR${reset}: Can't find ${1} in this directory."
+        echo "${bold}${red_fg}ERROR${reset}: Can't find ${1} in this directory."
         echo "You should run the installer from within the github repository."
              "git clone https://github.com/tsakirist/configurations.git"
         exit 1
@@ -78,7 +79,7 @@ function _checkfile() {
 
 function _checkcommand() {
     if ! command -v $1 > /dev/null 2>&1; then
-        echo -ne "${thunder} Installing required package ${bold}${red}${1}${reset}..."
+        echo -ne "${thunder} Installing required package ${bold}${red_fg}${1}${reset}..."
         _install $1
     fi
 }
@@ -91,7 +92,7 @@ function _print() {
             "i") action="Installing" ;;
             "c") action="Changing" ;;
         esac
-        echo -e "${thunder} ${action} ${bold}${red}${*:2}${reset}..."
+        echo -e "${black_bg}${thunder} ${action} ${bold}${red_fg}${*:2}...${reset}"
     fi
 }
 
@@ -107,7 +108,7 @@ function _change_shell() {
     # Issue the command to change the default shell
     chsh -s $(which ${shell})
     echo "In order for the ${start_underline}change${end_underline} to take effect you need to" \
-         "${bold}${red}logout${reset}."
+         "${bold}${red_fg}logout${reset}."
 }
 
 function _gitconfig() {
@@ -504,7 +505,7 @@ function _checkroot() {
                "This will execute the installer with sudo to elevate privileges.")"
     if [ "$EUID" -ne 0 ]; then
         if (whiptail --title "Installer Privileges" --yesno "$msg" 8 78); then
-            echo -e "${thunder} Trying to get ${start_underline}${bold}${red}root${reset} access rights... "
+            echo -e "${thunder} Trying to get ${start_underline}${bold}${red_fg}root${reset} access rights... "
             sudo -s "$0" "$@"
             exit $?
         fi
