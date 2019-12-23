@@ -24,27 +24,8 @@ thunder="\u2301"
 bullet="\u2022"
 cross="\u2718"
 tick="\u2714"
-spinner=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
 
 # ---------------------------------------------------- Functions -------------------------------------------------------
-
-function _spin() {
-    local PID=$1
-    # Make the cursor invisible for the duration
-    tput civis
-    # Print some whitespace before the spinner
-    echo -ne "  "
-    while [ -d  /proc/$PID ]; do
-        for i in "${spinner[@]}"; do
-            echo -ne "\b$i"
-            sleep .1
-        done
-    done
-    # Output a symbol, denoting the successful or not, installation of the package
-    [ $? -eq 0 ] && echo -e "${green}\b${tick}${reset}" || echo -e "${red}\b${cross}${reset}"
-    # Bring back the cursor to normal
-    tput cnorm
-}
 
 function _checkppa() {
     for i in "$@"; do
@@ -58,8 +39,7 @@ function _checkppa() {
 function _install() {
     # Install the package in the background and suppress any outputs from STDOUT
     # -qq: option implies --yes and also is less verbose
-    sudo apt-get -qq install "$@" > /dev/null &
-    _spin $!
+    sudo apt-get -qq install "$@" > /dev/null
 }
 
 function _backup() {
@@ -111,9 +91,7 @@ function _print() {
             "i") action="Installing" ;;
             "c") action="Changing" ;;
         esac
-        echo -ne "${thunder} ${action} ${bold}${red}${*:2}${reset}..."
-        # Insert a newline for formatting options
-        [ "$1" != "i" ] && echo
+        echo -e "${thunder} ${action} ${bold}${red}${*:2}${reset}..."
     fi
 }
 
@@ -207,9 +185,10 @@ function _omz() {
     # Install powerlevel10k theme
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $zsh_custom/themes/powerlevel10k
     # Install zsh autosuggestions
-    git clone https://github.com/zsh-users/zsh-autosuggestions $zsh_custom/plugins/zsh-autosuggestions
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions $zsh_custom/plugins/zsh-autosuggestions
     # Install zsh syntax highlighting and apply a specific theme
-    git clone https://github.com/zdharma/fast-syntax-highlighting.git $zsh_custom/plugins/fast-syntax-highlighting
+    git clone --depth=1 https://github.com/zdharma/fast-syntax-highlighting.git \
+        $zsh_custom/plugins/fast-syntax-highlighting
     _zshrc
 }
 
@@ -229,7 +208,6 @@ function _nvim() {
     _print i "neovim"
     # sudo sh -c 'echo "deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu bionic main" > \
     #             /etc/apt/sources.list.d/neovim.list'
-    # sudo add-apt-repository ppa:neovim-ppa/stable -y
     _checkppa neovim-ppa/stable
     _install neovim
 }
@@ -408,6 +386,19 @@ function _htop() {
     _install htop
 }
 
+function _gotop() {
+    _print i "gotop"
+    sudo snap install gotop-cjbassi
+    sudo snap connect gotop-cjbassi:hardware-observe
+    sudo snap connect gotop-cjbassi:mount-observe
+    sudo snap connect gotop-cjbassi:system-observe
+}
+
+function _activitymonitors() {
+    _htop
+    _gotop
+}
+
 function _gnometweaks() {
     _print i "gnome-tweaks"
     _install gnome-tweaks
@@ -417,9 +408,8 @@ function _arcmenu() {
     _print i "Arc-Menu extension"
     # Install prerequisites
     _install gnome-menus gettext libgettextpo-dev
-    pushd /tmp
-    git clone https://gitlab.com/LinxGem33/Arc-Menu.git
-    make uninstall
+    git clone --depth=1 https://gitlab.com/LinxGem33/Arc-Menu.git /tmp/Arc-Menu
+    pushd /tmp/Arc-Menu
     make install
     popd
 }
@@ -486,7 +476,7 @@ function _fzfconfig() {
 
 function _fzf() {
     _print i "fzf: Fuzzy finder"
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    git clone --depth=1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install --key-bindings --completion --no-update-rc
 }
 
@@ -573,7 +563,7 @@ function _guimenu() {
         "15" "    tmux configuration" \
         "16" "    xclip" \
         "17" "    neofetch" \
-        "18" "    htop" \
+        "18" "    htop & gotop: activity monitors" \
         "19" "    cmake" \
         "20" "    tree" \
         "21" "    gnome-tweaks" \
@@ -615,7 +605,7 @@ function _fresh_install() {
     _tmux && _tmuxconfig
     _xclip
     _neofetch
-    _htop
+    _activitymonitors
     _cmake
     _tree
     _gnometweaks
@@ -656,7 +646,7 @@ function _selective_install() {
             15) _tmuxconfig ;;
             16) _xclip ;;
             17) _neofetch ;;
-            18) _htop ;;
+            18) _activitymonitors ;;
             19) _cmake ;;
             20) _tree ;;
             21) _gnometweaks ;;
