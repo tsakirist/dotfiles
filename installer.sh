@@ -16,6 +16,7 @@ end_underline=$(tput rmul)
 black_fg=$(tput setaf 0)
 red_fg=$(tput setaf 1)
 green_fg=$(tput setaf 2)
+white_fg=$(tput setaf 7)
 black_bg=$(tput setab 0)
 reset=$(tput sgr0)
 
@@ -92,7 +93,7 @@ function _print() {
             "i") action="Installing" ;;
             "c") action="Changing" ;;
         esac
-        echo -e "${black_bg}${thunder} ${action} ${bold}${red_fg}${*:2}...${reset}"
+        echo -e "${black_bg}${thunder} ${action} ${bold}${red_fg}${*:2}${white_fg} ...${reset}"
     fi
 }
 
