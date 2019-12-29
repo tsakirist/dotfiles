@@ -325,8 +325,10 @@ inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " Don't insert a newline after choosing an option with <Enter>
 inoremap <silent> <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
 
-" ---------------------------------------- COC Intelisense ----------------------------------------
-" source ~/.vim/coc/coc.config.vim
+" ----------------------------------------- Abbreviations -----------------------------------------
+
+" Shebang abbreviation in insert mode
+iab #! #!/usr/bin/env bash
 
 " ----------------------------------- FZF Plugins Configuration -----------------------------------
 command! -bang -nargs=? -complete=dir Files
@@ -341,3 +343,4 @@ function! RipgrepFzf(query, fullscreen)
 endfunction
 
 command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
+
