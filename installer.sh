@@ -29,7 +29,7 @@ tick="\u2714"
 
 # ---------------------------------------------------- Functions -------------------------------------------------------
 
-function _checkppa() {
+function _check_ppa() {
     for i in "$@"; do
         if ! grep -Rq "^deb.*$i" /etc/apt/sources.list.d/*.list; then
             sudo add-apt-repository -y ppa:$i > /dev/null
@@ -69,7 +69,7 @@ function _prompt() {
     fi
 }
 
-function _checkfile() {
+function _check_file() {
     if [ ! -f "$1" ]; then
         echo "${bold}${red_fg}ERROR${reset}: Can't find ${1} in this directory."
         echo "You should run the installer from within the github repository."
@@ -78,7 +78,7 @@ function _checkfile() {
     fi
 }
 
-function _checkcommand() {
+function _check_command() {
     if ! command -v $1 > /dev/null 2>&1; then
         echo -ne "${thunder} Installing required package ${bold}${red_fg}${1}${reset}..."
         _install $1
@@ -112,13 +112,13 @@ function _change_shell() {
          "${bold}${red_fg}logout${reset}."
 }
 
-function _gitconfig() {
-    _checkfile git/gitconfig
+function _git_config() {
+    _check_file git/gitconfig
     _print s ".gitconfig"
     cp -v --backup=numbered git/gitconfig ~/.gitconfig
 }
 
-function _gitsofancy() {
+function _git_so_fancy() {
     if ! command -v diff-so-fancy > /dev/null 2>&1; then
         _print s "git-diff-so-fancy"
         wget -q "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy"
@@ -127,25 +127,25 @@ function _gitsofancy() {
 }
 
 function _bashrc() {
-    _checkfile bash/bashrc
+    _check_file bash/bashrc
     _print s ".bashrc"
     cp -v --backup=numbered bash/bashrc ~/.bashrc
 }
 
-function _bashaliases() {
-    _checkfile bash/bash_aliases
+function _bash_aliases() {
+    _check_file bash/bash_aliases
     _print s ".bash_aliases"
     cp -v --backup=numbered bash/bash_aliases ~/.bash_aliases
 }
 
-function _bashfunctions() {
-    _checkfile bash/bash_functions
+function _bash_functions() {
+    _check_file bash/bash_functions
     _print s ".bash_functions"
     cp -v --backup=numbered bash/bash_functions ~/.bash_functions
 }
 
-function _bashconfig() {
-    _bashrc && _bashaliases && _bashfunctions
+function _bash_config() {
+    _bashrc && _bash_aliases && _bash_functions
 }
 
 function _zsh() {
@@ -158,25 +158,25 @@ function _zsh() {
 }
 
 function _zshrc() {
-    _checkfile zsh/zshrc
+    _check_file zsh/zshrc
     _print s ".zshrc"
     cp -v --backup=numbered zsh/zshrc ~/.zshrc
 }
 
-function _zshaliases() {
-    _checkfile zsh/zsh_aliases
+function _zsh_aliases() {
+    _check_file zsh/zsh_aliases
     _print s ".zsh_aliases"
     cp -v --backup=numbered zsh/zsh_aliases ~/.zsh_aliases
 }
 
-function _zshfunctions () {
-    _checkfile zsh/zsh_functions
+function _zsh_functions () {
+    _check_file zsh/zsh_functions
     _print s ".zsh_functions"
     cp -v --backup=numbered zsh/zsh_functions ~/.zsh_functions
 }
 
-function _zshconfig() {
-    _zshrc && _zshaliases && _zshfunctions
+function _zsh_config() {
+    _zshrc && _zsh_aliases && _zsh_functions
 }
 
 function _omz() {
@@ -200,7 +200,7 @@ function _vim() {
 }
 
 function _vimrc() {
-    _checkfile neovim/vimrc
+    _check_file neovim/vimrc
     _print s ".vimrc"
     cp -v --backup=numbered neovim/vimrc ~/.vimrc
     vim +PlugInstall +qall
@@ -210,12 +210,12 @@ function _nvim() {
     _print i "neovim"
     # sudo sh -c 'echo "deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu bionic main" > \
     #             /etc/apt/sources.list.d/neovim.list'
-    _checkppa neovim-ppa/stable
+    _check_ppa neovim-ppa/stable
     _install neovim
 }
 
 function _nvimrc() {
-    _checkfile neovim/vimrc && _checkfile neovim/init.vim
+    _check_file neovim/vimrc && _check_file neovim/init.vim
     _print s ".vimrc and init.vim"
     cp -v --backup=numbered neovim/vimrc ~/.vimrc
     mkdir -v -p ~/.config/nvim/
@@ -228,13 +228,13 @@ function _tmux() {
     _install tmux
 }
 
-function _tmuxconfig() {
-    _checkfile tmux/tmux.conf
+function _tmux_config() {
+    _check_file tmux/tmux.conf
     _print s ".tmux.conf"
     cp -v --backup=numbered tmux/tmux.conf ~/.tmux.conf
 }
 
-function _sublimepkgctrl() {
+function _sublime_pkgctrl() {
     # Create the necessary folder for Package Control and install it manually
     if [ ! -f "${HOME}/.config/sublime-text-3/Installed Packages/Package Control.sublime-package" ]; then
         wget -q "https://packagecontrol.io/Package%20Control.sublime-package" \
@@ -242,13 +242,13 @@ function _sublimepkgctrl() {
     fi
 }
 
-function _sublimeinit() {
+function _sublime_init() {
     # Create some necessary folders in order to be able to copy settings
     mkdir -v -p "${HOME}/.config/sublime-text-3/Installed Packages"
     mkdir -v -p "${HOME}/.config/sublime-text-3/Packages/User/"
 }
 
-function _sublimetext() {
+function _sublime_text() {
     _print i "SublimeText 3"
     wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     sudo sh -c 'echo "deb https://download.sublimetext.com/ apt/stable/" > \
@@ -256,32 +256,33 @@ function _sublimetext() {
     sudo apt-get -qq update && _install sublime-text
 }
 
-function _sublimesettings() {
-    _checkfile sublime/Preferences.sublime-settings
+function _sublime_settings() {
+    _check_file sublime/Preferences.sublime-settings
     _print s "sublime settings"
     cp -v --backup=numbered "sublime/Preferences.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
-function _sublimekeybindings() {
-    _checkfile "sublime/Default (Linux).sublime-keymap"
+function _sublime_keybindings() {
+    _check_file "sublime/Default (Linux).sublime-keymap"
     _print s "sublime keybindings"
     cp -v --backup=numbered "sublime/Default (Linux).sublime-keymap" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
-function _sublimepackages() {
-    _checkfile "sublime/Package Control.sublime-settings"
+function _sublime_packages() {
+    _check_file "sublime/Package Control.sublime-settings"
     _print s "sublime packages"
     cp -v --backup=numbered "sublime/Package Control.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
-function _sublimeterminus() {
-    _checkfile "sublime/Terminus.sublime-settings"
+function _sublime_terminus() {
+    _check_file "sublime/Terminus.sublime-settings"
     _print s "sublime terminus settings"
     cp -v --backup=numbered "sublime/Terminus.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
 }
 
-function _sublimeconfig() {
-    _sublimeinit && _sublimepkgctrl && _sublimesettings && _sublimekeybindings && _sublimepackages && _sublimeterminus
+function _sublime_config() {
+    _sublime_init && _sublime_pkgctrl
+    _sublime_settings && _sublime_keybindings && _sublime_packages && _sublime_terminus
 }
 
 function _vscode() {
@@ -293,7 +294,7 @@ function _vscode() {
     sudo apt-get -qq update && _install code
 }
 
-function _googlechrome() {
+function _google_chrome() {
     _print i "Google Chrome"
     wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google_chrome.deb
     sudo dpkg -i /tmp/google_chrome.deb > /dev/null
@@ -319,8 +320,8 @@ function _powerline() {
     _install fonts-powerline
 }
 
-function _powerlineconfig() {
-    _checkfile powerline_configs/themes/shell/default.json && _checkfile powerline_configs/colorschemes/default.json
+function _powerline_config() {
+    _check_file powerline_configs/themes/shell/default.json && _check_file powerline_configs/colorschemes/default.json
 
     _print s "themes/shell/default.json"
     cp -v --backup=numbered "powerline_configs/themes/shell/default.json" \
@@ -331,27 +332,27 @@ function _powerlineconfig() {
         "$HOME/.local/lib/python2.7/site-packages/powerline/config_files/colorschemes"
 }
 
-function _dconftilix() {
-    _checkfile dconf/tilix.dconf
+function _dconf_tilix() {
+    _check_file dconf/tilix.dconf
     _print s "tilix dconf settings"
     dconf load /com/gexperts/Tilix/ < dconf/tilix.dconf
 }
 
-function _dconfsettings() {
-    _checkfile dconf/settings.dconf
+function _dconf_settings() {
+    _check_file dconf/settings.dconf
     _print s "dconf settings"
     dconf load / < dconf/settings.dconf
 }
 
-function _dconfsettingswthemes() {
-    _checkfile dconf/settings_with_themes.dconf
+function _dconf_settings_w_themes() {
+    _check_file dconf/settings_with_themes.dconf
     _print s "dconf settings with themes"
     dconf load / < dconf/settings_with_themes.dconf
 }
 
 # By default it includes dconf settings with themes applied
 function _dconf() {
-    _dconfsettingswthemes && _dconftilix
+    _dconf_settings_w_themes && _dconf_tilix
 }
 
 function _preload() {
@@ -359,7 +360,7 @@ function _preload() {
     _install preload
 }
 
-function _vmswappiness() {
+function _vm_swappiness() {
     local value=10
     local file="/etc/sysctl.conf"
     _print c "vm.swappiness to $value"
@@ -395,12 +396,12 @@ function _gotop() {
     sudo snap connect gotop-cjbassi:system-observe
 }
 
-function _activitymonitors() {
+function _activity_monitors() {
     _htop
     _gotop
 }
 
-function _gnometweaks() {
+function _gnome_tweaks() {
     _print i "gnome-tweaks"
     _install gnome-tweaks
 }
@@ -415,35 +416,32 @@ function _arcmenu() {
     popd
 }
 
-function _gnomeshellextensions() {
+function _gnome_shell_extensions() {
     _print i "gnome-shell-extensions"
-    # This installs a minimal set of extensions
     _install gnome-shell-extensions gnome-shell-extension-weather gnome-shell-extension-dashtodock
     _arcmenu
 }
 
-function _arctheme() {
+function _arc_theme() {
     _print i "Arc-theme"
     _install arc-theme
 }
 
-function _papirusfolders() {
+function _papirus_folders() {
     _print i "Papirus folders script"
-    # sudo add-apt-repository ppa:papirus/papirus -y
-    _checkppa papirus/papirus
+    _check_ppa papirus/papirus
     _install papirus-folders
     sudo papirus-folders -C deeporange > /dev/null
 }
 
-function _papirusicons() {
+function _papirus_icons() {
     _print i "Papirus icons"
-    # sudo add-apt-repository ppa:papirus/papirus -y
-    _checkppa papirus/papirus
+    _check_ppa papirus/papirus
     _install papirus-icon-theme
 }
 
 function _papirus() {
-    _papirusicons && _papirusfolders
+    _papirus_icons && _papirus_folders
 }
 
 function _java() {
@@ -453,28 +451,25 @@ function _java() {
 
 function _tilix() {
     _print i "tilix: a terminal emulator"
-    # sudo add-apt-repository ppa:webupd8team/terminix -y
-    # sudo sh -c 'echo "deb http://ppa.launchpad.net/webupd8team/terminix/ubuntu bionic main" > \
-    #         /etc/apt/sources.list.d/webupd8team-ubuntu-terminix-bionic.list'
-    _checkppa webupd8team/terminix
+    _check_ppa webupd8team/terminix
     _install tilix
 }
 
-function _setwlp() {
-    local wlp="wallpapers/1.jpg" # my custom default wallpaper
-    _checkfile $wlp
+function _set_wallpaper() {
+    local wlp="wallpapers/1.jpg"
+    _check_file $wlp
     local file="'file://$(readlink -e "${wlp}")'"
     _print s "Wallpaper ${FILE}"
     gsettings set org.gnome.desktop.background picture-uri "$file"
 }
 
-function _installfonts() {
+function _install_fonts() {
     _print i "fonts"
     sudo apt install fonts-firacode
 }
 
-function _fzfconfig() {
-    _checkfile fzf/fzf.config
+function _fzf_config() {
+    _check_file fzf/fzf.config
     _print s "fzf configuration"
     cp -v --backup=numbered fzf/fzf.config ~/.fzf.config
 }
@@ -505,11 +500,11 @@ function _rg() {
 
 function _lazygit() {
     _print i "lazygit: A terminal UI utility for git commands"
-    _checkppa lazygit-team/release
+    _check_ppa lazygit-team/release
     _install lazygit
 }
 
-function _checkroot() {
+function _check_root() {
     local msg="$(printf '%s\n' \
                "Would you like to have a completely unattended installation?"  \
                "This will execute the installer with sudo to elevate privileges.")"
@@ -522,7 +517,7 @@ function _checkroot() {
     fi
 }
 
-function _validateroot() {
+function _validate_root() {
     # This function will validate user's timestamp without running any commnad
     # It will prompt for password and keep it in cache, which is 15 mins by default
     sudo -v
@@ -573,50 +568,50 @@ pkgs=(
 )
 
 pkgs_functions=(
-    _dconfgui
+    _show_dconf_menu
     _zsh
-    _zshconfig
+    _zsh_config
     _omz
-    _bashconfig
+    _bash_config
     _tilix
     _fzf
-    _fzfconfig
+    _fzf_config
     _fd
     _bat
     _rg
     _nvim
     _nvimrc
     _tmux
-    _tmuxconfig
+    _tmux_config
     _xclip
     _neofetch
-    _activitymonitors
+    _activity_monitors
     _lazygit
     _tree
     _cmake
-    _gnometweaks
-    _gnomeshellextensions
-    _gitconfig
-    _gitsofancy
+    _gnome_tweaks
+    _gnome_shell_extensions
+    _git_config
+    _git_so_fancy
     _powerline
-    _powerlineconfig
+    _powerline_config
     _java
-    _sublimetext
-    _sublimeconfig
+    _sublime_text
+    _sublime_config
     _vscode
-    _googlechrome
+    _google_chrome
     _preload
-    _vmswappiness
-    _setwlp
-    _installfonts
-    _arctheme
+    _vm_swappiness
+    _set_wallpaper
+    _install_fonts
+    _arc_theme
     _papirus
 )
 
 # -------------------------------------------------------- Menus -------------------------------------------------------
 
-function _showmenu() {
-    _checkcommand whiptail
+function _show_main_menu() {
+    _check_command whiptail
     local INFO="---------------------- System Information -----------------------\n"
     INFO+="$(hostnamectl | tail -n 3 | cut -c3-)"
     INPUT=$(whiptail --title "This script provides an easy way to install my packages and my configurations." \
@@ -627,7 +622,7 @@ function _showmenu() {
         3>&1 1>&2 2>&3)
 }
 
-function _createselectivemenu() {
+function _create_selective_menu() {
     # Dynamically populate the GUI menu from the pkgs array, this should be called once
     menu_options=()
     pkgs_count="${#pkgs[@]}"
@@ -642,14 +637,14 @@ function _createselectivemenu() {
     menu_options+=("${pkgs[(($pkgs_count - 1))]}")
 }
 
-function _guiselectivemenu() {
+function _show_selective_menu() {
     OPT=$(whiptail --title "Selectively install packages/configurations" \
         --menu "\nSelect the packages and the configurations that you want to install/set." ${SIZE} $((ROWS-10)) \
         "${menu_options[@]}" \
         3>&1 1>&2 2>&3)
 }
 
-function _dconfgui() {
+function _show_dconf_menu() {
     local opt=$(whiptail --title "dconf settings" --menu "\nWhich dconf settings would you like to apply?" \
                 ${SIZE} 3 \
                 "1" "    dconf general settings" \
@@ -657,55 +652,55 @@ function _dconfgui() {
                 "3" "    dconf tilix settings" \
                 3>&1 1>&2 2>&3)
     case $opt in
-        1) _dconfsettings ;;
-        2) _dconfsettingswthemes ;;
-        3) _dconftilix ;;
+        1) _dconf_settings ;;
+        2) _dconf_settings_w_themes ;;
+        3) _dconf_tilix ;;
     esac
 }
 
 # ----------------------------------------------------- Installers -----------------------------------------------------
 
 function _fresh_install() {
-    _checkcommand curl && _checkcommand git
-    _installfonts
-    _zsh && _zshconfig && _omz
-    _bashconfig
+    _check_command curl && _check_command git
+    _install_fonts
+    _zsh && _zsh_config && _omz
+    _bash_config
     _tilix
-    _fzf && _fzfconfig
+    _fzf && _fzf_config
     _fd
     _bat
     _rg
     _nvim && _nvimrc
-    _tmux && _tmuxconfig
+    _tmux && _tmux_config
     _xclip
     _neofetch
-    _activitymonitors
+    _activity_monitors
     _lazygit
     _cmake
     _tree
-    _gnometweaks
-    _gnomeshellextensions
-    _gitconfig && _gitsofancy
-    _powerline && _powerlineconfig
+    _gnome_tweaks
+    _gnome_shell_extensions
+    _git_config && _git_so_fancy
+    _powerline && _powerline_config
     _java
-    _sublimeconfig
+    _sublime_config
     _vscode
-    _googlechrome
+    _google_chrome
     _preload
-    _vmswappiness
-    _arctheme
+    _vm_swappiness
+    _arc_theme
     _papirus
     _dconf
-    _setwlp
+    _set_wallpaper
     _reboot
 }
 
 function _selective_install() {
-    _checkcommand curl && _checkcommand git
-    _createselectivemenu
+    _check_command curl && _check_command git
+    _create_selective_menu
     local exit_status=0
     while [ $exit_status -eq 0 ]; do
-        _guiselectivemenu
+        _show_selective_menu
         case $OPT in
             Q) exit_status=1 ;;
             *) ${pkgs_functions[(($OPT - 1))]}
@@ -717,8 +712,8 @@ function _selective_install() {
 
 # ------------------------------------------------------- Main ---------------------------------------------------------
 
-_validateroot
-_showmenu
+_validate_root
+_show_main_menu
 
 if [ $INPUT -eq 1 ]; then
     _fresh_install
