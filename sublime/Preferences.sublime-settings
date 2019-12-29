@@ -1,6 +1,6 @@
 {
     "bold_folder_labels": true,
-    "color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
+    "color_scheme": "Packages/One Dark Color Scheme/One Dark.tmTheme",
     "ensure_newline_at_eof_on_save": true,
     "font_face": "Fira Code Medium",
     "font_size": 10.5,
@@ -15,6 +15,6 @@
         120
     ],
     "show_encoding": true,
-    "theme": "Seti_orig.sublime-theme",
+    "theme": "One Dark.sublime-theme",
     "translate_tabs_to_spaces": true
 }

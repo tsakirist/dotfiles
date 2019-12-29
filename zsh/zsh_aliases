@@ -67,3 +67,6 @@ alias nvv='nvim ~/.vimrc'
 
 # Shorten the name to just gotop
 alias gotop='gotop-cjbassi -c monokai'
+
+# Alias for lazygit
+alias lg='lazygit'
