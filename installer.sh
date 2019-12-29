@@ -564,7 +564,6 @@ pkgs=(
     "    install fonts"
     "    arc-theme"
     "    papirus icons and folder changer script"
-    "    Quit"
 )
 
 pkgs_functions=(
@@ -625,16 +624,15 @@ function _show_main_menu() {
 # Dynamically populate the GUI menu from the pkgs array, this should be called once
 function _create_selective_menu() {
     menu_options=()
-    local pkgs_count="${#pkgs[@]}"
     
-    for (( i=0; i<($pkgs_count - 1); i++ )); do
+    for (( i=0; i<"${#pkgs[@]}"; i++ )); do
         menu_options+=("$(($i + 1))")
         menu_options+=("${pkgs[$i]}")
     done
 
-    # Special treatment for the 'Q' option, we don't want to have an integer as tag
+    # Special treatment for the 'Q' option
     menu_options+=("Q")
-    menu_options+=("${pkgs[(($pkgs_count - 1))]}")
+    menu_options+=("    Quit")
 }
 
 function _show_selective_menu() {
