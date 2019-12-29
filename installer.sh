@@ -50,7 +50,8 @@ function _backup() {
 }
 
 function _reboot() {
-    echo "It is recommended to ${bold}${red_fg}reboot${reset} after a fresh install of the packages and configurations."
+    echo "${black_bg}${bold}It is recommended to ${red_fg}reboot${white_fg} after a fresh installation" \
+         "of the packages and configurations.${reset}"
     read -n 1 -r -p "Would you like to reboot? [Y/n] " input
     if [[ "$input" =~ ^([yY])$ ]]; then
         sudo reboot
@@ -87,7 +88,7 @@ function _check_command() {
 
 function _print() {
     local action
-    if [[ $# -gt 1 ]]; then
+    if [ $# -gt 1 ]; then
         case "$1" in
             "s") action="Setting" ;;
             "i") action="Installing" ;;
@@ -99,7 +100,7 @@ function _print() {
 
 function _change_shell() {
     local shell
-    if [[ $# -eq 1 ]]; then
+    if [ $# -eq 1 ]; then
         case "$1" in
             "bash") shell="bash" ;;
             "zsh" ) shell="zsh" ;;
@@ -179,7 +180,7 @@ function _zsh_config() {
     _zshrc && _zsh_aliases && _zsh_functions
 }
 
-function _omz() {
+function _oh_my_zsh() {
     local zsh_custom=${HOME}/.oh-my-zsh/custom
     _print i "oh-my-zsh"
     # Install Oh-my-zsh
@@ -350,7 +351,6 @@ function _dconf_settings_w_themes() {
     dconf load / < dconf/settings_with_themes.dconf
 }
 
-# By default it includes dconf settings with themes applied
 function _dconf() {
     _dconf_settings_w_themes && _dconf_tilix
 }
@@ -571,7 +571,7 @@ pkgs_functions=(
     _show_dconf_menu
     _zsh
     _zsh_config
-    _omz
+    _oh_my_zsh
     _bash_config
     _tilix
     _fzf
@@ -622,12 +622,12 @@ function _show_main_menu() {
         3>&1 1>&2 2>&3)
 }
 
+# Dynamically populate the GUI menu from the pkgs array, this should be called once
 function _create_selective_menu() {
-    # Dynamically populate the GUI menu from the pkgs array, this should be called once
     menu_options=()
-    pkgs_count="${#pkgs[@]}"
+    local pkgs_count="${#pkgs[@]}"
     
-    for ((i=0; i<($pkgs_count - 1); i++)); do
+    for (( i=0; i<($pkgs_count - 1); i++ )); do
         menu_options+=("$(($i + 1))")
         menu_options+=("${pkgs[$i]}")
     done
@@ -647,7 +647,7 @@ function _show_selective_menu() {
 function _show_dconf_menu() {
     local opt=$(whiptail --title "dconf settings" --menu "\nWhich dconf settings would you like to apply?" \
                 ${SIZE} 3 \
-                "1" "    dconf general settings" \
+                "1" "    dconf general settings without themes" \
                 "2" "    dconf general settings with themes" \
                 "3" "    dconf tilix settings" \
                 3>&1 1>&2 2>&3)
@@ -662,36 +662,12 @@ function _show_dconf_menu() {
 
 function _fresh_install() {
     _check_command curl && _check_command git
-    _install_fonts
-    _zsh && _zsh_config && _omz
-    _bash_config
-    _tilix
-    _fzf && _fzf_config
-    _fd
-    _bat
-    _rg
-    _nvim && _nvimrc
-    _tmux && _tmux_config
-    _xclip
-    _neofetch
-    _activity_monitors
-    _lazygit
-    _cmake
-    _tree
-    _gnome_tweaks
-    _gnome_shell_extensions
-    _git_config && _git_so_fancy
-    _powerline && _powerline_config
-    _java
-    _sublime_config
-    _vscode
-    _google_chrome
-    _preload
-    _vm_swappiness
-    _arc_theme
-    _papirus
+    # We start from 1 to skip the _show_dconf_menu function
+    # we'll manually issue it later after the others are done
+    for (( i = 1; i < "${#pkgs_functions[@]}"; i++ )); do
+        ${pkgs_functions[$i]}
+    done
     _dconf
-    _set_wallpaper
     _reboot
 }
 
