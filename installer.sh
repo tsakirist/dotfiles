@@ -246,7 +246,6 @@ function _sublimeinit() {
     # Create some necessary folders in order to be able to copy settings
     mkdir -v -p "${HOME}/.config/sublime-text-3/Installed Packages"
     mkdir -v -p "${HOME}/.config/sublime-text-3/Packages/User/"
-    _sublimepkgctrl
 }
 
 function _sublimetext() {
@@ -282,7 +281,7 @@ function _sublimeterminus() {
 }
 
 function _sublimeconfig() {
-    _sublimesettings && _sublimekeybindings && _sublimepackages && _sublimeterminus
+    _sublimeinit && _sublimepkgctrl && _sublimesettings && _sublimekeybindings && _sublimepackages && _sublimeterminus
 }
 
 function _vscode() {
@@ -443,6 +442,10 @@ function _papirusicons() {
     _install papirus-icon-theme
 }
 
+function _papirus() {
+    _papirusicons && _papirusfolders
+}
+
 function _java() {
     _print i "java and javac"
     _install default-jre default-jdk
@@ -525,6 +528,93 @@ function _validateroot() {
     sudo -v
 }
 
+# ------------------------------------------------------ Packages ------------------------------------------------------
+
+pkgs=(
+    "    dconf settings"
+    "    zsh"
+    "    zshrc, zsh_aliases, zsh_functions"
+    "    oh-my-zsh"
+    "    bashrc, bash_aliases, bash_functions"
+    "    tilix: terminal emulator"
+    "    fzf: fuzzy finder"
+    "    fzf configuration"
+    "    fd: improved version of find"
+    "    bat: a cat clone with syntax highlighting"
+    "    rg: ripgrep recursive search for a pattern in files"
+    "    neovim"
+    "    neovimrc"
+    "    tmux: terminal multiplexer"
+    "    tmux configuration"
+    "    xclip"
+    "    neofetch"
+    "    htop & gotop: activity monitors"
+    "    lazygit: a terminal UI for git commands"
+    "    tree"
+    "    cmake"
+    "    gnome-tweaks"
+    "    gnome-shell-extensions"
+    "    gitconfig"
+    "    gitsofancy"
+    "    powerline"
+    "    powerline configuration"
+    "    java & javac"
+    "    sublime text 3"
+    "    sublime text 3: settings, keybindings, packages"
+    "    vscode"
+    "    google chrome"
+    "    preload"
+    "    vmswappiness"
+    "    set wallpaper"
+    "    install fonts"
+    "    arc-theme"
+    "    papirus icons and folder changer script"
+    "    Quit"
+)
+
+pkgs_functions=(
+    _dconfgui
+    _zsh
+    _zshconfig
+    _omz
+    _bashconfig
+    _tilix
+    _fzf
+    _fzfconfig
+    _fd
+    _bat
+    _rg
+    _nvim
+    _nvimrc
+    _tmux
+    _tmuxconfig
+    _xclip
+    _neofetch
+    _activitymonitors
+    _lazygit
+    _tree
+    _cmake
+    _gnometweaks
+    _gnomeshellextensions
+    _gitconfig
+    _gitsofancy
+    _powerline
+    _powerlineconfig
+    _java
+    _sublimetext
+    _sublimeconfig
+    _vscode
+    _googlechrome
+    _preload
+    _vmswappiness
+    _setwlp
+    _installfonts
+    _arctheme
+    _papirus
+)
+
+# -------------------------------------------------------- Menus -------------------------------------------------------
+
 function _showmenu() {
     _checkcommand whiptail
     local INFO="---------------------- System Information -----------------------\n"
@@ -534,6 +624,28 @@ function _showmenu() {
         "1"  "    Fresh installation of everything" \
         "2"  "    Selective installation" \
         "Q"  "    Quit" \
+        3>&1 1>&2 2>&3)
+}
+
+function _createselectivemenu() {
+    # Dynamically populate the GUI menu from the pkgs array, this should be called once
+    menu_options=()
+    pkgs_count="${#pkgs[@]}"
+    
+    for ((i=0; i<($pkgs_count - 1); i++)); do
+        menu_options+=("$(($i + 1))")
+        menu_options+=("${pkgs[$i]}")
+    done
+
+    # Special treatment for the 'Q' option, we don't want to have an integer as tag
+    menu_options+=("Q")
+    menu_options+=("${pkgs[(($pkgs_count - 1))]}")
+}
+
+function _guiselectivemenu() {
+    OPT=$(whiptail --title "Selectively install packages/configurations" \
+        --menu "\nSelect the packages and the configurations that you want to install/set." ${SIZE} $((ROWS-10)) \
+        "${menu_options[@]}" \
         3>&1 1>&2 2>&3)
 }
 
@@ -551,58 +663,11 @@ function _dconfgui() {
     esac
 }
 
-function _guimenu() {
-    OPT=$(whiptail --title "Selectively install packages/configurations" \
-        --menu "\nSelect the packages and the configurations that you want to install/set." ${SIZE} $((ROWS-10)) \
-        "1"  "    dconf settings" \
-        "2"  "    zsh" \
-        "3"  "    zshrc, zsh_aliases, zsh_functions" \
-        "4"  "    oh-my-zsh" \
-        "5"  "    bashrc, bash_aliases, bash_functions" \
-        "6"  "    tilix: terminal emulator" \
-        "7"  "    fzf: fuzzy finder" \
-        "8"  "    fzf configuration" \
-        "9"  "    fd: improved version of find" \
-        "10" "    bat: a cat clone with syntax highlighting" \
-        "11" "    rg: ripgrep recursive search for a pattern in files" \
-        "12" "    neovim" \
-        "13" "    neovimrc" \
-        "14" "    tmux: terminal multiplexer" \
-        "15" "    tmux configuration" \
-        "16" "    xclip" \
-        "17" "    neofetch" \
-        "18" "    htop & gotop: activity monitors" \
-        "19" "    lazygit: a terminal UI for git commands" \
-        "20" "    tree" \
-        "21" "    cmake" \
-        "22" "    gnome-tweaks" \
-        "23" "    gnome-shell-extensions" \
-        "24" "    gitconfig" \
-        "25" "    gitsofancy" \
-        "26" "    powerline" \
-        "27" "    powerline configuration" \
-        "28" "    java & javac" \
-        "29" "    sublime text 3" \
-        "30" "    sublime text 3: settings, keybindings, packages" \
-        "31" "    vscode" \
-        "32" "    google chrome" \
-        "33" "    preload" \
-        "34" "    vmswappiness" \
-        "35" "    set wallpaper" \
-        "36" "    install fonts" \
-        "37" "    arc-theme" \
-        "38" "    papirus icons and folder changer script" \
-        "Q"  "    Quit" \
-        3>&1 1>&2 2>&3)
-}
-
 # ----------------------------------------------------- Installers -----------------------------------------------------
 
 function _fresh_install() {
     _checkcommand curl && _checkcommand git
     _installfonts
-    _arctheme
-    _papirusicons && _papirusfolders
     _zsh && _zshconfig && _omz
     _bashconfig
     _tilix
@@ -623,11 +688,13 @@ function _fresh_install() {
     _gitconfig && _gitsofancy
     _powerline && _powerlineconfig
     _java
-    _sublimetext && _sublimeinit && _sublimeconfig
+    _sublimeconfig
     _vscode
     _googlechrome
     _preload
     _vmswappiness
+    _arctheme
+    _papirus
     _dconf
     _setwlp
     _reboot
@@ -635,49 +702,13 @@ function _fresh_install() {
 
 function _selective_install() {
     _checkcommand curl && _checkcommand git
+    _createselectivemenu
     local exit_status=0
-    while [[ $exit_status -eq 0 ]]; do
-        _guimenu
+    while [ $exit_status -eq 0 ]; do
+        _guiselectivemenu
         case $OPT in
-            1 ) _dconfgui ;;
-            2 ) _zsh ;;
-            3 ) _zshconfig ;;
-            4 ) _omz ;;
-            5 ) _bashconfig ;;
-            6 ) _tilix ;;
-            7 ) _fzf ;;
-            8 ) _fzfconfig ;;
-            9 ) _fd ;;
-            10) _bat ;;
-            11) _rg ;;
-            12) _nvim ;;
-            13) _nvimrc ;;
-            14) _tmux ;;
-            15) _tmuxconfig ;;
-            16) _xclip ;;
-            17) _neofetch ;;
-            18) _activitymonitors ;;
-            19) _lazygit ;;
-            20) _tree ;;
-            21) _cmake ;;
-            22) _gnometweaks ;;
-            23) _gnomeshellextensions ;;
-            24) _gitconfig ;;
-            25) _gitsofancy ;;
-            26) _powerline ;;
-            27) _powerlineconfig ;;
-            28) _java ;;
-            29) _sublimetext ;;
-            30) _sublimeinit && _sublimeconfig ;;
-            31) _vscode ;;
-            32) _googlechrome ;;
-            33) _preload ;;
-            34) _vmswappiness ;;
-            35) _setwlp ;;
-            36) _installfonts ;;
-            37) _arctheme ;;
-            38) _papirusicons && _papirusfolders ;;
-            Q | *) exit_status=1 ;;
+            Q) exit_status=1 ;;
+            *) ${pkgs_functions[(($OPT - 1))]}
         esac
         # Sleep only when user hasn't selected Quit
         [ $exit_status -eq 0 ] && sleep 2
@@ -689,9 +720,9 @@ function _selective_install() {
 _validateroot
 _showmenu
 
-if [[ $INPUT -eq 1 ]]; then
+if [ $INPUT -eq 1 ]; then
     _fresh_install
-elif [[ $INPUT -eq 2 ]]; then
+elif [ $INPUT -eq 2 ]; then
     _selective_install
 else
     exit 0
