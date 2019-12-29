@@ -500,6 +500,12 @@ function _rg() {
     sudo dpkg -i /tmp/rg.deb > /dev/null
 }
 
+function _lazygit() {
+    _print i "lazygit: A terminal UI utility for git commands"
+    _checkppa lazygit-team/release
+    _install lazygit
+}
+
 function _checkroot() {
     local msg="$(printf '%s\n' \
                "Would you like to have a completely unattended installation?"  \
@@ -566,25 +572,26 @@ function _guimenu() {
         "16" "    xclip" \
         "17" "    neofetch" \
         "18" "    htop & gotop: activity monitors" \
-        "19" "    cmake" \
+        "19" "    lazygit: a terminal UI for git commands" \
         "20" "    tree" \
-        "21" "    gnome-tweaks" \
-        "22" "    gnome-shell-extensions" \
-        "23" "    gitconfig" \
-        "24" "    gitsofancy" \
-        "25" "    powerline" \
-        "26" "    powerline configuration" \
-        "27" "    java & javac" \
-        "28" "    sublime text 3" \
-        "29" "    sublime text 3: settings, keybindings, packages" \
-        "30" "    vscode" \
-        "31" "    google chrome" \
-        "32" "    preload" \
-        "33" "    vmswappiness" \
-        "34" "    set wallpaper" \
-        "35" "    install fonts" \
-        "36" "    arc-theme" \
-        "37" "    papirus icons and folder changer script" \
+        "21" "    cmake" \
+        "22" "    gnome-tweaks" \
+        "23" "    gnome-shell-extensions" \
+        "24" "    gitconfig" \
+        "25" "    gitsofancy" \
+        "26" "    powerline" \
+        "27" "    powerline configuration" \
+        "28" "    java & javac" \
+        "29" "    sublime text 3" \
+        "30" "    sublime text 3: settings, keybindings, packages" \
+        "31" "    vscode" \
+        "32" "    google chrome" \
+        "33" "    preload" \
+        "34" "    vmswappiness" \
+        "35" "    set wallpaper" \
+        "36" "    install fonts" \
+        "37" "    arc-theme" \
+        "38" "    papirus icons and folder changer script" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -608,6 +615,7 @@ function _fresh_install() {
     _xclip
     _neofetch
     _activitymonitors
+    _lazygit
     _cmake
     _tree
     _gnometweaks
@@ -649,25 +657,26 @@ function _selective_install() {
             16) _xclip ;;
             17) _neofetch ;;
             18) _activitymonitors ;;
-            19) _cmake ;;
+            19) _lazygit ;;
             20) _tree ;;
-            21) _gnometweaks ;;
-            22) _gnomeshellextensions ;;
-            23) _gitconfig ;;
-            24) _gitsofancy ;;
-            25) _powerline ;;
-            26) _powerlineconfig ;;
-            27) _java ;;
-            28) _sublimetext ;;
-            29) _sublimeinit && _sublimeconfig ;;
-            30) _vscode ;;
-            31) _googlechrome ;;
-            32) _preload ;;
-            33) _vmswappiness ;;
-            34) _setwlp ;;
-            35) _installfonts ;;
-            36) _arctheme ;;
-            37) _papirusicons && _papirusfolders ;;
+            21) _cmake ;;
+            22) _gnometweaks ;;
+            23) _gnomeshellextensions ;;
+            24) _gitconfig ;;
+            25) _gitsofancy ;;
+            26) _powerline ;;
+            27) _powerlineconfig ;;
+            28) _java ;;
+            29) _sublimetext ;;
+            30) _sublimeinit && _sublimeconfig ;;
+            31) _vscode ;;
+            32) _googlechrome ;;
+            33) _preload ;;
+            34) _vmswappiness ;;
+            35) _setwlp ;;
+            36) _installfonts ;;
+            37) _arctheme ;;
+            38) _papirusicons && _papirusfolders ;;
             Q | *) exit_status=1 ;;
         esac
         # Sleep only when user hasn't selected Quit
