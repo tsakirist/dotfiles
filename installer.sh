@@ -32,7 +32,7 @@ tick="\u2714"
 function _check_ppa() {
     for i in "$@"; do
         if ! grep -Rq "^deb.*$i" /etc/apt/sources.list.d/*.list; then
-            sudo add-apt-repository -y ppa:$i > /dev/null
+            sudo add-apt-repository -y ppa:"$i" > /dev/null
             sudo apt-get -qq update
         fi
     done
@@ -46,7 +46,7 @@ function _install() {
 
 function _backup() {
     echo "Backing up $1 ..."
-    cp $1 $1 -v --force --backup=numbered
+    cp "$1" "$1" -v --force --backup=numbered
 }
 
 function _reboot() {
@@ -61,7 +61,7 @@ function _reboot() {
 function _prompt() {
     local exec=false
     echo -e "${bullet} Do you want to download/install ${bold}${red_fg}${1}${reset} [Y/n] "
-    read -n 1 -s input
+    read -n 1 -r -s input
     if [[ "$input" =~ ^([yY])$ ]]; then
         exec=true
     fi
@@ -80,9 +80,9 @@ function _check_file() {
 }
 
 function _check_command() {
-    if ! command -v $1 > /dev/null 2>&1; then
+    if ! command -v "$1" > /dev/null 2>&1; then
         echo -ne "${thunder} Installing required package ${bold}${red_fg}${1}${reset}..."
-        _install $1
+        _install "$1"
     fi
 }
 
@@ -94,8 +94,8 @@ function _print() {
             "i") action="Installing" ;;
             "c") action="Changing" ;;
         esac
-        echo -en "${black_bg}${thunder} ${action} ${bold}${red_fg}${@:2:1}${reset}"
-        echo -e  "${black_bg}${@:3} ...${reset}"
+        echo -en "${black_bg}${thunder} ${action} ${bold}${red_fg}${*:2:1}${reset}"
+        echo -e  "${black_bg}${*:3} ...${reset}"
     fi
 }
 
@@ -109,7 +109,7 @@ function _change_shell() {
     fi
     _print c "shell to $(which ${shell})"
     # Issue the command to change the default shell
-    chsh -s $(which ${shell})
+    chsh -s "$(which ${shell})"
     echo "In order for the ${start_underline}change${end_underline} to take effect you need to" \
          "${bold}${red_fg}logout${reset}."
 }
@@ -155,7 +155,7 @@ function _zsh() {
     _install zsh
     local msg="Would you like to change the default shell to zsh?\nThis will issue 'chsh -s $(which zsh)' command."
     if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
-        chsh -s $(which zsh)
+        chsh -s "$(which zsh)"
     fi
 }
 
@@ -187,12 +187,12 @@ function _oh_my_zsh() {
     # Install Oh-my-zsh
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     # Install powerlevel10k theme
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $zsh_custom/themes/powerlevel10k
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$zsh_custom"/themes/powerlevel10k
     # Install zsh autosuggestions
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions $zsh_custom/plugins/zsh-autosuggestions
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom"/plugins/zsh-autosuggestions
     # Install zsh syntax highlighting and apply a specific theme
     git clone --depth=1 https://github.com/zdharma/fast-syntax-highlighting.git \
-        $zsh_custom/plugins/fast-syntax-highlighting
+        "$zsh_custom"/plugins/fast-syntax-highlighting
     _zshrc
 }
 
@@ -253,8 +253,7 @@ function _sublime_init() {
 function _sublime_text() {
     _print i "SublimeText 3"
     wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-    sudo sh -c 'echo "deb https://download.sublimetext.com/ apt/stable/" > \
-                /etc/apt/sources.list.d/sublime-text.list'
+    sudo sh -c 'echo "deb https://download.sublimetext.com/ apt/stable/" > /etc/apt/sources.list.d/sublime-text.list'
     sudo apt-get -qq update && _install sublime-text
 }
 
@@ -291,8 +290,8 @@ function _vscode() {
     _print i "Visual Studio Code"
     curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
     sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ && rm -f microsoft.gpg
-    sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > \
-                /etc/apt/sources.list.d/vscode.list'
+    sudo sh -c "echo 'deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main' > \
+                /etc/apt/sources.list.d/vscode.list"
     sudo apt-get -qq update && _install code
 }
 
@@ -452,9 +451,9 @@ function _tilix() {
 function _set_wallpaper() {
     local wlp="wallpapers/1.jpg"
     _check_file "$wlp"
-    local path="$(readlink -e "$wlp")"
-    local uri="'file://"$path"'"
-    _print s "wallpaper" ": ${path}"
+    local path="$(readlink -e $wlp)"
+    local uri="'file://$path'"
+    _print s "wallpaper" ": $path"
     gsettings set org.gnome.desktop.background picture-uri "$uri"
 }
 
@@ -509,7 +508,7 @@ function _vm_swappiness() {
         echo "vm.swappiness=${value}" | sudo tee -a $file > /dev/null 2>&1;
     fi
     sudo sysctl -q --system
-    echo "Swappiness value:" $(cat /proc/sys/vm/swappiness)
+    echo "Swappiness value:" "$(cat /proc/sys/vm/swappiness)"
 }
 
 function _check_root() {
@@ -634,7 +633,7 @@ function _create_selective_menu() {
     menu_options=()
 
     for (( i=0; i<"${#pkgs[@]}"; i++ )); do
-        menu_options+=("$(($i + 1))")
+        menu_options+=("$((i + 1))")
         menu_options+=("${pkgs[$i]}")
     done
 
@@ -697,9 +696,9 @@ function _selective_install() {
 _validate_root
 _show_main_menu
 
-if [ $INPUT -eq 1 ]; then
+if [ "$INPUT" -eq 1 ]; then
     _fresh_install
-elif [ $INPUT -eq 2 ]; then
+elif [ "$INPUT" -eq 2 ]; then
     _selective_install
 else
     exit 0
