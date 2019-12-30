@@ -94,7 +94,8 @@ function _print() {
             "i") action="Installing" ;;
             "c") action="Changing" ;;
         esac
-        echo -e "${black_bg}${thunder} ${action} ${bold}${red_fg}${*:2}${white_fg} ...${reset}"
+        echo -en "${black_bg}${thunder} ${action} ${bold}${red_fg}${@:2:1}${reset}"
+        echo -e  "${black_bg}${@:3} ...${reset}"
     fi
 }
 
@@ -106,7 +107,7 @@ function _change_shell() {
             "zsh" ) shell="zsh" ;;
         esac
     fi
-    _print c shell to $(which ${shell})
+    _print c "shell to $(which ${shell})"
     # Issue the command to change the default shell
     chsh -s $(which ${shell})
     echo "In order for the ${start_underline}change${end_underline} to take effect you need to" \
@@ -360,19 +361,6 @@ function _preload() {
     _install preload
 }
 
-function _vm_swappiness() {
-    local value=10
-    local file="/etc/sysctl.conf"
-    _print c "vm.swappiness to $value"
-    if grep -q "^vm.swappiness" $file; then
-        sudo sed -i "s/\(^vm.swappiness=\).*/\1$value/" $file
-    else
-        echo "vm.swappiness=${value}" | sudo tee -a $file > /dev/null 2>&1;
-    fi
-    sudo sysctl -q --system
-    echo "Swappiness value:" $(cat /proc/sys/vm/swappiness)
-}
-
 function _cmake() {
     _print i "cmake"
     _install cmake
@@ -384,21 +372,27 @@ function _tree() {
 }
 
 function _htop() {
-    _print i "htop"
+    _print i "htop" ": an interactive process viewer"
     _install htop
 }
 
 function _gotop() {
-    _print i "gotop"
+    _print i "gotop" ": a terminal UI system monitoring tool"
     sudo snap install gotop-cjbassi
     sudo snap connect gotop-cjbassi:hardware-observe
     sudo snap connect gotop-cjbassi:mount-observe
     sudo snap connect gotop-cjbassi:system-observe
 }
 
-function _activity_monitors() {
+function _ncdu() {
+    _print i "ncdu" ": a terminal UI disk usage monitoring tool"
+    _install ncdu
+}
+
+function _monitoring_tools() {
     _htop
     _gotop
+    _ncdu
 }
 
 function _gnome_tweaks() {
@@ -450,17 +444,18 @@ function _java() {
 }
 
 function _tilix() {
-    _print i "tilix: a terminal emulator"
+    _print i "tilix" ": a terminal emulator"
     _check_ppa webupd8team/terminix
     _install tilix
 }
 
 function _set_wallpaper() {
     local wlp="wallpapers/1.jpg"
-    _check_file $wlp
-    local file="'file://$(readlink -e "${wlp}")'"
-    _print s "Wallpaper ${FILE}"
-    gsettings set org.gnome.desktop.background picture-uri "$file"
+    _check_file "$wlp"
+    local path="$(readlink -e "$wlp")"
+    local uri="'file://"$path"'"
+    _print s "wallpaper" ": ${path}"
+    gsettings set org.gnome.desktop.background picture-uri "$uri"
 }
 
 function _install_fonts() {
@@ -475,33 +470,46 @@ function _fzf_config() {
 }
 
 function _fzf() {
-    _print i "fzf: Fuzzy finder"
+    _print i "fzf" ": Fuzzy finder"
     git clone --depth=1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install --key-bindings --completion --no-update-rc
 }
 
 function _fd() {
-    _print i "fd: an improved version of find"
+    _print i "fd" ": an improved version of find"
     wget -q https://github.com/sharkdp/fd/releases/download/v7.4.0/fd-musl_7.4.0_amd64.deb -O /tmp/fd.deb
     sudo dpkg -i /tmp/fd.deb > /dev/null
 }
 
 function _bat() {
-    _print i "bat: a clone of cat with syntax highlighting"
+    _print i "bat" ": a clone of cat with syntax highlighting"
     wget -q https://github.com/sharkdp/bat/releases/download/v0.12.1/bat-musl_0.12.1_amd64.deb -O /tmp/bat.deb
     sudo dpkg -i /tmp/bat.deb > /dev/null
 }
 
 function _rg() {
-    _print i "rg: ripgrep recursive search for a pattern in files"
+    _print i "rg" ": ripgrep recursive search for a pattern in files"
     wget -q https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb -O /tmp/rg.deb
     sudo dpkg -i /tmp/rg.deb > /dev/null
 }
 
 function _lazygit() {
-    _print i "lazygit: A terminal UI utility for git commands"
+    _print i "lazygit" ": a terminal UI utility for git commands"
     _check_ppa lazygit-team/release
     _install lazygit
+}
+
+function _vm_swappiness() {
+    local value=10
+    local file="/etc/sysctl.conf"
+    _print c "vm.swappiness" " to $value"
+    if grep -q "^vm.swappiness" $file; then
+        sudo sed -i "s/\(^vm.swappiness=\).*/\1$value/" $file
+    else
+        echo "vm.swappiness=${value}" | sudo tee -a $file > /dev/null 2>&1;
+    fi
+    sudo sysctl -q --system
+    echo "Swappiness value:" $(cat /proc/sys/vm/swappiness)
 }
 
 function _check_root() {
@@ -543,7 +551,7 @@ pkgs=(
     "    tmux configuration"
     "    xclip"
     "    neofetch"
-    "    htop & gotop: activity monitors"
+    "    htop + gotop + ncdu: monitoring tools"
     "    lazygit: a terminal UI for git commands"
     "    tree"
     "    cmake"
@@ -553,7 +561,7 @@ pkgs=(
     "    gitsofancy"
     "    powerline"
     "    powerline configuration"
-    "    java & javac"
+    "    java and javac"
     "    sublime text 3"
     "    sublime text 3: settings, keybindings, packages"
     "    vscode"
@@ -584,7 +592,7 @@ pkgs_functions=(
     _tmux_config
     _xclip
     _neofetch
-    _activity_monitors
+    _monitoring_tools
     _lazygit
     _tree
     _cmake
@@ -624,7 +632,7 @@ function _show_main_menu() {
 # Dynamically populate the GUI menu from the pkgs array, this should be called once
 function _create_selective_menu() {
     menu_options=()
-    
+
     for (( i=0; i<"${#pkgs[@]}"; i++ )); do
         menu_options+=("$(($i + 1))")
         menu_options+=("${pkgs[$i]}")
