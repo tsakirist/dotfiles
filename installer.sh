@@ -217,7 +217,8 @@ function _vimrc() {
 
 function _nvim() {
     _print i "neovim"
-    _check_ppa neovim-ppa/stable
+    # _check_ppa neovim-ppa/stable
+    _check_ppa neovim-ppa/unstable
     _install neovim
 }
 
@@ -699,10 +700,10 @@ function _selective_install() {
 _validate_root
 _show_main_menu
 
-if [ "$INPUT" -eq 1 ]; then
+if [[ $INPUT -eq 1 ]]; then
     _fresh_install
-elif [ "$INPUT" -eq 2 ]; then
+elif [[ $INPUT -eq 2 ]]; then
     _selective_install
 else
-    exit 1
+    exit 0
 fi
