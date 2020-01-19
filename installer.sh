@@ -39,7 +39,6 @@ function _check_ppa() {
 }
 
 function _install() {
-    # Install the package in the background and suppress any outputs from STDOUT
     # -qq: option implies --yes and also is less verbose
     sudo apt-get -qq install "$@" > /dev/null
 }
@@ -184,16 +183,23 @@ function _zsh_config() {
 function _oh_my_zsh() {
     local zsh_custom=${HOME}/.oh-my-zsh/custom
     _print i "oh-my-zsh"
-    # Install Oh-my-zsh
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    # Install powerlevel10k theme
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$zsh_custom"/themes/powerlevel10k
-    # Install zsh autosuggestions
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom"/plugins/zsh-autosuggestions
-    # Install zsh syntax highlighting and apply a specific theme
     git clone --depth=1 https://github.com/zdharma/fast-syntax-highlighting.git \
         "$zsh_custom"/plugins/fast-syntax-highlighting
     _zshrc
+}
+
+function _coc_requirements() {
+    if ! command -v node > /dev/null 2&>1; then
+        _print i "node"
+        curl -sL install-node.now.sh/lts | sudo bash -s -- -y > /dev/null
+    fi
+    if ! command -v clangd > /dev/null 2&>1; then
+        _print i "clangd" ": a language server (LSP)"
+        _install clang-tools-8 && sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-8 100
+    fi
 }
 
 function _vim() {
@@ -206,12 +212,11 @@ function _vimrc() {
     _print s ".vimrc"
     cp -v --backup=numbered neovim/vimrc ~/.vimrc
     vim +PlugInstall +qall
+    _coc_requirements
 }
 
 function _nvim() {
     _print i "neovim"
-    # sudo sh -c 'echo "deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu bionic main" > \
-    #             /etc/apt/sources.list.d/neovim.list'
     _check_ppa neovim-ppa/stable
     _install neovim
 }
@@ -223,6 +228,7 @@ function _nvimrc() {
     mkdir -v -p ~/.config/nvim/
     cp -v --backup=numbered neovim/init.vim ~/.config/nvim/
     nvim +PlugInstall +qall
+    _coc_requirements
 }
 
 function _tmux() {
@@ -322,7 +328,8 @@ function _powerline() {
 }
 
 function _powerline_config() {
-    _check_file powerline_configs/themes/shell/default.json && _check_file powerline_configs/colorschemes/default.json
+    _check_file powerline_configs/themes/shell/default.json
+    _check_file powerline_configs/colorschemes/default.json
 
     _print s "themes/shell/default.json"
     cp -v --backup=numbered "powerline_configs/themes/shell/default.json" \
@@ -628,16 +635,14 @@ function _show_main_menu() {
         3>&1 1>&2 2>&3)
 }
 
-# Dynamically populate the GUI menu from the pkgs array, this should be called once
 function _create_selective_menu() {
+    # Dynamically populate the GUI menu from the pkgs array
     menu_options=()
-
     for (( i=0; i<"${#pkgs[@]}"; i++ )); do
         menu_options+=("$((i + 1))")
         menu_options+=("${pkgs[$i]}")
     done
-
-    # Special treatment for the 'Q' option
+    # Manually add the Quit option
     menu_options+=("Q")
     menu_options+=("    Quit")
 }
@@ -667,8 +672,6 @@ function _show_dconf_menu() {
 
 function _fresh_install() {
     _check_command curl && _check_command git
-    # We start from 1 to skip the _show_dconf_menu function
-    # we'll manually issue it later after the others are done
     for (( i = 1; i < "${#pkgs_functions[@]}"; i++ )); do
         ${pkgs_functions[$i]}
     done
@@ -701,5 +704,5 @@ if [ "$INPUT" -eq 1 ]; then
 elif [ "$INPUT" -eq 2 ]; then
     _selective_install
 else
-    exit 0
+    exit 1
 fi

@@ -43,16 +43,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'justincampbell/vim-eighties'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'honza/vim-snippets'
+Plug 'mhinz/vim-startify'
 
 Plug 'junegunn/fzf.vim'
 Plug '~/.fzf'
 
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Plug 'mhinz/vim-startify'
-" Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'ervandew/supertab'
 
 " List ends here. Plugins become visible to Vim after this call
