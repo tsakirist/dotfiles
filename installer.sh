@@ -192,14 +192,19 @@ function _oh_my_zsh() {
 }
 
 function _coc_requirements() {
-    if ! command -v node > /dev/null 2&>1; then
+    # Install necessary packages
+    if ! command -v node > /dev/null 2>&1; then
         _print i "node"
         curl -sL install-node.now.sh/lts | sudo bash -s -- -y > /dev/null
     fi
-    if ! command -v clangd > /dev/null 2&>1; then
-        _print i "clangd" ": a language server (LSP)"
+    if ! command -v clangd > /dev/null 2>&1; then
+        _print i "clangd" ": language server (LSP)"
         _install clang-tools-8 && sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-8 100
     fi
+    # Set the coc-json file for the LSP
+    _check_file neovim/coc/coc-settings.json
+    _print s "coc-settings.json"
+    cp -v --backup=numbered neovim/coc/coc-settings.json $HOME/.config/nvim/
 }
 
 function _vim() {
@@ -212,7 +217,7 @@ function _vimrc() {
     _print s ".vimrc"
     cp -v --backup=numbered neovim/vimrc ~/.vimrc
     vim +PlugInstall +qall
-    _coc_requirements
+    # _coc_requirements
 }
 
 function _nvim() {
@@ -229,7 +234,7 @@ function _nvimrc() {
     mkdir -v -p ~/.config/nvim/
     cp -v --backup=numbered neovim/init.vim ~/.config/nvim/
     nvim +PlugInstall +qall
-    _coc_requirements
+    # _coc_requirements
 }
 
 function _tmux() {
@@ -554,6 +559,7 @@ pkgs=(
     "    rg: ripgrep recursive search for a pattern in files"
     "    neovim"
     "    neovimrc"
+    "    coc-requirements"
     "    tmux: terminal multiplexer"
     "    tmux configuration"
     "    xclip"
@@ -595,6 +601,7 @@ pkgs_functions=(
     _rg
     _nvim
     _nvimrc
+    _coc_requirements
     _tmux
     _tmux_config
     _xclip
