@@ -525,5 +525,3 @@ let g:coc_snippet_prev = '<c-k>'
 if exists("g:loaded_webdevicons")
   call webdevicons#refresh()
 endif
-
-

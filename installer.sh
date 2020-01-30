@@ -635,7 +635,7 @@ function _show_main_menu() {
     _check_command whiptail
     local INFO="---------------------- System Information -----------------------\n"
     INFO+="$(hostnamectl | tail -n 3 | cut -c3-)"
-    INPUT=$(whiptail --title "This script provides an easy way to install my packages and my configurations." \
+    INPUT=$(whiptail --title "This script provides an easy way to install my preferred packages and configurations." \
         --menu "\nScript is executed from '$(pwd)'\n\n${INFO}" ${SIZE} 3 \
         "1"  "    Fresh installation of everything" \
         "2"  "    Selective installation" \
