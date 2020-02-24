@@ -23,6 +23,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'joshdick/onedark.vim'
 Plug 'sjl/badwolf'
 Plug 'morhetz/gruvbox'
+Plug 'ErichDonGubler/vim-sublime-monokai'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
@@ -45,6 +46,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'justincampbell/vim-eighties'
 Plug 'honza/vim-snippets'
 Plug 'ryanoasis/vim-devicons'
+Plug 'fedorenchik/VimCalc3'
+Plug 'spolu/dwm.vim'
 
 Plug 'junegunn/fzf.vim'
 Plug '~/.fzf'
@@ -145,6 +148,24 @@ set encoding=UTF-8
 " This is used to control the Ctrl + C command and copy to the system's clipboard
 " set clipboard+=unnamedplus
 set clipboard^=unnamed,unnamedplus
+
+" This option will render characters for spaces, tabs etc
+" It won't work for tabs because i have made vim convert tabs to spaces
+set listchars=trail:·,tab:»·
+set list
+
+" Add persistent undo for vim
+" ---------------------------
+" Create necessary directories if needed automatically
+if !isdirectory($HOME."/.vim")
+    call mkdir($HOME."/.vim", "", 0770)
+endif
+if !isdirectory($HOME."/.vim/undo-dir")
+    call mkdir($HOME."/.vim/undo-dir", "", 0700)
+endif
+
+set undodir=~/.vim/undo-dir
+set undofile
 
 " Format options configuration:
 " 't' is required in format options to wrap text in insert mode
