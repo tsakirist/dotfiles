@@ -70,3 +70,10 @@ alias gotop='gotop-cjbassi -c monokai'
 
 # Alias for lazygit
 alias lg='lazygit'
+
+# Alias for exall
+alias xll='exa -lFhB --git --group-directories-first'
+
+# Restart the network service
+alias network_restart='sudo systemctl restart NetworkManager.service'
+alias network_restart2='sudo service network-manager restart'

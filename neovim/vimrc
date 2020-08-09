@@ -97,26 +97,6 @@ function! Fill(c)
     exec 'norm '.(strlen(getline(line('.') - 1)) - 2).'A'.nr2char(a:c)
 endfunction
 
-" Function to have a centered floating window for FZF
-" https://github.com/junegunn/fzf.vim/issues/664
-function! OpenFloatingWin()
-   let height = &lines - 3
-   let width = float2nr(&columns - (&columns * 2 / 10))
-   let col = float2nr((&columns - width) / 2)
-   let opts = {
-         \ 'relative': 'editor',
-         \ 'row': height * 0.3,
-         \ 'col': col + 30,
-         \ 'width': width * 2 / 3,
-         \ 'height': height / 2,
-         \ 'style': 'minimal',
-         \ }
-   let buf = nvim_create_buf(v:false, v:true)
-   let win = nvim_open_win(buf, v:true, opts)
-   call setwinvar(win, '&winhl', 'Normal:Pmenu')
-endfunction
-let g:fzf_layout = { 'window': 'call OpenFloatingWin()' }
-
 " ------------------------------------- General Configurations ------------------------------------
 
 " Syntax highlighting
@@ -572,8 +552,7 @@ if exists("g:loaded_webdevicons")
   call webdevicons#refresh()
 endif
 
-" ----------------------------------- Vista Vim Configurations ------------------------------------
-
+" -------------------------------------- Vista vim configuration ----------------------------------
 "" Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
 let g:vista_default_executive='ctags'
@@ -591,3 +570,23 @@ let g:vista_floating_delay=0
 nnoremap <leader>vs :Vista!!<CR>
 nnoremap <leader>vc :Vista!<CR>
 nnoremap <leader>vf :Vista finder coc<CR>
+
+" --------------------------------------- Floating FZF centered -----------------------------------
+" https://github.com/junegunn/fzf.vim/issues/664
+function! OpenFloatingWin()
+   let height = float2nr(&lines * 0.65)
+   let width = float2nr(&columns * 0.65)
+   let opts = {
+        \ 'relative': 'editor',
+        \ 'row': (&lines - height) / 2,
+        \ 'col': (&columns - width) / 2,
+        \ 'width': width,
+        \ 'height': height,
+        \ 'style': 'minimal',
+        \ }
+   let buf = nvim_create_buf(v:false, v:true)
+   let win = nvim_open_win(buf, v:true, opts)
+   call setwinvar(win, '&winhl', 'Normal:Pmenu')
+endfunction
+
+let g:fzf_layout = { 'window': 'call OpenFloatingWin()' }
