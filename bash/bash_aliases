@@ -23,7 +23,7 @@ alias hf='history | grep'
 alias h='history'
 alias fstat='stat --format "%a"'
 alias pf='ps aux | grep'
-alias lsize='du -sh * | sort -hr'
+alias files='du -sh * | sort -hr'
 alias showkernels='dpkg --list | grep linux-image'
 alias openports='lsof -i -n -P'
 alias sc='echo "Sourcing ~/.bashrc ..." && source ~/.bashrc'
@@ -56,13 +56,13 @@ alias cclean='[ -d build ] && make clean -C build && rm -rI build'
 alias lpos='gsettings set com.canonical.Unity.Launcher launcher-position'
 
 # Make vi & vim commands to open nvim with -p option that opens multiple files in seperate tabs
-alias vi='nvim -p'
-alias vim='nvim -p'
+alias vi='nvim'
+alias vim='nvim'
 alias vv='nvim ~/.vimrc'
 
-alias nv='nvim -p'
-alias nvi='nvim -p'
-alias nvim='nvim -p'
+alias nv='nvim'
+alias nvi='nvim'
+alias nvim='nvim'
 alias nvv='nvim ~/.vimrc'
 
 # Shorten the name to just gotop
@@ -77,3 +77,6 @@ alias xll='exa -lFhB --git --group-directories-first'
 # Restart the network service
 alias network_restart='sudo systemctl restart NetworkManager.service'
 alias network_restart2='sudo service network-manager restart'
+
+# Alias to get my ip
+alias myip='hostname -I'
