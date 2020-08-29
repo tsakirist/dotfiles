@@ -1,13 +1,26 @@
-"--------------------------------------------------------------------------------------------------
-" These are common keyboard shortcuts to remind myself
-" <C-n> multiple cursors, <C-n> again to go to next, <C-x> to remove current cursor
-" <Shift+i> toggle hidden files in NERDTree
-" [count]\cc, comments out current line or count lines
-" [count]\cu, uncomments the current line or count lines
-" [count]<leader>c<space> Toggles the comment state of the lines
-"--------------------------------------------------------------------------------------------------
+" -------------------------------------------------------------------------------------------------
+"                             __      _______ __  __ _____   _____
+"                             \ \    / /_   _|  \/  |  __ \ / ____|
+"                              \ \  / /  | | | \  / | |__) | |
+"                               \ \/ /   | | | |\/| |  _  /| |
+"                                \  /   _| |_| |  | | | \ \| |____
+"                                 \/   |_____|_|  |_|_|  \_\\_____|
+"
+" Author : Tryfon Tsakiris
+" Email  : tr.tsakiris@gmail.com
+" URL    : https://github.com/tsakirist/configurations/blob/master/neovim/vimrc
+" -------------------------------------------------------------------------------------------------
+
+
+" Vim defaults to `compatible` when selecting a vimrc with the command-line '-u' argument.
+" Override that behaviour to nocompatible.
+if &compatible
+  set nocompatible
+endif
+
 
 " ---------------------------------- Plugin installer configurations ------------------------------
+
 
 " Automate the process of installing vim-plug when required
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -19,49 +32,98 @@ endif
 " Plugins will be downloaded under the specified directory
 call plug#begin('~/.vim/plugged')
 
-" Declare the list of plugins
+
+" -------------------------------------- Plugin list declaration -----------------------------------
+
+
+" Colorschemes
 Plug 'joshdick/onedark.vim'
 Plug 'sjl/badwolf'
 Plug 'morhetz/gruvbox'
 Plug 'ErichDonGubler/vim-sublime-monokai'
+
+" Status/tabline themes
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+" Syntax highlighting and more
 Plug 'sheerun/vim-polyglot'
-Plug 'vim-python/python-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'terryma/vim-multiple-cursors'
+
+" Nerd plugins
 Plug 'scrooloose/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'mhinz/vim-startify'
 Plug 'scrooloose/nerdcommenter'
-Plug 'Yggdroot/indentLine'
-Plug 'junegunn/goyo.vim'
-Plug 'dkprice/vim-easygrep'
-Plug 'tpope/vim-surround'
-Plug 'jiangmiao/auto-pairs'
-Plug 'inside/vim-search-pulse'
-Plug 'mhinz/vim-signify'
-Plug 'tpope/vim-fugitive'
-Plug 'justincampbell/vim-eighties'
-Plug 'honza/vim-snippets'
-Plug 'ryanoasis/vim-devicons'
-Plug 'fedorenchik/VimCalc3'
-Plug 'liuchengxu/vista.vim'
-Plug 'majutsushi/tagbar'
 
+" Multiple cursors like in Subl3
+Plug 'terryma/vim-multiple-cursors'
+
+" Fancy start/welcome screen
+Plug 'mhinz/vim-startify'
+
+" Display identation levels with lines
+Plug 'Yggdroot/indentLine'
+
+" Distraction free mode
+Plug 'junegunn/goyo.vim'
+
+" Fast find and replace across files
+Plug 'dkprice/vim-easygrep'
+
+" Surround mappings for enclosed text
+Plug 'tpope/vim-surround'
+
+" Auto insert brackets, parentheses, etc
+Plug 'jiangmiao/auto-pairs'
+
+" Easily locate cursor after search
+Plug 'inside/vim-search-pulse'
+
+" Show an indication in the sign column for git diffs
+Plug 'mhinz/vim-signify'
+
+" A git wrapper for vim
+Plug 'tpope/vim-fugitive'
+
+" Automatically resize openeed windows
+Plug 'justincampbell/vim-eighties'
+
+" Add file type icons to various plugins
+Plug 'ryanoasis/vim-devicons'
+
+" An interactive calculator inside a buffer
+Plug 'fedorenchik/VimCalc3'
+
+" Highlight/Underline word under cursor
+Plug 'dominikduda/vim_current_word'
+
+" Fold everything except the search pattern
+Plug 'embear/Vim-foldsearch'
+
+" Text filtering and alignment
+Plug 'godlygeek/tabular'
+
+" The world-renowned fuzzy finder FZF
 Plug 'junegunn/fzf.vim'
 Plug '~/.fzf'
 
+" Intellisense engine with LSP like VSCode
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'ervandew/supertab'
 
+" Useful plugins for symbol lookups and tags
+" Plug 'liuchengxu/vista.vim'
+" Plug 'majutsushi/tagbar'
+
 " List ends here. Plugins become visible to Vim after this call
 call plug#end()
 
+
 " --------------------------------------- Utility Functions ---------------------------------------
+
 
 " Function to zoom-in and zoom-out from a window
 function! s:ZoomToggle() abort
@@ -97,7 +159,9 @@ function! Fill(c)
     exec 'norm '.(strlen(getline(line('.') - 1)) - 2).'A'.nr2char(a:c)
 endfunction
 
+
 " ------------------------------------- General Configurations ------------------------------------
+
 
 " Syntax highlighting
 syntax on
@@ -110,8 +174,8 @@ set termguicolors
 
 " Highlight the current line and also highlight the column @120 (ruler)
 set colorcolumn=120
-highlight colorcolumn ctermbg=black
 set cursorline
+" highlight colorcolumn ctermbg=red
 
 " This displays the line numbers and controls the number of columns used for the line number
 set number
@@ -203,7 +267,7 @@ augroup END
 
 " Open NERDTree automatically when vim starts
 "autocmd vimenter * NERDTree
-"
+
 " Nerd Commenter configuration options
 " -------------------------------------
 " Add spaces after comment delimiters by default
@@ -270,7 +334,13 @@ let g:eighties_enabled=1
 " Align git nerd tree plugin with dev icons
 let g:WebDevIconsNerdTreeGitPluginForceVAlign=1
 
+" Vim Current Word configuration options
+" --------------------------------------
+let g:vim_current_word#highlight_current_word=0
+
+
 " ------------------------------------------ Keybindings ------------------------------------------
+
 
 " Change buffers quickly
 nnoremap <silent> bn :bnext<CR>
@@ -283,9 +353,6 @@ nnoremap <silent> <leader>eq <C-w>=<CR>
 " Fill the current line with string '" <count><char>'
 " nnoremap <expr> <F3> ':call Fill('.getchar().")\<CR>"
 
-" Fill the current line with a leading "<space><prev_line_cols>[-]
-nnoremap <expr> <F3> ":call Fill(45)\<CR>"
-
 " Toggle line numbers
 nnoremap <silent> <leader>l :set nu!<CR>
 
@@ -295,6 +362,9 @@ nnoremap <silent> <leader>1 :Goyo<CR>
 
 " Toggle between folds
 nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
+
+" Fill the current line with a leading "<space><prev_line_cols>[-]
+nnoremap <expr> <F3> ":call Fill(45)\<CR>"
 
 " Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
 map <silent> <C-k><C-b> :NERDTreeToggle<CR>
@@ -340,7 +410,7 @@ vnoremap <silent> <C-q> <Esc>:q<CR>
 nnoremap <silent> <S-q> <Esc>:qa<CR>
 
 " Easiliy toggle comments @NERDCommenter
-map <leader><leader> <leader>c<Space><CR>
+map <leader><leader> <leader>c<Space>
 
 " Toggling comment in insert mode keeps insert mode :startinsert
 imap <leader><leader> <Esc><leader>c<Space>:startinsert<CR>
@@ -384,12 +454,16 @@ nnoremap <silent> <leader>gd :SignifyDiff<CR>
 " inoremap <silent> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 " inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+
 " ----------------------------------------- Abbreviations -----------------------------------------
+
 
 " Shebang abbreviation in insert mode
 iab #! #!/usr/bin/env bash
 
+
 " ----------------------------------- FZF Plugins Configuration -----------------------------------
+
 
 command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
@@ -404,7 +478,9 @@ endfunction
 
 command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 
+
 " -------------------------------------- Coc Configurations ---------------------------------------
+
 
 " ----------------------
 " General configurations
@@ -552,8 +628,11 @@ if exists("g:loaded_webdevicons")
   call webdevicons#refresh()
 endif
 
+
 " -------------------------------------- Vista vim configuration ----------------------------------
-"" Executive used when opening vista sidebar without specifying it.
+
+
+" Executive used when opening vista sidebar without specifying it.
 " See all the avaliable executives via `:echo g:vista#executives`.
 let g:vista_default_executive='ctags'
 
@@ -571,7 +650,10 @@ nnoremap <leader>vs :Vista!!<CR>
 nnoremap <leader>vc :Vista!<CR>
 nnoremap <leader>vf :Vista finder coc<CR>
 
+
 " --------------------------------------- Floating FZF centered -----------------------------------
+
+
 " https://github.com/junegunn/fzf.vim/issues/664
 function! OpenFloatingWin()
    let height = float2nr(&lines * 0.65)
