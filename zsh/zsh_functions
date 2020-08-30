@@ -58,7 +58,8 @@ serve() {
 }
 
 # This fixes the permissions on files and directories
-perms() {
+# Setting them to 755 for folders and 644 for files
+fix_perms() {
     if [[ $# -eq 0 ]]; then
         dest=.
     else
@@ -71,4 +72,20 @@ perms() {
 # This issue's help bash function while inside zsh
 help() {
     $(which bash) -c "help $1"
+}
+
+# This function creates a backup of the provided directories & files
+backup() {
+    if [[ $# -eq 0 ]]; then
+        echo "You must provide the dir(s)/file(s) that you want to backup."
+        return 1
+    fi
+    date_time=$(date +%F_%T:%Z)
+    for arg in "$@"; do
+        # Remove potential trailing slash(es), ':' acts as a delimiter
+        local source=$(echo "$arg" | sed 's:/*$::')
+        local target="$source.backup.$date_time"
+        echo "Backing up '$source' -> '$target'"
+        cp --interactive --recursive --preserve "$source" "$target"
+    done
 }

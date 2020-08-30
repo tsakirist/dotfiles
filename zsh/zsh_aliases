@@ -8,7 +8,7 @@
 #                                                     #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-alias ls='ls --color=auto -hN --group-directories-first'
+alias ls='ls --color=always -hN --group-directories-first'
 alias l='ls'
 alias l1='ls -1'
 alias lf='ls | grep'
