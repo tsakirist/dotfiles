@@ -116,7 +116,7 @@ function _change_shell() {
 function _git_config() {
     _check_file git/gitconfig
     _print s ".gitconfig"
-    cp -v --backup=numbered git/gitconfig ~/.gitconfig
+    ln -sv --backup=numbered "$(pwd)/git/gitconfig" $HOME/.gitconfig
 }
 
 function _git_so_fancy() {
@@ -130,19 +130,19 @@ function _git_so_fancy() {
 function _bashrc() {
     _check_file bash/bashrc
     _print s ".bashrc"
-    cp -v --backup=numbered bash/bashrc ~/.bashrc
+    ln -sv --backup=numbered "$(pwd)/bash/bashrc" $HOME/.bashrc
 }
 
 function _bash_aliases() {
     _check_file bash/bash_aliases
     _print s ".bash_aliases"
-    cp -v --backup=numbered bash/bash_aliases ~/.bash_aliases
+    ln -sv --backup=numbered "$(pwd)/bash/bash_aliases" $HOME/.bash_aliases
 }
 
 function _bash_functions() {
     _check_file bash/bash_functions
     _print s ".bash_functions"
-    cp -v --backup=numbered bash/bash_functions ~/.bash_functions
+    ln -sv --backup=numbered "$(pwd)/bash/bash_functions" $HOME/.bash_functions
 }
 
 function _bash_config() {
@@ -161,19 +161,19 @@ function _zsh() {
 function _zshrc() {
     _check_file zsh/zshrc
     _print s ".zshrc"
-    cp -v --backup=numbered zsh/zshrc ~/.zshrc
+    ln -sv --backup=numbered "$(pwd)/zsh/zshrc" $HOME/.zshrc
 }
 
 function _zsh_aliases() {
     _check_file zsh/zsh_aliases
     _print s ".zsh_aliases"
-    cp -v --backup=numbered zsh/zsh_aliases ~/.zsh_aliases
+    ln -sv --backup=numbered "$(pwd)/zsh/zsh_aliases" $HOME/.zsh_aliases
 }
 
 function _zsh_functions () {
     _check_file zsh/zsh_functions
     _print s ".zsh_functions"
-    cp -v --backup=numbered zsh/zsh_functions ~/.zsh_functions
+    ln -sv --backup=numbered "$(pwd)/zsh/zsh_functions" $HOME/.zsh_functions
 }
 
 function _zsh_config() {
@@ -215,7 +215,7 @@ function _vim() {
 function _vimrc() {
     _check_file neovim/vimrc
     _print s ".vimrc"
-    cp -v --backup=numbered neovim/vimrc ~/.vimrc
+    ln -sv --backup=numbered "$(pwd)/neovim/vimrc" $HOME/.vimrc
     vim +PlugInstall +qall
     # _coc_requirements
 }
@@ -230,9 +230,9 @@ function _nvim() {
 function _nvimrc() {
     _check_file neovim/vimrc && _check_file neovim/init.vim
     _print s ".vimrc and init.vim"
-    cp -v --backup=numbered neovim/vimrc ~/.vimrc
-    mkdir -v -p ~/.config/nvim/
-    cp -v --backup=numbered neovim/init.vim ~/.config/nvim/
+    ln -sv --backup=numbered "$(pwd)/neovim/vimrc" $HOME/.vimrc
+    mkdir -v -p $HOME/.config/nvim/
+    ln -sv --backup=numbered "$(pwd)/neovim/init.vim" $HOME/.config/nvim/init.vim
     nvim +PlugInstall +qall
     # _coc_requirements
 }
@@ -245,7 +245,7 @@ function _tmux() {
 function _tmux_config() {
     _check_file tmux/tmux.conf
     _print s ".tmux.conf"
-    cp -v --backup=numbered tmux/tmux.conf ~/.tmux.conf
+    ln -sv --backup=numbered "$(pwd)/tmux/tmux.conf" $HOME/.tmux.conf
 }
 
 function _sublime_pkgctrl() {
@@ -478,13 +478,13 @@ function _install_fonts() {
 function _fzf_config() {
     _check_file fzf/fzf.config
     _print s "fzf configuration"
-    cp -v --backup=numbered fzf/fzf.config ~/.fzf.config
+    ln -sv --backup=numbered "$(pwd)/fzf/fzf.config" $HOME/.fzf.config
 }
 
 function _fzf() {
     _print i "fzf" ": Fuzzy finder"
-    git clone --depth=1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install --key-bindings --completion --no-update-rc
+    git clone --depth=1 https://github.com/junegunn/fzf.git $HOME/.fzf
+    $HOME/.fzf/install --key-bindings --completion --no-update-rc
 }
 
 function _fd() {
