@@ -191,6 +191,19 @@ set tabstop=4
 " Controls the number of space characters inserted for identation
 set shiftwidth=4
 
+" Use the indentation level of the previous line when pressing enter
+set autoindent
+
+" Do smart auto-indenting when starting a new line
+set smartindent
+
+" The two following options are used alongside with linebreak, but I currently use textwidth
+" Make wrapped lines to visually indent properly
+" set breakindent
+
+" Set the visual character to be shown for wrapped lines
+" set showbreak=\ \\_
+
 " This makes searches case insensitive
 set ignorecase
 
@@ -204,11 +217,18 @@ set incsearch
 set splitbelow
 set splitright
 
-" Set the maximum text width before vim automatically wraps it
+" Set automatic wrap to display lines in next line (this is the default)
+set wrap
+
+" Set the maximum text width before vim automatically wraps it, this inserts the EOL character
+" This is considered a hard-wrap, one can use linebreak to soft-wrap the lines w/o inserting EOL
 set textwidth=120
 
 " Set default encoding
 set encoding=UTF-8
+
+" Set the fileformat to unix because windows line endings are bad
+set fileformat=unix
 
 " This is used to control the Ctrl + C command and copy to the system's clipboard
 " set clipboard+=unnamedplus
@@ -233,10 +253,10 @@ set undodir=~/.vim/undo-dir
 set undofile
 
 " Format options configuration:
-" 't' is required in format options to wrap text in insert mode
-" if a line is longer than textwidth it may not be wraped if 'l' is in format options
-" Disable <CR> key from autocommenting when pressing enter in a commented line
-autocmd BufEnter * set fo+=t fo-=r
+" 't': is required in format options to wrap text in insert mode
+" 'l': a that is line than textwidth it may not be wraped if 'l' is in format options
+" 'r': disables the <CR> key from autocommenting when pressing enter in line that contains a comment
+autocmd BufEnter * set fo+=t fo-=r fo-=l
 
 " Remove trailing whitespaces on file save
 autocmd BufWritePre * :call TrimTrailWhitespace()
