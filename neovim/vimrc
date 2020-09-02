@@ -105,8 +105,9 @@ Plug 'embear/Vim-foldsearch'
 Plug 'godlygeek/tabular'
 
 " The world-renowned fuzzy finder FZF
+" This will try to install FZF outside of vim plug directory
+Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
 Plug 'junegunn/fzf.vim'
-Plug '~/.fzf'
 
 " Intellisense engine with LSP like VSCode
 Plug 'neoclide/coc.nvim', {'branch': 'release'}

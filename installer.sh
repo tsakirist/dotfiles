@@ -483,7 +483,11 @@ function _fzf_config() {
 
 function _fzf() {
     _print i "fzf" ": Fuzzy finder"
-    git clone --depth=1 https://github.com/junegunn/fzf.git $HOME/.fzf
+    if [ -d $HOME/.fzf ]; then
+        pushd $HOME/.fzf && git pull origin && popd
+    else
+        git clone --depth=1 https://github.com/junegunn/fzf.git $HOME/.fzf
+    fi
     $HOME/.fzf/install --key-bindings --completion --no-update-rc
 }
 
