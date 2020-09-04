@@ -29,11 +29,12 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" Plugins will be downloaded under the specified directory
-call plug#begin('~/.vim/plugged')
-
 
 " -------------------------------------- Plugin list declaration -----------------------------------
+
+
+" Plugins will be downloaded under the specified directory
+call plug#begin('~/.vim/plugged')
 
 
 " Colorschemes
@@ -89,9 +90,6 @@ Plug 'tpope/vim-fugitive'
 " Automatically resize openeed windows
 Plug 'justincampbell/vim-eighties'
 
-" Add file type icons to various plugins
-Plug 'ryanoasis/vim-devicons'
-
 " An interactive calculator inside a buffer
 Plug 'fedorenchik/VimCalc3'
 
@@ -104,6 +102,9 @@ Plug 'embear/Vim-foldsearch'
 " Text filtering and alignment
 Plug 'godlygeek/tabular'
 
+" Add file type icons to various plugins
+Plug 'ryanoasis/vim-devicons'
+
 " The world-renowned fuzzy finder FZF
 " This will try to install FZF outside of vim plug directory
 Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
@@ -112,12 +113,13 @@ Plug 'junegunn/fzf.vim'
 " Intellisense engine with LSP like VSCode
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+
+" Useful plugins for autocomplete, symbol lookups and tags
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'ervandew/supertab'
-
-" Useful plugins for symbol lookups and tags
 " Plug 'liuchengxu/vista.vim'
 " Plug 'majutsushi/tagbar'
+
 
 " List ends here. Plugins become visible to Vim after this call
 call plug#end()
