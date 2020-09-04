@@ -1,6 +1,9 @@
 [alias]
   lg = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(yellow bold)%d%Creset %s %C(bold green)(%cr) %C(bold cyan)<%an>%Creset' --abbrev-commit
-  logc = rev-list HEAD --count
+  log-count = rev-list HEAD --count
+  when-added = log --diff-filter=A --
+  when-deleted = log --diff-filter=D --
+  when-modified = log --diff-filter=M --
 
 [core]
   pager = diff-so-fancy | less --tabs=4 -RFX
