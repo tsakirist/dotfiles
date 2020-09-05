@@ -80,7 +80,7 @@ function _check_file() {
 
 function _check_command() {
     if ! command -v "$1" > /dev/null 2>&1; then
-        echo -ne "${thunder} Installing required package ${bold}${red_fg}${1}${reset}..."
+        echo -ne "${thunder} Installing required package ${bold}${red_fg}${1}${reset} ..."
         _install "$1"
     fi
 }
@@ -99,18 +99,22 @@ function _print() {
 }
 
 function _change_shell() {
-    local shell
-    if [ $# -eq 1 ]; then
-        case "$1" in
-            "bash") shell="bash" ;;
-            "zsh" ) shell="zsh" ;;
-        esac
+    if [ $# -eq 0 ]; then
+        echo "Cannot change shell to empty argument. You must provide the ${bold}${red_fg}shell name${reset}."
+        return
     fi
-    _print c "shell to $(which ${shell})"
-    # Issue the command to change the default shell
-    chsh -s "$(which ${shell})"
-    echo "In order for the ${start_underline}change${end_underline} to take effect you need to" \
-         "${bold}${red_fg}logout${reset}."
+    local shell
+    case "$1" in
+        "bash") shell="bash" ;;
+        "zsh" ) shell="zsh" ;;
+    esac
+    local msg="Do you want to change the default shell to ${shell}?\nThis will issue 'chsh -s $(which ${shell})' command."
+    if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
+        chsh -s "$(which ${shell})"
+        _print c "shell to $(which ${shell})"
+        echo "In order for the ${start_underline}change${end_underline} to take effect you need to" \
+             "${bold}${red_fg}re-login${reset}."
+    fi
 }
 
 function _git_config() {
@@ -152,10 +156,7 @@ function _bash_config() {
 function _zsh() {
     _print i "zsh"
     _install zsh
-    local msg="Would you like to change the default shell to zsh?\nThis will issue 'chsh -s $(which zsh)' command."
-    if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
-        chsh -s "$(which zsh)"
-    fi
+    _change_shell zsh
 }
 
 function _zshrc() {
