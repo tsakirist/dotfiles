@@ -100,6 +100,7 @@ Plug 'dominikduda/vim_current_word'
 Plug 'embear/Vim-foldsearch'
 
 " Text filtering and alignment
+" Should check this plugin as a replacement https://github.com/junegunn/vim-easy-align
 Plug 'godlygeek/tabular'
 
 " Add file type icons to various plugins
@@ -472,6 +473,15 @@ xnoremap <ScrollWheelDown> 4<C-e>
 nnoremap <silent> <leader>gh :SignifyToggleHighlight<CR>
 nnoremap <silent> <leader>gf :SignifyFold<CR>
 nnoremap <silent> <leader>gd :SignifyDiff<CR>
+
+" Tabularize keybinds for easier alignment
+nmap <leader>t= :Tabularize /=<CR>
+vmap <leader>t= :Tabularize /=<CR>
+nmap <leader>t: :Tabularize /:\zs<CR>
+vmap <leader>t: :Tabularize /:\zs<CR>
+nmap <leader>t<Space>: :Tabularize /:<CR>
+vmap <leader>t<Space>: :Tabularize /:<CR>
+
 
 " Use <Tab> and <S-Tab> to navigate through the autocomplete options
 " inoremap <silent> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
