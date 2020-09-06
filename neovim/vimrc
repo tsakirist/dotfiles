@@ -69,8 +69,6 @@ Plug 'Yggdroot/indentLine'
 " Distraction free mode
 Plug 'junegunn/goyo.vim'
 
-" Fast find and replace across files
-Plug 'dkprice/vim-easygrep'
 
 " Surround mappings for enclosed text
 Plug 'tpope/vim-surround'
@@ -112,6 +110,9 @@ Plug 'voldikss/vim-floaterm'
 " Add file type icons to various plugins
 Plug 'ryanoasis/vim-devicons'
 
+" Measure the startup time of vim
+Plug 'dstein64/vim-startuptime'
+
 " The world-renowned fuzzy finder FZF
 " This will try to install FZF outside of vim plug directory
 Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
@@ -123,6 +124,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Smoother and more natural scrolling inside vim
 " Plug 'psliwka/vim-smoothie'
+
+" Fast find and replace across files
+" Plug 'dkprice/vim-easygrep'
 
 " Useful plugins for autocomplete, symbol lookups and tags
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
