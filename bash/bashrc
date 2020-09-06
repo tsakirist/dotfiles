@@ -102,6 +102,9 @@ shopt -s autocd
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
+# Right enter might not work in some cases so we have to bind it to the enter
+bindkey -s "^[OM" "^M"
+
 # Source my custom functions
 [ -f ~/.bash_functions ] && . ~/.bash_functions
 
