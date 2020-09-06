@@ -103,6 +103,12 @@ Plug 'embear/Vim-foldsearch'
 " Should check this plugin as a replacement https://github.com/junegunn/vim-easy-align
 Plug 'godlygeek/tabular'
 
+" A visualization plugin for the undo/redo branches
+Plug 'mbbill/undotree'
+
+" Use terminal in a floating pop up window
+Plug 'voldikss/vim-floaterm'
+
 " Add file type icons to various plugins
 Plug 'ryanoasis/vim-devicons'
 
@@ -114,6 +120,9 @@ Plug 'junegunn/fzf.vim'
 " Intellisense engine with LSP like VSCode
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+
+" Smoother and more natural scrolling inside vim
+" Plug 'psliwka/vim-smoothie'
 
 " Useful plugins for autocomplete, symbol lookups and tags
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -245,16 +254,21 @@ set list
 
 " Add persistent undo for vim
 " ---------------------------
-" Create necessary directories if needed automatically
-if !isdirectory($HOME."/.vim")
-    call mkdir($HOME."/.vim", "", 0770)
+if has('persistent_undo')
+  " Define the paths to store the persistent undo files
+  let vim_path = expand('$HOME/.vim')
+  let undo_path = expand('$HOME/.vim/undo-dir')
+  " Create the required directories if needed with the appropriate permissions
+  if !isdirectory(vim_path)
+    call mkdir(vim_path, "", 0770)
+  endif
+  if !isdirectory(undo_path)
+    call mkdir(undo_path, "", 0700)
+  endif
+  " Point vim to the defined undo directory and enable undo persistence
+  let &undodir = undo_path
+  set undofile
 endif
-if !isdirectory($HOME."/.vim/undo-dir")
-    call mkdir($HOME."/.vim/undo-dir", "", 0700)
-endif
-
-set undodir=~/.vim/undo-dir
-set undofile
 
 " Format options configuration:
 " 't': is required in format options to wrap text in insert mode
@@ -367,9 +381,9 @@ let g:vim_current_word#highlight_current_word=0
 
 
 " Change buffers quickly
-nnoremap <silent> bn :bnext<CR>
-nnoremap <silent> bp :bprevious<CR>
-nnoremap <silent> bd :bd<CR>
+nnoremap <silent> <leader>bn :bnext<CR>
+nnoremap <silent> <leader>bp :bprevious<CR>
+nnoremap <silent> <leader>bd :bd<CR>
 
 " Equal resize of all opened splits
 nnoremap <silent> <leader>eq <C-w>=<CR>
@@ -453,6 +467,12 @@ command! -nargs=* VT vsplit | terminal <args>
 
 nnoremap <silent> <leader>ht :HT<CR>
 nnoremap <silent> <leader>vt :VT<CR>
+
+" Keybindings to toggle and kill the floating term window
+nnoremap <silent> <leader>ft :FloatermToggle<CR>
+nnoremap <silent> <leader>fk :FloatermKill<CR>
+tnoremap <silent> <leader>ft <C-\><C-n>:FloatermToggle<CR>
+tnoremap <silent> <leader>fk <C-\><C-n>:FloatermKill<CR>
 
 " Make the whole-word search proc with <leader>/
 command! -nargs=1 SearchWord call SearchWord(<f-args>)
