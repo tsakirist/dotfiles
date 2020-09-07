@@ -69,7 +69,6 @@ Plug 'Yggdroot/indentLine'
 " Distraction free mode
 Plug 'junegunn/goyo.vim'
 
-
 " Surround mappings for enclosed text
 Plug 'tpope/vim-surround'
 
@@ -121,7 +120,8 @@ Plug 'junegunn/fzf.vim'
 " Intellisense engine with LSP like VSCode
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-
+" Unused but worthy plugins
+" -------------------------
 " Smoother and more natural scrolling inside vim
 " Plug 'psliwka/vim-smoothie'
 
@@ -142,38 +142,44 @@ call plug#end()
 " --------------------------------------- Utility Functions ---------------------------------------
 
 
+" Function that checks if a plugin has been loaded or not
+" Returns 1 if the plugin is loaded 0 otherwise
+function! PluginLoaded(plugin)
+  return match(&rtp, a:plugin) != -1
+endfunction
+
 " Function to zoom-in and zoom-out from a window
 function! s:ZoomToggle() abort
-    if exists('t:zoomed') && t:zoomed
-        execute t:zoom_winrestcmd
-        let t:zoomed = 0
-    else
-        let t:zoom_winrestcmd = winrestcmd()
-        resize
-        vertical resize
-        let t:zoomed = 1
-    endif
+  if exists('t:zoomed') && t:zoomed
+    execute t:zoom_winrestcmd
+    let t:zoomed = 0
+  else
+    let t:zoom_winrestcmd = winrestcmd()
+    resize
+    vertical resize
+    let t:zoomed = 1
+  endif
 endfunction
 
 " Function to trim trailing whitespace
 " https://vi.stackexchange.com/a/456
 function! TrimTrailWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
+  let l:save = winsaveview()
+  keeppatterns %s/\s\+$//e
+  call winrestview(l:save)
 endfunction
 
 " Function to make a whole word search faster
 function! SearchWord(word)
-    let @/ = '\<' . a:word . '\>'
-    normal n
+  let @/ = '\<' . a:word . '\>'
+  normal n
 endfunction
 
 " Fills the current line with a double quote, a space and then adds the provided character 'c'
 " as many times as needed to align the line with the previous one.
 function! Fill(c)
-    exec 'norm  cc" '
-    exec 'norm '.(strlen(getline(line('.') - 1)) - 2).'A'.nr2char(a:c)
+  exec 'norm  cc" '
+  exec 'norm '.(strlen(getline(line('.') - 1)) - 2).'A'.nr2char(a:c)
 endfunction
 
 
@@ -182,7 +188,10 @@ endfunction
 
 " Syntax highlighting
 syntax on
+
+" Custom colorscheme
 silent! colorscheme onedark
+
 " silent! colorscheme badwolf
 "highlight LineNr term=bold cterm=None ctermfg=Red ctermbg=None
 
@@ -193,6 +202,9 @@ set termguicolors
 set colorcolumn=120
 set cursorline
 " highlight colorcolumn ctermbg=red
+
+" Set hidden to on so as to be able to change buffers without saving first
+set hidden
 
 " This displays the line numbers and controls the number of columns used for the line number
 set number
@@ -291,20 +303,20 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " Groupped configurations of :term
 augroup TerminalConfigs
-    " Clear old autocommands of this group
-    autocmd!
-    " Automatically enter in insert mode when in terminal pane
-    autocmd TermOpen,BufEnter,WinEnter * if &buftype == 'terminal' | :startinsert | endif
-    " Disable linenumbering when in terminal
-    autocmd TermOpen * setlocal nonumber norelativenumber
+  " Clear old autocommands of this group
+  autocmd!
+  " Automatically enter in insert mode when in terminal pane
+  autocmd TermOpen,BufEnter,WinEnter * if &buftype == 'terminal' | :startinsert | endif
+  " Disable linenumbering when in terminal
+  autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
 
 " Change linenumber coloring to white for onedark
 augroup colorset
-    " Clear old autocommands of this group
-    autocmd!
-    let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-    " silent! autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white })
+  " Clear old autocommands of this group
+  autocmd!
+  let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
+  " silent! autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white })
 augroup END
 
 " Open NERDTree automatically when vim starts
@@ -506,10 +518,11 @@ vmap <leader>t: :Tabularize /:\zs<CR>
 nmap <leader>t<Space>: :Tabularize /:<CR>
 vmap <leader>t<Space>: :Tabularize /:<CR>
 
-
 " Use <Tab> and <S-Tab> to navigate through the autocomplete options
-" inoremap <silent> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+if !PluginLoaded('coc.nvim')
+  inoremap <silent> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+  inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+endif
 
 
 " ----------------------------------------- Abbreviations -----------------------------------------
@@ -523,14 +536,14 @@ iab #! #!/usr/bin/env bash
 
 
 command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
 
 function! RipgrepFzf(query, fullscreen)
-    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
-    let initial_command = printf(command_fmt, shellescape(a:query))
-    let reload_command = printf(command_fmt, '{q}')
-    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 
 command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
@@ -539,173 +552,170 @@ command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 " -------------------------------------- Coc Configurations ---------------------------------------
 
 
-" ----------------------
-" General configurations
-" ----------------------
-"
-" if hidden is not set, TextEdit might fail.
-set hidden
+if PluginLoaded('coc.nvim')
+  " ----------------------
+  " General configurations
+  " ----------------------
+  " Some servers have issues with backup files, see #649
+  set nobackup
+  set nowritebackup
 
-" Some servers have issues with backup files, see #649
-set nobackup
-set nowritebackup
+  " You will have bad experience for diagnostic messages when it's default 4000.
+  set updatetime=300
 
-" You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
+  " don't give |ins-completion-menu| messages.
+  set shortmess+=c
 
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
+  " -----------------
+  " Keyboard mappings
+  " -----------------
+  " Use tab for trigger completion with characters ahead and navigate.
+  inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" always show signcolumns
-set signcolumn=yes
+  " Use <c-space> to trigger completion.
+  inoremap <silent><expr> <C-space> coc#refresh()
 
-" -----------------
-" Keyboard mappings
-" -----------------
-" Use tab for trigger completion with characters ahead and navigate.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <C-space> coc#refresh()
+  " Navigate diagnostics
+  nmap <silent> dn <Plug>(coc-diagnostic-next)
+  nmap <silent> dp <Plug>(coc-diagnostic-prev)
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  " Remap keys for gotos
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
 
-" Navigate diagnostics
-nmap <silent> dn <Plug>(coc-diagnostic-next)
-nmap <silent> dp <Plug>(coc-diagnostic-prev)
+  " Use K to show documentation in preview window
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+  " Highlight symbol under cursor on CursorHold
+  autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+  " Remap for rename current word
+  nmap <leader>rn <Plug>(coc-rename)
 
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+  " Remap for format selected region
+  xmap <silent> <leader>f <Plug>(coc-format-selected)
+  nmap <silent> <leader>f <Plug>(coc-format-selected)
 
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+  " Hotkey to Format current buffer
+  nnoremap <leader><S-f> :Format<CR>
 
-" Remap for format selected region
-xmap <silent> <leader>f <Plug>(coc-format-selected)
-nmap <silent> <leader>f <Plug>(coc-format-selected)
+  " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+  xmap <leader>a <Plug>(coc-codeaction-selected)
+  nmap <leader>a <Plug>(coc-codeaction-selected)
 
-" Hotkey to Format current buffer
-nnoremap <leader><S-f> :Format<CR>
+  " Remap for do codeAction of current line
+  nmap <leader>ac <Plug>(coc-codeaction)
 
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a <Plug>(coc-codeaction-selected)
-nmap <leader>a <Plug>(coc-codeaction-selected)
+  " Fix autofix problem of current line
+  nmap <leader>qf <Plug>(coc-fix-current)
 
-" Remap for do codeAction of current line
-nmap <leader>ac <Plug>(coc-codeaction)
+  " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+  nmap <silent> <TAB> <Plug>(coc-range-select)
+  xmap <silent> <TAB> <Plug>(coc-range-select)
 
-" Fix autofix problem of current line
-nmap <leader>qf <Plug>(coc-fix-current)
+  " -------------------
+  " Diagnostic mappings
+  " -------------------
+  " Show all diagnostics
+  nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
+  " Manage extensions
+  nnoremap <silent> <space>e :<C-u>CocList extensions<cr>
+  " Show commands
+  nnoremap <silent> <space>c :<C-u>CocList commands<cr>
+  " Find symbol of current document
+  nnoremap <silent> <space>r :<C-u>CocList outline<cr>
+  " Search workspace symbols
+  nnoremap <silent> <space>s :<C-u>CocList -I symbols<cr>
 
-" Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
+  " ---------------
+  " Auto/- commands
+  " ---------------
+  augroup mygroup
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  augroup end
 
-" -------------------
-" Diagnostic mappings
-" -------------------
-" Show all diagnostics
-nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <space>e :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <space>c :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <space>r :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s :<C-u>CocList -I symbols<cr>
+  " Use `:Format` to format current buffer
+  command! -nargs=0 Format :call CocAction('format')
 
-" ---------------
-" Auto/- commands
-" ---------------
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
+  " Use `:Fold` to fold current buffer
+  command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
+  " -----------------
+  " Utility functions
+  " -----------------
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
 
-" Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call CocAction('fold', <f-args>)
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
 
-" -----------------
-" Utility functions
-" -----------------
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+  " -----------------
+  " Snippets mappings
+  " -----------------
+  " Use <C-l> for trigger snippet expand.
+  imap <C-l> <Plug>(coc-snippets-expand)
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
+  " Use <C-j> for select text for visual placeholder of snippet.
+  vmap <C-j> <Plug>(coc-snippets-select)
+
+  " Use <C-j> for both expand and jump (make expand higher priority.)
+  imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+  " Use <C-j> for jump to next placeholder, it's default of coc.nvim
+  let g:coc_snippet_next = '<c-j>'
+
+  " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+  let g:coc_snippet_prev = '<c-k>'
+
+  " Dev icons refresh
+  if exists("g:loaded_webdevicons")
+    call webdevicons#refresh()
   endif
-endfunction
-
-" -----------------
-" Snippets mappings
-" -----------------
-" Use <C-l> for trigger snippet expand.
-imap <C-l> <Plug>(coc-snippets-expand)
-
-" Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
-
-" Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
-
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<c-j>'
-
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<c-k>'
-
-" Dev icons refresh
-if exists("g:loaded_webdevicons")
-  call webdevicons#refresh()
 endif
 
 
 " -------------------------------------- Vista vim configuration ----------------------------------
 
 
-" Executive used when opening vista sidebar without specifying it.
-" See all the avaliable executives via `:echo g:vista#executives`.
-let g:vista_default_executive='ctags'
+if PluginLoaded('vista.vim')
+  " Executive used when opening vista sidebar without specifying it.
+  " See all the avaliable executives via `:echo g:vista#executives`.
+  let g:vista_default_executive='ctags'
 
-" Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
-let g:vista#renderer#enable_icon=1
-let g:vista_echo_cursor_strategy='floating_win'
-let g:vista_highlight_whole_line=1
-let g:vista_floating_delay=0
+  " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
+  let g:vista#renderer#enable_icon=1
+  let g:vista_echo_cursor_strategy='floating_win'
+  let g:vista_highlight_whole_line=1
+  let g:vista_floating_delay=0
 
-" Key mapping for vista vim
-" * \vs to toggle window
-" * \vc to close window
-" * \vf to open fuzzy finder for tags
-nnoremap <leader>vs :Vista!!<CR>
-nnoremap <leader>vc :Vista!<CR>
-nnoremap <leader>vf :Vista finder coc<CR>
+  " Key mapping for vista vim
+  " * \vs to toggle window
+  " * \vc to close window
+  " * \vf to open fuzzy finder for tags
+  nnoremap <leader>vs :Vista!!<CR>
+  nnoremap <leader>vc :Vista!<CR>
+  nnoremap <leader>vf :Vista finder coc<CR>
+endif
 
 
 " --------------------------------------- Floating FZF centered -----------------------------------
@@ -713,19 +723,19 @@ nnoremap <leader>vf :Vista finder coc<CR>
 
 " https://github.com/junegunn/fzf.vim/issues/664
 function! OpenFloatingWin()
-   let height = float2nr(&lines * 0.65)
-   let width = float2nr(&columns * 0.65)
-   let opts = {
-        \ 'relative': 'editor',
-        \ 'row': (&lines - height) / 2,
-        \ 'col': (&columns - width) / 2,
-        \ 'width': width,
-        \ 'height': height,
-        \ 'style': 'minimal',
-        \ }
-   let buf = nvim_create_buf(v:false, v:true)
-   let win = nvim_open_win(buf, v:true, opts)
-   call setwinvar(win, '&winhl', 'Normal:Pmenu')
+  let height = float2nr(&lines * 0.65)
+  let width = float2nr(&columns * 0.65)
+  let opts = {
+    \ 'relative': 'editor',
+    \ 'row': (&lines - height) / 2,
+    \ 'col': (&columns - width) / 2,
+    \ 'width': width,
+    \ 'height': height,
+    \ 'style': 'minimal',
+    \ }
+  let buf = nvim_create_buf(v:false, v:true)
+  let win = nvim_open_win(buf, v:true, opts)
+  call setwinvar(win, '&winhl', 'Normal:Pmenu')
 endfunction
 
 let g:fzf_layout = { 'window': 'call OpenFloatingWin()' }
