@@ -524,6 +524,16 @@ if !PluginLoaded('coc.nvim')
   inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 endif
 
+" Remind myself to stop using the god damn arrow keys
+nnoremap <silent> <Left>  :echoe "Use h"<CR>
+nnoremap <silent> <Right> :echoe "Use l"<CR>
+nnoremap <silent> <Up>    :echoe "Use k"<CR>
+nnoremap <silent> <Down>  :echoe "Use j"<CR>
+vnoremap <silent> <Left>  :<C-u>echoe "Use h"<CR>
+vnoremap <silent> <Right> :<C-u>echoe "Use l"<CR>
+vnoremap <silent> <Up>    :<C-u>echoe "Use k"<CR>
+vnoremap <silent> <Down>  :<C-u>echoe "Use j"<CR>
+
 
 " ----------------------------------------- Abbreviations -----------------------------------------
 
