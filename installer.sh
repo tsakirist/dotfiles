@@ -38,6 +38,31 @@ function _check_ppa() {
     done
 }
 
+function _check_file() {
+    if [ ! -f "$1" ]; then
+        echo "${bold}${red_fg}Error${reset}: cannot find ${1} in this directory."
+        echo "You should run the installer from within the github repository."
+        echo "(git clone https://github.com/tsakirist/configurations.git)"
+        exit 1
+    fi
+}
+
+function _check_dir() {
+    if [ ! -d "$1" ]; then
+        echo "${bold}${red_fg}Error${reset}: cannot find ${1} in this directory."
+        echo "You should run the installer from within the github repository."
+        echo "(git clone https://github.com/tsakirist/configurations.git)"
+        exit 1
+    fi
+}
+
+function _check_command() {
+    if ! command -v "$1" > /dev/null 2>&1; then
+        echo -ne "${thunder} Installing required package ${bold}${red_fg}${1}${reset} ..."
+        _install "$1"
+    fi
+}
+
 function _install() {
     # -qq: option implies --yes and also is less verbose
     sudo apt-get -qq install "$@" > /dev/null
@@ -66,22 +91,6 @@ function _prompt() {
     fi
     if [[ $exec == "true" ]]; then
         $1
-    fi
-}
-
-function _check_file() {
-    if [ ! -f "$1" ]; then
-        echo "${bold}${red_fg}ERROR${reset}: Can't find ${1} in this directory."
-        echo "You should run the installer from within the github repository."
-             "git clone https://github.com/tsakirist/configurations.git"
-        exit 1
-    fi
-}
-
-function _check_command() {
-    if ! command -v "$1" > /dev/null 2>&1; then
-        echo -ne "${thunder} Installing required package ${bold}${red_fg}${1}${reset} ..."
-        _install "$1"
     fi
 }
 
@@ -236,6 +245,14 @@ function _nvimrc() {
     ln -sv --backup=numbered "$(pwd)/neovim/init.vim" $HOME/.config/nvim/init.vim
     nvim +PlugInstall +qall
     # _coc_requirements
+}
+
+function _nvim_autoload() {
+    local dir="neovim/autoload"
+    _check_dir "$dir"
+    for file in "$dir"/*; do
+        ln -sv --backup=numbered "$(pwd)/$file" $HOME/.vim/autoload/$(basename $file)
+    done
 }
 
 function _tmux() {
@@ -564,6 +581,7 @@ pkgs=(
     "    rg: ripgrep recursive search for a pattern in files"
     "    neovim"
     "    neovimrc"
+    "    neovim autoload"
     "    coc-requirements"
     "    tmux: terminal multiplexer"
     "    tmux configuration"
@@ -606,6 +624,7 @@ pkgs_functions=(
     _rg
     _nvim
     _nvimrc
+    _nvim_autoload
     _coc_requirements
     _tmux
     _tmux_config
