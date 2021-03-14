@@ -139,50 +139,6 @@ Plug 'junegunn/fzf.vim'
 call plug#end()
 
 
-" --------------------------------------- Utility Functions ---------------------------------------
-
-
-" Function that checks if a plugin has been loaded or not
-" Returns 1 if the plugin is loaded 0 otherwise
-function! PluginLoaded(plugin)
-  return match(&rtp, a:plugin) != -1
-endfunction
-
-" Function to zoom-in and zoom-out from a window
-function! s:ZoomToggle() abort
-  if exists('t:zoomed') && t:zoomed
-    execute t:zoom_winrestcmd
-    let t:zoomed = 0
-  else
-    let t:zoom_winrestcmd = winrestcmd()
-    resize
-    vertical resize
-    let t:zoomed = 1
-  endif
-endfunction
-
-" Function to trim trailing whitespace
-" https://vi.stackexchange.com/a/456
-function! TrimTrailWhitespace()
-  let l:save = winsaveview()
-  keeppatterns %s/\s\+$//e
-  call winrestview(l:save)
-endfunction
-
-" Function to make a whole word search faster
-function! SearchWord(word)
-  let @/ = '\<' . a:word . '\>'
-  normal n
-endfunction
-
-" Fills the current line with a double quote, a space and then adds the provided character 'c'
-" as many times as needed to align the line with the previous one.
-function! Fill(c)
-  exec 'norm  cc" '
-  exec 'norm '.(strlen(getline(line('.') - 1)) - 2).'A'.nr2char(a:c)
-endfunction
-
-
 " ------------------------------------- General Configurations ------------------------------------
 
 
@@ -264,36 +220,17 @@ set fileformat=unix
 set clipboard^=unnamed,unnamedplus
 
 " This option will render characters for spaces, tabs etc
-" It won't work for tabs because i have made vim convert tabs to spaces
 set listchars=trail:·,tab:»·
 set list
 
-" Add persistent undo for vim
-" ---------------------------
-if has('persistent_undo')
-  " Define the paths to store the persistent undo files
-  let vim_path = expand('$HOME/.vim')
-  let undo_path = expand('$HOME/.vim/undo-dir')
-  " Create the required directories if needed with the appropriate permissions
-  if !isdirectory(vim_path)
-    call mkdir(vim_path, "", 0770)
-  endif
-  if !isdirectory(undo_path)
-    call mkdir(undo_path, "", 0700)
-  endif
-  " Point vim to the defined undo directory and enable undo persistence
-  let &undodir = undo_path
-  set undofile
-endif
-
 " Format options configuration:
 " 't': is required in format options to wrap text in insert mode
-" 'l': a line that is longer than textwidth it may not be wraped if 'l' is in format options
+" 'l': a line that is longer than textwidth may not be wraped if 'l' is in format options
 " 'r': disables the <CR> key from autocommenting when pressing enter in line that contains a comment
 autocmd BufEnter * set fo+=t fo-=r fo-=l
 
 " Remove trailing whitespaces on file save
-autocmd BufWritePre * :call TrimTrailWhitespace()
+autocmd BufWritePre * :call functions#TrimTrailWhitespace()
 
 " This is used to preserve the clipboard when vim exits
 autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
@@ -392,6 +329,24 @@ let g:WebDevIconsNerdTreeGitPluginForceVAlign=1
 " --------------------------------------
 let g:vim_current_word#highlight_current_word=0
 
+" Add persistent undo for vim
+" ---------------------------
+if has('persistent_undo')
+  " Define the paths to store the persistent undo files
+  let vim_path = expand('$HOME/.vim')
+  let undo_path = expand('$HOME/.vim/undo-dir')
+  " Create the required directories if needed with the appropriate permissions
+  if !isdirectory(vim_path)
+    call mkdir(vim_path, "", 0770)
+  endif
+  if !isdirectory(undo_path)
+    call mkdir(undo_path, "", 0700)
+  endif
+  " Point vim to the defined undo directory and enable undo persistence
+  let &undodir = undo_path
+  set undofile
+endif
+
 
 " ------------------------------------------ Keybindings ------------------------------------------
 
@@ -405,7 +360,7 @@ nnoremap <silent> <leader>bd :bd<CR>
 nnoremap <silent> <leader>eq <C-w>=<CR>
 
 " Fill the current line with string '" <count><char>'
-" nnoremap <expr> <F3> ':call Fill('.getchar().")\<CR>"
+" nnoremap <expr> <F3> ':call functions#Fill('.getchar().")\<CR>"
 
 " Toggle line numbers
 nnoremap <silent> <leader>l :set nu!<CR>
@@ -418,23 +373,31 @@ nnoremap <silent> <leader>1 :Goyo<CR>
 nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
 
 " Fill the current line with a leading "<space><prev_line_cols>[-]
-nnoremap <expr> <F3> ":call Fill(45)\<CR>"
+nnoremap <expr> <F3> ":call functions#Fill(45)\<CR>"
 
 " Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
-map <silent> <C-k><C-b> :NERDTreeToggle<CR>
+map <silent> <leader>nt :NERDTreeToggle<CR>
 
 " Set Ctrl-t to jump to next occurence of the word under cursor
 nnoremap <silent> <C-t> *
 
-" Keybinds to move lines like sublime text 3
+" Keybinds to move lines like
 " https://vim.fandom.com/wiki/Moving_lines_up_or_down
 " gv=gv re-selects the visual block after each operation
-nnoremap <silent> <C-S-Up> :m-2<CR>
-nnoremap <silent> <C-S-Down> :m+<CR>
-inoremap <silent> <C-S-Up> <Esc>:m-2<CR>
-inoremap <silent> <C-S-Down> <Esc>:m+<CR>
+" '==' re-indents the line after it has been moved
+nnoremap <silent> <C-S-Up> :m-2<CR>==
+nnoremap <silent> <C-S-Down> :m+<CR>==
+inoremap <silent> <C-S-Up> <Esc>:m-2<CR>==gi
+inoremap <silent> <C-S-Down> <Esc>:m+<CR>==gi
 vnoremap <silent> <C-S-Up> :m '<-2<CR>gv=gv
 vnoremap <silent> <C-S-Down> :m '>+1<CR>gv=gv
+
+nnoremap <silent> <C-K> :m-2<CR>==
+nnoremap <silent> <C-J> :m+<CR>==
+inoremap <silent> <C-K> <Esc>:m-2<CR>==gi
+inoremap <silent> <C-J> <Esc>:m+<CR>==gi
+vnoremap <silent> <C-K> :m '<-2<CR>gv=gv
+vnoremap <silent> <C-J> :m '>+1<CR>gv=gv
 
 " Duplicate the current line
 " 'm' sets a mark that we can return afterwards by using '`' followed by the mark's name
@@ -491,11 +454,11 @@ tnoremap <silent> <leader>ft <C-\><C-n>:FloatermToggle<CR>
 tnoremap <silent> <leader>fk <C-\><C-n>:FloatermKill<CR>
 
 " Make the whole-word search proc with <leader>/
-command! -nargs=1 SearchWord call SearchWord(<f-args>)
+command! -nargs=1 SearchWord call functions#SearchWord(<f-args>)
 nnoremap <leader>/ :SearchWord
 
 " Command and key mapping to enable the zoom-in and zoom-out
-command! ZoomToggle call s:ZoomToggle()
+command! ZoomToggle call functions#ZoomToggle()
 nnoremap <silent> <leader>z :ZoomToggle<CR>
 
 " Add mouse support and change the default mouse scrolling wheel options
@@ -519,7 +482,7 @@ nmap <leader>t<Space>: :Tabularize /:<CR>
 vmap <leader>t<Space>: :Tabularize /:<CR>
 
 " Use <Tab> and <S-Tab> to navigate through the autocomplete options
-if !PluginLoaded('coc.nvim')
+if !functions#PluginLoaded('coc.nvim')
   inoremap <silent> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
   inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 endif
@@ -544,25 +507,25 @@ iab #! #!/usr/bin/env bash
 
 " ----------------------------------- FZF Plugins Configuration -----------------------------------
 
+if functions#PluginLoaded('fzf.vim')
+    command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
 
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+  function! RipgrepFzf(query, fullscreen)
+    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+  endfunction
 
-function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
-
-command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
-
+  command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
+endif
 
 " -------------------------------------- Coc Configurations ---------------------------------------
 
 
-if PluginLoaded('coc.nvim')
+if functions#PluginLoaded('coc.nvim')
   " ----------------------
   " General configurations
   " ----------------------
@@ -707,7 +670,7 @@ endif
 " -------------------------------------- Vista vim configuration ----------------------------------
 
 
-if PluginLoaded('vista.vim')
+if functions#PluginLoaded('vista.vim')
   " Executive used when opening vista sidebar without specifying it.
   " See all the avaliable executives via `:echo g:vista#executives`.
   let g:vista_default_executive='ctags'
