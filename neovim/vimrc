@@ -11,6 +11,8 @@
 " URL    : https://github.com/tsakirist/configurations/blob/master/neovim/vimrc
 " -------------------------------------------------------------------------------------------------
 
+" ----------------------------------- Plugins {{{
+
 " ----------------------------------- Plugin installer {{{
 
 " Automate the process of installing vim-plug when required
@@ -131,143 +133,6 @@ call plug#end()
 
 " }}}
 
-" ----------------------------------- Settings {{{
-
-" Vim defaults to `compatible` when selecting a vimrc with the command-line '-u' argument.
-" Override that behaviour to nocompatible.
-if &compatible
-  set nocompatible
-endif
-
-" Syntax highlighting
-syntax on
-
-" Custom colorscheme
-silent! colorscheme onedark
-
-" Set the color for the folded sections
-highlight Folded guibg=black guifg=red
-
-" Set true colors inside neovim
-set termguicolors
-
-" Highlight the current line and also highlight the column @120 (ruler)
-set colorcolumn=120
-set cursorline
-" highlight colorcolumn ctermbg=red
-
-" Set hidden to on so as to be able to change buffers without saving first
-set hidden
-
-" This displays the line numbers and controls the number of columns used for the line number
-set number
-set numberwidth=1
-
-" Insert spaces when <Tab> is pressed. With this option set, if you want to enter a real tab character use Ctrl-V<Tab>
-" key sequence
-set expandtab
-
-" Controls the number of space characters inserted when pressing the tab key
-set tabstop=4
-
-" Controls the number of space characters inserted for identation
-set shiftwidth=4
-
-" Use the indentation level of the previous line when pressing enter
-set autoindent
-
-" Do smart auto-indenting when starting a new line
-set smartindent
-
-" The two following options are used alongside with linebreak, but I currently use textwidth
-" Make wrapped lines to visually indent properly
-" set breakindent
-
-" Set the visual character to be shown for wrapped lines
-" set showbreak=\ \\_
-
-" This makes searches case insensitive
-set ignorecase
-
-" This makes searches with a single capital letter to be case sensitive
-set smartcase
-
-" This highlights the search pattern as you type
-set incsearch
-
-" Open windows always below or right
-set splitbelow
-set splitright
-
-" Set automatic wrap to display lines in next line (this is the default)
-set wrap
-
-" Set the maximum text width before vim automatically wraps it, this inserts the EOL character
-" This is considered a hard-wrap, one can use linebreak to soft-wrap the lines w/o inserting EOL
-set textwidth=120
-
-" Set default encoding
-set encoding=UTF-8
-
-" Set the fileformat to unix because windows line endings are bad
-set fileformat=unix
-
-" This is used to control the Ctrl + C command and copy to the system's clipboard
-" set clipboard+=unnamedplus
-set clipboard^=unnamed,unnamedplus
-
-" This option will render characters for spaces, tabs etc
-set listchars=trail:·,tab:»·
-set list
-
-" This sets the folding method, the default markers are {{{  }}}
-set foldmethod=marker
-
-" Set fold enabled
-set foldenable
-
-" }}}
-
-" ----------------------------------- Autocommands {{{
-
-" Format options configuration:
-" 't': is required in format options to wrap text in insert mode
-" 'l': a line that is longer than textwidth may not be wraped if 'l' is in format options
-" 'r': disables the <CR> key from autocommenting when pressing enter in line that contains a comment
-autocmd BufEnter * set fo+=t fo-=r fo-=l
-
-" Remove trailing whitespaces on file save
-autocmd BufWritePre * :call functions#TrimTrailWhitespace()
-
-" This is used to preserve the clipboard when vim exits
-autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
-
-" Close NERDTree automatically when it is the only window left open
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" Groupped configurations of :term
-augroup TerminalConfigs
-  " Clear old autocommands of this group
-  autocmd!
-  " Automatically enter in insert mode when in terminal pane
-  autocmd TermOpen,BufEnter,WinEnter * if &buftype == 'terminal' | :startinsert | endif
-  " Disable linenumbering when in terminal
-  autocmd TermOpen * setlocal nonumber norelativenumber
-augroup END
-
-" Change linenumber coloring to white for onedark
-augroup colorset
-  " Clear old autocommands of this group
-  autocmd!
-  let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-  " silent! autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white })
-augroup END
-
-" Open NERDTree automatically when vim starts
-"autocmd vimenter * NERDTree
-
-" }}}
-
 " ----------------------------------- Plugin options {{{
 
 " Nerd Commenter configuration options
@@ -339,183 +204,6 @@ let g:WebDevIconsNerdTreeGitPluginForceVAlign=1
 " Vim Current Word configuration options
 " --------------------------------------
 let g:vim_current_word#highlight_current_word=0
-
-" }}}
-
-" ----------------------------------- Extra configurations {{{
-
-" Add persistent undo for vim
-" ---------------------------
-if has('persistent_undo')
-  " Define the paths to store the persistent undo files
-  let vim_path = expand('$HOME/.vim')
-  let undo_path = expand('$HOME/.vim/undo-dir')
-  " Create the required directories if needed with the appropriate permissions
-  if !isdirectory(vim_path)
-    call mkdir(vim_path, "", 0770)
-  endif
-  if !isdirectory(undo_path)
-    call mkdir(undo_path, "", 0700)
-  endif
-  " Point vim to the defined undo directory and enable undo persistence
-  let &undodir = undo_path
-  set undofile
-endif
-
-" }}}
-
-" ----------------------------------- Keybindings {{{
-
-" Change buffers quickly
-nnoremap <silent> <leader>bn :bnext<CR>
-nnoremap <silent> <leader>bp :bprevious<CR>
-nnoremap <silent> <leader>bd :bd<CR>
-
-" Equal resize of all opened splits
-nnoremap <silent> <leader>eq <C-w>=<CR>
-
-" Fill the current line with string '" <count><char>'
-" nnoremap <expr> <F3> ':call functions#Fill('.getchar().")\<CR>"
-
-" Toggle line numbers
-nnoremap <silent> <leader>l :set nu!<CR>
-
-" Toggle Goyo - distraction free writing
-nnoremap <silent> <F1> :Goyo<CR>
-nnoremap <silent> <leader>1 :Goyo<CR>
-
-" Toggle between folds
-nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
-
-" Fill the current line with a leading "<space><prev_line_cols>[-]
-nnoremap <expr> <F3> ":call functions#Fill(45)\<CR>"
-
-" Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
-map <silent> <leader>nt :NERDTreeToggle<CR>
-
-" Set Ctrl-t to jump to next occurence of the word under cursor
-nnoremap <silent> <C-t> *
-
-" Keybinds to move lines like
-" https://vim.fandom.com/wiki/Moving_lines_up_or_down
-" gv=gv re-selects the visual block after each operation
-" '==' re-indents the line after it has been moved
-nnoremap <silent> <C-S-Up> :m-2<CR>==
-nnoremap <silent> <C-S-Down> :m+<CR>==
-inoremap <silent> <C-S-Up> <Esc>:m-2<CR>==gi
-inoremap <silent> <C-S-Down> <Esc>:m+<CR>==gi
-vnoremap <silent> <C-S-Up> :m '<-2<CR>gv=gv
-vnoremap <silent> <C-S-Down> :m '>+1<CR>gv=gv
-
-nnoremap <silent> <C-K> :m-2<CR>==
-nnoremap <silent> <C-J> :m+<CR>==
-inoremap <silent> <C-K> <Esc>:m-2<CR>==gi
-inoremap <silent> <C-J> <Esc>:m+<CR>==gi
-vnoremap <silent> <C-K> :m '<-2<CR>gv=gv
-vnoremap <silent> <C-J> :m '>+1<CR>gv=gv
-
-" Duplicate the current line
-" 'm' sets a mark that we can return afterwards by using '`' followed by the mark's name
-" :normal properly handles a [count] prepended before the command e.g. 3w, 5d etc
-" http://vimcasts.org/episodes/creating-mappings-that-accept-a-count/
-nnoremap <leader>d  :normal m`yyp``<CR>
-inoremap <leader>d <Esc>m`yyp``<CR>A
-vnoremap <leader>d <Esc>m`yyp``<CR>
-
-" Hitting ESC when inside a :term to get into normal mode
-tnoremap <Esc> <C-\><C-N>
-
-" Insert a blank line with <leader>Enter without leaving normal mode
-nnoremap <silent> <leader><CR> o<Esc>
-
-" Save files with ctrl+s in every mode
-nnoremap <C-s> :w<CR>
-inoremap <C-s> <Esc>:w<CR>
-vnoremap <C-s> <Esc>:w<CR>
-
-" Keymaps to quit current buffer with ctrl+q
-nnoremap <silent> <C-q> <Esc>:q<CR>
-inoremap <silent> <C-q> <Esc>:q<CR>
-vnoremap <silent> <C-q> <Esc>:q<CR>
-
-" Keymap to quit all buffers with shift+q
-nnoremap <silent> <S-q> <Esc>:qa<CR>
-
-" Easiliy toggle comments @NERDCommenter
-map <leader><leader> <leader>c<Space>
-
-" Toggling comment in insert mode keeps insert mode :startinsert
-imap <leader><leader> <Esc><leader>c<Space>:startinsert<CR>
-
-" Clear highlighting with escape when in normal mode
-" https://stackoverflow.com/a/1037182/6654329
-nnoremap <silent> <Esc> :noh<return><Esc>
-nnoremap <silent> <Esc>^[ <Esc>^[
-
-" Keymap to source the vimrc automatically
-nnoremap <silent> <leader>sc :source $MYVIMRC<CR>
-
-" Commands/Keymaps to open terminals horizontally and vertically
-command! -nargs=* HT split  | terminal <args>
-command! -nargs=* VT vsplit | terminal <args>
-
-nnoremap <silent> <leader>ht :HT<CR>
-nnoremap <silent> <leader>vt :VT<CR>
-
-" Keybindings to toggle and kill the floating term window
-nnoremap <silent> <leader>ft :FloatermToggle<CR>
-nnoremap <silent> <leader>fk :FloatermKill<CR>
-tnoremap <silent> <leader>ft <C-\><C-n>:FloatermToggle<CR>
-tnoremap <silent> <leader>fk <C-\><C-n>:FloatermKill<CR>
-
-" Make the whole-word search proc with <leader>/
-command! -nargs=1 SearchWord call functions#SearchWord(<f-args>)
-nnoremap <leader>/ :SearchWord
-
-" Command and key mapping to enable the zoom-in and zoom-out
-command! ZoomToggle call functions#ZoomToggle()
-nnoremap <silent> <leader>z :ZoomToggle<CR>
-
-" Add mouse support and change the default mouse scrolling wheel options
-set mouse=a
-nnoremap <ScrollWheelUp>   4<C-y>
-nnoremap <ScrollWheelDown> 4<C-e>
-xnoremap <ScrollWheelUp>   4<C-y>
-xnoremap <ScrollWheelDown> 4<C-e>
-
-" Git-signify keybinds to use the plugin more easily
-nnoremap <silent> <leader>gh :SignifyToggleHighlight<CR>
-nnoremap <silent> <leader>gf :SignifyFold<CR>
-nnoremap <silent> <leader>gd :SignifyDiff<CR>
-
-" EasyAlign keybindings
-" 'vipga' starts interactive EasyAlign in visual mode
-" 'gaip' starts interactive EasyAlign for text/motion object
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-
-" Use <Tab> and <S-Tab> to navigate through the autocomplete options
-if !functions#PluginLoaded('coc.nvim')
-  inoremap <silent> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-endif
-
-" Remind myself to stop using the god damn arrow keys
-nnoremap <silent> <Left>  :echoe "Use h"<CR>
-nnoremap <silent> <Right> :echoe "Use l"<CR>
-nnoremap <silent> <Up>    :echoe "Use k"<CR>
-nnoremap <silent> <Down>  :echoe "Use j"<CR>
-vnoremap <silent> <Left>  :<C-u>echoe "Use h"<CR>
-vnoremap <silent> <Right> :<C-u>echoe "Use l"<CR>
-vnoremap <silent> <Up>    :<C-u>echoe "Use k"<CR>
-vnoremap <silent> <Down>  :<C-u>echoe "Use j"<CR>
-
-" }}}
-
-" ----------------------------------- Abbreviations {{{
-
-" Shebang abbreviation in insert mode
-iab #! #!/usr/bin/env bash
 
 " }}}
 
@@ -708,6 +396,365 @@ if functions#PluginLoaded('vista.vim')
 endif
 
 " }}}
+
+" }}}
+" }}}
+
+" ----------------------------------- Utility Functions {{{
+
+" Function that checks if a plugin has been loaded or not
+" Returns 1 if the plugin is loaded 0 otherwise
+function! functions#PluginLoaded(plugin) abort
+  return match(&rtp, a:plugin) != -1
+endfunction
+
+" Function to zoom-in and zoom-out from a window
+function! functions#ZoomToggle() abort
+  if exists('t:zoomed') && t:zoomed
+    execute t:zoom_winrestcmd
+    let t:zoomed = 0
+  else
+    let t:zoom_winrestcmd = winrestcmd()
+    resize
+    vertical resize
+    let t:zoomed = 1
+  endif
+endfunction
+
+" Function to trim trailing whitespace
+" https://vi.stackexchange.com/a/456
+function! functions#TrimTrailWhitespace() abort
+  let l:save = winsaveview()
+  keeppatterns %s/\s\+$//e
+  call winrestview(l:save)
+endfunction
+
+" Function to make a whole word search faster
+function! functions#SearchWord(word) abort
+  let @/ = '\<' . a:word . '\>'
+  normal n
+endfunction
+
+" Fills the current line with a double quote, a space and then adds the provided character 'c'
+" as many times as needed to align the line with the previous one.
+function! functions#Fill(c) abort
+  exec 'norm  cc" '
+  exec 'norm '.(strlen(getline(line('.') - 1)) - 2).'A'.nr2char(a:c)
+endfunction
+
+" }}}
+
+" ----------------------------------- Settings {{{
+
+" Vim defaults to `compatible` when selecting a vimrc with the command-line '-u' argument.
+" Override that behaviour to nocompatible.
+if &compatible
+  set nocompatible
+endif
+
+" Syntax highlighting
+syntax on
+
+" Custom colorscheme
+silent! colorscheme onedark
+
+" Set the color for the folded sections
+highlight Folded guibg=black guifg=red
+
+" Set true colors inside neovim
+set termguicolors
+
+" Highlight the current line and also highlight the column @120 (ruler)
+set colorcolumn=120
+set cursorline
+" highlight colorcolumn ctermbg=red
+
+" Set hidden to on so as to be able to change buffers without saving first
+set hidden
+
+" This displays the line numbers and controls the number of columns used for the line number
+set number
+set numberwidth=1
+
+" Insert spaces when <Tab> is pressed. With this option set, if you want to enter a real tab character use Ctrl-V<Tab>
+" key sequence
+set expandtab
+
+" Controls the number of space characters inserted when pressing the tab key
+set tabstop=4
+
+" Controls the number of space characters inserted for identation
+set shiftwidth=4
+
+" Use the indentation level of the previous line when pressing enter
+set autoindent
+
+" Do smart auto-indenting when starting a new line
+set smartindent
+
+" The two following options are used alongside with linebreak, but I currently use textwidth
+" Make wrapped lines to visually indent properly
+" set breakindent
+
+" Set the visual character to be shown for wrapped lines
+" set showbreak=\ \\_
+
+" This makes searches case insensitive
+set ignorecase
+
+" This makes searches with a single capital letter to be case sensitive
+set smartcase
+
+" This highlights the search pattern as you type
+set incsearch
+
+" Open windows always below or right
+set splitbelow
+set splitright
+
+" Set automatic wrap to display lines in next line (this is the default)
+set wrap
+
+" Set the maximum text width before vim automatically wraps it, this inserts the EOL character
+" This is considered a hard-wrap, one can use linebreak to soft-wrap the lines w/o inserting EOL
+set textwidth=120
+
+" Set default encoding
+set encoding=UTF-8
+
+" Set the fileformat to unix because windows line endings are bad
+set fileformat=unix
+
+" This is used to control the Ctrl + C command and copy to the system's clipboard
+" set clipboard+=unnamedplus
+set clipboard^=unnamed,unnamedplus
+
+" This option will render characters for spaces, tabs etc
+set listchars=trail:·,tab:»·
+set list
+
+" This sets the folding method, the default markers are {{{  }}}
+set foldmethod=marker
+
+" Set fold enabled
+set foldenable
+
+" }}}
+
+" ----------------------------------- Autocommands {{{
+
+" Format options configuration:
+" 't': is required in format options to wrap text in insert mode
+" 'l': a line that is longer than textwidth may not be wraped if 'l' is in format options
+" 'r': disables the <CR> key from autocommenting when pressing enter in line that contains a comment
+autocmd BufEnter * set fo+=t fo-=r fo-=l
+
+" Remove trailing whitespaces on file save
+autocmd BufWritePre * :call functions#TrimTrailWhitespace()
+
+" This is used to preserve the clipboard when vim exits
+autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
+
+" Close NERDTree automatically when it is the only window left open
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Groupped configurations of :term
+augroup TerminalConfigs
+  " Clear old autocommands of this group
+  autocmd!
+  " Automatically enter in insert mode when in terminal pane
+  autocmd TermOpen,BufEnter,WinEnter * if &buftype == 'terminal' | :startinsert | endif
+  " Disable linenumbering when in terminal
+  autocmd TermOpen * setlocal nonumber norelativenumber
+augroup END
+
+" Change linenumber coloring to white for onedark
+augroup colorset
+  " Clear old autocommands of this group
+  autocmd!
+  let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
+  " silent! autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white })
+augroup END
+
+" Open NERDTree automatically when vim starts
+"autocmd vimenter * NERDTree
+
+" }}}
+
+" ----------------------------------- Extra configurations {{{
+
+" Add persistent undo for vim
+" ---------------------------
+if has('persistent_undo')
+  " Define the paths to store the persistent undo files
+  let vim_path = expand('$HOME/.vim')
+  let undo_path = expand('$HOME/.vim/undo-dir')
+  " Create the required directories if needed with the appropriate permissions
+  if !isdirectory(vim_path)
+    call mkdir(vim_path, "", 0770)
+  endif
+  if !isdirectory(undo_path)
+    call mkdir(undo_path, "", 0700)
+  endif
+  " Point vim to the defined undo directory and enable undo persistence
+  let &undodir = undo_path
+  set undofile
+endif
+
+" }}}
+
+" ----------------------------------- Keybindings {{{
+
+" Change buffers quickly
+nnoremap <silent> <leader>bn :bnext<CR>
+nnoremap <silent> <leader>bp :bprevious<CR>
+nnoremap <silent> <leader>bd :bd<CR>
+
+" Equal resize of all opened splits
+nnoremap <silent> <leader>eq <C-w>=<CR>
+
+" Fill the current line with string '" <count><char>'
+" nnoremap <expr> <F3> ':call functions#Fill('.getchar().")\<CR>"
+
+" Toggle line numbers
+nnoremap <silent> <leader>l :set nu!<CR>
+
+" Toggle Goyo - distraction free writing
+nnoremap <silent> <F1> :Goyo<CR>
+nnoremap <silent> <leader>1 :Goyo<CR>
+
+" Toggle between folds
+nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
+
+" Fill the current line with a leading "<space><prev_line_cols>[-]
+nnoremap <expr> <F3> ":call functions#Fill(45)\<CR>"
+
+" Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
+map <silent> <leader>nt :NERDTreeToggle<CR>
+
+" Set Ctrl-t to jump to next occurence of the word under cursor
+nnoremap <silent> <C-t> *
+
+" Keybinds to move lines like
+" https://vim.fandom.com/wiki/Moving_lines_up_or_down
+" gv=gv re-selects the visual block after each operation
+" '==' re-indents the line after it has been moved
+nnoremap <silent> <C-S-Up> :m-2<CR>==
+nnoremap <silent> <C-S-Down> :m+<CR>==
+inoremap <silent> <C-S-Up> <Esc>:m-2<CR>==gi
+inoremap <silent> <C-S-Down> <Esc>:m+<CR>==gi
+vnoremap <silent> <C-S-Up> :m '<-2<CR>gv=gv
+vnoremap <silent> <C-S-Down> :m '>+1<CR>gv=gv
+
+nnoremap <silent> <C-K> :m-2<CR>==
+nnoremap <silent> <C-J> :m+<CR>==
+inoremap <silent> <C-K> <Esc>:m-2<CR>==gi
+inoremap <silent> <C-J> <Esc>:m+<CR>==gi
+vnoremap <silent> <C-K> :m '<-2<CR>gv=gv
+vnoremap <silent> <C-J> :m '>+1<CR>gv=gv
+
+" Duplicate the current line
+" 'm' sets a mark that we can return afterwards by using '`' followed by the mark's name
+" :normal properly handles a [count] prepended before the command e.g. 3w, 5d etc
+" http://vimcasts.org/episodes/creating-mappings-that-accept-a-count/
+nnoremap <leader>d  :normal m`yyp``<CR>
+inoremap <leader>d <Esc>m`yyp``<CR>A
+vnoremap <leader>d <Esc>m`yyp``<CR>
+
+" Hitting ESC when inside a :term to get into normal mode
+tnoremap <Esc> <C-\><C-N>
+
+" Insert a blank line with <leader>Enter without leaving normal mode
+nnoremap <silent> <leader><CR> o<Esc>
+
+" Save files with ctrl+s in every mode
+nnoremap <C-s> :w<CR>
+inoremap <C-s> <Esc>:w<CR>
+vnoremap <C-s> <Esc>:w<CR>
+
+" Keymaps to quit current buffer with ctrl+q
+nnoremap <silent> <C-q> <Esc>:q<CR>
+inoremap <silent> <C-q> <Esc>:q<CR>
+vnoremap <silent> <C-q> <Esc>:q<CR>
+
+" Keymap to quit all buffers with shift+q
+nnoremap <silent> <S-q> <Esc>:qa<CR>
+
+" Easiliy toggle comments @NERDCommenter
+map <leader><leader> <leader>c<Space>
+
+" Toggling comment in insert mode keeps insert mode :startinsert
+imap <leader><leader> <Esc><leader>c<Space>:startinsert<CR>
+
+" Clear highlighting with escape when in normal mode
+" https://stackoverflow.com/a/1037182/6654329
+nnoremap <silent> <Esc> :noh<return><Esc>
+nnoremap <silent> <Esc>^[ <Esc>^[
+
+" Keymap to source the vimrc automatically
+nnoremap <silent> <leader>sc :source $MYVIMRC<CR>
+
+" Commands/Keymaps to open terminals horizontally and vertically
+command! -nargs=* HT split  | terminal <args>
+command! -nargs=* VT vsplit | terminal <args>
+
+nnoremap <silent> <leader>ht :HT<CR>
+nnoremap <silent> <leader>vt :VT<CR>
+
+" Keybindings to toggle and kill the floating term window
+nnoremap <silent> <leader>ft :FloatermToggle<CR>
+nnoremap <silent> <leader>fk :FloatermKill<CR>
+tnoremap <silent> <leader>ft <C-\><C-n>:FloatermToggle<CR>
+tnoremap <silent> <leader>fk <C-\><C-n>:FloatermKill<CR>
+
+" Make the whole-word search proc with <leader>/
+command! -nargs=1 SearchWord call functions#SearchWord(<f-args>)
+nnoremap <leader>/ :SearchWord
+
+" Command and key mapping to enable the zoom-in and zoom-out
+command! ZoomToggle call functions#ZoomToggle()
+nnoremap <silent> <leader>z :ZoomToggle<CR>
+
+" Add mouse support and change the default mouse scrolling wheel options
+set mouse=a
+nnoremap <ScrollWheelUp>   4<C-y>
+nnoremap <ScrollWheelDown> 4<C-e>
+xnoremap <ScrollWheelUp>   4<C-y>
+xnoremap <ScrollWheelDown> 4<C-e>
+
+" Git-signify keybinds to use the plugin more easily
+nnoremap <silent> <leader>gh :SignifyToggleHighlight<CR>
+nnoremap <silent> <leader>gf :SignifyFold<CR>
+nnoremap <silent> <leader>gd :SignifyDiff<CR>
+
+" EasyAlign keybindings
+" 'vipga' starts interactive EasyAlign in visual mode
+" 'gaip' starts interactive EasyAlign for text/motion object
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+" Use <Tab> and <S-Tab> to navigate through the autocomplete options
+if !functions#PluginLoaded('coc.nvim')
+  inoremap <silent> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+  inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+endif
+
+" Remind myself to stop using the god damn arrow keys
+nnoremap <silent> <Left>  :echoe "Use h"<CR>
+nnoremap <silent> <Right> :echoe "Use l"<CR>
+nnoremap <silent> <Up>    :echoe "Use k"<CR>
+nnoremap <silent> <Down>  :echoe "Use j"<CR>
+vnoremap <silent> <Left>  :<C-u>echoe "Use h"<CR>
+vnoremap <silent> <Right> :<C-u>echoe "Use l"<CR>
+vnoremap <silent> <Up>    :<C-u>echoe "Use k"<CR>
+vnoremap <silent> <Down>  :<C-u>echoe "Use j"<CR>
+
+" }}}
+
+" ----------------------------------- Abbreviations {{{
+
+" Shebang abbreviation in insert mode
+iab #! #!/usr/bin/env bash
 
 " }}}
 
