@@ -109,7 +109,7 @@ bindkey -s "^[OM" "^M"
 [ -f ~/.bash_functions ] && . ~/.bash_functions
 
 # Source fzf, to be able to use it
-[ -f ~/.bash.zsh ] && . ~/.bash.zsh
+[ -f ~/.fzf.bash ] && . ~/.fzf.bash
 
 # Source my fzf configurations
 [ -f ~/.fzf.config ] && . ~/.fzf.config
