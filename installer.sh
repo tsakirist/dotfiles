@@ -653,6 +653,15 @@ pkgs_functions=(
     _papirus
 )
 
+dotfiles_functions=(
+    _zsh_config
+    _bash_config
+    _fzf_config
+    _nvimrc
+    _nvim_autoload
+    _tmux_config
+)
+
 # -------------------------------------------------------- Menus -------------------------------------------------------
 
 function _show_main_menu() {
@@ -660,9 +669,10 @@ function _show_main_menu() {
     local INFO="---------------------- System Information -----------------------\n"
     INFO+="$(hostnamectl | tail -n 3 | cut -c3-)"
     INPUT=$(whiptail --title "This script provides an easy way to install my preferred packages and configurations." \
-        --menu "\nScript is executed from '$(pwd)'\n\n${INFO}" ${SIZE} 3 \
+        --menu "\nScript is executed from '$(pwd)'\n\n${INFO}" ${SIZE} 4 \
         "1"  "    Fresh installation of everything" \
         "2"  "    Selective installation" \
+        "3"  "    Dotfiles installation" \
         "Q"  "    Quit" \
         3>&1 1>&2 2>&3)
 }
@@ -726,6 +736,12 @@ function _selective_install() {
     done
 }
 
+function _dotfiles_install() {
+    for (( i = 0;  i < "${#dotfiles_functions[@]}"; i++ )); do
+        ${dotfiles_functions[$i]}
+    done
+}
+
 # ------------------------------------------------------- Main ---------------------------------------------------------
 
 _validate_root
@@ -735,6 +751,8 @@ if [[ $INPUT -eq 1 ]]; then
     _fresh_install
 elif [[ $INPUT -eq 2 ]]; then
     _selective_install
+elif [[ $INPUT -eq 3 ]]; then
+    _dotfiles_install
 else
     exit 0
 fi
