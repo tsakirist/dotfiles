@@ -11,16 +11,7 @@
 " URL    : https://github.com/tsakirist/configurations/blob/master/neovim/vimrc
 " -------------------------------------------------------------------------------------------------
 
-
-" Vim defaults to `compatible` when selecting a vimrc with the command-line '-u' argument.
-" Override that behaviour to nocompatible.
-if &compatible
-  set nocompatible
-endif
-
-
-" ---------------------------------- Plugin installer configurations ------------------------------
-
+" ----------------------------------- Plugin installer {{{
 
 " Automate the process of installing vim-plug when required
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -29,13 +20,12 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" }}}
 
-" -------------------------------------- Plugin list declaration -----------------------------------
-
+" ----------------------------------- Plugin list {{{
 
 " Plugins will be downloaded under the specified directory
 call plug#begin('~/.vim/plugged')
-
 
 " Colorschemes
 Plug 'joshdick/onedark.vim'
@@ -139,9 +129,15 @@ Plug 'junegunn/fzf.vim'
 " List ends here. Plugins become visible to Vim after this call
 call plug#end()
 
+" }}}
 
-" ------------------------------------- General Configurations ------------------------------------
+" ----------------------------------- Settings {{{
 
+" Vim defaults to `compatible` when selecting a vimrc with the command-line '-u' argument.
+" Override that behaviour to nocompatible.
+if &compatible
+  set nocompatible
+endif
 
 " Syntax highlighting
 syntax on
@@ -149,8 +145,8 @@ syntax on
 " Custom colorscheme
 silent! colorscheme onedark
 
-" silent! colorscheme badwolf
-"highlight LineNr term=bold cterm=None ctermfg=Red ctermbg=None
+" Set the color for the folded sections
+highlight Folded guibg=black guifg=red
 
 " Set true colors inside neovim
 set termguicolors
@@ -227,6 +223,13 @@ set list
 " This sets the folding method, the default markers are {{{  }}}
 set foldmethod=marker
 
+" Set fold enabled
+set foldenable
+
+" }}}
+
+" ----------------------------------- Autocommands {{{
+
 " Format options configuration:
 " 't': is required in format options to wrap text in insert mode
 " 'l': a line that is longer than textwidth may not be wraped if 'l' is in format options
@@ -262,6 +265,10 @@ augroup END
 
 " Open NERDTree automatically when vim starts
 "autocmd vimenter * NERDTree
+
+" }}}
+
+" ----------------------------------- Plugin options {{{
 
 " Nerd Commenter configuration options
 " -------------------------------------
@@ -333,6 +340,10 @@ let g:WebDevIconsNerdTreeGitPluginForceVAlign=1
 " --------------------------------------
 let g:vim_current_word#highlight_current_word=0
 
+" }}}
+
+" ----------------------------------- Extra configurations {{{
+
 " Add persistent undo for vim
 " ---------------------------
 if has('persistent_undo')
@@ -351,9 +362,9 @@ if has('persistent_undo')
   set undofile
 endif
 
+" }}}
 
-" ------------------------------------------ Keybindings ------------------------------------------
-
+" ----------------------------------- Keybindings {{{
 
 " Change buffers quickly
 nnoremap <silent> <leader>bn :bnext<CR>
@@ -499,12 +510,16 @@ vnoremap <silent> <Right> :<C-u>echoe "Use l"<CR>
 vnoremap <silent> <Up>    :<C-u>echoe "Use k"<CR>
 vnoremap <silent> <Down>  :<C-u>echoe "Use j"<CR>
 
+" }}}
 
-" ----------------------------------------- Abbreviations -----------------------------------------
+" ----------------------------------- Abbreviations {{{
 
 " Shebang abbreviation in insert mode
 iab #! #!/usr/bin/env bash
 
+" }}}
+
+" ----------------------------------- Plugin configurations {{{
 
 " ----------------------------------- FZF Plugins Configuration  {{{
 
@@ -524,7 +539,6 @@ if functions#PluginLoaded('fzf.vim')
 endif
 
 " }}}
-
 
 " ----------------------------------- Coc configurations {{{
 
@@ -670,8 +684,7 @@ if functions#PluginLoaded('coc.nvim')
 endif
 
 " }}}
-
-
+"
 " ----------------------------------- Vista vim configurations {{{
 
 if functions#PluginLoaded('vista.vim')
@@ -693,6 +706,8 @@ if functions#PluginLoaded('vista.vim')
   nnoremap <leader>vc :Vista!<CR>
   nnoremap <leader>vf :Vista finder coc<CR>
 endif
+
+" }}}
 
 " }}}
 
