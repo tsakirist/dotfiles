@@ -247,14 +247,6 @@ function _nvimrc() {
     # _coc_requirements
 }
 
-function _nvim_autoload() {
-    local dir="neovim/autoload"
-    _check_dir "$dir"
-    for file in "$dir"/*; do
-        ln -sv --backup=numbered "$(pwd)/$file" $HOME/.vim/autoload/$(basename $file)
-    done
-}
-
 function _tmux() {
     _print i "tmux"
     _install tmux
@@ -581,7 +573,6 @@ pkgs=(
     "    rg: ripgrep recursive search for a pattern in files"
     "    neovim"
     "    neovimrc"
-    "    neovim autoload"
     "    coc-requirements"
     "    tmux: terminal multiplexer"
     "    tmux configuration"
@@ -624,7 +615,6 @@ pkgs_functions=(
     _rg
     _nvim
     _nvimrc
-    _nvim_autoload
     _coc_requirements
     _tmux
     _tmux_config
@@ -658,7 +648,6 @@ dotfiles_functions=(
     _bash_config
     _fzf_config
     _nvimrc
-    _nvim_autoload
     _tmux_config
 )
 
