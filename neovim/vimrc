@@ -11,6 +11,16 @@
 " URL    : https://github.com/tsakirist/configurations/blob/master/neovim/vimrc
 " -------------------------------------------------------------------------------------------------
 
+" ----------------------------------- Compatible {{{
+
+" Vim defaults to `compatible` when selecting a vimrc with the command-line '-u' argument.
+" Override that behaviour to nocompatible.
+if &compatible
+  set nocompatible
+endif
+
+" }}}
+
 " ----------------------------------- Plugins {{{
 
 " ----------------------------------- Plugin installer {{{
@@ -73,6 +83,13 @@ Plug 'mhinz/vim-signify'
 
 " A git wrapper for vim
 Plug 'tpope/vim-fugitive'
+
+" Vim wrapper for UNIX shell commands
+" :SudoWrite, :SudoRead doesn't work with neovim
+Plug 'tpope/vim-eunuch'
+
+" Write/Read files with sudo from within vim
+Plug 'lambdalisue/suda.vim'
 
 " Automatically resize opened windows
 Plug 'justincampbell/vim-eighties'
@@ -204,6 +221,11 @@ let g:WebDevIconsNerdTreeGitPluginForceVAlign=1
 " Vim Current Word configuration options
 " --------------------------------------
 let g:vim_current_word#highlight_current_word=0
+
+" Suda vim plugin configuration options
+" -------------------------------------
+" Automatically open files with sudo when needed
+let g:suda_smart_edit = 1
 
 " }}}
 
@@ -446,12 +468,6 @@ endfunction
 
 " ----------------------------------- Settings {{{
 
-" Vim defaults to `compatible` when selecting a vimrc with the command-line '-u' argument.
-" Override that behaviour to nocompatible.
-if &compatible
-  set nocompatible
-endif
-
 " Syntax highlighting
 syntax on
 
@@ -558,8 +574,14 @@ autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
 " Close NERDTree automatically when it is the only window left open
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+" Remove SudoWrite, SudoEdit from the commands as they do not work
+autocmd VimEnter * :delcommand SudoWrite | :delcommand SudoEdit
+
+" Open NERDTree automatically when vim starts
+"autocmd vimenter * NERDTree
+
 " Groupped configurations of :term
-augroup TerminalConfigs
+augroup terminalConfigs
   " Clear old autocommands of this group
   autocmd!
   " Automatically enter in insert mode when in terminal pane
@@ -575,9 +597,6 @@ augroup colorset
   let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
   " silent! autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white })
 augroup END
-
-" Open NERDTree automatically when vim starts
-"autocmd vimenter * NERDTree
 
 " }}}
 
