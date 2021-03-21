@@ -88,6 +88,9 @@ Plug 'tpope/vim-fugitive'
 " :SudoWrite, :SudoRead doesn't work with neovim
 Plug 'tpope/vim-eunuch'
 
+" Automatically detect indentation setting of the current file
+Plug 'luochen1990/indent-detector.vim'
+
 " Write/Read files with sudo from within vim
 Plug 'lambdalisue/suda.vim'
 
@@ -492,8 +495,7 @@ set hidden
 set number
 set numberwidth=1
 
-" Insert spaces when <Tab> is pressed. With this option set, if you want to enter a real tab character use Ctrl-V<Tab>
-" key sequence
+" Insert spaces when <Tab> is pressed
 set expandtab
 
 " Controls the number of space characters inserted when pressing the tab key
@@ -554,6 +556,9 @@ set foldmethod=marker
 
 " Set fold enabled
 set foldenable
+
+
+set mouse=a
 
 " }}}
 
@@ -645,6 +650,9 @@ nnoremap <silent> <leader>1 :Goyo<CR>
 " Toggle between folds
 nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
 
+" Use space to toggle fold open/close
+nnoremap <space> za<CR>
+
 " Fill the current line with a leading "<space><prev_line_cols>[-]
 nnoremap <expr> <F3> ":call functions#Fill(45)\<CR>"
 
@@ -735,7 +743,6 @@ command! ZoomToggle call functions#ZoomToggle()
 nnoremap <silent> <leader>z :ZoomToggle<CR>
 
 " Add mouse support and change the default mouse scrolling wheel options
-set mouse=a
 nnoremap <ScrollWheelUp>   4<C-y>
 nnoremap <ScrollWheelDown> 4<C-e>
 xnoremap <ScrollWheelUp>   4<C-y>
