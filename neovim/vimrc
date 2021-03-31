@@ -167,6 +167,10 @@ Plug 'dstein64/vim-startuptime'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
 Plug 'junegunn/fzf.vim'
 
+" Cool new tabline for buffers and handy commands
+" Plug 'kyazdani42/nvim-web-devicons'
+" Plug 'romgrk/barbar.nvim'
+
 " Unused but worthy plugins
 " -------------------------
 " A visualization plugin for the undo/redo branches
@@ -478,7 +482,7 @@ syntax on
 silent! colorscheme onedark
 
 " Set the color for the folded sections
-highlight Folded guibg=black guifg=red
+highlight Folded guibg=black guifg=darkgray
 
 " Set true colors inside neovim
 set termguicolors

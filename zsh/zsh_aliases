@@ -62,7 +62,6 @@ alias vv='nvim ~/.vimrc'
 
 alias nv='nvim'
 alias nvi='nvim'
-alias nvim='nvim'
 alias nvv='nvim ~/.vimrc'
 
 # Shorten the name to just gotop
