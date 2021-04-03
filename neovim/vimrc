@@ -44,7 +44,7 @@ endfunction
 
 " Function to trim trailing whitespace
 " https://vi.stackexchange.com/a/456
-function! TrimTrailWhitespace() abort
+function! TrimTrailingWhitespace() abort
   let l:save = winsaveview()
   keeppatterns %s/\s\+$//e
   call winrestview(l:save)
@@ -134,6 +134,9 @@ Plug 'mhinz/vim-signify'
 " A git wrapper for vim
 Plug 'tpope/vim-fugitive'
 
+" Git blamer with inline text
+Plug 'APZelos/blamer.nvim'
+
 " Vim wrapper for UNIX shell commands
 " :SudoWrite, :SudoRead doesn't work with neovim
 Plug 'tpope/vim-eunuch'
@@ -168,11 +171,18 @@ Plug 'ryanoasis/vim-devicons'
 " Measure the startup time of vim
 Plug 'dstein64/vim-startuptime'
 
+" Display available keybinds in pop-up
+Plug 'liuchengxu/vim-which-key'
+
 " Alternate between header/source
 Plug 'ton/vim-alternate'
 
 " Intellisense engine with LSP like VSCode
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Rooter changes the working directory to the project root when you open a file or directory
+" Pretty handy with FZF
+Plug 'airblade/vim-rooter'
 
 " The world-renowned fuzzy finder FZF
 " This will try to install FZF outside of vim plug directory
@@ -191,265 +201,15 @@ Plug 'junegunn/fzf.vim'
 " Smoother and more natural scrolling inside vim
 " Plug 'psliwka/vim-smoothie'
 
-" Useful plugins for autocomplete, symbol lookups and tags
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'ervandew/supertab'
-" Plug 'majutsushi/tagbar'
+" Update/auto-generate ctags
+" Plug 'ludovicchabant/vim-gutentags'
 
-" Colorschemes
-" Plug 'ErichDonGubler/vim-sublime-monokai'
-" Plug 'sjl/badwolf'
+" Set paste mode on by default and disable it afterwards
+" Plug 'roxma/vim-paste-easy'
 " -------------------------
 
 " List ends here. Plugins become visible to Vim after this call
 call plug#end()
-
-" }}}
-
-" ----------------------------------- Plugin options {{{
-
-" Statusline configurations options
-" ---------------------------------
-if PluginLoaded('vim-airline')
-
-  " Airline configuration options
-  " -----------------------------
-  " Specify the default airline theme
-  let g:airline_theme='onehalfdark'
-
-  " Enable tabline extension
-  let g:airline#extensions#tabline#enabled=1
-
-  " Add powerline fonts to populate powerline symbols
-  let g:airline_powerline_fonts=1
-
-  " Integrate airline with coc
-  let g:airline#extensions#coc#enabled=1
-
-elseif PluginLoaded('lightline.vim')
-
-  " Lightline configuration options
-  " ---------------------------------
-  " Specify default options
-  let g:lightline = {
-        \ 'colorscheme': "darculaOriginal",
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
-        \ },
-        \ 'tabline': {
-        \   'left': [ ['buffers'] ],
-        \   'right': [ ['close'] ]
-        \ },
-        \ 'component_expand': {
-        \   'buffers': 'lightline#bufferline#buffers'
-        \ },
-        \ 'component_type': {
-        \   'buffers': 'tabsel'
-        \ },
-        \ 'component_raw': {
-        \   'buffers': 1
-        \ },
-        \}
-
-  " Add devicons to the bufferline
-  let g:lightline#bufferline#enable_devicons=1
-  "
-  " Make buffer clickable this also requires 'component_raw': 'buffres' : 1
-  let g:lightline#bufferline#clickable=1
-
-  " Use different symbols in the buffers for modified etc
-  let g:lightline#bufferline#unicode_symbols=1
-
-  " This is required for lightline to show the buffers
-  set showtabline=2
-endif
-
-" Goyo distraction free mode configuration options
-" ------------------------------------------------
-let g:goyo_width="80%"
-let g:goyo_height="85%"
-let g:goyo_linenr=0
-
-" Vim-Signify configuration options
-" ---------------------------------
-" Change the delete sign of git-signify from '_' to '-'
-" let g:signify_sign_delete='-'
-
-" Don't show any signs in the column, just colors
-let g:signify_sign_show_text=0
-
-" VimEighties configuration options
-" ---------------------------------
-let g:eighties_minimum_width=80
-let g:eighties_enabled=1
-
-" GitNerdTree configuration options
-" ---------------------------------
-" Align git nerd tree plugin with dev icons
-let g:WebDevIconsNerdTreeGitPluginForceVAlign=1
-
-" Vim Current Word configuration options
-" --------------------------------------
-let g:vim_current_word#highlight_current_word=0
-
-" Suda vim plugin configuration options
-" -------------------------------------
-" Automatically open files with sudo when needed
-let g:suda_smart_edit = 1
-
-" Nerd Commenter configuration options
-" -------------------------------------
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims=1
-
-" Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDCommentEmptyLines=1
-
-" Enable trimming of trailing whitespace when uncommenting
-let g:NERDTrimTrailingWhitespace=1
-
-" Make NerdTree more minimal
-let NERDTreeMinimalUI=1
-let NERDTreeDirArrows=1
-
-" }}}
-
-" ----------------------------------- Plugin configurations {{{
-
-" ----------------------------------- FZF Plugins Configuration  {{{
-
-if PluginLoaded('fzf.vim')
-    command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
-
-  function! RipgrepFzf(query, fullscreen)
-    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
-    let initial_command = printf(command_fmt, shellescape(a:query))
-    let reload_command = printf(command_fmt, '{q}')
-    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-  endfunction
-
-  command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
-endif
-
-" }}}
-
-" ----------------------------------- Coc configurations {{{
-
-if PluginLoaded('coc.nvim')
-  " ----------------------
-  " General configurations
-  " ----------------------
-
-  " You will have bad experience for diagnostic messages when it's default 4000.
-  set updatetime=300
-
-  " don't give |ins-completion-menu| messages.
-  set shortmess+=c
-
-  " Always show the signcolumn, otherwise it would shift the text each time
-  " diagnostics appear/become resolved.
-  if has("patch-8.1.1564")
-    " Recently vim can merge signcolumn and number column into one
-    set signcolumn=number
-  else
-    set signcolumn=yes
-  endif
-
-  " -----------------
-  " Keyboard mappings
-  " -----------------
-  " Use tab for trigger completion with characters ahead and navigate.
-  inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
-
-  inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-  " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-  " Use <c-space> to trigger completion.
-  inoremap <silent> <expr> <C-space> coc#refresh()
-
-  " Navigate diagnostics
-  nmap <silent> dn <Plug>(coc-diagnostic-next)
-  nmap <silent> dp <Plug>(coc-diagnostic-prev)
-
-  " Remap keys for gotos
-  nmap <silent> <leader>gD <Plug>(coc-definition)
-  nmap <silent> <leader>gd <Plug>(coc-declaration)
-  nmap <silent> <leader>gr <Plug>(coc-references)
-
-  " Use K to show documentation in preview window
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-  " Remap for rename current word
-  nmap <leader>rn <Plug>(coc-rename)
-
-  " Remap for format selected region
-  xmap <silent> <leader>f <Plug>(coc-format-selected)
-  nmap <silent> <leader>f <Plug>(coc-format-selected)
-
-  " Hotkey to Format current buffer
-  nnoremap <leader>F :Format<CR>
-
-  " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-  xmap <leader>a <Plug>(coc-codeaction-selected)
-  nmap <leader>a <Plug>(coc-codeaction-selected)
-
-  " Remap for do codeAction of current line
-  nmap <leader>ac <Plug>(coc-codeaction)
-
-  " Fix autofix problem of current line
-  nmap <leader>qf <Plug>(coc-fix-current)
-
-  " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-  nmap <silent> <TAB> <Plug>(coc-range-select)
-  xmap <silent> <TAB> <Plug>(coc-range-select)
-
-   " Show all diagnostics
-  nnoremap <silent> <leader>cd :<C-u>CocList diagnostics<cr>
-  " Manage extensions
-  nnoremap <silent> <leader>ce :<C-u>CocList extensions<cr>
-  " Show commands
-  nnoremap <silent> <leader>cc :<C-u>CocList commands<cr>
-  " Find symbol of current document
-  nnoremap <silent> <leader>cr :<C-u>CocList outline<cr>
-  " Search workspace symbols
-  nnoremap <silent> <leader>cs :<C-u>CocList -I symbols<cr>
-
-  " Use `:Format` to format current buffer
-  command! -nargs=0 Format :call CocAction('format')
-
-  " -----------------
-  " Utility functions
-  " -----------------
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
-
-  function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    elseif (coc#rpc#ready())
-      call CocActionAsync('doHover')
-    else
-      execute '!' . &keywordprg . " " . expand('<cword>')
-    endif
-  endfunction
-
-  " Dev icons refresh
-  " if exists("g:loaded_webdevicons")
-    " call webdevicons#refresh()
-  " endif
-
-endif
-
-" }}}
 
 " }}}
 
@@ -564,7 +324,7 @@ set mouse=a
 autocmd BufEnter * set fo+=t fo-=r fo-=l
 
 " Remove trailing whitespaces on file save
-autocmd BufWritePre * :call TrimTrailWhitespace()
+autocmd BufWritePre * :call TrimTrailingWhitespace()
 
 " This is used to preserve the clipboard when vim exits
 autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
@@ -630,6 +390,8 @@ endif
 nnoremap <silent> <leader>bn :bnext<CR>
 nnoremap <silent> <leader>bp :bprevious<CR>
 nnoremap <silent> <leader>bd :bd<CR>
+nnoremap <silent> <leader>] :bnext<CR>
+nnoremap <silent> <leader>[ :bprevious<CR>
 
 " Equal resize of all opened splits
 nnoremap <silent> <leader>eq <C-w>=<CR>
@@ -688,9 +450,6 @@ vnoremap <leader>d <Esc>m`yyp``<CR>
 " Hitting ESC when inside a :term to get into normal mode
 tnoremap <Esc> <C-\><C-N>
 
-" Insert a blank line with <leader>Enter without leaving normal mode
-nnoremap <silent> <leader><CR> o<Esc>
-
 " Save files with ctrl+s in every mode
 nnoremap <C-s> :w<CR>
 inoremap <C-s> <Esc>:w<CR>
@@ -746,9 +505,9 @@ xnoremap <ScrollWheelUp>   4<C-y>
 xnoremap <ScrollWheelDown> 4<C-e>
 
 " Git-signify keybinds to use the plugin more easily
-nnoremap <silent> gh :SignifyToggleHighlight<CR>
-nnoremap <silent> gf :SignifyFold<CR>
-nnoremap <silent> gd :SignifyDiff<CR>
+nnoremap <silent> <leader>gh :SignifyToggleHighlight<CR>
+nnoremap <silent> <leader>gf :SignifyFold<CR>
+nnoremap <silent> <leader>gd :SignifyDiff<CR>
 
 " EasyAlign keybindings
 " 'vipga' starts interactive EasyAlign in visual mode
@@ -779,6 +538,9 @@ vnoremap <silent> <Down>  :<C-u>echoe "Use j"<CR>
 " Alternate between header/source files
 nnoremap <silent> <leader>ko :Alternate<CR>
 
+" Git blame keybind toggle
+nnoremap <silent> <leader>gb :BlamerToggle<CR>
+
 " }}}
 
 " ----------------------------------- Abbreviations {{{
@@ -788,3 +550,370 @@ iab #! #!/usr/bin/env bash
 
 " }}}
 
+" ----------------------------------- Plugins extras {{{
+
+" ----------------------------------- Plugin options {{{
+
+" Statusline configurations options
+" ---------------------------------
+if PluginLoaded('vim-airline')
+
+  " Airline configuration options
+  " -----------------------------
+  " Specify the default airline theme
+  let g:airline_theme='onehalfdark'
+
+  " Enable tabline extension
+  let g:airline#extensions#tabline#enabled=1
+
+  " Add powerline fonts to populate powerline symbols
+  let g:airline_powerline_fonts=1
+
+  " Integrate airline with coc
+  let g:airline#extensions#coc#enabled=1
+
+elseif PluginLoaded('lightline.vim')
+
+  " Lightline configuration options
+  " ---------------------------------
+  " Specify default options
+  let g:lightline = {
+        \ 'colorscheme': "darculaOriginal",
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
+        \ },
+        \ 'tabline': {
+        \   'left': [ ['buffers'] ],
+        \   'right': [ ['close'] ]
+        \ },
+        \ 'component_expand': {
+        \   'buffers': 'lightline#bufferline#buffers'
+        \ },
+        \ 'component_type': {
+        \   'buffers': 'tabsel'
+        \ },
+        \ 'component_raw': {
+        \   'buffers': 1
+        \ },
+        \}
+
+  " Add devicons to the bufferline
+  let g:lightline#bufferline#enable_devicons=1
+  "
+  " Make buffer clickable this also requires 'component_raw': 'buffres' : 1
+  let g:lightline#bufferline#clickable=1
+
+  " Use different symbols in the buffers for modified etc
+  let g:lightline#bufferline#unicode_symbols=1
+
+  " This is required for lightline to show the buffers
+  set showtabline=2
+endif
+
+" Goyo distraction free mode configuration options
+" ------------------------------------------------
+let g:goyo_width="80%"
+let g:goyo_height="85%"
+let g:goyo_linenr=0
+
+" Vim-Signify configuration options
+" ---------------------------------
+" Change the delete sign of git-signify from '_' to '-'
+" let g:signify_sign_delete='-'
+
+" Don't show any signs in the column, just colors
+let g:signify_sign_show_text=0
+
+" VimEighties configuration options
+" ---------------------------------
+let g:eighties_minimum_width=80
+let g:eighties_enabled=1
+
+" GitNerdTree configuration options
+" ---------------------------------
+" Align git nerd tree plugin with dev icons
+let g:WebDevIconsNerdTreeGitPluginForceVAlign=1
+
+" Vim Current Word configuration options
+" --------------------------------------
+let g:vim_current_word#highlight_current_word=0
+
+" Suda vim plugin configuration options
+" -------------------------------------
+" Automatically open files with sudo when needed
+let g:suda_smart_edit = 1
+
+" Nerd Commenter configuration options
+" -------------------------------------
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims=1
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines=1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace=1
+
+" Make NerdTree more minimal
+let NERDTreeMinimalUI=1
+let NERDTreeDirArrows=1
+
+" Git blamer delay
+let g:blamer_enabled=1
+let g:blamer_delay=500
+
+" }}}
+
+" ----------------------------------- Plugin configurations {{{
+
+" ----------------------------------- Which-key configurations {{{
+
+" Set the timeout, 1000 is the default
+set timeoutlen=1000
+
+" Map leader to which_key
+nnoremap <silent> <leader><space> :silent <c-u> :silent WhichKey '<Space>'<CR>
+vnoremap <silent> <leader><space> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
+
+" Create map to add keys to
+let g:which_key_map = {}
+
+" Define a separator
+let g:which_key_sep = '→'
+
+" Not a fan of floating windows for this
+let g:which_key_use_floating_win = 0
+
+" Change the colors if you want
+highlight default link WhichKey          Operator
+highlight default link WhichKeySeperator DiffAdded
+highlight default link WhichKeyGroup     Identifier
+highlight default link WhichKeyDesc      Function
+
+" Hide status line
+autocmd! FileType which_key
+autocmd  FileType which_key set laststatus=0 noshowmode noruler
+  \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
+
+" Single mappings
+let g:which_key_map['/'] = [ '<Plug>NERDCommenterToggle' , 'comment' ]
+let g:which_key_map['e'] = [ ':NERDTree'                 , 'explorer' ]
+let g:which_key_map['f'] = [ ':Files'                    , 'search files' ]
+let g:which_key_map['h'] = [ '<C-W>s'                    , 'split below']
+let g:which_key_map['r'] = [ ':Ranger'                   , 'ranger' ]
+let g:which_key_map['S'] = [ ':Startify'                 , 'start screen' ]
+let g:which_key_map['T'] = [ ':Rg'                       , 'search text' ]
+let g:which_key_map['v'] = [ '<C-W>v'                    , 'split right']
+let g:which_key_map['z'] = [ 'Goyo'                      , 'zen' ]
+" let g:which_key_map['e'] = [ ':CocCommand explorer'      , 'explorer' ]
+
+" s is for search
+let g:which_key_map.s = {
+      \ 'name' : '+search' ,
+      \ '/' : [':History/'   , 'history'],
+      \ ';' : [':Commands'   , 'commands'],
+      \ 'a' : [':Ag'         , 'text Ag'],
+      \ 'b' : [':BLines'     , 'current buffer'],
+      \ 'B' : [':Buffers'    , 'open buffers'],
+      \ 'c' : [':Commits'    , 'commits'],
+      \ 'C' : [':BCommits'   , 'buffer commits'],
+      \ 'f' : [':Files'      , 'files'],
+      \ 'g' : [':GFiles'     , 'git files'],
+      \ 'G' : [':GFiles?'    , 'modified git files'],
+      \ 'h' : [':History'    , 'file history'],
+      \ 'H' : [':History:'   , 'command history'],
+      \ 'l' : [':Lines'      , 'lines'] ,
+      \ 'm' : [':Marks'      , 'marks'] ,
+      \ 'M' : [':Maps'       , 'normal maps'] ,
+      \ 'p' : [':Helptags'   , 'help tags'] ,
+      \ 'P' : [':Tags'       , 'project tags'],
+      \ 's' : [':Snippets'   , 'snippets'],
+      \ 'S' : [':Colors'     , 'color schemes'],
+      \ 't' : [':Rg'         , 'text Rg'],
+      \ 'T' : [':BTags'      , 'buffer tags'],
+      \ 'w' : [':Windows'    , 'search windows'],
+      \ 'y' : [':Filetypes'  , 'file types'],
+      \ 'z' : [':FZF'        , 'FZF'],
+      \ }
+
+" b is for buffer
+let g:which_key_map.b = {
+      \ 'name' : '+buffer' ,
+      \ '1' : ['b1'          , 'buffer 1'],
+      \ '2' : ['b2'          , 'buffer 2'],
+      \ 'd' : ['bd'          , 'delete-buffer'],
+      \ 'f' : ['bfirst'      , 'first-buffer'],
+      \ 'h' : ['Startify'    , 'home-buffer'],
+      \ 'l' : ['blast'       , 'last-buffer'],
+      \ 'n' : ['bnext'       , 'next-buffer'],
+      \ 'p' : ['bprevious'   , 'previous-buffer'],
+      \ '?' : ['Buffers'     , 'fzf-buffer'],
+      \ }
+
+" g is for git
+let g:which_key_map.g = {
+      \'name' : '+git' ,
+      \'b' : [':Git blame'   , 'blame'],
+      \'B' : [':GBrowse'     , 'browse'],
+      \'d' : [':Git diff'    , 'diff'],
+      \'l' : [':Git log'     , 'log'],
+      \'L' : [':Git lg'      , 'lg'],
+      \'s' : [':Gstatus'     , 'status'],
+      \'S' : [':Git add'     , 'stage'],
+      \'r' : [':Git reflog'  , 'reflog'],
+      \ }
+
+let g:which_key_map.p = {
+      \'name' : '+plug' ,
+      \'c' : [':PlugClean'   , 'clean'],
+      \'i' : [':PlugInstall' , 'install'],
+      \'d' : [':Plugdiff'    , 'diff'],
+      \'s' : [':PlugStatus'  , 'status'],
+      \'S' : [':PlugSnapshot', 'snapshot'],
+      \'u' : [':PlugUpdate'  , 'update'],
+      \'U' : [':PlugUpgrade' , 'upgrade'],
+      \ }
+
+" Register which key map
+call which_key#register('<Space>', "g:which_key_map")
+
+" }}}
+
+" ----------------------------------- FZF Plugins Configuration  {{{
+
+if PluginLoaded('fzf.vim')
+    command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+
+  function! RipgrepFzf(query, fullscreen)
+    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+  endfunction
+
+  command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
+endif
+
+" }}}
+
+" ----------------------------------- Coc configurations {{{
+
+if PluginLoaded('coc.nvim')
+  " ----------------------
+  " General configurations
+  " ----------------------
+
+  " You will have bad experience for diagnostic messages when it's default 4000.
+  set updatetime=300
+
+  " don't give |ins-completion-menu| messages.
+  set shortmess+=c
+
+  " Always show the signcolumn, otherwise it would shift the text each time
+  " diagnostics appear/become resolved.
+  if has("patch-8.1.1564")
+    " Recently vim can merge signcolumn and number column into one
+    set signcolumn=number
+  else
+    set signcolumn=yes
+  endif
+
+  " -----------------
+  " Keyboard mappings
+  " -----------------
+  " Use tab for trigger completion with characters ahead and navigate.
+  inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
+
+  inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+  " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+  " Use <c-space> to trigger completion.
+  inoremap <silent> <expr> <C-space> coc#refresh()
+
+  " Navigate diagnostics
+  nmap <silent> dn <Plug>(coc-diagnostic-next)
+  nmap <silent> dp <Plug>(coc-diagnostic-prev)
+
+  " Remap keys for gotos
+  nmap <silent> gD <Plug>(coc-definition)
+  nmap <silent> gd <Plug>(coc-declaration)
+  nmap <silent> gr <Plug>(coc-references)
+
+  " Use K to show documentation in preview window
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+  " Remap for rename current word
+  nmap <leader>rn <Plug>(coc-rename)
+
+  " Remap for format selected region
+  xmap <silent> <leader>f <Plug>(coc-format-selected)
+  nmap <silent> <leader>f <Plug>(coc-format-selected)
+
+  " Hotkey to Format current buffer
+  nnoremap <leader>F :Format<CR>
+
+  " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+  xmap <leader>a <Plug>(coc-codeaction-selected)
+  nmap <leader>a <Plug>(coc-codeaction-selected)
+
+  " Remap for do codeAction of current line
+  nmap <leader>ac <Plug>(coc-codeaction)
+
+  " Fix autofix problem of current line
+  nmap <leader>qf <Plug>(coc-fix-current)
+
+  " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+  nmap <silent> <TAB> <Plug>(coc-range-select)
+  xmap <silent> <TAB> <Plug>(coc-range-select)
+
+   " Show all diagnostics
+  nnoremap <silent> <leader>cd :<C-u>CocList diagnostics<cr>
+  " Manage extensions
+  nnoremap <silent> <leader>ce :<C-u>CocList extensions<cr>
+  " Show commands
+  nnoremap <silent> <leader>cc :<C-u>CocList commands<cr>
+  " Find symbol of current document
+  nnoremap <silent> <leader>cr :<C-u>CocList outline<cr>
+  " Search workspace symbols
+  nnoremap <silent> <leader>cs :<C-u>CocList -I symbols<cr>
+
+  " Use `:Format` to format current buffer
+  command! -nargs=0 Format :call CocAction('format')
+
+  " -----------------
+  " Utility functions
+  " -----------------
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    elseif (coc#rpc#ready())
+      call CocActionAsync('doHover')
+    else
+      execute '!' . &keywordprg . " " . expand('<cword>')
+    endif
+  endfunction
+
+  " Dev icons refresh
+  " if exists("g:loaded_webdevicons")
+    " call webdevicons#refresh()
+  " endif
+
+endif
+
+" }}}
+
+" }}}
+
+" }}}
