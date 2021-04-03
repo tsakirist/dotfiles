@@ -85,11 +85,17 @@ call plug#begin('~/.vim/plugged')
 
 " Colorschemes
 Plug 'joshdick/onedark.vim'
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'morhetz/gruvbox'
+Plug 'doums/darcula'
 
-" Status/tabline themes
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Lightline statusline/tabline
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
+
+" Airline statusline/tabline
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 
 " Syntax highlighting and more
 Plug 'sheerun/vim-polyglot'
@@ -101,7 +107,7 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdcommenter'
 
-" Multiple cursors like in Subl3
+" Multiple cursors like in Sublime3
 Plug 'terryma/vim-multiple-cursors'
 
 " Fancy start/welcome screen
@@ -162,6 +168,12 @@ Plug 'ryanoasis/vim-devicons'
 " Measure the startup time of vim
 Plug 'dstein64/vim-startuptime'
 
+" Alternate between header/source
+Plug 'ton/vim-alternate'
+
+" Intellisense engine with LSP like VSCode
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " The world-renowned fuzzy finder FZF
 " This will try to install FZF outside of vim plug directory
 Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
@@ -176,19 +188,12 @@ Plug 'junegunn/fzf.vim'
 " A visualization plugin for the undo/redo branches
 " Plug 'mbbill/undotree'
 
-" Intellisense engine with LSP like VSCode
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
 " Smoother and more natural scrolling inside vim
 " Plug 'psliwka/vim-smoothie'
-
-" Fast find and replace across files
-" Plug 'dkprice/vim-easygrep'
 
 " Useful plugins for autocomplete, symbol lookups and tags
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'ervandew/supertab'
-" Plug 'liuchengxu/vista.vim'
 " Plug 'majutsushi/tagbar'
 
 " Colorschemes
@@ -203,20 +208,61 @@ call plug#end()
 
 " ----------------------------------- Plugin options {{{
 
-" Nerd Commenter configuration options
-" -------------------------------------
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims=1
+" Statusline configurations options
+" ---------------------------------
+if PluginLoaded('vim-airline')
 
-" Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDCommentEmptyLines=1
+  " Airline configuration options
+  " -----------------------------
+  " Specify the default airline theme
+  let g:airline_theme='onehalfdark'
 
-" Enable trimming of trailing whitespace when uncommenting
-let g:NERDTrimTrailingWhitespace=1
+  " Enable tabline extension
+  let g:airline#extensions#tabline#enabled=1
 
-" Make NerdTree more minimal
-let NERDTreeMinimalUI=1
-let NERDTreeDirArrows=1
+  " Add powerline fonts to populate powerline symbols
+  let g:airline_powerline_fonts=1
+
+  " Integrate airline with coc
+  let g:airline#extensions#coc#enabled=1
+
+elseif PluginLoaded('lightline.vim')
+
+  " Lightline configuration options
+  " ---------------------------------
+  " Specify default options
+  let g:lightline = {
+        \ 'colorscheme': "darculaOriginal",
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
+        \ },
+        \ 'tabline': {
+        \   'left': [ ['buffers'] ],
+        \   'right': [ ['close'] ]
+        \ },
+        \ 'component_expand': {
+        \   'buffers': 'lightline#bufferline#buffers'
+        \ },
+        \ 'component_type': {
+        \   'buffers': 'tabsel'
+        \ },
+        \ 'component_raw': {
+        \   'buffers': 1
+        \ },
+        \}
+
+  " Add devicons to the bufferline
+  let g:lightline#bufferline#enable_devicons=1
+  "
+  " Make buffer clickable this also requires 'component_raw': 'buffres' : 1
+  let g:lightline#bufferline#clickable=1
+
+  " Use different symbols in the buffers for modified etc
+  let g:lightline#bufferline#unicode_symbols=1
+
+  " This is required for lightline to show the buffers
+  set showtabline=2
+endif
 
 " Goyo distraction free mode configuration options
 " ------------------------------------------------
@@ -227,37 +273,10 @@ let g:goyo_linenr=0
 " Vim-Signify configuration options
 " ---------------------------------
 " Change the delete sign of git-signify from '_' to '-'
-let g:signify_sign_delete='-'
+" let g:signify_sign_delete='-'
 
-" Airline configuration options
-" -----------------------------
-" Change airline theme
-let g:airline_theme='onedark'
-
-" Enable tabline extension
-let g:airline#extensions#tabline#enabled=1
-
-" Add powerline fonts to populate powerline symbols
-let g:airline_powerline_fonts=1
-
-" Integrate airline with coc
-let g:airline#extensions#coc#enabled=1
-
-" Change the tabline separators
-" let g:airline#extensions#tabline#left_sep=' '
-" let g:airline#extensions#tabline#left_alt_sep='|'
-
-" Deoplete configuration options
-" ------------------------------
-" Enable deoplete autocompletion
-" let g:deoplete#enable_at_startup=1
-
-" EasyGrep configuration options
-" ------------------------------
-" Make EasyGrep search only in the current buffer
-let g:EasyGrepMode=1
-let g:EasyGrepSearchCurrentBufferOnly=1
-let g:EasyGrepIgnoreCase=0
+" Don't show any signs in the column, just colors
+let g:signify_sign_show_text=0
 
 " VimEighties configuration options
 " ---------------------------------
@@ -277,6 +296,21 @@ let g:vim_current_word#highlight_current_word=0
 " -------------------------------------
 " Automatically open files with sudo when needed
 let g:suda_smart_edit = 1
+
+" Nerd Commenter configuration options
+" -------------------------------------
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims=1
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines=1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace=1
+
+" Make NerdTree more minimal
+let NERDTreeMinimalUI=1
+let NERDTreeDirArrows=1
 
 " }}}
 
@@ -307,15 +341,21 @@ if PluginLoaded('coc.nvim')
   " ----------------------
   " General configurations
   " ----------------------
-  " Some servers have issues with backup files, see #649
-  set nobackup
-  set nowritebackup
 
   " You will have bad experience for diagnostic messages when it's default 4000.
   set updatetime=300
 
   " don't give |ins-completion-menu| messages.
   set shortmess+=c
+
+  " Always show the signcolumn, otherwise it would shift the text each time
+  " diagnostics appear/become resolved.
+  if has("patch-8.1.1564")
+    " Recently vim can merge signcolumn and number column into one
+    set signcolumn=number
+  else
+    set signcolumn=yes
+  endif
 
   " -----------------
   " Keyboard mappings
@@ -325,29 +365,26 @@ if PluginLoaded('coc.nvim')
     \ pumvisible() ? "\<C-n>" :
     \ <SID>check_back_space() ? "\<TAB>" :
     \ coc#refresh()
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-  " Use <c-space> to trigger completion.
-  inoremap <silent><expr> <C-space> coc#refresh()
+  inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
   " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+  " Use <c-space> to trigger completion.
+  inoremap <silent> <expr> <C-space> coc#refresh()
 
   " Navigate diagnostics
   nmap <silent> dn <Plug>(coc-diagnostic-next)
   nmap <silent> dp <Plug>(coc-diagnostic-prev)
 
   " Remap keys for gotos
-  nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gy <Plug>(coc-type-definition)
-  nmap <silent> gi <Plug>(coc-implementation)
-  nmap <silent> gr <Plug>(coc-references)
+  nmap <silent> <leader>gD <Plug>(coc-definition)
+  nmap <silent> <leader>gd <Plug>(coc-declaration)
+  nmap <silent> <leader>gr <Plug>(coc-references)
 
   " Use K to show documentation in preview window
   nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-  " Highlight symbol under cursor on CursorHold
-  autocmd CursorHold * silent call CocActionAsync('highlight')
 
   " Remap for rename current word
   nmap <leader>rn <Plug>(coc-rename)
@@ -357,7 +394,7 @@ if PluginLoaded('coc.nvim')
   nmap <silent> <leader>f <Plug>(coc-format-selected)
 
   " Hotkey to Format current buffer
-  nnoremap <leader><S-f> :Format<CR>
+  nnoremap <leader>F :Format<CR>
 
   " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
   xmap <leader>a <Plug>(coc-codeaction-selected)
@@ -373,36 +410,19 @@ if PluginLoaded('coc.nvim')
   nmap <silent> <TAB> <Plug>(coc-range-select)
   xmap <silent> <TAB> <Plug>(coc-range-select)
 
-  " -------------------
-  " Diagnostic mappings
-  " -------------------
-  " Show all diagnostics
-  nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
+   " Show all diagnostics
+  nnoremap <silent> <leader>cd :<C-u>CocList diagnostics<cr>
   " Manage extensions
-  nnoremap <silent> <space>e :<C-u>CocList extensions<cr>
+  nnoremap <silent> <leader>ce :<C-u>CocList extensions<cr>
   " Show commands
-  nnoremap <silent> <space>c :<C-u>CocList commands<cr>
+  nnoremap <silent> <leader>cc :<C-u>CocList commands<cr>
   " Find symbol of current document
-  nnoremap <silent> <space>r :<C-u>CocList outline<cr>
+  nnoremap <silent> <leader>cr :<C-u>CocList outline<cr>
   " Search workspace symbols
-  nnoremap <silent> <space>s :<C-u>CocList -I symbols<cr>
-
-  " ---------------
-  " Auto/- commands
-  " ---------------
-  augroup mygroup
-    autocmd!
-    " Setup formatexpr specified filetype(s).
-    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-    " Update signature help on jump placeholder
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-  augroup end
+  nnoremap <silent> <leader>cs :<C-u>CocList -I symbols<cr>
 
   " Use `:Format` to format current buffer
   command! -nargs=0 Format :call CocAction('format')
-
-  " Use `:Fold` to fold current buffer
-  command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
   " -----------------
   " Utility functions
@@ -415,62 +435,24 @@ if PluginLoaded('coc.nvim')
   function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
       execute 'h '.expand('<cword>')
+    elseif (coc#rpc#ready())
+      call CocActionAsync('doHover')
     else
-      call CocAction('doHover')
+      execute '!' . &keywordprg . " " . expand('<cword>')
     endif
   endfunction
 
-  " -----------------
-  " Snippets mappings
-  " -----------------
-  " Use <C-l> for trigger snippet expand.
-  imap <C-l> <Plug>(coc-snippets-expand)
-
-  " Use <C-j> for select text for visual placeholder of snippet.
-  vmap <C-j> <Plug>(coc-snippets-select)
-
-  " Use <C-j> for both expand and jump (make expand higher priority.)
-  imap <C-j> <Plug>(coc-snippets-expand-jump)
-
-  " Use <C-j> for jump to next placeholder, it's default of coc.nvim
-  let g:coc_snippet_next = '<c-j>'
-
-  " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-  let g:coc_snippet_prev = '<c-k>'
-
   " Dev icons refresh
-  if exists("g:loaded_webdevicons")
-    call webdevicons#refresh()
-  endif
-endif
+  " if exists("g:loaded_webdevicons")
+    " call webdevicons#refresh()
+  " endif
 
-" }}}
-"
-" ----------------------------------- Vista vim configurations {{{
-
-if PluginLoaded('vista.vim')
-  " Executive used when opening vista sidebar without specifying it.
-  " See all the avaliable executives via `:echo g:vista#executives`.
-  let g:vista_default_executive='ctags'
-
-  " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
-  let g:vista#renderer#enable_icon=1
-  let g:vista_echo_cursor_strategy='floating_win'
-  let g:vista_highlight_whole_line=1
-  let g:vista_floating_delay=0
-
-  " Key mapping for vista vim
-  " * \vs to toggle window
-  " * \vc to close window
-  " * \vf to open fuzzy finder for tags
-  nnoremap <leader>vs :Vista!!<CR>
-  nnoremap <leader>vc :Vista!<CR>
-  nnoremap <leader>vf :Vista finder coc<CR>
 endif
 
 " }}}
 
 " }}}
+
 " }}}
 
 " ----------------------------------- Settings {{{
@@ -478,14 +460,21 @@ endif
 " Syntax highlighting
 syntax on
 
+" Set true colors inside neovim
+set termguicolors
+
 " Custom colorscheme
-silent! colorscheme onedark
+" silent! colorscheme onedark
+" silent! colorscheme onehalfdark
+silent! colorscheme darcula
+
+" Disable the irritating white fg that comes from darcula theme
+if (exists('g:colors_name') && g:colors_name == "darcula")
+  highlight CursorLine guifg=NONE
+endif
 
 " Set the color for the folded sections
 highlight Folded guibg=black guifg=darkgray
-
-" Set true colors inside neovim
-set termguicolors
 
 " Highlight the current line and also highlight the column @120 (ruler)
 set colorcolumn=120
@@ -561,7 +550,7 @@ set foldmethod=marker
 " Set fold enabled
 set foldenable
 
-
+" Enable mouse support
 set mouse=a
 
 " }}}
@@ -602,12 +591,14 @@ augroup terminalConfigs
 augroup END
 
 " Change linenumber coloring to white for onedark
-augroup colorset
+if (exists("g:colors_name") && g:colors_name == "onedark")
+ augroup colorset
   " Clear old autocommands of this group
   autocmd!
   let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-  " silent! autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white })
-augroup END
+  silent! autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white })
+ augroup END
+endif
 
 " }}}
 
@@ -643,9 +634,6 @@ nnoremap <silent> <leader>bd :bd<CR>
 " Equal resize of all opened splits
 nnoremap <silent> <leader>eq <C-w>=<CR>
 
-" Fill the current line with string '" <count><char>'
-" nnoremap <expr> <F3> ':call Fill('.getchar().")\<CR>"
-
 " Toggle line numbers
 nnoremap <silent> <leader>l :set nu!<CR>
 
@@ -661,6 +649,9 @@ nnoremap <space> za<CR>
 
 " Fill the current line with a leading "<space><prev_line_cols>[-]
 nnoremap <expr> <F3> ":call Fill(45)\<CR>"
+
+" Fill the current line with string '" <count><char>'
+" nnoremap <expr> <F3> ':call Fill('.getchar().")\<CR>"
 
 " Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
 map <silent> <leader>nt :NERDTreeToggle<CR>
@@ -755,9 +746,9 @@ xnoremap <ScrollWheelUp>   4<C-y>
 xnoremap <ScrollWheelDown> 4<C-e>
 
 " Git-signify keybinds to use the plugin more easily
-nnoremap <silent> <leader>gh :SignifyToggleHighlight<CR>
-nnoremap <silent> <leader>gf :SignifyFold<CR>
-nnoremap <silent> <leader>gd :SignifyDiff<CR>
+nnoremap <silent> gh :SignifyToggleHighlight<CR>
+nnoremap <silent> gf :SignifyFold<CR>
+nnoremap <silent> gd :SignifyDiff<CR>
 
 " EasyAlign keybindings
 " 'vipga' starts interactive EasyAlign in visual mode
@@ -780,6 +771,13 @@ vnoremap <silent> <Left>  :<C-u>echoe "Use h"<CR>
 vnoremap <silent> <Right> :<C-u>echoe "Use l"<CR>
 vnoremap <silent> <Up>    :<C-u>echoe "Use k"<CR>
 vnoremap <silent> <Down>  :<C-u>echoe "Use j"<CR>
+
+" nnoremap <silent> <leader>gt :YcmCompleter GoTo<CR>
+" nnoremap <silent> <leader>gf :YcmCompleter GoToDefinition<CR>
+" nnoremap <silent> <leader>gc :YcmCompleter GoToDeclaration<CR>
+
+" Alternate between header/source files
+nnoremap <silent> <leader>ko :Alternate<CR>
 
 " }}}
 
