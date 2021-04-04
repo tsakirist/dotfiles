@@ -668,114 +668,118 @@ let g:blamer_delay=500
 
 " ----------------------------------- Which-key configurations {{{
 
-" Set the timeout, 1000 is the default
-set timeoutlen=1000
+if PluginLoaded("vim-which-key")
 
-" Map leader to which_key
-nnoremap <silent> <leader><space> :silent <c-u> :silent WhichKey '<Space>'<CR>
-vnoremap <silent> <leader><space> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
+ " Set the timeout, 1000 is the default
+ set timeoutlen=1000
 
-" Create map to add keys to
-let g:which_key_map = {}
+ " Map leader to which_key
+ nnoremap <silent> <leader><space> :silent <c-u> :silent WhichKey '<Space>'<CR>
+ vnoremap <silent> <leader><space> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
 
-" Define a separator
-let g:which_key_sep = '→'
+ " Create map to add keys to
+ let g:which_key_map = {}
 
-" Not a fan of floating windows for this
-let g:which_key_use_floating_win = 0
+ " Define a separator
+ let g:which_key_sep = '→'
 
-" Change the colors if you want
-highlight default link WhichKey          Operator
-highlight default link WhichKeySeperator DiffAdded
-highlight default link WhichKeyGroup     Identifier
-highlight default link WhichKeyDesc      Function
+ " Not a fan of floating windows for this
+ let g:which_key_use_floating_win = 0
 
-" Hide status line
-autocmd! FileType which_key
-autocmd  FileType which_key set laststatus=0 noshowmode noruler
-  \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
+ " Change the colors if you want
+ highlight default link WhichKey          Operator
+ highlight default link WhichKeySeperator DiffAdded
+ highlight default link WhichKeyGroup     Identifier
+ highlight default link WhichKeyDesc      Function
 
-" Single mappings
-let g:which_key_map['/'] = [ '<Plug>NERDCommenterToggle' , 'comment' ]
-let g:which_key_map['e'] = [ ':NERDTree'                 , 'explorer' ]
-let g:which_key_map['f'] = [ ':Files'                    , 'search files' ]
-let g:which_key_map['h'] = [ '<C-W>s'                    , 'split below']
-let g:which_key_map['r'] = [ ':Ranger'                   , 'ranger' ]
-let g:which_key_map['S'] = [ ':Startify'                 , 'start screen' ]
-let g:which_key_map['T'] = [ ':Rg'                       , 'search text' ]
-let g:which_key_map['v'] = [ '<C-W>v'                    , 'split right']
-let g:which_key_map['z'] = [ 'Goyo'                      , 'zen' ]
-" let g:which_key_map['e'] = [ ':CocCommand explorer'      , 'explorer' ]
+ " Hide status line
+ autocmd! FileType which_key
+ autocmd  FileType which_key set laststatus=0 noshowmode noruler
+   \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
 
-" s is for search
-let g:which_key_map.s = {
-      \ 'name' : '+search' ,
-      \ '/' : [':History/'   , 'history'],
-      \ ';' : [':Commands'   , 'commands'],
-      \ 'a' : [':Ag'         , 'text Ag'],
-      \ 'b' : [':BLines'     , 'current buffer'],
-      \ 'B' : [':Buffers'    , 'open buffers'],
-      \ 'c' : [':Commits'    , 'commits'],
-      \ 'C' : [':BCommits'   , 'buffer commits'],
-      \ 'f' : [':Files'      , 'files'],
-      \ 'g' : [':GFiles'     , 'git files'],
-      \ 'G' : [':GFiles?'    , 'modified git files'],
-      \ 'h' : [':History'    , 'file history'],
-      \ 'H' : [':History:'   , 'command history'],
-      \ 'l' : [':Lines'      , 'lines'] ,
-      \ 'm' : [':Marks'      , 'marks'] ,
-      \ 'M' : [':Maps'       , 'normal maps'] ,
-      \ 'p' : [':Helptags'   , 'help tags'] ,
-      \ 'P' : [':Tags'       , 'project tags'],
-      \ 's' : [':Snippets'   , 'snippets'],
-      \ 'S' : [':Colors'     , 'color schemes'],
-      \ 't' : [':Rg'         , 'text Rg'],
-      \ 'T' : [':BTags'      , 'buffer tags'],
-      \ 'w' : [':Windows'    , 'search windows'],
-      \ 'y' : [':Filetypes'  , 'file types'],
-      \ 'z' : [':FZF'        , 'FZF'],
-      \ }
+ " Single mappings
+ let g:which_key_map['/'] = [ '<Plug>NERDCommenterToggle' , 'comment' ]
+ let g:which_key_map['e'] = [ ':NERDTree'                 , 'explorer' ]
+ let g:which_key_map['f'] = [ ':Files'                    , 'search files' ]
+ let g:which_key_map['h'] = [ '<C-W>s'                    , 'split below']
+ let g:which_key_map['r'] = [ ':Ranger'                   , 'ranger' ]
+ let g:which_key_map['S'] = [ ':Startify'                 , 'start screen' ]
+ let g:which_key_map['T'] = [ ':Rg'                       , 'search text' ]
+ let g:which_key_map['v'] = [ '<C-W>v'                    , 'split right']
+ let g:which_key_map['z'] = [ 'Goyo'                      , 'zen' ]
+ " let g:which_key_map['e'] = [ ':CocCommand explorer'      , 'explorer' ]
 
-" b is for buffer
-let g:which_key_map.b = {
-      \ 'name' : '+buffer' ,
-      \ '1' : ['b1'          , 'buffer 1'],
-      \ '2' : ['b2'          , 'buffer 2'],
-      \ 'd' : ['bd'          , 'delete-buffer'],
-      \ 'f' : ['bfirst'      , 'first-buffer'],
-      \ 'h' : ['Startify'    , 'home-buffer'],
-      \ 'l' : ['blast'       , 'last-buffer'],
-      \ 'n' : ['bnext'       , 'next-buffer'],
-      \ 'p' : ['bprevious'   , 'previous-buffer'],
-      \ '?' : ['Buffers'     , 'fzf-buffer'],
-      \ }
+ " s is for search
+ let g:which_key_map.s = {
+       \ 'name' : '+search' ,
+       \ '/' : [':History/'   , 'history'],
+       \ ';' : [':Commands'   , 'commands'],
+       \ 'a' : [':Ag'         , 'text Ag'],
+       \ 'b' : [':BLines'     , 'current buffer'],
+       \ 'B' : [':Buffers'    , 'open buffers'],
+       \ 'c' : [':Commits'    , 'commits'],
+       \ 'C' : [':BCommits'   , 'buffer commits'],
+       \ 'f' : [':Files'      , 'files'],
+       \ 'g' : [':GFiles'     , 'git files'],
+       \ 'G' : [':GFiles?'    , 'modified git files'],
+       \ 'h' : [':History'    , 'file history'],
+       \ 'H' : [':History:'   , 'command history'],
+       \ 'l' : [':Lines'      , 'lines'] ,
+       \ 'm' : [':Marks'      , 'marks'] ,
+       \ 'M' : [':Maps'       , 'normal maps'] ,
+       \ 'p' : [':Helptags'   , 'help tags'] ,
+       \ 'P' : [':Tags'       , 'project tags'],
+       \ 's' : [':Snippets'   , 'snippets'],
+       \ 'S' : [':Colors'     , 'color schemes'],
+       \ 't' : [':Rg'         , 'text Rg'],
+       \ 'T' : [':BTags'      , 'buffer tags'],
+       \ 'w' : [':Windows'    , 'search windows'],
+       \ 'y' : [':Filetypes'  , 'file types'],
+       \ 'z' : [':FZF'        , 'FZF'],
+       \ }
 
-" g is for git
-let g:which_key_map.g = {
-      \'name' : '+git' ,
-      \'b' : [':Git blame'   , 'blame'],
-      \'B' : [':GBrowse'     , 'browse'],
-      \'d' : [':Git diff'    , 'diff'],
-      \'l' : [':Git log'     , 'log'],
-      \'L' : [':Git lg'      , 'lg'],
-      \'s' : [':Gstatus'     , 'status'],
-      \'S' : [':Git add'     , 'stage'],
-      \'r' : [':Git reflog'  , 'reflog'],
-      \ }
+ " b is for buffer
+ let g:which_key_map.b = {
+       \ 'name' : '+buffer' ,
+       \ '1' : ['b1'          , 'buffer 1'],
+       \ '2' : ['b2'          , 'buffer 2'],
+       \ 'd' : ['bd'          , 'delete-buffer'],
+       \ 'f' : ['bfirst'      , 'first-buffer'],
+       \ 'h' : ['Startify'    , 'home-buffer'],
+       \ 'l' : ['blast'       , 'last-buffer'],
+       \ 'n' : ['bnext'       , 'next-buffer'],
+       \ 'p' : ['bprevious'   , 'previous-buffer'],
+       \ '?' : ['Buffers'     , 'fzf-buffer'],
+       \ }
 
-let g:which_key_map.p = {
-      \'name' : '+plug' ,
-      \'c' : [':PlugClean'   , 'clean'],
-      \'i' : [':PlugInstall' , 'install'],
-      \'d' : [':Plugdiff'    , 'diff'],
-      \'s' : [':PlugStatus'  , 'status'],
-      \'S' : [':PlugSnapshot', 'snapshot'],
-      \'u' : [':PlugUpdate'  , 'update'],
-      \'U' : [':PlugUpgrade' , 'upgrade'],
-      \ }
+ " g is for git
+ let g:which_key_map.g = {
+       \'name' : '+git' ,
+       \'b' : [':Git blame'   , 'blame'],
+       \'B' : [':GBrowse'     , 'browse'],
+       \'d' : [':Git diff'    , 'diff'],
+       \'l' : [':Git log'     , 'log'],
+       \'L' : [':Git lg'      , 'lg'],
+       \'s' : [':Gstatus'     , 'status'],
+       \'S' : [':Git add'     , 'stage'],
+       \'r' : [':Git reflog'  , 'reflog'],
+       \ }
 
-" Register which key map
-call which_key#register('<Space>', "g:which_key_map")
+ let g:which_key_map.p = {
+       \'name' : '+plug' ,
+       \'c' : [':PlugClean'   , 'clean'],
+       \'i' : [':PlugInstall' , 'install'],
+       \'d' : [':Plugdiff'    , 'diff'],
+       \'s' : [':PlugStatus'  , 'status'],
+       \'S' : [':PlugSnapshot', 'snapshot'],
+       \'u' : [':PlugUpdate'  , 'update'],
+       \'U' : [':PlugUpgrade' , 'upgrade'],
+       \ }
+
+ " Register which key map
+ call which_key#register('<Space>', "g:which_key_map")
+
+endif
 
 " }}}
 
