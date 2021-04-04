@@ -666,7 +666,7 @@ if functions#PluginLoaded("vim-which-key")
  let g:which_key_map['e'] = [ ':CocCommand explorer'      , 'explorer' ]
  let g:which_key_map['f'] = [ ':Files'                    , 'search files' ]
  let g:which_key_map['h'] = [ '<C-W>s'                    , 'split below']
- let g:which_key_map['n'] = [ ':NERDTree'                 , 'explorer' ]
+ let g:which_key_map['n'] = [ ':NERDTree'                 , 'nerd tree' ]
  let g:which_key_map['r'] = [ ':Ranger'                   , 'ranger' ]
  let g:which_key_map['S'] = [ ':Startify'                 , 'start screen' ]
  let g:which_key_map['T'] = [ ':Rg'                       , 'search text' ]
@@ -913,7 +913,7 @@ if functions#PluginLoaded('coc.nvim')
       \   }
       \ }
 
-   nmap <leader>e :CocCommand explorer<CR>
+   nmap <leader>ex :CocCommand explorer<CR>
    autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
 
    " Disable indentLine in coc-explorer
