@@ -21,7 +21,7 @@ endfunction
 
 " Function to trim trailing whitespace
 " https://vi.stackexchange.com/a/456
-function! functions#TrimTrailWhitespace() abort
+function! functions#TrimTrailingWhitespace() abort
   let l:save = winsaveview()
   keeppatterns %s/\s\+$//e
   call winrestview(l:save)
