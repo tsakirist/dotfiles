@@ -1,44 +1,55 @@
 {
     "languageserver": {
-        "ccls": {
+        "clangd": {
             "enable": false,
-            "command": "ccls",
+            "command": "clangd",
             "filetypes": [
                 "c",
+                "cc",
                 "cpp",
-                "cuda",
+                "c++",
                 "objc",
                 "objcpp"
             ],
             "rootPatterns": [
-                ".ccls-root",
+                "compile_flags.txt",
                 "compile_commands.json"
+            ]
+        },
+        "ccls": {
+            "enable": true,
+            "command": "ccls",
+            "filetypes": [
+                "c",
+                "cc",
+                "cpp",
+                "c++",
+                "objc",
+                "objcpp"
+            ],
+            "rootPatterns": [
+                ".ccls",
+                "compile_commands.json",
+                ".git/",
+                ".hg/"
             ],
             "initializationOptions": {
                 "cache": {
                     "directory": "/tmp/ccls"
                 }
             }
-        },
-        "clangd": {
-            "enable": true,
-            "command": "clangd",
-            "args": [
-                "--background-index"
-            ],
-            "rootPatterns": [
-                "compile_flags.txt",
-                "compile_commands.json",
-                ".vim/",
-                ".git/",
-                ".hg/"
-            ],
-            "filetypes": [
-                "c",
-                "cpp",
-                "objc",
-                "objcpp"
-            ]
         }
+    },
+    "explorer.width": 40,
+    "explorer.icon.enableNerdfont": true,
+    "explorer.icon.enableVimDevicons": true,
+    "explorer.previewAction.onHover": false,
+    "explorer.keyMappings.global": {
+        "<cr>": [
+            "expandable?",
+            "expand",
+            "open"
+        ],
+        "v": "open:vsplit"
     }
 }

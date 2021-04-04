@@ -1,4 +1,4 @@
-" ----------------------------------- Utility Functions {{{
+" ----------------------------------- Utility Functions
 
 " Function that checks if a plugin has been loaded or not
 " Returns 1 if the plugin is loaded 0 otherwise
@@ -39,6 +39,4 @@ function! functions#Fill(c) abort
   exec 'norm  cc" '
   exec 'norm '.(strlen(getline(line('.') - 1)) - 2).'A'.nr2char(a:c)
 endfunction
-
-" }}}
 
