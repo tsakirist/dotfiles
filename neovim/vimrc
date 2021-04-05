@@ -50,8 +50,8 @@ Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 
 " Airline statusline/tabline
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline', { 'on': [] }
+Plug 'vim-airline/vim-airline-themes', { 'on': [] }
 
 " Syntax highlighting and more
 Plug 'sheerun/vim-polyglot'
@@ -259,6 +259,9 @@ set clipboard^=unnamed,unnamedplus
 " This option will render characters for spaces, tabs etc
 set listchars=trail:·,tab:»·
 set list
+
+" The number of lines to show above/below when navigating
+set scrolloff=10
 
 " This sets the folding method, the default markers are {{{  }}}
 set foldmethod=marker
@@ -843,14 +846,6 @@ if functions#PluginLoaded('coc.nvim')
 
    " Show all diagnostics
   nnoremap <silent> <leader>cd :<C-u>CocList diagnostics<cr>
-  " Manage extensions
-  nnoremap <silent> <leader>ce :<C-u>CocList extensions<cr>
-  " Show commands
-  nnoremap <silent> <leader>cc :<C-u>CocList commands<cr>
-  " Find symbol of current document
-  nnoremap <silent> <leader>cr :<C-u>CocList outline<cr>
-  " Search workspace symbols
-  nnoremap <silent> <leader>cs :<C-u>CocList -I symbols<cr>
 
   " Use `:Format` to format current buffer
   command! -nargs=0 Format :call CocAction('format')
@@ -913,7 +908,7 @@ if functions#PluginLoaded('coc.nvim')
       \   }
       \ }
 
-   nmap <leader>ex :CocCommand explorer<CR>
+   nmap <leader>ce :CocCommand explorer<CR>
    autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
 
    " Disable indentLine in coc-explorer
