@@ -54,13 +54,11 @@ Plug 'vim-airline/vim-airline', { 'on': [] }
 Plug 'vim-airline/vim-airline-themes', { 'on': [] }
 
 " Syntax highlighting and more
-Plug 'sheerun/vim-polyglot'
-Plug 'octol/vim-cpp-enhanced-highlight'
+" Plug 'sheerun/vim-polyglot'
+" Plug 'octol/vim-cpp-enhanced-highlight'
+" Plug 'bfrg/vim-cpp-modern'
 
-" Nerd plugins
-Plug 'scrooloose/nerdtree'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Comment lines easily
 Plug 'scrooloose/nerdcommenter'
 
 " Multiple cursors like in Sublime3
@@ -97,9 +95,6 @@ Plug 'APZelos/blamer.nvim'
 " :SudoWrite, :SudoRead doesn't work with neovim
 Plug 'tpope/vim-eunuch'
 
-" Automatically detect indentation setting of the current file
-Plug 'luochen1990/indent-detector.vim'
-
 " Write/Read files with sudo from within vim
 Plug 'lambdalisue/suda.vim'
 
@@ -133,12 +128,17 @@ Plug 'liuchengxu/vim-which-key'
 " Alternate between header/source
 Plug 'ton/vim-alternate'
 
+" Rooter changes the working directory to the project root when you open a file or directory
+Plug 'airblade/vim-rooter'
+
+" Alternate between absolute/relative numbers
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
+
+" Better syntax highlighting
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
 " Intellisense engine with LSP like VSCode
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Rooter changes the working directory to the project root when you open a file or directory
-" Pretty handy with FZF
-Plug 'airblade/vim-rooter'
 
 " The world-renowned fuzzy finder FZF
 " This will try to install FZF outside of vim plug directory
@@ -160,8 +160,6 @@ Plug 'junegunn/fzf.vim'
 " Update/auto-generate ctags
 " Plug 'ludovicchabant/vim-gutentags'
 
-" Set paste mode on by default and disable it afterwards
-" Plug 'roxma/vim-paste-easy'
 " -------------------------
 
 " List ends here. Plugins become visible to Vim after this call
@@ -200,8 +198,10 @@ set cursorline
 " Set hidden to on so as to be able to change buffers without saving first
 set hidden
 
-" This displays the line numbers and controls the number of columns used for the line number
-set number
+" Set hybrid line numbers
+set number relativenumber
+
+" Set the number of columns used for line numbers
 set numberwidth=1
 
 " Insert spaces when <Tab> is pressed
@@ -363,8 +363,9 @@ nnoremap <silent> <leader>[ :bprevious<CR>
 " Equal resize of all opened splits
 nnoremap <silent> <leader>eq <C-w>=<CR>
 
-" Toggle line numbers
+" Toggle line numbers or relative number
 nnoremap <silent> <leader>l :set nu!<CR>
+nnoremap <silent> <leader>rl :set relativenumber!<CR>
 
 " Toggle Goyo - distraction free writing
 nnoremap <silent> <F1> :Goyo<CR>
@@ -377,10 +378,10 @@ nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
 nnoremap <space> za<CR>
 
 " Fill the current line with a leading "<space><prev_line_cols>[-]
-nnoremap <expr> <F3> ":call Fill(45)\<CR>"
+nnoremap <expr> <F3> ':call functions#Fill(45)\<CR>'
 
 " Fill the current line with string '" <count><char>'
-" nnoremap <expr> <F3> ':call Fill('.getchar().")\<CR>"
+" nnoremap <expr> <F3> ':call functions#Fill('.getchar().")\<CR>"
 
 " Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
 map <silent> <leader>nt :NERDTreeToggle<CR>
@@ -765,6 +766,24 @@ if functions#PluginLoaded('fzf.vim')
   endfunction
 
   command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
+
+  " Make FZF colors match the active colorscheme
+  let g:fzf_colors = {
+        \ 'fg':      ['fg', 'Normal'],
+        \ 'bg':      ['bg', 'Normal'],
+        \ 'hl':      ['fg', 'Comment'],
+        \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+        \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+        \ 'hl+':     ['fg', 'Statement'],
+        \ 'info':    ['fg', 'PreProc'],
+        \ 'border':  ['fg', 'Ignore'],
+        \ 'prompt':  ['fg', 'Conditional'],
+        \ 'pointer': ['fg', 'Exception'],
+        \ 'marker':  ['fg', 'Keyword'],
+        \ 'spinner': ['fg', 'Label'],
+        \ 'header':  ['fg', 'Comment']
+        \}
+
 endif
 
 " }}}
@@ -919,6 +938,35 @@ if functions#PluginLoaded('coc.nvim')
 
 " }}}
 
+" ----------------------------------- Tree sitter {{{
+
+if functions#PluginLoaded('nvim-treesitter')
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {
+    'c', 'cpp', 'json', 'python'
+  },
+  highlight = {
+    enable = true,
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn",
+      node_incremental = "grn",
+      scope_incremental = "grc",
+      node_decremental = "grm",
+    },
+  },
+  indent = {
+    enable = true
+  }
+}
+EOF
+endif
+
+" }}}
+"
 " }}}
 
 " }}}
