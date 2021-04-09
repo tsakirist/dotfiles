@@ -11,7 +11,7 @@
 " URL    : https://github.com/tsakirist/configurations/blob/master/neovim/vimrc
 " -------------------------------------------------------------------------------------------------
 
-" ----------------------------------- Compatible {{{
+" ----------------------------------- 1. Compatible {{{
 
 " Vim defaults to `compatible` when selecting a vimrc with the command-line '-u' argument.
 " Override that behaviour to nocompatible.
@@ -21,9 +21,9 @@ endif
 
 " }}}
 
-" ----------------------------------- Plugins {{{
+" ----------------------------------- 2. Plugins {{{
 
-" ----------------------------------- Plugin installer {{{
+" ----------------------------------- 1. Plugin installer {{{
 
 " Automate the process of installing vim-plug when required
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -34,7 +34,7 @@ endif
 
 " }}}
 
-" ----------------------------------- Plugin list {{{
+" ----------------------------------- 2. Plugin list {{{
 
 " Plugins will be downloaded under the specified directory
 call plug#begin('~/.vim/plugged')
@@ -52,11 +52,6 @@ Plug 'mengelbrecht/lightline-bufferline'
 " Airline statusline/tabline
 Plug 'vim-airline/vim-airline', { 'on': [] }
 Plug 'vim-airline/vim-airline-themes', { 'on': [] }
-
-" Syntax highlighting and more
-" Plug 'sheerun/vim-polyglot'
-" Plug 'octol/vim-cpp-enhanced-highlight'
-" Plug 'bfrg/vim-cpp-modern'
 
 " Comment lines easily
 Plug 'scrooloose/nerdcommenter'
@@ -107,9 +102,6 @@ Plug 'fedorenchik/VimCalc3'
 " Highlight/Underline word under cursor
 Plug 'dominikduda/vim_current_word'
 
-" Fold everything except the search pattern
-Plug 'embear/Vim-foldsearch'
-
 " Text alignment
 Plug 'junegunn/vim-easy-align'
 
@@ -133,6 +125,9 @@ Plug 'airblade/vim-rooter'
 
 " Alternate between absolute/relative numbers
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
+
+" Line peeker, with :{number}
+Plug 'nacro90/numb.nvim'
 
 " Better syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -169,7 +164,7 @@ call plug#end()
 
 " }}}
 
-" ----------------------------------- Settings {{{
+" ----------------------------------- 3. Settings {{{
 
 " Syntax highlighting
 syntax on
@@ -181,11 +176,6 @@ set termguicolors
 " silent! colorscheme onedark
 " silent! colorscheme onehalfdark
 silent! colorscheme darcula
-
-" Disable the irritating white fg that comes from darcula theme
-if (exists('g:colors_name') && g:colors_name == "darcula")
-  highlight CursorLine guifg=NONE
-endif
 
 " Set the color for the folded sections
 highlight Folded guibg=black guifg=darkgray
@@ -225,6 +215,7 @@ set smartindent
 
 " Set the visual character to be shown for wrapped lines
 " set showbreak=\ \\_
+set showbreak=↪\
 
 " This makes searches case insensitive
 set ignorecase
@@ -235,9 +226,8 @@ set smartcase
 " This highlights the search pattern as you type
 set incsearch
 
-" Open windows always below or right
-set splitbelow
-set splitright
+" Open new splits/windows always below and right
+set splitbelow splitright
 
 " Set automatic wrap to display lines in next line (this is the default)
 set wrap
@@ -277,7 +267,7 @@ set mouse=a
 
 " }}}
 
-" ----------------------------------- Autocommands {{{
+" ----------------------------------- 4. Autocommands {{{
 
 " Format options configuration:
 " 't': is required in format options to wrap text in insert mode
@@ -329,7 +319,7 @@ endif
 
 " }}}
 
-" ----------------------------------- Extra configurations {{{
+" ----------------------------------- 5. Extra configurations {{{
 
 " Add persistent undo for vim
 " ---------------------------
@@ -351,7 +341,7 @@ endif
 
 " }}}
 
-" ----------------------------------- Keybindings {{{
+" ----------------------------------- 6. Keybindings {{{
 
 " Change buffers quickly
 nnoremap <silent> <leader>bn :bnext<CR>
@@ -511,16 +501,16 @@ nnoremap <silent> <leader>gb :BlamerToggle<CR>
 
 " }}}
 
-" ----------------------------------- Abbreviations {{{
+" ----------------------------------- 7. Abbreviations {{{
 
 " Shebang abbreviation in insert mode
 iab #! #!/usr/bin/env bash
 
 " }}}
 
-" ----------------------------------- Plugins extras {{{
+" ----------------------------------- 8. Plugins extras {{{
 
-" ----------------------------------- Plugin options {{{
+" ----------------------------------- 1. Plugin options {{{
 
 " Statusline configurations options
 " ---------------------------------
@@ -632,9 +622,9 @@ let g:blamer_delay=500
 
 " }}}
 
-" ----------------------------------- Plugin configurations {{{
+" ----------------------------------- 2. Plugin configurations {{{
 
-" ----------------------------------- Which-key configurations {{{
+" ----------------------------------- 1. Which-key configurations {{{
 
 if functions#PluginLoaded("vim-which-key")
 
@@ -751,7 +741,7 @@ endif
 
 " }}}
 
-" ----------------------------------- FZF Plugins Configuration  {{{
+" ----------------------------------- 2. FZF Plugins Configuration  {{{
 
 if functions#PluginLoaded('fzf.vim')
     command! -bang -nargs=? -complete=dir Files
@@ -788,7 +778,7 @@ endif
 
 " }}}
 
-" ----------------------------------- Coc configurations {{{
+" ----------------------------------- 3. Coc configurations {{{
 
 if functions#PluginLoaded('coc.nvim')
   " ----------------------
@@ -938,17 +928,20 @@ if functions#PluginLoaded('coc.nvim')
 
 " }}}
 
-" ----------------------------------- Tree sitter {{{
+" ----------------------------------- 4. Tree sitter {{{
 
 if functions#PluginLoaded('nvim-treesitter')
+
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
     'c', 'cpp', 'json', 'python'
   },
+
   highlight = {
     enable = true,
   },
+
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -956,17 +949,36 @@ require'nvim-treesitter.configs'.setup {
       node_incremental = "grn",
       scope_incremental = "grc",
       node_decremental = "grm",
-    },
+    }
   },
+
   indent = {
     enable = true
   }
+
 }
 EOF
+
 endif
 
 " }}}
-"
+
+" ----------------------------------- 5. Numb {{{
+
+if functions#PluginLoaded('numb.nvim')
+
+lua <<EOF
+require('numb').setup {
+   show_numbers    = true, -- Enable 'number' for the window while peeking
+   show_cursorline = true  -- Enable 'cursorline' for the window while peeking
+}
+
+EOF
+
+endif
+
+" }}}
+
 " }}}
 
 " }}}
