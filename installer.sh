@@ -480,8 +480,17 @@ function _set_wallpaper() {
     gsettings set org.gnome.desktop.background picture-uri "$uri"
 }
 
+function _install_from_dir() {
+    local fonts_dir="fonts"
+    local fonts_dest=$HOME/.local/share/fonts/
+    for font in "$fonts_dir"/*.ttf; do
+        cp -v "$font" "$fonts_dest"
+    done
+}
+
 function _install_fonts() {
     _print i "fonts"
+    _install_from_dir
     sudo apt install fonts-firacode
 }
 
