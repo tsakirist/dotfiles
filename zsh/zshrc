@@ -116,7 +116,7 @@ HIST_STAMPS="%d/%m/%y %T"
 # setopt configurations
 unsetopt histverify
 
-# Make neovim default editor
+# Make nvim default editor
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 

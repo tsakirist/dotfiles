@@ -191,7 +191,7 @@ function _zsh_config() {
 }
 
 function _oh_my_zsh() {
-    local zsh_custom=${HOME}/.oh-my-zsh/custom
+    local zsh_custom=$HOME/.oh-my-zsh/custom
     _print i "oh-my-zsh"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$zsh_custom"/themes/powerlevel10k
@@ -212,9 +212,9 @@ function _coc_requirements() {
         _install clang-tools-8 && sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-8 100
     fi
     # Set the coc-json file for the LSP
-    _check_file neovim/coc/coc-settings.json
+    _check_file nvim/coc/coc-settings.json
     _print s "coc-settings.json"
-    cp -v --backup=numbered neovim/coc/coc-settings.json $HOME/.config/nvim/
+    cp -v --backup=numbered nvim/coc/coc-settings.json $HOME/.config/nvim/
 }
 
 function _vim() {
@@ -223,9 +223,9 @@ function _vim() {
 }
 
 function _vimrc() {
-    _check_file neovim/vimrc
+    _check_file nvim/vimrc
     _print s ".vimrc"
-    ln -sv --backup=numbered "$(pwd)/neovim/vimrc" $HOME/.vimrc
+    ln -sv --backup=numbered "$(pwd)/nvim/vimrc" $HOME/.vimrc
     vim +PlugInstall +qall
     # _coc_requirements
 }
@@ -237,12 +237,19 @@ function _nvim() {
     _install neovim
 }
 
+function _nvim_autoload() {
+    _check_dir nvim/autoload && _check_file nvim/autoload/functions.vim
+    mkdir -v -p $HOME/.vim/autoload/
+    ln -sv --backup=numbered "$(pwd)/nvim/autoload/functions.vim" $HOME/.vim/autoload/functions.vim
+}
+
 function _nvimrc() {
-    _check_file neovim/vimrc && _check_file neovim/init.vim
-    _print s ".vimrc and init.vim"
-    ln -sv --backup=numbered "$(pwd)/neovim/vimrc" $HOME/.vimrc
+    _check_file nvim/vimrc && _check_file nvim/init.vim
+    _print s ".vimrc and init.vim and autoload"
+    ln -sv --backup=numbered "$(pwd)/nvim/vimrc" $HOME/.vimrc
     mkdir -v -p $HOME/.config/nvim/
-    ln -sv --backup=numbered "$(pwd)/neovim/init.vim" $HOME/.config/nvim/init.vim
+    ln -sv --backup=numbered "$(pwd)/nvim/init.vim" $HOME/.config/nvim/init.vim
+    _nvim_autoload
     nvim +PlugInstall +qall
     # _coc_requirements
 }
@@ -580,8 +587,8 @@ pkgs=(
     "    fd: improved version of find"
     "    bat: a cat clone with syntax highlighting"
     "    rg: ripgrep recursive search for a pattern in files"
-    "    neovim"
-    "    neovimrc"
+    "    nvim"
+    "    nvimrc"
     "    coc-requirements"
     "    tmux: terminal multiplexer"
     "    tmux configuration"

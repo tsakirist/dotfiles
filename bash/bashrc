@@ -98,7 +98,7 @@ fi
 # This command allows to enter a directory by merely typing the directory name w/o 'cd'
 shopt -s autocd
 
-# Make neovim default editor
+# Make nvim default editor
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 

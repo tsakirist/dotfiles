@@ -8,7 +8,7 @@
 "
 " Author : Tryfon Tsakiris
 " Email  : tr.tsakiris@gmail.com
-" URL    : https://github.com/tsakirist/configurations/blob/master/neovim/vimrc
+" URL    : https://github.com/tsakirist/configurations/blob/master/nvim/vimrc
 " -------------------------------------------------------------------------------------------------
 
 " ----------------------------------- 1. Compatible {{{
@@ -87,7 +87,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'APZelos/blamer.nvim'
 
 " Vim wrapper for UNIX shell commands
-" :SudoWrite, :SudoRead doesn't work with neovim
+" :SudoWrite, :SudoRead doesn't work with nvim
 Plug 'tpope/vim-eunuch'
 
 " Write/Read files with sudo from within vim
@@ -169,7 +169,7 @@ call plug#end()
 " Syntax highlighting
 syntax on
 
-" Set true colors inside neovim
+" Set true colors inside nvim
 set termguicolors
 
 " Custom colorscheme
