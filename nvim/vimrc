@@ -129,6 +129,9 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 " Line peeker, with :{number}
 Plug 'nacro90/numb.nvim'
 
+" Easy resize windows/splits
+Plug 'sedm0784/vim-resize-mode'
+
 " Better syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -225,6 +228,9 @@ set smartcase
 
 " This highlights the search pattern as you type
 set incsearch
+
+" This provides live feedback when substituting
+set inccommand=split
 
 " Open new splits/windows always below and right
 set splitbelow splitright
@@ -353,10 +359,6 @@ nnoremap <silent> <leader>[ :bprevious<CR>
 " Equal resize of all opened splits
 nnoremap <silent> <leader>eq <C-w>=<CR>
 
-" Toggle line numbers or relative number
-nnoremap <silent> <leader>l :set nu!<CR>
-nnoremap <silent> <leader>rl :set relativenumber!<CR>
-
 " Toggle Goyo - distraction free writing
 nnoremap <silent> <F1> :Goyo<CR>
 nnoremap <silent> <leader>1 :Goyo<CR>
@@ -456,7 +458,7 @@ nnoremap <leader>/ :SearchWord
 command! ZoomToggle call functions#ZoomToggle()
 nnoremap <silent> <leader>z :ZoomToggle<CR>
 
-" Add mouse support and change the default mouse scrolling wheel options
+" Change the default mouse scrolling wheel options
 nnoremap <ScrollWheelUp>   4<C-y>
 nnoremap <ScrollWheelDown> 4<C-e>
 xnoremap <ScrollWheelUp>   4<C-y>
