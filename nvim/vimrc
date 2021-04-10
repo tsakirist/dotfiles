@@ -62,7 +62,7 @@ Plug 'terryma/vim-multiple-cursors'
 " Fancy start/welcome screen
 Plug 'mhinz/vim-startify'
 
-" Display identation levels with lines
+" Display indentation levels with lines
 Plug 'Yggdroot/indentLine'
 
 " Distraction free mode
@@ -512,11 +512,11 @@ iab #! #!/usr/bin/env bash
 
 " ----------------------------------- 1. Plugin options {{{
 
-" Statusline configurations options
+" Statusline options
 " ---------------------------------
 if functions#PluginLoaded('vim-airline')
 
-  " Airline configuration options
+  " Airline options
   " -----------------------------
   " Specify the default airline theme
   let g:airline_theme='onehalfdark'
@@ -532,7 +532,7 @@ if functions#PluginLoaded('vim-airline')
 
 elseif functions#PluginLoaded('lightline.vim')
 
-  " Lightline configuration options
+  " Lightline options
   " ---------------------------------
   " Specify default options
   let g:lightline = {
@@ -568,13 +568,13 @@ elseif functions#PluginLoaded('lightline.vim')
   set showtabline=2
 endif
 
-" Goyo distraction free mode configuration options
+" Goyo options
 " ------------------------------------------------
 let g:goyo_width="80%"
 let g:goyo_height="85%"
 let g:goyo_linenr=0
 
-" Vim-Signify configuration options
+" Vim-Signify options
 " ---------------------------------
 " Change the delete sign of git-signify from '_' to '-'
 " let g:signify_sign_delete='-'
@@ -582,17 +582,12 @@ let g:goyo_linenr=0
 " Don't show any signs in the column, just colors
 let g:signify_sign_show_text=0
 
-" VimEighties configuration options
+" VimEighties options
 " ---------------------------------
 let g:eighties_minimum_width=80
 let g:eighties_enabled=1
 
-" GitNerdTree configuration options
-" ---------------------------------
-" Align git nerd tree plugin with dev icons
-let g:WebDevIconsNerdTreeGitPluginForceVAlign=1
-
-" Vim Current Word configuration options
+" Vim Current Word options
 " --------------------------------------
 let g:vim_current_word#highlight_current_word=0
 
@@ -601,7 +596,7 @@ let g:vim_current_word#highlight_current_word=0
 " Automatically open files with sudo when needed
 let g:suda_smart_edit = 1
 
-" Nerd Commenter configuration options
+" Nerd Commenter options
 " -------------------------------------
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims=1
@@ -612,19 +607,35 @@ let g:NERDCommentEmptyLines=1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace=1
 
-" Make NerdTree more minimal
-let NERDTreeMinimalUI=1
-let NERDTreeDirArrows=1
-
-" Git blamer delay
+" Git blamer optionss
+" ---------------------------------
 let g:blamer_enabled=1
 let g:blamer_delay=500
+
+" Startify options
+" ------------------------------
+" Specify where to store sessions
+let g:startify_session_dir='~/.vim/sessions'
+
+" Automatically update sessions
+let g:startify_session_persistence=1
+
+" Use unicode for startify
+let g:startify_fortune_use_unicode=1
+
+" Center the header
+let g:startify_custom_header='startify#center(startify#fortune#cowsay())'
+
+" Indentline options
+" --------------------------------
+" Don't show indentation in startify screen
+let g:indentLine_bufNameExclude=['startify']
 
 " }}}
 
 " ----------------------------------- 2. Plugin configurations {{{
 
-" ----------------------------------- 1. Which-key configurations {{{
+" ----------------------------------- 1. Which-key {{{
 
 if functions#PluginLoaded("vim-which-key")
 
@@ -741,7 +752,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 2. FZF Plugins Configuration  {{{
+" ----------------------------------- 2. FZF Plugins {{{
 
 if functions#PluginLoaded('fzf.vim')
     command! -bang -nargs=? -complete=dir Files
@@ -778,7 +789,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 3. Coc configurations {{{
+" ----------------------------------- 3. Coc {{{
 
 if functions#PluginLoaded('coc.nvim')
   " ----------------------
