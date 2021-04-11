@@ -287,9 +287,6 @@ autocmd BufWritePre * :call functions#TrimTrailingWhitespace()
 " This is used to preserve the clipboard when vim exits
 autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
 
-" Close NERDTree automatically when it is the only window left open
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
 if functions#PluginLoaded('vim-eunuch')
   " Remove SudoWrite, SudoEdit from the commands as they do not work
   autocmd VimEnter * :delcommand SudoWrite | :delcommand SudoEdit
@@ -299,9 +296,6 @@ if functions#PluginLoaded('blamer.nvim')
  " Disable blamer at start, normally this shouldn't be required, but w/e
  autocmd VimEnter * :BlamerHide
 endif
-
-" Open NERDTree automatically when vim starts
-"autocmd vimenter * NERDTree
 
 " Groupped configurations of :term
 augroup terminalConfigs
@@ -353,11 +347,8 @@ endif
 nnoremap <silent> <leader>bn :bnext<CR>
 nnoremap <silent> <leader>bp :bprevious<CR>
 nnoremap <silent> <leader>bd :bd<CR>
-nnoremap <silent> <leader>] :bnext<CR>
-nnoremap <silent> <leader>[ :bprevious<CR>
-
-" Equal resize of all opened splits
-nnoremap <silent> <leader>eq <C-w>=<CR>
+nnoremap <silent> <Tab>   :bnext<CR>
+nnoremap <silent> <S-tab> :bprevious<CR>
 
 " Toggle Goyo - distraction free writing
 nnoremap <silent> <F1> :Goyo<CR>
@@ -374,9 +365,6 @@ nnoremap <expr> <F3> ':call functions#Fill(45)\<CR>'
 
 " Fill the current line with string '" <count><char>'
 " nnoremap <expr> <F3> ':call functions#Fill('.getchar().")\<CR>"
-
-" Set this keyboard combination to toggle NERDTree, it's the same as Sublime Text 3
-map <silent> <leader>nt :NERDTreeToggle<CR>
 
 " Set Ctrl-t to jump to next occurence of the word under cursor
 nnoremap <silent> <C-t> *
@@ -515,11 +503,11 @@ iab #! #!/usr/bin/env bash
 " ----------------------------------- 1. Plugin options {{{
 
 " Statusline options
-" ---------------------------------
+" ------------------
 if functions#PluginLoaded('vim-airline')
 
   " Airline options
-  " -----------------------------
+  " -----------------
   " Specify the default airline theme
   let g:airline_theme='onehalfdark'
 
@@ -535,7 +523,7 @@ if functions#PluginLoaded('vim-airline')
 elseif functions#PluginLoaded('lightline.vim')
 
   " Lightline options
-  " ---------------------------------
+  " -------------------
   " Specify default options
   let g:lightline = {
         \ 'colorscheme': "darculaOriginal",
@@ -571,35 +559,39 @@ elseif functions#PluginLoaded('lightline.vim')
 endif
 
 " Goyo options
-" ------------------------------------------------
+" ------------
 let g:goyo_width="80%"
 let g:goyo_height="85%"
 let g:goyo_linenr=0
 
 " Vim-Signify options
-" ---------------------------------
+" -------------------
 " Change the delete sign of git-signify from '_' to '-'
-" let g:signify_sign_delete='-'
+let g:signify_sign_delete='-'
 
-" Don't show any signs in the column, just colors
-let g:signify_sign_show_text=0
+" Show text in the sign-column '!' '-' '+'
+let g:signify_sign_show_text=1
+
+" Change the delete color to a shade of red both for sign and line
+highlight SignifyLineDelete guibg=#ab4b52
+highlight SignifySignDelete guibg=#ab4b52
 
 " VimEighties options
-" ---------------------------------
+" -------------------
 let g:eighties_minimum_width=80
 let g:eighties_enabled=1
 
 " Vim Current Word options
-" --------------------------------------
+" ------------------------
 let g:vim_current_word#highlight_current_word=0
 
-" Suda vim plugin configuration options
-" -------------------------------------
+" Suda options
+" ------------
 " Automatically open files with sudo when needed
 let g:suda_smart_edit = 1
 
 " Nerd Commenter options
-" -------------------------------------
+" ----------------------
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims=1
 
@@ -610,12 +602,12 @@ let g:NERDCommentEmptyLines=1
 let g:NERDTrimTrailingWhitespace=1
 
 " Git blamer optionss
-" ---------------------------------
+" -------------------
 let g:blamer_enabled=1
 let g:blamer_delay=500
 
 " Startify options
-" ------------------------------
+" ----------------
 " Specify where to store sessions
 let g:startify_session_dir='~/.vim/sessions'
 
@@ -629,7 +621,7 @@ let g:startify_fortune_use_unicode=1
 let g:startify_custom_header='startify#center(startify#fortune#cowsay())'
 
 " Indentline options
-" --------------------------------
+" ------------------
 " Don't show indentation in startify screen
 let g:indentLine_bufNameExclude=['startify']
 
@@ -670,15 +662,15 @@ if functions#PluginLoaded("vim-which-key")
 
  " Single mappings
  let g:which_key_map['/'] = [ '<Plug>NERDCommenterToggle' , 'comment' ]
- let g:which_key_map['e'] = [ ':CocCommand explorer'      , 'explorer' ]
+ let g:which_key_map['c'] = [ ':CocCommand explorer'      , 'coc explorer' ]
+ let g:which_key_map['e'] = [ ':Explore'                  , 'explorer' ]
  let g:which_key_map['f'] = [ ':Files'                    , 'search files' ]
  let g:which_key_map['h'] = [ '<C-W>s'                    , 'split below']
- let g:which_key_map['n'] = [ ':NERDTree'                 , 'nerd tree' ]
  let g:which_key_map['r'] = [ ':Ranger'                   , 'ranger' ]
  let g:which_key_map['S'] = [ ':Startify'                 , 'start screen' ]
  let g:which_key_map['T'] = [ ':Rg'                       , 'search text' ]
  let g:which_key_map['v'] = [ '<C-W>v'                    , 'split right']
- let g:which_key_map['z'] = [ ':Goyo'                      , 'zen' ]
+ let g:which_key_map['z'] = [ ':Goyo'                     , 'zen' ]
 
  " s is for search
  let g:which_key_map.s = {
@@ -723,26 +715,26 @@ if functions#PluginLoaded("vim-which-key")
 
  " g is for git
  let g:which_key_map.g = {
-       \'name' : '+git' ,
-       \'b' : [':Git blame'   , 'blame'],
-       \'B' : [':GBrowse'     , 'browse'],
-       \'d' : [':Git diff'    , 'diff'],
-       \'l' : [':Git log'     , 'log'],
-       \'L' : [':Git lg'      , 'lg'],
-       \'s' : [':Gstatus'     , 'status'],
-       \'S' : [':Git add'     , 'stage'],
-       \'r' : [':Git reflog'  , 'reflog'],
+       \ 'name' : '+git' ,
+       \ 'b' : [':Git blame'   , 'blame'],
+       \ 'B' : [':GBrowse'     , 'browse'],
+       \ 'd' : [':Git diff'    , 'diff'],
+       \ 'l' : [':Git log'     , 'log'],
+       \ 'L' : [':Git lg'      , 'lg'],
+       \ 's' : [':Gstatus'     , 'status'],
+       \ 'S' : [':Git add'     , 'stage'],
+       \ 'r' : [':Git reflog'  , 'reflog'],
        \ }
 
  let g:which_key_map.p = {
-       \'name' : '+plug' ,
-       \'c' : [':PlugClean'   , 'clean'],
-       \'i' : [':PlugInstall' , 'install'],
-       \'d' : [':Plugdiff'    , 'diff'],
-       \'s' : [':PlugStatus'  , 'status'],
-       \'S' : [':PlugSnapshot', 'snapshot'],
-       \'u' : [':PlugUpdate'  , 'update'],
-       \'U' : [':PlugUpgrade' , 'upgrade'],
+       \ 'name' : '+plug' ,
+       \ 'c' : [':PlugClean'   , 'clean'],
+       \ 'i' : [':PlugInstall' , 'install'],
+       \ 'd' : [':Plugdiff'    , 'diff'],
+       \ 's' : [':PlugStatus'  , 'status'],
+       \ 'S' : [':PlugSnapshot', 'snapshot'],
+       \ 'u' : [':PlugUpdate'  , 'update'],
+       \ 'U' : [':PlugUpgrade' , 'upgrade'],
        \ }
 
  " Register which key map
@@ -859,10 +851,6 @@ if functions#PluginLoaded('coc.nvim')
 
   " Fix autofix problem of current line
   nmap <leader>qf <Plug>(coc-fix-current)
-
-  " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-  nmap <silent> <TAB> <Plug>(coc-range-select)
-  xmap <silent> <TAB> <Plug>(coc-range-select)
 
    " Show all diagnostics
   nnoremap <silent> <leader>cd :<C-u>CocList diagnostics<cr>
