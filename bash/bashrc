@@ -113,3 +113,4 @@ bindkey -s "^[OM" "^M"
 
 # Source my fzf configurations
 [ -f ~/.fzf.config ] && . ~/.fzf.config
+

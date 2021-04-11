@@ -53,6 +53,9 @@ Plug 'mengelbrecht/lightline-bufferline'
 Plug 'vim-airline/vim-airline', { 'on': [] }
 Plug 'vim-airline/vim-airline-themes', { 'on': [] }
 
+" Some useful keymappings
+Plug 'tpope/vim-unimpaired'
+
 " Comment lines easily
 Plug 'scrooloose/nerdcommenter'
 
@@ -292,13 +295,18 @@ if functions#PluginLoaded('vim-eunuch')
   autocmd VimEnter * :delcommand SudoWrite | :delcommand SudoEdit
 endif
 
+" Autocmd configurations for blamer
 if functions#PluginLoaded('blamer.nvim')
- " Disable blamer at start, normally this shouldn't be required, but w/e
- autocmd VimEnter * :BlamerHide
+  augroup blamerConfig
+    " Clear old autocommands of this group
+    autocmd!
+    " Hide blamer on startup
+    autocmd VimEnter * :BlamerHide
+  augroup END
 endif
 
-" Groupped configurations of :term
-augroup terminalConfigs
+" Autocmd configurations for :term
+augroup terminalConfig
   " Clear old autocommands of this group
   autocmd!
   " Automatically enter in insert mode when in terminal pane
@@ -306,16 +314,6 @@ augroup terminalConfigs
   " Disable linenumbering when in terminal
   autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
-
-" Change linenumber coloring to white for onedark
-if (exists("g:colors_name") && g:colors_name == "onedark")
- augroup colorset
-  " Clear old autocommands of this group
-  autocmd!
-  let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-  silent! autocmd ColorScheme * call onedark#set_highlight("LineNr", { "fg": s:white })
- augroup END
-endif
 
 " }}}
 
@@ -478,10 +476,6 @@ vnoremap <silent> <Left>  :<C-u>echoe "Use h"<CR>
 vnoremap <silent> <Right> :<C-u>echoe "Use l"<CR>
 vnoremap <silent> <Up>    :<C-u>echoe "Use k"<CR>
 vnoremap <silent> <Down>  :<C-u>echoe "Use j"<CR>
-
-" nnoremap <silent> <leader>gt :YcmCompleter GoTo<CR>
-" nnoremap <silent> <leader>gf :YcmCompleter GoToDefinition<CR>
-" nnoremap <silent> <leader>gc :YcmCompleter GoToDeclaration<CR>
 
 " Alternate between header/source files
 nnoremap <silent> <leader>ko :Alternate<CR>
