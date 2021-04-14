@@ -129,9 +129,6 @@ Plug 'airblade/vim-rooter'
 " Alternate between absolute/relative numbers
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
-" Line peeker, with :{number}
-Plug 'nacro90/numb.nvim'
-
 " Easy resize windows/splits
 Plug 'sedm0784/vim-resize-mode'
 
@@ -160,6 +157,10 @@ Plug 'junegunn/fzf.vim'
 
 " Update/auto-generate ctags
 " Plug 'ludovicchabant/vim-gutentags'
+
+" Line peeker, with :{number}
+" Cool plugin but, seems to interfere with :ls<CR>:b
+" Plug 'nacro90/numb.nvim'
 
 " -------------------------
 
@@ -345,12 +346,23 @@ endif
 nnoremap <silent> <leader>bn :bnext<CR>
 nnoremap <silent> <leader>bp :bprevious<CR>
 nnoremap <silent> <leader>bd :bd<CR>
-nnoremap <silent> <Tab>   :bnext<CR>
-nnoremap <silent> <S-tab> :bprevious<CR>
+nnoremap <silent> <Tab>      :bnext<CR>
+nnoremap <silent> <S-tab>    :bprevious<CR>
+
+" List buffers and prepend :b on the cmd line
+nnoremap <leader>bf :ls<CR>:b<Space>
+
+" Fzf keybindings
+nnoremap <silent> <leader>fb :Buffers<CR>
+nnoremap <silent> <leader>ff :Files<CR>
+nnoremap <silent> <leader>FF :Files!<CR>
+nnoremap <silent> <leader>rg :Rg<CR>
+nnoremap <silent> <leader>RG :Rg!<CR>
+nnoremap <silent> <leader>fm :Maps<CR>
+nnoremap <silent> <leader>FM :Maps!<CR>
 
 " Toggle Goyo - distraction free writing
 nnoremap <silent> <F1> :Goyo<CR>
-nnoremap <silent> <leader>1 :Goyo<CR>
 
 " Toggle between folds
 nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
