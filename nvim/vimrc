@@ -85,6 +85,9 @@ Plug 'mhinz/vim-signify'
 " A git wrapper for vim
 Plug 'tpope/vim-fugitive'
 
+" Enables :GBrowse to open GitHub urls from vim
+Plug 'tpope/vim-rhubarb'
+
 " Git blamer with inline text
 Plug 'APZelos/blamer.nvim'
 
@@ -676,7 +679,7 @@ if functions#PluginLoaded("vim-which-key")
  " Single mappings
  let g:which_key_map['/'] = [ '<Plug>NERDCommenterToggle' , 'comment' ]
  let g:which_key_map['c'] = [ ':CocCommand explorer'      , 'coc explorer' ]
- let g:which_key_map['e'] = [ ':Explore'                  , 'explorer' ]
+ let g:which_key_map['e'] = [ ':Vexplore'                 , 'explorer' ]
  let g:which_key_map['f'] = [ ':Files'                    , 'search files' ]
  let g:which_key_map['h'] = [ '<C-w>s'                    , 'split below']
  let g:which_key_map['r'] = [ ':Ranger'                   , 'ranger' ]
@@ -723,7 +726,7 @@ if functions#PluginLoaded("vim-which-key")
        \ 'l' : ['blast'       , 'last-buffer'],
        \ 'n' : ['bnext'       , 'next-buffer'],
        \ 'p' : ['bprevious'   , 'previous-buffer'],
-       \ '?' : ['Buffers'     , 'fzf-buffer'],
+       \ '?' : ['Buffers'     , 'fzf-buffers'],
        \ }
 
  " g is for git
