@@ -41,7 +41,6 @@ call plug#begin('~/.vim/plugged')
 
 " Colorschemes
 Plug 'joshdick/onedark.vim'
-Plug 'sonph/onehalf', {'rtp': 'vim/'}
 Plug 'morhetz/gruvbox'
 Plug 'doums/darcula'
 
@@ -132,6 +131,9 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 " Easy resize windows/splits
 Plug 'sedm0784/vim-resize-mode'
 
+" Close buffers without losing splits/windows
+Plug 'moll/vim-bbye'
+
 " Better syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -181,7 +183,6 @@ set termguicolors
 
 " Custom colorscheme
 " silent! colorscheme onedark
-" silent! colorscheme onehalfdark
 silent! colorscheme darcula
 
 " Set the color for the folded sections
@@ -345,12 +346,18 @@ endif
 " Change buffers quickly
 nnoremap <silent> <leader>bn :bnext<CR>
 nnoremap <silent> <leader>bp :bprevious<CR>
-nnoremap <silent> <leader>bd :bd<CR>
+nnoremap <silent> <leader>bc :bd<CR>
 nnoremap <silent> <Tab>      :bnext<CR>
 nnoremap <silent> <S-tab>    :bprevious<CR>
 
 " List buffers and prepend :b on the cmd line
 nnoremap <leader>bf :ls<CR>:b<Space>
+
+" Close buffer without closing window/split
+" nnoremap <silent> <leader>bd :bp<CR>:bd #<CR>
+
+" Use bbye plugin's :Bdelete to close buffer w/o losing splits/windows
+nnoremap <silent> <leader>bd :Bdelete<CR>
 
 " Fzf keybindings
 nnoremap <silent> <leader>fb :Buffers<CR>
@@ -671,11 +678,11 @@ if functions#PluginLoaded("vim-which-key")
  let g:which_key_map['c'] = [ ':CocCommand explorer'      , 'coc explorer' ]
  let g:which_key_map['e'] = [ ':Explore'                  , 'explorer' ]
  let g:which_key_map['f'] = [ ':Files'                    , 'search files' ]
- let g:which_key_map['h'] = [ '<C-W>s'                    , 'split below']
+ let g:which_key_map['h'] = [ '<C-w>s'                    , 'split below']
  let g:which_key_map['r'] = [ ':Ranger'                   , 'ranger' ]
  let g:which_key_map['S'] = [ ':Startify'                 , 'start screen' ]
  let g:which_key_map['T'] = [ ':Rg'                       , 'search text' ]
- let g:which_key_map['v'] = [ '<C-W>v'                    , 'split right']
+ let g:which_key_map['v'] = [ '<C-w>v'                    , 'split right']
  let g:which_key_map['z'] = [ ':Goyo'                     , 'zen' ]
 
  " s is for search
