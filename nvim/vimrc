@@ -143,6 +143,12 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Intellisense engine with LSP like VSCode
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" Telescope fuzzy finder
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
+
 " The world-renowned fuzzy finder FZF
 " This will try to install FZF outside of vim plug directory
 Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
@@ -1007,16 +1013,59 @@ endif
 
 " }}}
 
-" ----------------------------------- 5. Numb {{{
+" ----------------------------------- 5. Telescope {{{
 
-if functions#PluginLoaded('numb.nvim')
+if functions#PluginLoaded('telescope.nvim')
 
-lua <<EOF
-require('numb').setup {
-   show_numbers    = true, -- Enable 'number' for the window while peeking
-   show_cursorline = true  -- Enable 'cursorline' for the window while peeking
+  " Find files using Telescope command-line sugar
+  nnoremap <silent> <leader>ff :Telescope find_files<CR>
+  nnoremap <silent> <leader>fg :Telescope live_grep<CR>
+  nnoremap <silent> <leader>fb :Telescope buffers<CR>
+  nnoremap <silent> <leader>fh :Telescope help_tags<CR>
+  nnoremap <silent> <leader>fm :Telescope marks<CR>
+  nnoremap <silent> <leader>ft :Telescope tags<CR>
+  nnoremap <silent> <leader>fo :Telescope vim_options<CR>
+  nnoremap <silent> <leader>fc :Telescope git_bcommits<CR>
+
+  " Make matching characters to follow color_scheme
+  highlight TelescopeMatching guifg=#CC7832
+
+lua<<EOF
+local actions = require('telescope.actions')
+require('telescope').setup {
+  defaults = {
+    color_devicons = true,
+    use_less = true,
+    set_env = { ['COLORTERM'] = 'truecolor' },
+
+    file_sorter = require('telescope.sorters').get_fzy_sorter,
+    file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
+    grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
+    qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
+
+    mappings = {
+      i = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-q>"] = actions.close,
+        ["<ESC>"] = actions.close,
+        ["<CR>"]  = actions.select_default + actions.center
+      },
+      n = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+      }
+    }
+    },
+    extensions = {
+      fzy_native = {
+        override_generic_sorter = false,
+        override_file_sorter = true,
+      }
+    }
 }
-
+require('telescope').load_extension('fzy_native')
 EOF
 
 endif
