@@ -772,6 +772,7 @@ if functions#PluginLoaded("vim-which-key")
        \ 'g' : [':Telescope live_grep'       , 'live grep'],
        \ 'G' : [':Telescope git_files'       , 'git files'],
        \ 'h' : [':Telescope command_history' , 'command history'],
+       \ 'k' : [':Telescope keymaps'         , 'keymappings'],
        \ 'm' : [':Telescope marks'           , 'marks'],
        \ 'M' : [':Telescope man_pages'       , 'man pages'],
        \ 'o' : [':Telescope vim_options'     , 'vim options'],
@@ -838,14 +839,12 @@ if functions#PluginLoaded('fzf.vim')
         \ 'ctrl-v': 'vsplit'
         \}
 
-  " Custm fzf keybindings for searching
+  " Custom fzf keybindings for searching
   nnoremap <silent> <leader>fb :Buffers<CR>
   nnoremap <silent> <leader>ff :Files<CR>
-  nnoremap <silent> <leader>FF :Files!<CR>
   nnoremap <silent> <leader>rg :Rg<CR>
-  nnoremap <silent> <leader>RG :Rg!<CR>
   nnoremap <silent> <leader>fm :Maps<CR>
-  nnoremap <silent> <leader>FM :Maps!<CR>
+  nnoremap <silent> <leader>fM :Marks<CR>
 
 endif
 
@@ -1040,8 +1039,9 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>ff :Telescope find_files<CR>
   nnoremap <silent> <leader>fg :Telescope live_grep<CR>
   nnoremap <silent> <leader>fb :Telescope buffers<CR>
-  nnoremap <silent> <leader>fh :Telescope help_tags<CR>
-  nnoremap <silent> <leader>fm :Telescope marks<CR>
+  nnoremap <silent> <leader>fh :Telescope command_history<CR>
+  nnoremap <silent> <leader>fm :Telescope keymaps<CR>
+  nnoremap <silent> <leader>fM :Telescope marks<CR>
   nnoremap <silent> <leader>ft :Telescope tags<CR>
   nnoremap <silent> <leader>fo :Telescope vim_options<CR>
   nnoremap <silent> <leader>fc :Telescope git_bcommits<CR>
