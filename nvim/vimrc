@@ -518,7 +518,7 @@ if functions#PluginLoaded('vim-airline')
   " Airline options
   " -----------------
   " Specify the default airline theme
-  let g:airline_theme='onehalfdark'
+  let g:airline_theme='onedark'
 
   " Enable tabline extension
   let g:airline#extensions#tabline#enabled=1
@@ -531,13 +531,17 @@ if functions#PluginLoaded('vim-airline')
 
 elseif functions#PluginLoaded('lightline.vim')
 
+  " Don't show the mode in lightline
+  set noshowmode
+
   " Lightline options
   " -------------------
   " Specify default options
   let g:lightline = {
         \ 'colorscheme': "darculaOriginal",
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
+        \   'left': [ [ 'mode', 'paste' ],
+        \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
         \ },
         \ 'tabline': {
         \   'left': [ ['buffers'] ],
@@ -548,6 +552,9 @@ elseif functions#PluginLoaded('lightline.vim')
         \ },
         \ 'component_type': {
         \   'buffers': 'tabsel'
+        \ },
+        \ 'component_function': {
+        \   'gitbranch': 'FugitiveHead'
         \ },
         \ 'component_raw': {
         \   'buffers': 1
