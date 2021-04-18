@@ -709,14 +709,15 @@ if functions#PluginLoaded("vim-which-key")
        \ 'G' : [':GFiles?'    , 'modified git files'],
        \ 'h' : [':History'    , 'file history'],
        \ 'H' : [':History:'   , 'command history'],
-       \ 'l' : [':Lines'      , 'lines'] ,
-       \ 'm' : [':Marks'      , 'marks'] ,
-       \ 'M' : [':Maps'       , 'normal maps'] ,
-       \ 'p' : [':Helptags'   , 'help tags'] ,
+       \ 'l' : [':Lines'      , 'lines'],
+       \ 'L' : [':Ls'         , 'ls'],
+       \ 'm' : [':Marks'      , 'marks'],
+       \ 'M' : [':Maps'       , 'normal maps'],
+       \ 'p' : [':Helptags'   , 'help tags'],
        \ 'P' : [':Tags'       , 'project tags'],
        \ 's' : [':Snippets'   , 'snippets'],
        \ 'S' : [':Colors'     , 'color schemes'],
-       \ 't' : [':Rg'         , 'text Rg'],
+       \ 't' : [':Rg'         , 'text Ripgrep'],
        \ 'T' : [':BTags'      , 'buffer tags'],
        \ 'w' : [':Windows'    , 'search windows'],
        \ 'y' : [':Filetypes'  , 'file types'],
@@ -790,17 +791,33 @@ endif
 
 if functions#PluginLoaded('fzf.vim')
 
+  " Custom fzf keybindings for searching
+  nnoremap <silent> <leader>fb :Buffers<CR>
+  nnoremap <silent> <leader>ff :Files<CR>
+  nnoremap <silent> <leader>rg :Rg<CR>
+  nnoremap <silent> <leader>fm :Maps<CR>
+  nnoremap <silent> <leader>fM :Marks<CR>
+
+  " Start searching for files
   command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
 
+  " Execeute ls on the specified directory
+  command! -bang -complete=dir -nargs=? Ls
+    \ call fzf#run(fzf#wrap({'source': 'ls', 'dir': <q-args>}, <bang>0))
+
+  " Custom RipgrepFzf function to use with Rg command
   function! RipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
     let reload_command = printf(command_fmt, '{q}')
-    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    " Make a centered pop-up window for Rg
+    let spec = { 'window': { 'width': 0.9, 'height': 0.7 },
+                \'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command] }
     call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
   endfunction
 
+  " Start an interactive Ripgrep search
   command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 
   " Make FZF colors match the active colorscheme
@@ -838,13 +855,6 @@ if functions#PluginLoaded('fzf.vim')
         \ 'ctrl-x': 'split',
         \ 'ctrl-v': 'vsplit'
         \}
-
-  " Custom fzf keybindings for searching
-  nnoremap <silent> <leader>fb :Buffers<CR>
-  nnoremap <silent> <leader>ff :Files<CR>
-  nnoremap <silent> <leader>rg :Rg<CR>
-  nnoremap <silent> <leader>fm :Maps<CR>
-  nnoremap <silent> <leader>fM :Marks<CR>
 
 endif
 
