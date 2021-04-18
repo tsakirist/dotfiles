@@ -1042,7 +1042,7 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fh :Telescope command_history<CR>
   nnoremap <silent> <leader>fm :Telescope keymaps<CR>
   nnoremap <silent> <leader>fM :Telescope marks<CR>
-  nnoremap <silent> <leader>ft :Telescope tags<CR>
+  nnoremap <silent> <leader>fT :Telescope tags<CR>
   nnoremap <silent> <leader>fo :Telescope vim_options<CR>
   nnoremap <silent> <leader>fc :Telescope git_bcommits<CR>
 
@@ -1053,9 +1053,34 @@ lua<<EOF
 local actions = require('telescope.actions')
 require('telescope').setup {
   defaults = {
+    prompt_prefix = '❯ ',
+    selection_caret = '❯ ',
+
+    winblend = 0,
+    preview_cutoff = 120,
+    layout_strategy = 'horizontal',
+    layout_defaults = {
+      horizontal = {
+        width_padding = 0.1,
+        height_padding = 0.1,
+        preview_width = 0.5,
+      },
+      vertical = {
+        width_padding = 0.05,
+        height_padding = 1,
+        preview_height = 0.5,
+      }
+    },
+
+    shorten_path = true,
+    selection_strategy = "reset",
+    sorting_strategy = "descending",
+    scroll_strategy = "cycle",
+    prompt_position = "top",
     color_devicons = true,
     use_less = true,
     set_env = { ['COLORTERM'] = 'truecolor' },
+    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
 
     file_sorter = require('telescope.sorters').get_fzy_sorter,
     file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
@@ -1076,7 +1101,7 @@ require('telescope').setup {
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
       }
     }
-    },
+  },
     extensions = {
       fzy_native = {
         override_generic_sorter = false,
