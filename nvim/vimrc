@@ -56,6 +56,9 @@ Plug 'vim-airline/vim-airline-themes', { 'on': [] }
 " Some useful keymappings
 Plug 'tpope/vim-unimpaired'
 
+" Supecharged substitute command and more
+Plug 'tpope/vim-abolish'
+
 " Comment lines easily
 Plug 'scrooloose/nerdcommenter'
 
@@ -507,6 +510,12 @@ nnoremap <silent> <leader>ko :Alternate<CR>
 
 " Git blame keybind toggle
 nnoremap <silent> <leader>gb :BlamerToggle<CR>
+
+" The '&' command repeats last substitution and the
+" second '&' keeps the previous flags that were used
+" So, usually we want to have this as the default behavior
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
 
 " }}}
 
