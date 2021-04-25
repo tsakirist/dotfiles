@@ -414,12 +414,10 @@ vnoremap <silent> <C-K> :m '<-2<CR>gv=gv
 vnoremap <silent> <C-J> :m '>+1<CR>gv=gv
 
 " Duplicate the current line
-" 'm' sets a mark that we can return afterwards by using '`' followed by the mark's name
-" :normal properly handles a [count] prepended before the command e.g. 3w, 5d etc
-" http://vimcasts.org/episodes/creating-mappings-that-accept-a-count/
-nnoremap <leader>d  :normal m`yyp``<CR>
-inoremap <leader>d <Esc>m`yyp``<CR>A
-vnoremap <leader>d <Esc>m`yyp``<CR>
+" 't' command is a synonym for copy
+nnoremap <silent> <leader>d :t.<CR>
+inoremap <silent> <leader>d <Esc>:t.<CR>
+vnoremap <silent> <leader>d :t.<CR>
 
 " Hitting ESC when inside a :term to get into normal mode
 tnoremap <Esc> <C-\><C-N>
