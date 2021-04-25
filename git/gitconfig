@@ -1,11 +1,12 @@
 [alias]
-  lg = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(yellow bold)%d%Creset %s %C(bold green)(%cr) %C(bold cyan)<%an>%Creset' --abbrev-commit
+  lg = log --graph --pretty=format:'%C(bold red)%h%Creset - %s %C(yellow bold)%d%Creset %C(bold green)(%cr) %C(bold cyan)<%an>%Creset' --abbrev-commit
   log-count = rev-list HEAD --count
   when-added = log --diff-filter=A --
   when-deleted = log --diff-filter=D --
   when-modified = log --diff-filter=M --
 
 [core]
+  ; pager = delta
   pager = diff-so-fancy | less --tabs=4 -RFX
 
 [color "diff"]
@@ -25,3 +26,13 @@
 [user]
   name = Tsakiris Tryfon
   email = tr.tsakiris@gmail.com
+
+; [delta]
+  ; features = line-numbers decorations side-by-side
+  ; whitespace-error-style = 22 reverse
+  ; syntax-theme = Monokai Extended
+
+; [delta "decorations"]
+  ; commit-decoration-style = yellow box ul
+  ; file-style = yellow ul
+  ; file-decoration-style = none
