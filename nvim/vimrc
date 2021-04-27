@@ -515,6 +515,12 @@ nnoremap <silent> <leader>gb :BlamerToggle<CR>
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
+" Quickfix mappings
+nnoremap <silent> [c :cprev<CR>
+nnoremap <silent> ]c :cnext<CR>
+nnoremap <silent> <leader>co :cw<CR>
+nnoremap <silent> <leader>cc :cclose<CR>
+
 " }}}
 
 " ----------------------------------- 7. Abbreviations {{{
