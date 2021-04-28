@@ -45,7 +45,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'doums/darcula'
 
-" Lightline statusline/tabline
+" Lightline statusline and tabline
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 
@@ -118,7 +118,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'voldikss/vim-floaterm'
 
 " Add file type icons to various plugins
-Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
 
 " Measure the startup time of vim
 Plug 'dstein64/vim-startuptime'
@@ -141,6 +141,9 @@ Plug 'sedm0784/vim-resize-mode'
 " Close buffers without losing splits/windows
 Plug 'moll/vim-bbye'
 
+" More pleasant commit experience
+Plug 'rhysd/committia.vim'
+
 " Better syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -158,12 +161,10 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
 Plug 'junegunn/fzf.vim'
 
-" Cool new tabline for buffers and handy commands
-" Plug 'kyazdani42/nvim-web-devicons'
-" Plug 'romgrk/barbar.nvim'
-
 " Unused but worthy plugins
 " -------------------------
+" Plug 'romgrk/barbar.nvim'
+"
 " A visualization plugin for the undo/redo branches
 " Plug 'mbbill/undotree'
 
@@ -584,18 +585,31 @@ elseif functions#PluginLoaded('lightline.vim')
         \ },
         \}
 
+  " Lightline-bufferline options
+  " ------------------------------
   " Add devicons to the bufferline
   let g:lightline#bufferline#enable_devicons=1
-  "
+
   " Make buffer clickable this also requires 'component_raw': 'buffres' : 1
   let g:lightline#bufferline#clickable=1
 
   " Use different symbols in the buffers for modified etc
   let g:lightline#bufferline#unicode_symbols=1
 
+  " Enable numbering on the buffers, option: 1 as shown by the :ls command
+  let g:lightline#bufferline#show_number=1
+
+  " Position the icon to the right of the buffer name
+  let g:lightline#bufferline#icon_position="right"
+
   " This is required for lightline to show the buffers
   set showtabline=2
 endif
+
+" Committia options
+" -----------------
+" Committia plugin minimum width before falling back to single-col layout
+let g:committia_min_window_width=150
 
 " Goyo options
 " ------------
@@ -614,6 +628,14 @@ let g:signify_sign_show_text=1
 " Change the delete color to a shade of red both for sign and line
 highlight SignifyLineDelete guibg=#ab4b52
 highlight SignifySignDelete guibg=#ab4b52
+
+" Darcula vim options
+" -------------------
+" Better highlights for diff
+if (exists('g:colors_name') && g:colors_name == "darcula")
+  hi DiffAdded   guifg=#499C54
+  hi DiffRemoved guifg=#ab4b52
+endif
 
 " VimEighties options
 " -------------------
@@ -805,7 +827,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 2. FZF Plugins {{{
+" ----------------------------------- 2. FZF {{{
 
 if functions#PluginLoaded('fzf.vim')
 
@@ -815,6 +837,7 @@ if functions#PluginLoaded('fzf.vim')
   nnoremap <silent> <leader>rg :Rg<CR>
   nnoremap <silent> <leader>fm :Maps<CR>
   nnoremap <silent> <leader>fM :Marks<CR>
+  nnoremap <silent> <leader>fh :History:<CR>
 
   " Start searching for files
   command! -bang -nargs=? -complete=dir Files
@@ -973,11 +996,6 @@ if functions#PluginLoaded('coc.nvim')
     endif
   endfunction
 
-  " Dev icons refresh
-  " if exists("g:loaded_webdevicons")
-    " call webdevicons#refresh()
-  " endif
-
   " Explorer
   let g:coc_explorer_global_presets = {
      \   '.vim': {
@@ -1042,7 +1060,23 @@ endif
 
 " }}}
 
-" ----------------------------------- 4. Tree sitter {{{
+" ----------------------------------- 4. Web-devicons {{{
+
+lua << EOF
+function _G.webDevIcons(path)
+  local extension = vim.fn.fnamemodify(path, ':e')
+  local filename = vim.fn.fnamemodify(path, ':t')
+  return require'nvim-web-devicons'.get_icon(filename, extension, { default = true })
+end
+EOF
+
+function! StartifyEntryFormat() abort
+  return 'v:lua.webDevIcons(absolute_path) . " " . entry_path'
+endfunction
+
+" }}}
+
+" ----------------------------------- 5. Tree sitter {{{
 
 if functions#PluginLoaded('nvim-treesitter')
 
@@ -1077,20 +1111,29 @@ endif
 
 " }}}
 
-" ----------------------------------- 5. Telescope {{{
+" ----------------------------------- 6. Telescope {{{
 
 if functions#PluginLoaded('telescope.nvim')
 
   " Find files using Telescope command-line sugar
-  nnoremap <silent> <leader>ff :Telescope find_files<CR>
-  nnoremap <silent> <leader>fg :Telescope live_grep<CR>
   nnoremap <silent> <leader>fb :Telescope buffers<CR>
+  nnoremap <silent> <leader>fB :Telescope file_browser<CR>
+  nnoremap <silent> <leader>fc :Telescope git_commits<CR>
+  nnoremap <silent> <leader>fC :Telescope git_bcommits<CR>
   nnoremap <silent> <leader>fh :Telescope command_history<CR>
   nnoremap <silent> <leader>fm :Telescope keymaps<CR>
   nnoremap <silent> <leader>fM :Telescope marks<CR>
-  nnoremap <silent> <leader>fT :Telescope tags<CR>
   nnoremap <silent> <leader>fo :Telescope vim_options<CR>
-  nnoremap <silent> <leader>fc :Telescope git_bcommits<CR>
+  nnoremap <silent> <leader>fs :Telescope grep_string<CR>
+  nnoremap <silent> <leader>fS :Telescope git_status<CR>
+  nnoremap <silent> <leader>fT :Telescope tags<CR>
+
+  " Custom commands with extra options
+  " Could also use :Telescope find_files shorten_path = true optionX = valueX
+  nnoremap <silent> <leader>ff :lua require('telescope.builtin').find_files({shorten_path = true})<CR>
+  nnoremap <silent> <leader>fp :lua require('telescope.builtin').find_files({cwd = "~/.vim/plugged/"})<CR>
+  nnoremap <silent> <leader>fg :lua require('telescope.builtin').live_grep({layout_strategy = "vertical"})<CR>
+  nnoremap <silent> <leader>fl :lua require('telescope.builtin').current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
 
   " Make matching characters to follow color_scheme
   highlight TelescopeMatching guifg=#CC7832
@@ -1101,7 +1144,7 @@ require('telescope').setup {
   defaults = {
     prompt_prefix = '❯ ',
     selection_caret = '❯ ',
-    winblend = 0,
+    winblend = 5,
     preview_cutoff = 120,
 
     layout_strategy = 'horizontal',
@@ -1112,13 +1155,12 @@ require('telescope').setup {
         preview_width = 0.5,
       },
       vertical = {
-        width_padding = 0.05,
-        height_padding = 1,
-        preview_height = 0.5,
+        width_padding = 0.1,
+        height_padding = 0.1,
+        preview_height = 0.65,
       }
     },
 
-    shorten_path = true,
     selection_strategy = "reset",
     sorting_strategy = "ascending",
     scroll_strategy = "cycle",
@@ -1139,7 +1181,9 @@ require('telescope').setup {
         ["<C-k>"] = actions.move_selection_previous,
         ["<C-q>"] = actions.close,
         ["<ESC>"] = actions.close,
-        ["<CR>"]  = actions.select_default + actions.center
+        ["<CR>"]  = actions.select_default + actions.center,
+        ["<C-l>"] = actions.smart_send_to_qflist + actions.open_qflist,
+        ["<Tab>"] = actions.toggle_selection,
       },
       n = {
         ["<C-j>"] = actions.move_selection_next,
@@ -1151,9 +1195,9 @@ require('telescope').setup {
 
   extensions = {
     fzy_native = {
-      override_generic_sorter = false,
+      override_generic_sorter = true,
       override_file_sorter = true,
-    }
+    },
   }
 }
 require('telescope').load_extension('fzy_native')
