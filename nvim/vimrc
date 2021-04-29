@@ -144,6 +144,9 @@ Plug 'rhysd/committia.vim'
 " Color highlighter
 Plug 'norcalli/nvim-colorizer.lua'
 
+" Remove all buffers except current
+Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
+
 " Better syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -301,7 +304,8 @@ set modeline
 " 't': is required in format options to wrap text in insert mode
 " 'l': a line that is longer than textwidth may not be wraped if 'l' is in format options
 " 'r': disables the <CR> key from autocommenting when pressing enter in line that contains a comment
-autocmd BufEnter * set fo+=t fo-=r fo-=l
+" 'o': don't insert comment when pressing 'o' or 'O'
+autocmd BufEnter * set fo+=t fo-=r fo-=l fo-=o
 
 " Remove trailing whitespaces on file save
 autocmd BufWritePre * :call functions#TrimTrailingWhitespace()
@@ -521,6 +525,9 @@ nnoremap <silent> [c :cprev<CR>
 nnoremap <silent> ]c :cnext<CR>
 nnoremap <silent> <leader>co :cw<CR>
 nnoremap <silent> <leader>cc :cclose<CR>
+
+" Buffer close all except current buffer
+nnoremap <silent> <leader>bo :BufOnly<CR>
 
 " }}}
 
@@ -1132,18 +1139,18 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fT :Telescope tags<CR>
 
   " Custom commands with extra options
+  nnoremap <silent> <leader>fb :lua require('telescope.builtin').buffers({shorten_path = true})<CR>
   nnoremap <silent> <leader>ff :lua require('telescope.builtin').find_files({shorten_path = true})<CR>
-  nnoremap <silent> <leader>fp :lua require('telescope.builtin').find_files({cwd = "~/.vim/plugged/"})<CR>
   nnoremap <silent> <leader>fg :lua require('telescope.builtin').live_grep({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fl :lua require('telescope.builtin').current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
-  nnoremap <silent> <leader>fb :lua require('telescope.builtin').buffers({shorten_path = true})<CR>
+  nnoremap <silent> <leader>fp :lua require('telescope.builtin').find_files({cwd = "~/.vim/plugged/"})<CR>
 
   " Make matching characters to follow color_scheme
   highlight TelescopeMatching guifg=#CC7832
 
 lua<<EOF
 local actions = require('telescope.actions')
-require('telescope').setup {
+require'telescope'.setup {
   defaults = {
     prompt_prefix = '❯ ',
     selection_caret = '❯ ',
@@ -1200,7 +1207,7 @@ require('telescope').setup {
     fzy_native = {
       override_generic_sorter = true,
       override_file_sorter = true,
-    },
+    }
   }
 }
 require('telescope').load_extension('fzy_native')
