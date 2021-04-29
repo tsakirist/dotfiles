@@ -144,6 +144,9 @@ Plug 'moll/vim-bbye'
 " More pleasant commit experience
 Plug 'rhysd/committia.vim'
 
+" Color highlighter
+Plug 'norcalli/nvim-colorizer.lua'
+
 " Better syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -690,6 +693,15 @@ let g:indentLine_bufNameExclude=['startify']
 
 " ----------------------------------- 2. Plugin configurations {{{
 
+" ----------------------------------- 0. Simple lua plugins {{{
+
+lua<<EOF
+-- nvim-colorizer
+require'colorizer'.setup()
+EOF
+
+"}}}
+
 " ----------------------------------- 1. Which-key {{{
 
 if functions#PluginLoaded("vim-which-key")
@@ -1116,7 +1128,6 @@ endif
 if functions#PluginLoaded('telescope.nvim')
 
   " Find files using Telescope command-line sugar
-  nnoremap <silent> <leader>fb :Telescope buffers<CR>
   nnoremap <silent> <leader>fB :Telescope file_browser<CR>
   nnoremap <silent> <leader>fc :Telescope git_commits<CR>
   nnoremap <silent> <leader>fC :Telescope git_bcommits<CR>
@@ -1129,11 +1140,11 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fT :Telescope tags<CR>
 
   " Custom commands with extra options
-  " Could also use :Telescope find_files shorten_path = true optionX = valueX
   nnoremap <silent> <leader>ff :lua require('telescope.builtin').find_files({shorten_path = true})<CR>
   nnoremap <silent> <leader>fp :lua require('telescope.builtin').find_files({cwd = "~/.vim/plugged/"})<CR>
   nnoremap <silent> <leader>fg :lua require('telescope.builtin').live_grep({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fl :lua require('telescope.builtin').current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
+  nnoremap <silent> <leader>fb :lua require('telescope.builtin').buffers({shorten_path = true})<CR>
 
   " Make matching characters to follow color_scheme
   highlight TelescopeMatching guifg=#CC7832
