@@ -102,9 +102,6 @@ Plug 'tpope/vim-eunuch'
 " Write/Read files with sudo from within vim
 Plug 'lambdalisue/suda.vim'
 
-" Automatically resize opened windows
-Plug 'justincampbell/vim-eighties'
-
 " An interactive calculator inside a buffer
 Plug 'fedorenchik/VimCalc3'
 
@@ -640,11 +637,6 @@ if (exists('g:colors_name') && g:colors_name == "darcula")
   hi DiffRemoved guifg=#ab4b52
 endif
 
-" VimEighties options
-" -------------------
-let g:eighties_minimum_width=80
-let g:eighties_enabled=1
-
 " Vim Current Word options
 " ------------------------
 let g:vim_current_word#highlight_current_word=0
@@ -652,7 +644,7 @@ let g:vim_current_word#highlight_current_word=0
 " Suda options
 " ------------
 " Automatically open files with sudo when needed
-let g:suda_smart_edit = 1
+let g:suda_smart_edit=1
 
 " Nerd Commenter options
 " ----------------------
