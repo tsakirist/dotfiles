@@ -695,6 +695,9 @@ let g:startify_fortune_use_unicode=1
 " Center the header
 let g:startify_custom_header='startify#center(startify#fortune#cowsay())'
 
+" Add custom bookmarks
+let g:startify_bookmarks = [ {'v': '~/.vimrc'}, {'c': '~/.zshrc'}, {'a': '~/.zsh_aliases'} ]
+
 " Indentline options
 " ------------------
 " Don't show indentation in startify screen
