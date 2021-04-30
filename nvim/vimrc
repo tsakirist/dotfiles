@@ -44,6 +44,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'doums/darcula'
+Plug 'ghifarit53/tokyonight-vim'
 
 " Lightline statusline and tabline
 Plug 'itchyny/lightline.vim'
@@ -200,7 +201,8 @@ set termguicolors
 
 " Custom colorscheme
 " silent! colorscheme onedark
-silent! colorscheme darcula
+" silent! colorscheme darcula
+silent! colorscheme tokyonight
 
 " Set the color for the folded sections
 highlight Folded guibg=black guifg=darkgray
@@ -565,11 +567,18 @@ elseif functions#PluginLoaded('lightline.vim')
   " Don't show the mode in lightline
   set noshowmode
 
+  " Get the correct colorscheme for lightline
+  if functions#ColorschemeActive('darcula')
+    let _colorScheme = 'darculaOriginal'
+  elseif functions#ColorschemeActive('tokyonight')
+    let _colorScheme = 'tokyonight'
+  endif
+
   " Lightline options
   " -------------------
   " Specify default options
   let g:lightline = {
-        \ 'colorscheme': "darculaOriginal",
+        \ 'colorscheme': _colorScheme,
         \ 'active': {
         \   'left': [ [ 'mode', 'paste' ],
         \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -639,7 +648,7 @@ highlight SignifySignDelete guibg=#ab4b52
 " Darcula vim options
 " -------------------
 " Better highlights for diff
-if (exists('g:colors_name') && g:colors_name == "darcula")
+if functions#ColorschemeActive('darcula')
   hi DiffAdded   guifg=#499C54
   hi DiffRemoved guifg=#ab4b52
 endif
@@ -694,7 +703,7 @@ let g:indentLine_bufNameExclude=['startify']
 
 " ----------------------------------- 0. Simple lua plugins {{{
 
-lua<<EOF
+lua << EOF
 -- nvim-colorizer
 require'colorizer'.setup()
 EOF
@@ -708,7 +717,7 @@ if functions#PluginLoaded("vim-which-key")
   " Set the timeout, 1000 is the default
   set timeoutlen=1000
 
-  " Map leader to which_key
+  " Map leader-space to which_key
   nnoremap <silent> <leader><space> :silent <c-u> :silent WhichKey '<Space>'<CR>
   vnoremap <silent> <leader><space> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
 
@@ -783,6 +792,7 @@ if functions#PluginLoaded("vim-which-key")
         \ 'h' : [':Startify'   , 'home-buffer'],
         \ 'l' : [':blast'      , 'last-buffer'],
         \ 'n' : [':bnext'      , 'next-buffer'],
+        \ 'o' : [':BufOnly'    , 'keep current buffer only'],
         \ 'p' : [':bprevious'  , 'previous-buffer'],
         \ '?' : [':Buffers'    , 'fzf-buffers'],
         \ }
@@ -817,7 +827,7 @@ if functions#PluginLoaded("vim-which-key")
         \ 'name' : '+telescope' ,
         \ ':' : [':Telescope commands'        , 'commands'],
         \ 'b' : [':Telescope buffers'         , 'buffers'],
-        \ 'B' : [':Telescope git_branches'    , 'branches'],
+        \ 'B' : [':Telescope file_browser'    , 'file browser'],
         \ 'c' : [':Telescope git_commits'     , 'commmits'],
         \ 'C' : [':Telescope git_bcommits'    , 'buffer commmits'],
         \ 'f' : [':Telescope find_files'      , 'find files'],
@@ -827,7 +837,10 @@ if functions#PluginLoaded("vim-which-key")
         \ 'k' : [':Telescope keymaps'         , 'keymappings'],
         \ 'm' : [':Telescope marks'           , 'marks'],
         \ 'M' : [':Telescope man_pages'       , 'man pages'],
-        \ 'o' : [':Telescope vim_options'     , 'vim options'],
+        \ 'o' : [':Telescope oldfiles'        , 'oldfiles'],
+        \ 'O' : [':Telescope vim_options'     , 'vim options'],
+        \ 's' : [':Telescope grep_string'     , 'search string'],
+        \ 'S' : [':Telescope git_status'      , 'git status'],
         \ 't' : [':Telescope tags'            , 'tags'],
         \}
 
@@ -1049,7 +1062,7 @@ if functions#PluginLoaded('coc.nvim')
   let g:indentLine_fileTypeExclude = ['coc-explorer']
 
   " Change coc's highlight groups with darcula's
-  if (exists('g:colors_name') && g:colors_name == "darcula")
+  if functions#ColorschemeActive('darcula')
     hi! link CocErrorSign ErrorSign
     hi! link CocWarningSign WarningSign
     hi! link CocInfoSign InfoSign
@@ -1133,7 +1146,8 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fh :Telescope command_history<CR>
   nnoremap <silent> <leader>fm :Telescope keymaps<CR>
   nnoremap <silent> <leader>fM :Telescope marks<CR>
-  nnoremap <silent> <leader>fo :Telescope vim_options<CR>
+  nnoremap <silent> <leader>fo :Telescope oldfiles<CR>
+  nnoremap <silent> <leader>fO :Telescope vim_options<CR>
   nnoremap <silent> <leader>fs :Telescope grep_string<CR>
   nnoremap <silent> <leader>fS :Telescope git_status<CR>
   nnoremap <silent> <leader>fT :Telescope tags<CR>
@@ -1143,12 +1157,15 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>ff :lua require('telescope.builtin').find_files({shorten_path = true})<CR>
   nnoremap <silent> <leader>fg :lua require('telescope.builtin').live_grep({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fl :lua require('telescope.builtin').current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
-  nnoremap <silent> <leader>fp :lua require('telescope.builtin').find_files({cwd = "~/.vim/plugged/"})<CR>
+  nnoremap <silent> <leader>fv :lua find_in_vim_root()<CR>
 
-  " Make matching characters to follow color_scheme
-  highlight TelescopeMatching guifg=#CC7832
+  " Make matching characters to follow darcula scheme if active
+  if functions#ColorschemeActive('darcula')
+    highlight TelescopeMatching guifg=#CC7832
+  endif
 
-lua<<EOF
+lua << EOF
+-- Telescope main setup
 local actions = require('telescope.actions')
 require'telescope'.setup {
   defaults = {
@@ -1180,7 +1197,7 @@ require'telescope'.setup {
     set_env = { ['COLORTERM'] = 'truecolor' },
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
 
-    file_sorter = require('telescope.sorters').get_fzy_sorter,
+    file_sorter = require'telescope.sorters'.get_fzy_sorter,
     file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
     grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
     qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
@@ -1210,7 +1227,29 @@ require'telescope'.setup {
     }
   }
 }
-require('telescope').load_extension('fzy_native')
+
+-- Load extensions
+require'telescope'.load_extension('fzy_native')
+
+-- Custom lua function to edit ~/.vim
+function find_in_vim_root()
+  require'telescope.builtin'.find_files {
+    prompt_title = "~/.vim",
+    shorten_path = false,
+    cwd = "~/.vim",
+    follow = true, -- follow symbolic links
+    file_ignore_patterns = { "undo%-dir" }, -- character '-' needs escape
+    layout_strategy = 'flex',
+    layout_config = {
+      horizontal = {
+        preview_width = 120,
+      },
+      vertical = {
+        preview_height = 0.75,
+      }
+    }
+  }
+end
 EOF
 
 endif

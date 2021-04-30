@@ -1,9 +1,14 @@
-" ----------------------------------- Utility Functions
+" vim et sw=2
 
 " Function that checks if a plugin has been loaded or not
 " Returns 1 if the plugin is loaded 0 otherwise
 function! functions#PluginLoaded(plugin) abort
   return match(&rtp, a:plugin) != -1
+endfunction
+
+" Returns whether the supplied colorscheme is active
+function! functions#ColorschemeActive(colorscheme) abort
+  return exists('g:colors_name') && (g:colors_name == a:colorscheme)
 endfunction
 
 " Function to zoom-in and zoom-out from a window
