@@ -47,6 +47,9 @@ alias xclip='xclip -selection clipboard'
 # This is to prompt before every removal with 'rm'
 alias rm='rm -i'
 
+# Make mv command verbose
+alias mv='mv -v'
+
 # This is to log out
 alias logout='gnome-session-quit'
 
@@ -61,19 +64,18 @@ alias lpos='gsettings set com.canonical.Unity.Launcher launcher-position'
 alias vi='nvim'
 alias vim='nvim'
 alias vv='nvim ~/.vimrc'
+alias vb='nvim ~/.bashrc'
 
 alias nv='nvim'
 alias nvi='nvim'
 alias nvv='nvim ~/.vimrc'
+alias nvb='nvim ~/.bashrc'
 
 # Shorten the name to just gotop
 alias gotop='gotop-cjbassi -c monokai'
 
 # Alias for lazygit
 alias lg='lazygit'
-
-# Alias for exall
-alias xll='exa -lFhB --git --group-directories-first'
 
 # Restart the network service
 alias network_restart='sudo systemctl restart NetworkManager.service'
