@@ -1140,7 +1140,6 @@ endif
 if functions#PluginLoaded('telescope.nvim')
 
   " Find files using Telescope command-line sugar
-  nnoremap <silent> <leader>fB :Telescope file_browser<CR>
   nnoremap <silent> <leader>fc :Telescope git_commits<CR>
   nnoremap <silent> <leader>fC :Telescope git_bcommits<CR>
   nnoremap <silent> <leader>fh :Telescope command_history<CR>
@@ -1149,11 +1148,12 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fo :Telescope oldfiles<CR>
   nnoremap <silent> <leader>fO :Telescope vim_options<CR>
   nnoremap <silent> <leader>fs :Telescope grep_string<CR>
-  nnoremap <silent> <leader>fS :Telescope git_status<CR>
   nnoremap <silent> <leader>fT :Telescope tags<CR>
 
+  nnoremap <silent> <leader>fS :Telescope git_status<CR>
   " Custom commands with extra options
   nnoremap <silent> <leader>fb :lua require('telescope.builtin').buffers({shorten_path = true})<CR>
+  nnoremap <silent> <leader>fB :lua custom_file_browser()<CR>
   nnoremap <silent> <leader>ff :lua require('telescope.builtin').find_files({shorten_path = true})<CR>
   nnoremap <silent> <leader>fg :lua require('telescope.builtin').live_grep({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fl :lua require('telescope.builtin').current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
@@ -1165,8 +1165,9 @@ if functions#PluginLoaded('telescope.nvim')
   endif
 
 lua << EOF
--- Telescope main setup
 local actions = require('telescope.actions')
+local action_state = require('telescope.actions.state')
+-- Telescope main setup
 require'telescope'.setup {
   defaults = {
     prompt_prefix = '❯ ',
@@ -1249,6 +1250,29 @@ function find_in_vim_root()
       }
     }
   }
+end
+
+-- Custom file browser with keybindgs
+  -- '-' go to parent directory
+  -- '~' go to home directory
+function custom_file_browser()
+  local opts
+  opts = {
+    sorting_strategy = "ascending",
+    scroll_strategy = "cycle",
+    prompt_position = "top",
+    attach_mappings = function(prompt_bufnr, map)
+      local current_picker = action_state.get_current_picker(prompt_bufnr)
+      local modify_cwd = function(new_cwd)
+        current_picker.cwd = new_cwd
+        current_picker:refresh(opts.new_finder(new_cwd), { reset_prompt = true })
+      end
+      map('i', '-', function() modify_cwd(current_picker.cwd .. "/..") end)
+      map('i', '~', function() modify_cwd(vim.fn.expand("~")) end)
+      return true
+    end
+  }
+  require('telescope.builtin').file_browser(opts)
 end
 EOF
 
