@@ -65,7 +65,7 @@ Plug 'scrooloose/nerdcommenter'
 " Multiple cursors like in Sublime3
 Plug 'terryma/vim-multiple-cursors'
 
-" Fancy start/welcome screen
+" Fancy starting screen
 Plug 'mhinz/vim-startify'
 
 " Display indentation levels with lines
@@ -209,7 +209,6 @@ highlight Folded guibg=black guifg=darkgray
 " Highlight the current line and also highlight the column @120 (ruler)
 set colorcolumn=120
 set cursorline
-" highlight colorcolumn ctermbg=red
 
 " Set hidden to on so as to be able to change buffers without saving first
 set hidden
@@ -321,12 +320,8 @@ endif
 
 " Autocmd configurations for blamer
 if functions#PluginLoaded('blamer.nvim')
-  augroup blamerConfig
-    " Clear old autocommands of this group
-    autocmd!
-    " Hide blamer on startup
-    autocmd VimEnter * :BlamerHide
-  augroup END
+  " Hide blamer on startup
+  autocmd VimEnter * :BlamerHide
 endif
 
 " Autocmd configurations for :term
@@ -380,7 +375,7 @@ nnoremap <leader>bf :ls<CR>:b<Space>
 " Use bbye plugin's :Bdelete to close buffer w/o losing splits/windows
 nnoremap <silent> <leader>bd :Bdelete<CR>
 
-" Typing %% on the command line ':' it will expand to active buffer's path
+" Typing %% on the command line will expand to active buffer's path
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 " Toggle Goyo - distraction free writing
@@ -389,7 +384,7 @@ nnoremap <silent> <F1> :Goyo<CR>
 " Toggle between folds
 nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
 
-" Use space to toggle fold open/close
+" Use space to toggle fold
 nnoremap <space> za<CR>
 
 " Fill the current line with a leading "<space><prev_line_cols>[-]
@@ -470,7 +465,7 @@ tnoremap <silent> <leader>fk <C-\><C-n>:FloatermKill<CR>
 
 " Make the whole-word search proc with <leader>/
 command! -nargs=1 SearchWord call functions#SearchWord(<f-args>)
-nnoremap <leader>/ :SearchWord
+nnoremap <leader>/ :SearchWord<Space>
 
 " Command and key mapping to enable the zoom-in and zoom-out
 command! ZoomToggle call functions#ZoomToggle()
@@ -522,20 +517,27 @@ nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
 " Quickfix mappings
+" Also, '[q', ']q' work for cprev cnext, check vim-unimpaired
 nnoremap <silent> [c :cprev<CR>
 nnoremap <silent> ]c :cnext<CR>
 nnoremap <silent> <leader>co :cw<CR>
 nnoremap <silent> <leader>cc :cclose<CR>
 
-" Buffer close all except current buffer
+" Close all buffers except the current one
 nnoremap <silent> <leader>bo :BufOnly<CR>
 
 " }}}
 
 " ----------------------------------- 7. Abbreviations {{{
 
-" Shebang abbreviation in insert mode
 iab #! #!/usr/bin/env bash
+" Shebang abbreviation for bash in scripts
+
+" Add multiline C++ comment
+iab /* /**<CR><Space>*<CR><Space>*/<Up>
+
+" Add current date
+iab idt Date: <C-R>=strftime('%c')<CR>
 
 " }}}
 
@@ -1166,14 +1168,16 @@ if functions#PluginLoaded('telescope.nvim')
   endif
 
 lua << EOF
+
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
+
 -- Telescope main setup
 require'telescope'.setup {
   defaults = {
     prompt_prefix = '❯ ',
     selection_caret = '❯ ',
-    winblend = 5,
+    winblend = 10,
     preview_cutoff = 120,
 
     layout_strategy = 'horizontal',
