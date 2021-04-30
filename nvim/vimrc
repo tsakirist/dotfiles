@@ -543,6 +543,15 @@ iab #! #!/usr/bin/env bash
 
 " ----------------------------------- 1. Plugin options {{{
 
+" Set the theme for airline/lightline according to the active colorscheme
+if functions#ColorschemeActive('darcula')
+  let s:_colorScheme='darculaOriginal'
+elseif functions#ColorschemeActive('tokyonight')
+  let s:_colorScheme='tokyonight'
+else
+  let s:_colorScheme='onedark'
+endif
+
 " Statusline options
 " ------------------
 if functions#PluginLoaded('vim-airline')
@@ -550,7 +559,7 @@ if functions#PluginLoaded('vim-airline')
   " Airline options
   " -----------------
   " Specify the default airline theme
-  let g:airline_theme='onedark'
+  let g:airline_theme=s:_colorScheme
 
   " Enable tabline extension
   let g:airline#extensions#tabline#enabled=1
@@ -566,18 +575,11 @@ elseif functions#PluginLoaded('lightline.vim')
   " Don't show the mode in lightline
   set noshowmode
 
-  " Get the correct colorscheme for lightline
-  if functions#ColorschemeActive('darcula')
-    let _colorScheme = 'darculaOriginal'
-  elseif functions#ColorschemeActive('tokyonight')
-    let _colorScheme = 'tokyonight'
-  endif
-
   " Lightline options
   " -------------------
   " Specify default options
   let g:lightline = {
-        \ 'colorscheme': _colorScheme,
+        \ 'colorscheme': s:_colorScheme,
         \ 'active': {
         \   'left': [ [ 'mode', 'paste' ],
         \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
