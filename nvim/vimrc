@@ -149,6 +149,7 @@ Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
 
 " Better syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
 " Intellisense engine with LSP like VSCode
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -516,10 +517,7 @@ nnoremap <silent> <leader>gb :BlamerToggle<CR>
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
-" Quickfix mappings
 " Also, '[q', ']q' work for cprev cnext, check vim-unimpaired
-nnoremap <silent> [c :cprev<CR>
-nnoremap <silent> ]c :cnext<CR>
 nnoremap <silent> <leader>co :cw<CR>
 nnoremap <silent> <leader>cc :cclose<CR>
 
@@ -977,7 +975,6 @@ if functions#PluginLoaded('coc.nvim')
   " Remap keys for gotos
   nmap <silent> gD <Plug>(coc-definition)
   nmap <silent> gd <Plug>(coc-declaration)
-  nmap <silent> gr <Plug>(coc-references)
 
   " Use K to show documentation in preview window
   nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -1110,7 +1107,7 @@ endfunction
 
 if functions#PluginLoaded('nvim-treesitter')
 
-lua <<EOF
+lua << EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
     'c', 'cpp', 'json', 'python'
@@ -1132,8 +1129,53 @@ require'nvim-treesitter.configs'.setup {
 
   indent = {
     enable = true
-  }
+  },
 
+  textobjects = {
+    select = {
+      enable = true,
+      keymaps = {
+        -- Can use capture groups defined in textobcjets.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+    },
+
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader>sp"] = "@parameter.inner",
+        ["<leader>sm"] = "@function.outer",
+      },
+      swap_previous = {
+        ["<leader>sP"] = "@parameter.inner",
+        ["<leader>sM"] = "@function.outer",
+      },
+    },
+
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]c"] = "@class.outer",
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]C"] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[c"] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[C"] = "@class.outer",
+      },
+    },
+  },
 }
 EOF
 
