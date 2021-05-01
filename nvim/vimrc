@@ -146,8 +146,8 @@ Plug 'norcalli/nvim-colorizer.lua'
 " Remove all buffers except current
 Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
 
-" Better syntax highlighting
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'}
+" Treesitter incremental parsing library
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
 " Intellisense engine with LSP like VSCode
@@ -481,6 +481,10 @@ xnoremap <ScrollWheelDown> 4<C-e>
 nnoremap <silent> <leader>gh :SignifyToggleHighlight<CR>
 nnoremap <silent> <leader>gf :SignifyFold<CR>
 nnoremap <silent> <leader>gd :SignifyDiff<CR>
+
+" Jump between git diff hunks
+nmap <silent> <leader>gj <Plug>(signify-next-hunk)
+nmap <silent> <leader>gk <Plug>(signify-prev-hunk)
 
 " EasyAlign keybindings
 " 'vipga' starts interactive EasyAlign in visual mode
@@ -828,23 +832,33 @@ if functions#PluginLoaded("vim-which-key")
   " t is for Telescope
   let g:which_key_map.t = {
         \ 'name' : '+telescope' ,
-        \ ':' : [':Telescope commands'        , 'commands'],
-        \ 'b' : [':Telescope buffers'         , 'buffers'],
-        \ 'B' : [':Telescope file_browser'    , 'file browser'],
-        \ 'c' : [':Telescope git_commits'     , 'commmits'],
-        \ 'C' : [':Telescope git_bcommits'    , 'buffer commmits'],
-        \ 'f' : [':Telescope find_files'      , 'find files'],
-        \ 'g' : [':Telescope live_grep'       , 'live grep'],
-        \ 'G' : [':Telescope git_files'       , 'git files'],
-        \ 'h' : [':Telescope command_history' , 'command history'],
-        \ 'k' : [':Telescope keymaps'         , 'keymappings'],
-        \ 'm' : [':Telescope marks'           , 'marks'],
-        \ 'M' : [':Telescope man_pages'       , 'man pages'],
-        \ 'o' : [':Telescope oldfiles'        , 'oldfiles'],
-        \ 'O' : [':Telescope vim_options'     , 'vim options'],
-        \ 's' : [':Telescope grep_string'     , 'search string'],
-        \ 'S' : [':Telescope git_status'      , 'git status'],
-        \ 't' : [':Telescope tags'            , 'tags'],
+        \ ':' : [':Telescope commands'                  , 'commands'],
+        \ '/' : [':Telescope search_history'            , 'search history'],
+        \ 'b' : [':Telescope buffers'                   , 'buffers'],
+        \ 'B' : [':Telescope file_browser'              , 'file browser'],
+        \ 'c' : [':Telescope current_buffer_fuzzy_find' , 'current buffer lines'],
+        \ 'f' : [':Telescope find_files'                , 'find files'],
+        \ 'g' : [':Telescope live_grep'                 , 'live grep'],
+        \ 'h' : [':Telescope command_history'           , 'command history'],
+        \ 'k' : [':Telescope keymaps'                   , 'keymappings'],
+        \ 'l' : [':Telescope loclist'                   , 'location list'],
+        \ 'm' : [':Telescope marks'                     , 'marks'],
+        \ 'M' : [':Telescope man_pages'                 , 'man pages'],
+        \ 'o' : [':Telescope oldfiles'                  , 'oldfiles'],
+        \ 'O' : [':Telescope vim_options'               , 'vim options'],
+        \ 'q' : [':Telscope quickfix'                   , 'quickfix list'],
+        \ 's' : [':Telescope grep_string'               , 'search string'],
+        \ 't' : [':Telescope tags'                      , 'tags'],
+        \}
+
+  " t.g is for Telescope git_*
+  let g:which_key_map.t.g = {
+        \ 'name' : '+git' ,
+        \ 'c' : [':Telescope git_commits'  , 'commmits'],
+        \ 'b' : [':Telescope git_bcommits' , 'buffer commmits'],
+        \ 'f' : [':Telescope git_files'    , 'git files'],
+        \ 'r' : [':Telescope git_branches' , 'git branches'],
+        \ 's' : [':Telescope git_status'   , 'git status'],
         \}
 
   " Register which key map
@@ -1196,8 +1210,8 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fO :Telescope vim_options<CR>
   nnoremap <silent> <leader>fs :Telescope grep_string<CR>
   nnoremap <silent> <leader>fT :Telescope tags<CR>
-
   nnoremap <silent> <leader>fS :Telescope git_status<CR>
+
   " Custom commands with extra options
   nnoremap <silent> <leader>fb :lua require('telescope.builtin').buffers({shorten_path = true})<CR>
   nnoremap <silent> <leader>fB :lua custom_file_browser()<CR>
