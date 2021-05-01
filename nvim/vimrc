@@ -164,22 +164,11 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
 Plug 'junegunn/fzf.vim'
 
-" Unused but worthy plugins
-" -------------------------
-" Plug 'romgrk/barbar.nvim'
-"
 " A visualization plugin for the undo/redo branches
 " Plug 'mbbill/undotree'
 
-" Smoother and more natural scrolling inside vim
-" Plug 'psliwka/vim-smoothie'
-
 " Update/auto-generate ctags
 " Plug 'ludovicchabant/vim-gutentags'
-
-" Line peeker, with :{number}
-" Cool plugin but, seems to interfere with :ls<CR>:b
-" Plug 'nacro90/numb.nvim'
 
 " -------------------------
 
@@ -293,8 +282,18 @@ set foldopen+=jump
 " Enable mouse support
 set mouse=a
 
-" Set modeline for file specific settings
+" Enable modeline to allow file secific settings
+" e.g. vim: set sw=2:
 set modeline
+
+" Make updates happen faster
+set updatetime=1000
+
+" Keep windows equal in size after split, close etc
+set equalalways
+
+" Set transparency for the popup window
+set pumblend=15
 
 " }}}
 
@@ -305,13 +304,17 @@ set modeline
 " 'l': a line that is longer than textwidth may not be wraped if 'l' is in format options
 " 'r': disables the <CR> key from autocommenting when pressing enter in line that contains a comment
 " 'o': don't insert comment when pressing 'o' or 'O'
-autocmd BufEnter * set fo+=t fo-=r fo-=l fo-=o
+" 'q': allow formatting comments with gq
+autocmd BufEnter * set fo+=t fo-=r fo-=l fo-=o fo+=q
 
 " Remove trailing whitespaces on file save
 autocmd BufWritePre * :call functions#TrimTrailingWhitespace()
 
 " This is used to preserve the clipboard when vim exits
 autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
+
+" This will automatically resize windows/splits when resizing host window
+autocmd VimResized * wincmd =
 
 if functions#PluginLoaded('vim-eunuch')
   " Remove SudoWrite, SudoEdit from the commands as they do not work
@@ -521,7 +524,7 @@ nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
 " Also, '[q', ']q' work for cprev cnext, check vim-unimpaired
-nnoremap <silent> <leader>co :cw<CR>
+nnoremap <silent> <leader>co :copen<CR>
 nnoremap <silent> <leader>cc :cclose<CR>
 
 " Close all buffers except the current one
@@ -1213,11 +1216,12 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fS :Telescope git_status<CR>
 
   " Custom commands with extra options
-  nnoremap <silent> <leader>fb :lua require('telescope.builtin').buffers({shorten_path = true})<CR>
+  nnoremap <silent> <leader>fb :lua require'telescope.builtin'.buffers({shorten_path = true})<CR>
   nnoremap <silent> <leader>fB :lua custom_file_browser()<CR>
-  nnoremap <silent> <leader>ff :lua require('telescope.builtin').find_files({shorten_path = true})<CR>
-  nnoremap <silent> <leader>fg :lua require('telescope.builtin').live_grep({layout_strategy = "vertical"})<CR>
-  nnoremap <silent> <leader>fl :lua require('telescope.builtin').current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
+  nnoremap <silent> <leader>ff :lua require'telescope.builtin'.find_files({shorten_path = true})<CR>
+  nnoremap <silent> <leader>fg :lua require'telescope.builtin'.live_grep({layout_strategy = "vertical"})<CR>
+  nnoremap <silent> <leader>fl :lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
+  nnoremap <silent> <leader>fm :lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_dropdown({}))<CR>
   nnoremap <silent> <leader>fv :lua find_in_vim_root()<CR>
 
   " Make matching characters to follow darcula scheme if active
@@ -1226,7 +1230,6 @@ if functions#PluginLoaded('telescope.nvim')
   endif
 
 lua << EOF
-
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 
