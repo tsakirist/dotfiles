@@ -41,7 +41,6 @@ call plug#begin('~/.vim/plugged')
 
 " Colorschemes
 Plug 'joshdick/onedark.vim'
-Plug 'morhetz/gruvbox'
 Plug 'doums/darcula'
 Plug 'ghifarit53/tokyonight-vim'
 
@@ -148,7 +147,7 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
 
 " Better syntax highlighting
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
 " Intellisense engine with LSP like VSCode
@@ -280,7 +279,7 @@ set listchars=trail:·,tab:»·
 set list
 
 " The number of lines to show above/below when navigating
-set scrolloff=10
+set scrolloff=5
 
 " This sets the folding method, the default markers are {{{  }}}
 set foldmethod=marker
@@ -326,7 +325,7 @@ if functions#PluginLoaded('blamer.nvim')
 endif
 
 " Autocmd configurations for :term
-augroup terminalConfig
+augroup TermAuGroup
   " Clear old autocommands of this group
   autocmd!
   " Automatically enter in insert mode when in terminal pane
@@ -430,7 +429,7 @@ inoremap <C-s> <Esc>:w<CR>
 vnoremap <C-s> <Esc>:w<CR>
 
 " Keymaps to quit current buffer with ctrl+q
-nnoremap <silent> <C-q> <Esc>:q<CR>
+nnoremap <silent> <C-q> :q<CR>
 inoremap <silent> <C-q> <Esc>:q<CR>
 vnoremap <silent> <C-q> <Esc>:q<CR>
 
@@ -552,6 +551,9 @@ else
   let s:_colorScheme='onedark'
 endif
 
+" Don't show the mode in airline/lightline
+set noshowmode
+
 " Statusline options
 " ------------------
 if functions#PluginLoaded('vim-airline')
@@ -571,9 +573,6 @@ if functions#PluginLoaded('vim-airline')
   let g:airline#extensions#coc#enabled=1
 
 elseif functions#PluginLoaded('lightline.vim')
-
-  " Don't show the mode in lightline
-  set noshowmode
 
   " Lightline options
   " -------------------
@@ -694,7 +693,7 @@ let g:startify_fortune_use_unicode=1
 let g:startify_custom_header='startify#center(startify#fortune#cowsay())'
 
 " Add custom bookmarks
-let g:startify_bookmarks = [ {'v': '~/.vimrc'}, {'c': '~/.zshrc'}, {'a': '~/.zsh_aliases'} ]
+let g:startify_bookmarks=[ {'v': '~/.vimrc'}, {'c': '~/.zshrc'}, {'a': '~/.zsh_aliases'} ]
 
 " Indentline options
 " ------------------
@@ -726,13 +725,13 @@ if functions#PluginLoaded("vim-which-key")
   vnoremap <silent> <leader><space> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
 
   " Create map to add keys to
-  let g:which_key_map = {}
+  let g:which_key_map={}
 
   " Define a separator
-  let g:which_key_sep = '→'
+  let g:which_key_sep='→'
 
   " Not a fan of floating windows for this
-  let g:which_key_use_floating_win = 0
+  let g:which_key_use_floating_win=0
 
   " Change the colors if you want
   highlight default link WhichKey          Operator
@@ -999,7 +998,7 @@ if functions#PluginLoaded('coc.nvim')
   " Fix autofix problem of current line
   nmap <leader>qf <Plug>(coc-fix-current)
 
-   " Show all diagnostics
+  " Show all diagnostics
   nnoremap <silent> <leader>cd :<C-u>CocList diagnostics<cr>
 
   " Use `:Format` to format current buffer
