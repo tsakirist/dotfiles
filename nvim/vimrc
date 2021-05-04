@@ -68,7 +68,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'mhinz/vim-startify'
 
 " Display indentation levels with lines
-Plug 'Yggdroot/indentLine'
+Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
 
 " Distraction free mode
 Plug 'junegunn/goyo.vim'
@@ -635,7 +635,7 @@ endif
 " Committia options
 " -----------------
 " Committia plugin minimum width before falling back to single-col layout
-let g:committia_min_window_width=150
+let g:committia_min_window_width=140
 
 " Goyo options
 " ------------
@@ -705,10 +705,57 @@ let g:startify_custom_header='startify#center(startify#fortune#cowsay())'
 " Add custom bookmarks
 let g:startify_bookmarks=[ {'v': '~/.vimrc'}, {'c': '~/.zshrc'}, {'a': '~/.zsh_aliases'} ]
 
-" Indentline options
-" ------------------
-" Don't show indentation in startify screen
-let g:indentLine_bufNameExclude=['startify']
+" Indent-blankline options
+" ------------------------
+" Set char for each indentation level
+let g:indent_blankline_char_list=['|', '¦', '┆', '┊']
+
+" Do not display indentation on the first column
+let g:indent_blankline_show_first_indent_level=v:false
+
+" Do not display trailing indentation guide on blank line
+let g:indent_blankline_show_trailing_blankline_indent=v:false
+
+" Use treesitter to calculate indentation
+let g:indent_blankline_use_treesitter=v:true
+
+" Do not show indentation on blank lines
+let g:indent_blankline_show_trailing_blankline_indent=v:false
+
+" Exclude indentation for these filetypes
+let g:indent_blankline_filetype_exclude=['help', 'startify', 'coc-explorer']
+
+" Exclude indentation for these buftypes
+let g:indent_blankline_buftype_exclude=['terminal']
+
+" If there is a single tab in a line, use only tabs to calclulate indentation
+let g:indent_blankline_strict_tabs=v:true
+
+" Use treesitter to determine current context, and show indent in different highlight
+let g:indent_blankline_show_current_context=v:true
+
+" Patterns to match against treesitter nodes for highlighting
+let g:indent_blankline_context_patterns=
+      \ ['class', 'function', 'method', 'if', 'while', 'for', 'try', 'except', 'argument_list']
+
+" Set the highlight for the treesitter context
+highlight IndentBlanklineContextChar guifg=#545c82 gui=nocombine
+
+" Git-messenger options
+" ---------------------
+" Do not allow plugin defined mappings
+let g:git_messenger_no_default_mappings=v:true
+
+" Insert cursor inside pop-up window
+let g:git_messenger_always_into_popup=v:true
+
+" Added shadow to the pop-up window
+let g:git_messenger_floating_win_opts={'border': 'shadow'}
+
+" Quick-scope options
+" -------------------
+" Only highlight when pressing these keys
+let g:qs_highlight_on_keys=['f', 'F', 't', 'T']
 
 " }}}
 
@@ -1079,9 +1126,6 @@ if functions#PluginLoaded('coc.nvim')
 
   nmap <leader>ce :CocCommand explorer<CR>
   autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
-
-  " Disable indentLine in coc-explorer
-  let g:indentLine_fileTypeExclude = ['coc-explorer']
 
   " Change coc's highlight groups with darcula's
   if functions#ColorschemeActive('darcula')
