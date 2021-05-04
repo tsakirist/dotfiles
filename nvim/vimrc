@@ -140,15 +140,22 @@ Plug 'moll/vim-bbye'
 " More pleasant commit experience
 Plug 'rhysd/committia.vim'
 
+" Git floating popup with blame-commit details
+Plug 'rhysd/git-messenger.vim'
+
 " Color highlighter
 Plug 'norcalli/nvim-colorizer.lua'
 
 " Remove all buffers except current
 Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
 
+" Highlight first occurences of characters in words, e.g. to move with f{char}
+Plug 'unblevable/quick-scope'
+
 " Treesitter incremental parsing library
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/playground'
 
 " Intellisense engine with LSP like VSCode
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -492,6 +499,9 @@ nmap <silent> <leader>gk <Plug>(signify-prev-hunk)
 nmap <silent> <leader>gJ 9999<leader>gj
 nmap <silent> <leader>gK 9999<leader>gk
 
+" Open git-messenger
+nmap <silent> <leader>gm <Plug>(git-messenger)
+
 " EasyAlign keybindings
 " 'vipga' starts interactive EasyAlign in visual mode
 " 'gaip' starts interactive EasyAlign for text/motion object
@@ -708,16 +718,19 @@ let g:startify_bookmarks=[ {'v': '~/.vimrc'}, {'c': '~/.zshrc'}, {'a': '~/.zsh_a
 " Indent-blankline options
 " ------------------------
 " Set char for each indentation level
-let g:indent_blankline_char_list=['|', '¦', '┆', '┊']
+" let g:indent_blankline_char_list=['|', '¦', '┆', '┊']
+
+" Contiguous vertical line for indentation
+let g:indent_blankline_char_list=['│']
 
 " Do not display indentation on the first column
 let g:indent_blankline_show_first_indent_level=v:false
 
+" If there is a single tab in a line, use only tabs to calclulate indentation
+let g:indent_blankline_strict_tabs=v:true
+
 " Do not display trailing indentation guide on blank line
 let g:indent_blankline_show_trailing_blankline_indent=v:false
-
-" Use treesitter to calculate indentation
-let g:indent_blankline_use_treesitter=v:true
 
 " Do not show indentation on blank lines
 let g:indent_blankline_show_trailing_blankline_indent=v:false
@@ -728,8 +741,8 @@ let g:indent_blankline_filetype_exclude=['help', 'startify', 'coc-explorer']
 " Exclude indentation for these buftypes
 let g:indent_blankline_buftype_exclude=['terminal']
 
-" If there is a single tab in a line, use only tabs to calclulate indentation
-let g:indent_blankline_strict_tabs=v:true
+" Use treesitter to calculate indentation
+let g:indent_blankline_use_treesitter=v:true
 
 " Use treesitter to determine current context, and show indent in different highlight
 let g:indent_blankline_show_current_context=v:true
@@ -1201,8 +1214,10 @@ require'nvim-treesitter.configs'.setup {
         -- Can use capture groups defined in textobcjets.scm
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
+        ["al"] = "@loop.outer",
+        ["il"] = "@loop.inner",
+        ['ac'] = '@conditional.outer',
+        ['ic'] = '@conditional.inner',
       },
     },
 
@@ -1236,6 +1251,24 @@ require'nvim-treesitter.configs'.setup {
       goto_previous_end = {
         ["[M"] = "@function.outer",
         ["[C"] = "@class.outer",
+      },
+    },
+
+    playground = {
+      enable = true,
+      updatetime = 25,
+      persist_queries = false,
+      keybindings = {
+        toggle_query_editor = 'o',
+        toggle_hl_groups = 'i',
+        toggle_injected_languages = 't',
+        toggle_anonymous_nodes = 'a',
+        toggle_language_display = 'I',
+        focus_language = 'f',
+        unfocus_language = 'F',
+        update = 'R',
+        goto_node = '<cr>',
+        show_help = '?',
       },
     },
   },
