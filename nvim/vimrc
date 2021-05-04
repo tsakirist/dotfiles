@@ -684,14 +684,20 @@ let g:suda_smart_edit=1
 
 " Nerd Commenter options
 " ----------------------
+" Create default mappings
+let g:NERDCreateDefaultMappings=1
+
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims=1
 
-" Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDCommentEmptyLines=1
+" Do not comment out empty lines
+let g:NERDCommentEmptyLines=0
 
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace=1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign='left'
 
 " Git blamer optionss
 " -------------------
@@ -1211,13 +1217,14 @@ require'nvim-treesitter.configs'.setup {
     select = {
       enable = true,
       keymaps = {
-        -- Can use capture groups defined in textobcjets.scm
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
         ["al"] = "@loop.outer",
         ["il"] = "@loop.inner",
-        ['ac'] = '@conditional.outer',
-        ['ic'] = '@conditional.inner',
+        ['as'] = '@conditional.outer',
+        ['is'] = '@conditional.inner',
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
       },
     },
 
