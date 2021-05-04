@@ -193,7 +193,7 @@ set termguicolors
 silent! colorscheme tokyonight
 
 " Set the color for the folded sections
-highlight Folded guibg=black guifg=darkgray
+highlight Folded guibg=Black guifg=DarkGray
 
 " Highlight the current line and also highlight the column @120 (ruler)
 set colorcolumn=120
@@ -489,6 +489,8 @@ nnoremap <silent> <leader>gd :SignifyDiff<CR>
 " Jump between git diff hunks
 nmap <silent> <leader>gj <Plug>(signify-next-hunk)
 nmap <silent> <leader>gk <Plug>(signify-prev-hunk)
+nmap <silent> <leader>gJ 9999<leader>gj
+nmap <silent> <leader>gK 9999<leader>gk
 
 " EasyAlign keybindings
 " 'vipga' starts interactive EasyAlign in visual mode
@@ -643,15 +645,11 @@ let g:goyo_linenr=0
 
 " Vim-Signify options
 " -------------------
-" Change the delete sign of git-signify from '_' to '-'
-let g:signify_sign_delete='-'
-
 " Show text in the sign-column '!' '-' '+'
 let g:signify_sign_show_text=1
 
-" Change the delete color to a shade of red both for sign and line
-highlight SignifyLineDelete guibg=#ab4b52
-highlight SignifySignDelete guibg=#ab4b52
+" Change the delete sign of git-signify from '_' to '-'
+let g:signify_sign_delete='-'
 
 " Darcula vim options
 " -------------------
@@ -659,6 +657,10 @@ highlight SignifySignDelete guibg=#ab4b52
 if functions#ColorschemeActive('darcula')
   hi DiffAdded   guifg=#499C54
   hi DiffRemoved guifg=#ab4b52
+
+  " Change the delete color to a shade of red both for sign and line
+  hi SignifyLineDelete guibg=#ab4b52
+  hi SignifySignDelete guibg=#ab4b5
 endif
 
 " Vim Current Word options
