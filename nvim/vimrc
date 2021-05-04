@@ -264,7 +264,8 @@ set fileformat=unix
 set clipboard^=unnamed,unnamedplus
 
 " This option will render characters for spaces, tabs etc
-set listchars=trail:·,tab:»·
+" set listchars=trail:·,tab:»·,eol:↲,nbsp:␣,extends:⟩,precedes:⟨
+set listchars=nbsp:␣,extends:⟩,precedes:⟨,trail:·,tab:»·
 set list
 
 " The number of lines to show above/below when navigating
@@ -1126,7 +1127,7 @@ if functions#PluginLoaded('nvim-treesitter')
 lua << EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    'c', 'cpp', 'json', 'python'
+    'c', 'cpp', 'json', 'python', 'lua', 'bash'
   },
 
   highlight = {
