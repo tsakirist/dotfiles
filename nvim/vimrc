@@ -151,6 +151,9 @@ Plug 'rhysd/git-messenger.vim'
 " Color highlighter
 Plug 'norcalli/nvim-colorizer.lua'
 
+" Visual indication when jumping long distances
+Plug 'edluffy/specs.nvim'
+
 " Remove all buffers except current
 Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
 
@@ -310,7 +313,7 @@ set mouse=a
 set modeline
 
 " Make updates happen faster
-set updatetime=500
+set updatetime=1000
 
 " Keep windows equal in size after split, close etc
 set equalalways
@@ -809,6 +812,25 @@ let g:rooter_manual_only=1
 lua << EOF
 -- Setup nvim-colorizer
 require'colorizer'.setup {}
+
+-- Setup specs-nvim
+require('specs').setup{
+    show_jumps  = true,
+    min_jump = 30,
+    popup = {
+        inc_ms = 8, -- time increments used for fade/resize effects
+        delay_ms = 0, -- delay before popup displays
+        blend = 5, -- starting blend, between 0-100 (fully transparent), see :h winblend
+        width = 35,
+        winhl = "PMenu",
+        fader = require('specs').exp_fader,
+        resizer = require('specs').shrink_resizer
+    },
+    ignore_filetypes = {},
+    ignore_buftypes = {
+        nofile = true,
+    },
+}
 EOF
 
 "}}}
@@ -1178,9 +1200,13 @@ require'nvim-treesitter.configs'.setup {
     lsp_interop = {
       enable = true,
       peek_definition_code = {
-        ["df"] = "@function.outer",
-        ["dc"] = "@class.outer",
+        -- ["df"] = "@function.outer",
+        -- ["dc"] = "@class.outer",
       },
+    },
+
+    autopairs = {
+      enable = true,
     },
   },
 }
@@ -1356,7 +1382,8 @@ endif
 lua << EOF
 -- Setup auto-pairs nvim
 require'nvim-autopairs'.setup {
-  disable_filetype = { "TelescopePrompt", "vim" } --  Disable on Telescope and vim
+  disable_filetype = { "TelescopePrompt", "vim" }, --  Disable on Telescope and vim
+  check_ts = true,
 }
 
 -- Fix <CR> for nvim-compe
@@ -1376,7 +1403,6 @@ MUtils.completion_confirm = function()
 end
 
 vim.api.nvim_set_keymap('i', '<CR>', 'v:lua.MUtils.completion_confirm()', {expr = true, noremap = true})
-
 EOF
 
 " }}}
@@ -1427,12 +1453,14 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gd'         , '<cmd>lua vim.lsp.buf.definition()<CR>'                   , opts)
   buf_set_keymap('n', 'gr'         , '<cmd>lua vim.lsp.buf.references()<CR>'                   , opts)
   buf_set_keymap('n', 'K'          , '<cmd>lua vim.lsp.buf.hover()<CR>'                        , opts)
-  buf_set_keymap('n', '<C-k>'      , '<cmd>lua vim.lsp.buf.signature_help()<CR>'               , opts)
+  --buf_set_keymap('n', '<C-k>'      , '<cmd>lua vim.lsp.buf.signature_help()<CR>'               , opts)
   buf_set_keymap('n', '<leader>rn' , '<cmd>lua vim.lsp.buf.rename()<CR>'                       , opts)
   buf_set_keymap('n', '<leader>ca' , '<cmd>lua vim.lsp.buf.code_action()<CR>'                  , opts)
   buf_set_keymap('n', '<leader>e'  , '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>' , opts)
   buf_set_keymap('n', '[d'         , '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
   buf_set_keymap('n', ']d'         , '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
+  buf_set_keymap('n', 'dp'         , '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
+  buf_set_keymap('n', 'dn'         , '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
   buf_set_keymap('n', '<leader>q'  , '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>'           , opts)
 
   -- Set some keybinds conditional on server capabilities
@@ -1441,20 +1469,6 @@ local on_attach = function(client, bufnr)
   end
   if client.resolved_capabilities.document_range_formatting then
     buf_set_keymap("v", "<leader>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-  end
-
-  -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec([[
-      hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-      hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]], false)
   end
 end
 
@@ -1519,3 +1533,7 @@ EOF
 " TODO: fix functions utilities to lua?
 " TODO: fix current work highlight on CursorHold?
 " TODO: Change bufferline because numbers are just an increasing sequence no relation with internal bufferIds of vim
+" TODO: Change the keybinds for gnn, grn, etc...S
+" TODO: LSP signature didnt work for capturer class why?
+" TODO: Change df and dc for peek definition
+
