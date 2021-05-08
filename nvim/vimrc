@@ -52,8 +52,10 @@ Plug 'mengelbrecht/lightline-bufferline', { 'on': [] }
 Plug 'vim-airline/vim-airline', { 'on': [] }
 Plug 'vim-airline/vim-airline-themes', { 'on': [] }
 
-" Lua-based statusline and bufferline
+" Lua-based statusline
 Plug 'hoob3rt/lualine.nvim'
+
+" A temporary tabline for buffers, untill I find a better one
 Plug 'pacha/vem-tabline'
 
 " Some useful keymappings
@@ -803,6 +805,19 @@ let g:qs_highlight_on_keys=['f', 'F', 't', 'T']
 " Start Rooter manually instead of automatically
 let g:rooter_manual_only=1
 
+" Vem-tabline options
+" -------------------
+" Always show the tabline
+let g:vem_tabline_show=2
+
+" Use multiwindow mode for tabline
+let g:vem_tabline_multiwindow_mode=v:true
+
+" Show numbers on the buffer tab
+let g:vem_tabline_show_number="buffnr"
+
+let g:vem_tabline_number_symbol="| "
+
 " }}}
 
 " ----------------------------------- 2. Plugin configurations {{{
@@ -814,22 +829,21 @@ lua << EOF
 require'colorizer'.setup {}
 
 -- Setup specs-nvim
-require('specs').setup{
-    show_jumps = true,
-    min_jump = 30,
-    popup = {
-        inc_ms = 8,
-        delay_ms = 0,
-        blend = 5,
-        width = 35,
-        winhl = "PMenu",
-        fader = require('specs').exp_fader,
-        resizer = require('specs').shrink_resizer
-    },
-    ignore_filetypes = {},
-    ignore_buftypes = {
-        nofile = true,
-    },
+require('specs').setup {
+  show_jumps = true,
+  min_jump = 30,
+  popup = {
+      inc_ms = 8,
+      delay_ms = 0,
+      blend = 5,
+      width = 35,
+      winhl = "PMenu",
+      fader = require('specs').exp_fader,
+      resizer = require('specs').shrink_resizer
+  },
+  ignore_buftypes = {
+    nofile = true,
+  },
 }
 EOF
 
@@ -1205,6 +1219,7 @@ require'nvim-treesitter.configs'.setup {
     lsp_interop = {
       enable = true,
       peek_definition_code = {
+      -- TODO change the keybinds for these two
         -- ["df"] = "@function.outer",
         -- ["dc"] = "@class.outer",
       },
@@ -1540,43 +1555,3 @@ EOF
 " TODO: LSP signature didnt work for capturer class why?
 " TODO: Change df and dc for peek definition
 
-lua<<EOF
--- require'bufferline'.setup{
---   options = {
---     view = "multiwindow",
---     numbers = "buffer_id",
---     number_style = "subscript",
---     mappings = false,
---     buffer_close_icon= '',
---     modified_icon = '●',
---     close_icon = '',
---     left_trunc_marker = '',
---     max_name_length = 18,
---     right_trunc_marker = '',
---     max_prefix_length = 15,
---     tab_size = 15,
---     show_buffer_close_icons = true,
---     show_close_icon = true,
---     show_tab_indicators = false,
---     persist_buffer_sort = true,
---     separator_style = "thin",
---     enforce_regular_tabs = true,
---     always_show_bufferline = true,
---   }
--- }
-EOF
-
-" let bufferline = get(g:, 'bufferline', {})
-" let bufferline.maximum_padding=4
-" let bufferline.icons="both"
-
-" Always show the tabline
-let g:vem_tabline_show=2
-
-" Use multiwindow mode for tabline
-let g:vem_tabline_multiwindow_mode=v:true
-
-" Show numbers on the buffer tab
-let g:vem_tabline_show_number="buffnr"
-
-let g:vem_tabline_number_symbol="| "
