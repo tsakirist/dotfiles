@@ -353,8 +353,8 @@ augroup END
 " ---------------------------
 if has('persistent_undo')
   " Define the paths to store the persistent undo files
-  let vim_path = expand('$HOME/.vim')
-  let undo_path = expand('$HOME/.vim/undo-dir')
+  let vim_path=expand('$HOME/.vim')
+  let undo_path=expand('$HOME/.vim/undo-dir')
   " Create the required directories if needed with the appropriate permissions
   if !isdirectory(vim_path)
     call mkdir(vim_path, "", 0770)
@@ -363,7 +363,7 @@ if has('persistent_undo')
     call mkdir(undo_path, "", 0700)
   endif
   " Point vim to the defined undo directory and enable undo persistence
-  let &undodir = undo_path
+  let &undodir=undo_path
   set undofile
 endif
 
@@ -474,7 +474,7 @@ nnoremap <silent> <leader>fk :FloatermKill<CR>
 tnoremap <silent> <leader>ft <C-\><C-n>:FloatermToggle<CR>
 tnoremap <silent> <leader>fk <C-\><C-n>:FloatermKill<CR>
 
-" Make the whole-word search proc with <leader>/
+" Make a whole-word search proc with <leader>/
 command! -nargs=1 SearchWord call functions#SearchWord(<f-args>)
 nnoremap <leader>/ :SearchWord<Space>
 
@@ -547,14 +547,17 @@ nnoremap <silent> <leader>bo :BufOnly<CR>
 
 " ----------------------------------- 7. Abbreviations {{{
 
-iab #! #!/usr/bin/env bash
 " Shebang abbreviation for bash in scripts
+iab #! #!/usr/bin/env bash
 
 " Add multiline C++ comment
-iab /* /**<CR><Space>*<CR><Space>*/<Up>
+iab /** /**<CR><Space>*<CR><Space>*/<Up>
 
 " Add current date
 iab idt Date: <C-R>=strftime('%c')<CR>
+
+" Add Lua heredoc
+iab lua< lua<<EOF<CR><CR>EOF<Up>
 
 " }}}
 
@@ -775,6 +778,11 @@ let g:git_messenger_floating_win_opts={'border': 'shadow'}
 " -------------------
 " Only highlight when pressing these keys
 let g:qs_highlight_on_keys=['f', 'F', 't', 'T']
+
+" Vim-rooter options
+" ------------------
+" Start Rooter manually instead of automatically
+let g:rooter_manual_only=1
 
 " }}}
 
@@ -1306,10 +1314,14 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fb :lua require'telescope.builtin'.buffers({shorten_path = true})<CR>
   nnoremap <silent> <leader>fB :lua custom_file_browser()<CR>
   nnoremap <silent> <leader>ff :lua require'telescope.builtin'.find_files({shorten_path = true})<CR>
+  nnoremap <silent> <leader>fF :lua require'telescope.builtin'.git_files({shorten_path = true})<CR>
   nnoremap <silent> <leader>fg :lua require'telescope.builtin'.live_grep({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fl :lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fm :lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_dropdown({}))<CR>
   nnoremap <silent> <leader>fv :lua find_in_vim_root()<CR>
+
+  " This might be able to replace the git_files, need to evaluate it in action
+  nnoremap <silent> <leader>fp :lua find_in_project_root()<CR>
 
   " Make matching characters to follow darcula scheme if active
   if functions#ColorschemeActive('darcula')
@@ -1405,9 +1417,19 @@ function find_in_vim_root()
   }
 end
 
+-- Custom lua function to search from project root
+-- uses vim-rooter's findRootDirectory function
+function find_in_project_root()
+  require'telescope.builtin'.find_files {
+    prompt_title = "Project root",
+    shorten_path = true,
+    cwd = vim.fn.FindRootDirectory(),
+  }
+end
+
 -- Custom file browser with keybindgs
-  -- '-' go to parent directory
-  -- '~' go to home directory
+-- '-' go to parent directory
+-- '~' go to home directory
 function custom_file_browser()
   local opts
   opts = {
