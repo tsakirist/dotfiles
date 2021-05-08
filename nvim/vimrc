@@ -54,7 +54,7 @@ Plug 'vim-airline/vim-airline-themes', { 'on': [] }
 
 " Lua-based statusline and bufferline
 Plug 'hoob3rt/lualine.nvim'
-Plug 'jose-elias-alvarez/buftabline.nvim'
+Plug 'pacha/vem-tabline'
 
 " Some useful keymappings
 Plug 'tpope/vim-unimpaired'
@@ -815,12 +815,12 @@ require'colorizer'.setup {}
 
 -- Setup specs-nvim
 require('specs').setup{
-    show_jumps  = true,
+    show_jumps = true,
     min_jump = 30,
     popup = {
-        inc_ms = 8, -- time increments used for fade/resize effects
-        delay_ms = 0, -- delay before popup displays
-        blend = 5, -- starting blend, between 0-100 (fully transparent), see :h winblend
+        inc_ms = 8,
+        delay_ms = 0,
+        blend = 5,
         width = 35,
         winhl = "PMenu",
         fader = require('specs').exp_fader,
@@ -1073,6 +1073,11 @@ function! StartifyEntryFormat() abort
   return 'v:lua.webDevIcons(absolute_path) . " " . entry_path'
 endfunction
 
+" Function for vem-tabline, from vim-devicons to web-devicons
+function! WebDevIconsGetFileTypeSymbol(path) abort
+  return v:lua.webDevIcons(a:path)
+endfunction
+
 " }}}
 
 " ----------------------------------- 4. Lualine & Buftabline {{{
@@ -1084,21 +1089,21 @@ luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
 
 lua << EOF
 -- Setup of buftabline
-require'buftabline'.setup {
-  modifier = ":t",
-  index_format = "%d| ",
-  padding = 2,
-  icons = true,
-  start_hidden = false,
-  auto_hide = false,
-  disable_commands = true,
-  go_to_maps = false,
-  kill_maps = false,
-  custom_command = nil,
-  custom_map_prefix = nil,
-  hlgroup_current = "TabLineSel",
-  hlgroup_normal = "TabLineFill",
-}
+-- require'buftabline'.setup {
+--   modifier = ":t",
+--   index_format = "%d| ",
+--   padding = 2,
+--   icons = true,
+--   start_hidden = false,
+--   auto_hide = false,
+--   disable_commands = true,
+--   go_to_maps = false,
+--   kill_maps = false,
+--   custom_command = nil,
+--   custom_map_prefix = nil,
+--   hlgroup_current = "TabLineSel",
+--   hlgroup_normal = "TabLineFill",
+-- }
 EOF
 
 "}}}
@@ -1512,8 +1517,6 @@ require'lsp_signature'.on_attach({
   bind = true,
   doc_lines = 10,
   hint_enable = false,
-  -- hint_prefix = "🐼 ",
-  -- hint_scheme = "String",
   handler_opts = {
     border = "none"   -- double, single, shadow, none
   },
@@ -1537,3 +1540,43 @@ EOF
 " TODO: LSP signature didnt work for capturer class why?
 " TODO: Change df and dc for peek definition
 
+lua<<EOF
+-- require'bufferline'.setup{
+--   options = {
+--     view = "multiwindow",
+--     numbers = "buffer_id",
+--     number_style = "subscript",
+--     mappings = false,
+--     buffer_close_icon= '',
+--     modified_icon = '●',
+--     close_icon = '',
+--     left_trunc_marker = '',
+--     max_name_length = 18,
+--     right_trunc_marker = '',
+--     max_prefix_length = 15,
+--     tab_size = 15,
+--     show_buffer_close_icons = true,
+--     show_close_icon = true,
+--     show_tab_indicators = false,
+--     persist_buffer_sort = true,
+--     separator_style = "thin",
+--     enforce_regular_tabs = true,
+--     always_show_bufferline = true,
+--   }
+-- }
+EOF
+
+" let bufferline = get(g:, 'bufferline', {})
+" let bufferline.maximum_padding=4
+" let bufferline.icons="both"
+
+" Always show the tabline
+let g:vem_tabline_show=2
+
+" Use multiwindow mode for tabline
+let g:vem_tabline_multiwindow_mode=v:true
+
+" Show numbers on the buffer tab
+let g:vem_tabline_show_number="buffnr"
+
+let g:vem_tabline_number_symbol="| "
