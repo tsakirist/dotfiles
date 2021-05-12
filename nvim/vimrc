@@ -45,12 +45,18 @@ Plug 'doums/darcula'
 Plug 'ghifarit53/tokyonight-vim'
 
 " Lightline statusline and tabline
-Plug 'itchyny/lightline.vim'
-Plug 'mengelbrecht/lightline-bufferline'
+Plug 'itchyny/lightline.vim', { 'on': [] }
+Plug 'mengelbrecht/lightline-bufferline', { 'on': [] }
 
 " Airline statusline/tabline
 Plug 'vim-airline/vim-airline', { 'on': [] }
 Plug 'vim-airline/vim-airline-themes', { 'on': [] }
+
+" Lua-based statusline
+Plug 'hoob3rt/lualine.nvim'
+
+" A temporary tabline for buffers, untill I find a better one
+Plug 'pacha/vem-tabline'
 
 " Some useful keymappings
 Plug 'tpope/vim-unimpaired'
@@ -77,7 +83,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'tpope/vim-surround'
 
 " Auto insert brackets, parentheses, etc
-Plug 'jiangmiao/auto-pairs'
+Plug 'windwp/nvim-autopairs'
 
 " Easily locate cursor after search
 Plug 'inside/vim-search-pulse'
@@ -146,19 +152,22 @@ Plug 'rhysd/git-messenger.vim'
 " Color highlighter
 Plug 'norcalli/nvim-colorizer.lua'
 
+" Visual indication when jumping long distances
+Plug 'edluffy/specs.nvim'
+
 " Remove all buffers except current
 Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
 
 " Highlight first occurences of characters in words, e.g. to move with f{char}
 Plug 'unblevable/quick-scope'
 
+" Git diff view
+Plug 'sindrets/diffview.nvim'
+
 " Treesitter incremental parsing library
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/playground'
-
-" Intellisense engine with LSP like VSCode
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Telescope fuzzy finder
 Plug 'nvim-lua/popup.nvim'
@@ -170,6 +179,18 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 " This will try to install FZF outside of vim plug directory
 Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
 Plug 'junegunn/fzf.vim'
+
+" LSP related
+Plug 'neovim/nvim-lspconfig'
+Plug 'kabouzeid/nvim-lspinstall'
+Plug 'hrsh7th/nvim-compe'
+Plug 'ray-x/lsp_signature.nvim'
+
+" Symbols for autocomplete
+" Plug 'onsails/lspkind-nvim'
+
+" Cool UI LSP related plugin
+" Plug 'glepnir/lspsaga.nvim'
 
 " A visualization plugin for the undo/redo branches
 " Plug 'mbbill/undotree'
@@ -302,6 +323,12 @@ set equalalways
 
 " Set transparency for the popup window
 set pumblend=15
+
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
 
 " }}}
 
@@ -509,10 +536,8 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " Use <Tab> and <S-Tab> to navigate through the autocomplete options
-if !functions#PluginLoaded('coc.nvim')
-  inoremap <silent> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-endif
+inoremap <silent> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Remind myself to stop using the god damn arrow keys
 nnoremap <silent> <Left>  :echoe "Use h"<CR>
@@ -591,9 +616,6 @@ if functions#PluginLoaded('vim-airline')
 
   " Add powerline fonts to populate powerline symbols
   let g:airline_powerline_fonts=1
-
-  " Integrate airline with coc
-  let g:airline#extensions#coc#enabled=1
 
 elseif functions#PluginLoaded('lightline.vim')
 
@@ -678,7 +700,11 @@ endif
 
 " Vim Current Word options
 " ------------------------
+" Do not highlight the word under cursor
 let g:vim_current_word#highlight_current_word=0
+
+" Highlight only focused window
+let g:vim_current_word#highlight_only_in_focused_window=1
 
 " Suda options
 " ------------
@@ -745,7 +771,7 @@ let g:indent_blankline_show_trailing_blankline_indent=v:false
 let g:indent_blankline_show_trailing_blankline_indent=v:false
 
 " Exclude indentation for these filetypes
-let g:indent_blankline_filetype_exclude=['help', 'startify', 'coc-explorer']
+let g:indent_blankline_filetype_exclude=['help', 'startify']
 
 " Exclude indentation for these buftypes
 let g:indent_blankline_buftype_exclude=['terminal']
@@ -784,6 +810,19 @@ let g:qs_highlight_on_keys=['f', 'F', 't', 'T']
 " Start Rooter manually instead of automatically
 let g:rooter_manual_only=1
 
+" Vem-tabline options
+" -------------------
+" Always show the tabline
+let g:vem_tabline_show=2
+
+" Use multiwindow mode for tabline
+let g:vem_tabline_multiwindow_mode=v:true
+
+" Show numbers on the buffer tab
+let g:vem_tabline_show_number="buffnr"
+
+let g:vem_tabline_number_symbol="| "
+
 " }}}
 
 " ----------------------------------- 2. Plugin configurations {{{
@@ -791,9 +830,31 @@ let g:rooter_manual_only=1
 " ----------------------------------- 0. Simple lua plugins {{{
 
 lua << EOF
--- nvim-colorizer
-require'colorizer'.setup()
+-- Setup nvim-colorizer
+require'colorizer'.setup {}
+
+-- Setup specs-nvim
+require('specs').setup {
+  show_jumps = true,
+  min_jump = 30,
+  popup = {
+      inc_ms = 8,
+      delay_ms = 0,
+      blend = 5,
+      width = 35,
+      winhl = "PMenu",
+      fader = require('specs').exp_fader,
+      resizer = require('specs').shrink_resizer
+  },
+  ignore_buftypes = {
+    nofile = true,
+  },
+}
 EOF
+
+" Load a custom lualine theme
+" https://gist.githubusercontent.com/shadmansaleh/cd526bc166237a5cbd51429cc1f6291b/raw/8702542d9dc40f3323a25480ba35d0082fd4deba/evil_lualine.lua
+luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
 
 "}}}
 
@@ -830,7 +891,6 @@ if functions#PluginLoaded("vim-which-key")
 
   " Single mappings
   let g:which_key_map['/'] = [ '<Plug>NERDCommenterToggle' , 'comment' ]
-  let g:which_key_map['c'] = [ ':CocCommand explorer'      , 'coc explorer' ]
   let g:which_key_map['e'] = [ ':Vexplore'                 , 'explorer' ]
   let g:which_key_map['f'] = [ ':Files'                    , 'search files' ]
   let g:which_key_map['h'] = [ '<C-w>s'                    , 'split below']
@@ -1022,162 +1082,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 3. Coc {{{
-
-if functions#PluginLoaded('coc.nvim')
-  " ----------------------
-  " General configurations
-  " ----------------------
-
-  " You will have bad experience for diagnostic messages when it's default 4000.
-  set updatetime=300
-
-  " don't give |ins-completion-menu| messages.
-  set shortmess+=c
-
-  " Always show the signcolumn, otherwise it would shift the text each time
-  " diagnostics appear/become resolved.
-  if has("patch-8.1.1564")
-    " Recently vim can merge signcolumn and number column into one
-    set signcolumn=number
-  else
-    set signcolumn=yes
-  endif
-
-  " -----------------
-  " Keyboard mappings
-  " -----------------
-  " Use tab for trigger completion with characters ahead and navigate.
-  inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
-
-  inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-  " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-  " Use <c-space> to trigger completion.
-  inoremap <silent> <expr> <C-space> coc#refresh()
-
-  " Navigate diagnostics
-  nmap <silent> dn <Plug>(coc-diagnostic-next)
-  nmap <silent> dp <Plug>(coc-diagnostic-prev)
-
-  " Remap keys for gotos
-  nmap <silent> gD <Plug>(coc-definition)
-  nmap <silent> gd <Plug>(coc-declaration)
-
-  " Use K to show documentation in preview window
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-  " Remap for rename current word
-  nmap <leader>rn <Plug>(coc-rename)
-
-  " Remap for format selected region
-  xmap <silent> <leader>f <Plug>(coc-format-selected)
-  nmap <silent> <leader>f <Plug>(coc-format-selected)
-
-  " Hotkey to Format current buffer
-  nnoremap <leader>F :Format<CR>
-
-  " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-  xmap <leader>a <Plug>(coc-codeaction-selected)
-  nmap <leader>a <Plug>(coc-codeaction-selected)
-
-  " Remap for do codeAction of current line
-  nmap <leader>ac <Plug>(coc-codeaction)
-
-  " Fix autofix problem of current line
-  nmap <leader>qf <Plug>(coc-fix-current)
-
-  " Show all diagnostics
-  nnoremap <silent> <leader>cd :<C-u>CocList diagnostics<cr>
-
-  " Use `:Format` to format current buffer
-  command! -nargs=0 Format :call CocAction('format')
-
-  " -----------------
-  " Utility functions
-  " -----------------
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
-
-  function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    elseif (coc#rpc#ready())
-      call CocActionAsync('doHover')
-    else
-      execute '!' . &keywordprg . " " . expand('<cword>')
-    endif
-  endfunction
-
-  " Explorer
-  let g:coc_explorer_global_presets = {
-     \   '.vim': {
-     \     'root-uri': '~/.vim',
-     \   },
-     \   'tab': {
-     \     'position': 'tab',
-     \     'quit-on-open': v:true,
-     \   },
-     \   'floating': {
-     \     'position': 'floating',
-     \     'open-action-strategy': 'sourceWindow',
-     \   },
-     \   'floatingTop': {
-     \     'position': 'floating',
-     \     'floating-position': 'center-top',
-     \     'open-action-strategy': 'sourceWindow',
-     \   },
-     \   'floatingLeftside': {
-     \     'position': 'floating',
-     \     'floating-position': 'left-center',
-     \     'floating-width': 50,
-     \     'open-action-strategy': 'sourceWindow',
-     \   },
-     \   'floatingRightside': {
-     \     'position': 'floating',
-     \     'floating-position': 'right-center',
-     \     'floating-width': 50,
-     \     'open-action-strategy': 'sourceWindow',
-     \   },
-     \   'simplify': {
-     \     'file-child-template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
-     \   }
-     \ }
-
-  nmap <leader>ce :CocCommand explorer<CR>
-  autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
-
-  " Change coc's highlight groups with darcula's
-  if functions#ColorschemeActive('darcula')
-    hi! link CocErrorSign ErrorSign
-    hi! link CocWarningSign WarningSign
-    hi! link CocInfoSign InfoSign
-    hi! link CocHintSign HintSign
-    hi! link CocErrorFloat Pmenu
-    hi! link CocWarningFloat Pmenu
-    hi! link CocInfoFloat Pmenu
-    hi! link CocHintFloat Pmenu
-    hi! link CocHighlightText IdentifierUnderCaret
-    hi! link CocHighlightRead IdentifierUnderCaret
-    hi! link CocHighlightWrite IdentifierUnderCaretWrite
-    hi! link CocErrorHighlight CodeError
-    hi! link CocWarningHighlight CodeWarning
-    hi! link CocInfoHighlight CodeInfo
-    hi! link CocHintHighlight CodeHint
-  endif
-
-endif
-
-" }}}
-
-" ----------------------------------- 4. Web-devicons {{{
+" ----------------------------------- 3. Web-devicons {{{
 
 lua << EOF
 function _G.webDevIcons(path)
@@ -1191,9 +1096,14 @@ function! StartifyEntryFormat() abort
   return 'v:lua.webDevIcons(absolute_path) . " " . entry_path'
 endfunction
 
+" Function for vem-tabline, from vim-devicons to web-devicons
+function! WebDevIconsGetFileTypeSymbol(path) abort
+  return v:lua.webDevIcons(a:path)
+endfunction
+
 " }}}
 
-" ----------------------------------- 5. Tree sitter {{{
+" ----------------------------------- 4. Tree sitter {{{
 
 if functions#PluginLoaded('nvim-treesitter')
 
@@ -1286,6 +1196,18 @@ require'nvim-treesitter.configs'.setup {
         show_help = '?',
       },
     },
+
+    lsp_interop = {
+      enable = true,
+      peek_definition_code = {
+        ["gf"] = "@function.outer",
+        ["gc"] = "@class.outer",
+      },
+    },
+
+    autopairs = {
+      enable = true,
+    },
   },
 }
 EOF
@@ -1294,7 +1216,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 6. Telescope {{{
+" ----------------------------------- 5. Telescope {{{
 
 if functions#PluginLoaded('telescope.nvim')
 
@@ -1452,6 +1374,156 @@ end
 EOF
 
 endif
+
+" }}}
+
+" ----------------------------------- 6. Nvim-autopairs {{{
+
+lua << EOF
+-- Setup auto-pairs nvim
+require'nvim-autopairs'.setup {
+  disable_filetype = {
+    "TelescopePrompt",
+    "vim",
+  },
+  check_ts = true,
+}
+
+-- Fix <CR> for nvim-compe
+local nvim_pairs = require('nvim-autopairs')
+_G.MUtils = {}
+vim.g.completion_confirm_key = ""
+MUtils.completion_confirm = function()
+  if vim.fn.pumvisible() ~= 0  then
+    if vim.fn.complete_info()["selected"] ~= -1 then
+      return vim.fn["compe#confirm"](nvim_pairs.esc("<cr>"))
+    else
+      return nvim_pairs.esc("<cr>")
+    end
+  else
+    return nvim_pairs.autopairs_cr()
+  end
+end
+
+vim.api.nvim_set_keymap('i', '<CR>', 'v:lua.MUtils.completion_confirm()', {expr = true, noremap = true})
+EOF
+
+" }}}
+
+" ----------------------------------- 7. Nvim-compe {{{
+
+lua << EOF
+-- Setup nvim-compe
+require'compe'.setup {
+  enabled = true,
+  autocomplete = true,
+  debug = false,
+  min_length = 1,
+  preselect = 'enable',
+  throttle_time = 80,
+  source_timeout = 200,
+  incomplete_delay = 400,
+  max_abbr_width = 100,
+  max_kind_width = 100,
+  max_menu_width = 100,
+  documentation = true,
+  source = {
+    path     = {kind = ""},
+    buffer   = {kind = ""},
+    calc     = {kind = ""},
+    vsnip    = {kind = ""},
+    spell    = {kind = ""},
+    nvim_lsp = {kind = ""},
+    nvim_lua = false,
+    tags     = false,
+  },
+}
+EOF
+
+" }}}
+
+" ----------------------------------- 8. LSP {{{
+
+lua << EOF
+-- Setup LSP configuration
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings
+  local opts = { noremap=true, silent=true }
+  buf_set_keymap('n', 'gD'         , '<cmd>lua vim.lsp.buf.declaration()<CR>'                  , opts)
+  buf_set_keymap('n', 'gd'         , '<cmd>lua vim.lsp.buf.definition()<CR>'                   , opts)
+  buf_set_keymap('n', 'gr'         , '<cmd>lua vim.lsp.buf.references()<CR>'                   , opts)
+  buf_set_keymap('n', 'K'          , '<cmd>lua vim.lsp.buf.hover()<CR>'                        , opts)
+  buf_set_keymap('n', '<leader>rn' , '<cmd>lua vim.lsp.buf.rename()<CR>'                       , opts)
+  buf_set_keymap('n', '<leader>ca' , '<cmd>lua vim.lsp.buf.code_action()<CR>'                  , opts)
+  buf_set_keymap('n', '<leader>e'  , '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>' , opts)
+  buf_set_keymap('n', '[d'         , '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
+  buf_set_keymap('n', ']d'         , '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
+  buf_set_keymap('n', 'dp'         , '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
+  buf_set_keymap('n', 'dn'         , '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
+  buf_set_keymap('n', '<leader>q'  , '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>'           , opts)
+
+  -- Set some keybinds conditional on server capabilities
+  if client.resolved_capabilities.document_formatting then
+    buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  end
+  if client.resolved_capabilities.document_range_formatting then
+    buf_set_keymap("v", "<leader>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+  end
+end
+
+-- Use a loop to conveniently both setup defined servers
+-- and map buffer local keybindings when the language server attaches
+require'lspinstall'.setup{}
+local servers = require'lspinstall'.installed_servers()
+for _, server in pairs(servers) do
+  require'lspconfig'[server].setup{on_attach=on_attach}
+end
+
+-- Setup lsp-signature
+require'lsp_signature'.on_attach({
+  bind = true,
+  doc_lines = 10,
+  hint_enable = false,
+  handler_opts = {
+    border = "none"   -- double, single, shadow, none
+  },
+  decorator = {"`", "`"},
+})
+
+-- Custom icons for the auto-completion
+vim.lsp.protocol.CompletionItemKind = {
+  "  (Text) ",
+  "  (Method)",
+  "  (Function)",
+  "  (Constructor)",
+  "  (Field)",
+  "[] (Variable)",
+  "  (Class)",
+  " ﰮ (Interface)",
+  "  (Module)",
+  " 襁(Property)",
+  "  (Unit)",
+  "  (Value)",
+  " 練(Enum)",
+  "  (Keyword)",
+  "  (Snippet)",
+  "  (Color)",
+  "  (File)",
+  "  (Reference)",
+  "  (Folder)",
+  "  (EnumMember)",
+  " ﲀ (Constant)",
+  "  (Struct)",
+  "  (Event)",
+  "  (Operator)",
+  "  (TypeParameter)"
+}
+EOF
 
 " }}}
 
