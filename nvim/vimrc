@@ -853,6 +853,10 @@ require('specs').setup {
 }
 EOF
 
+" Load a custom lualine theme
+" https://gist.githubusercontent.com/shadmansaleh/cd526bc166237a5cbd51429cc1f6291b/raw/8702542d9dc40f3323a25480ba35d0082fd4deba/evil_lualine.lua
+luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
+
 "}}}
 
 " ----------------------------------- 1. Which-key {{{
@@ -1100,16 +1104,7 @@ endfunction
 
 " }}}
 
-" ----------------------------------- 4. Lualine {{{
-
-" -- Setup of lualine
-" Load the custom lualine theme
-" https://gist.githubusercontent.com/shadmansaleh/cd526bc166237a5cbd51429cc1f6291b/raw/8702542d9dc40f3323a25480ba35d0082fd4deba/evil_lualine.lua
-luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
-
-"}}}
-
-" ----------------------------------- 5. Tree sitter {{{
+" ----------------------------------- 4. Tree sitter {{{
 
 if functions#PluginLoaded('nvim-treesitter')
 
@@ -1222,7 +1217,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 6. Telescope {{{
+" ----------------------------------- 5. Telescope {{{
 
 if functions#PluginLoaded('telescope.nvim')
 
@@ -1383,7 +1378,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 7. Nvim-autopairs {{{
+" ----------------------------------- 6. Nvim-autopairs {{{
 
 lua << EOF
 -- Setup auto-pairs nvim
@@ -1413,7 +1408,7 @@ EOF
 
 " }}}
 
-" ----------------------------------- 8. Nvim-compe {{{
+" ----------------------------------- 7. Nvim-compe {{{
 
 lua << EOF
 -- Setup nvim-compe
@@ -1443,7 +1438,7 @@ EOF
 
 " }}}
 
-" ----------------------------------- 9. LSP {{{
+" ----------------------------------- 8. LSP {{{
 
 lua << EOF
 -- Setup LSP configuration
@@ -1531,8 +1526,4 @@ EOF
 " }}}
 
 " }}}
-
-" TODO: convert functions utilities to lua?
-" TODO: search for function to check if plugin is loaded in lua
-" TODO: gradually switch over to lua? most of the plugins are lua-based
 
