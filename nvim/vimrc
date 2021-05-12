@@ -181,12 +181,14 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
 Plug 'junegunn/fzf.vim'
 
-" Nvim LSP related
+" LSP related
 Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
 Plug 'hrsh7th/nvim-compe'
-Plug 'onsails/lspkind-nvim'
 Plug 'ray-x/lsp_signature.nvim'
+
+" Symbols for autocomplete
+" Plug 'onsails/lspkind-nvim'
 
 " Cool UI LSP related plugin
 " Plug 'glepnir/lspsaga.nvim'
@@ -699,7 +701,11 @@ endif
 
 " Vim Current Word options
 " ------------------------
+" Do not highlight the word under cursor
 let g:vim_current_word#highlight_current_word=0
+
+" Highlight only focused window
+let g:vim_current_word#highlight_only_in_focused_window=1
 
 " Suda options
 " ------------
@@ -1094,31 +1100,12 @@ endfunction
 
 " }}}
 
-" ----------------------------------- 4. Lualine & Buftabline {{{
+" ----------------------------------- 4. Lualine {{{
 
 " -- Setup of lualine
 " Load the custom lualine theme
 " https://gist.githubusercontent.com/shadmansaleh/cd526bc166237a5cbd51429cc1f6291b/raw/8702542d9dc40f3323a25480ba35d0082fd4deba/evil_lualine.lua
 luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
-
-lua << EOF
--- Setup of buftabline
--- require'buftabline'.setup {
---   modifier = ":t",
---   index_format = "%d| ",
---   padding = 2,
---   icons = true,
---   start_hidden = false,
---   auto_hide = false,
---   disable_commands = true,
---   go_to_maps = false,
---   kill_maps = false,
---   custom_command = nil,
---   custom_map_prefix = nil,
---   hlgroup_current = "TabLineSel",
---   hlgroup_normal = "TabLineFill",
--- }
-EOF
 
 "}}}
 
@@ -1219,9 +1206,8 @@ require'nvim-treesitter.configs'.setup {
     lsp_interop = {
       enable = true,
       peek_definition_code = {
-      -- TODO change the keybinds for these two
-        -- ["df"] = "@function.outer",
-        -- ["dc"] = "@class.outer",
+        ["gf"] = "@function.outer",
+        ["gc"] = "@class.outer",
       },
     },
 
@@ -1473,7 +1459,6 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gd'         , '<cmd>lua vim.lsp.buf.definition()<CR>'                   , opts)
   buf_set_keymap('n', 'gr'         , '<cmd>lua vim.lsp.buf.references()<CR>'                   , opts)
   buf_set_keymap('n', 'K'          , '<cmd>lua vim.lsp.buf.hover()<CR>'                        , opts)
-  --buf_set_keymap('n', '<C-k>'      , '<cmd>lua vim.lsp.buf.signature_help()<CR>'               , opts)
   buf_set_keymap('n', '<leader>rn' , '<cmd>lua vim.lsp.buf.rename()<CR>'                       , opts)
   buf_set_keymap('n', '<leader>ca' , '<cmd>lua vim.lsp.buf.code_action()<CR>'                  , opts)
   buf_set_keymap('n', '<leader>e'  , '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>' , opts)
@@ -1497,35 +1482,8 @@ end
 require'lspinstall'.setup{}
 local servers = require'lspinstall'.installed_servers()
 for _, server in pairs(servers) do
-  require'lspconfig'[server].setup{on_attach = on_attach}
+  require'lspconfig'[server].setup{on_attach=on_attach}
 end
-
--- Setup lsp-kind
-require'lspkind'.init({
-  with_text = true,
-  symbol_map = {
-    Text = '',
-    Method = 'ƒ',
-    Function = '',
-    Constructor = '',
-    Variable = '',
-    Class = '',
-    Interface = 'ﰮ',
-    Module = '',
-    Property = '',
-    Unit = '',
-    Value = '',
-    Enum = '了',
-    Keyword = '',
-    Snippet = '﬌',
-    Color = '',
-    File = '',
-    Folder = '',
-    EnumMember = '',
-    Constant = '',
-    Struct = ''
-  },
-})
 
 -- Setup lsp-signature
 require'lsp_signature'.on_attach({
@@ -1537,6 +1495,35 @@ require'lsp_signature'.on_attach({
   },
   decorator = {"`", "`"},
 })
+
+-- Custom icons for the auto-completion
+vim.lsp.protocol.CompletionItemKind = {
+  "   (Text) ",
+  "   (Method)",
+  "   (Function)",
+  "   (Constructor)",
+  " ﴲ  (Field)",
+  "[] (Variable)",
+  "   (Class)",
+  " ﰮ  (Interface)",
+  "   (Module)",
+  " 襁 (Property)",
+  "   (Unit)",
+  "   (Value)",
+  " 練 (Enum)",
+  "   (Keyword)",
+  "   (Snippet)",
+  "   (Color)",
+  "   (File)",
+  "   (Reference)",
+  "   (Folder)",
+  "   (EnumMember)",
+  " ﲀ  (Constant)",
+  " ﳤ  (Struct)",
+  "   (Event)",
+  "   (Operator)",
+  "   (TypeParameter)"
+}
 EOF
 
 " }}}
@@ -1545,13 +1532,7 @@ EOF
 
 " }}}
 
-" TODO: find another bufferline plugin, which is clickable
-" TODO: gradually switch over to lua? most of the plugins are lua-based
+" TODO: convert functions utilities to lua?
 " TODO: search for function to check if plugin is loaded in lua
-" TODO: fix functions utilities to lua?
-" TODO: fix current work highlight on CursorHold?
-" TODO: Change bufferline because numbers are just an increasing sequence no relation with internal bufferIds of vim
-" TODO: Change the keybinds for gnn, grn, etc...S
-" TODO: LSP signature didnt work for capturer class why?
-" TODO: Change df and dc for peek definition
+" TODO: gradually switch over to lua? most of the plugins are lua-based
 
