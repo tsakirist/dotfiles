@@ -1426,13 +1426,15 @@ require'compe'.setup {
   max_menu_width = 100,
   documentation = true,
   source = {
-    path = true,
-    buffer = true,
-    calc = true,
-    nvim_lsp = true,
-    nvim_lua = true,
-    vsnip = false,
-  };
+    path     = {kind = ""},
+    buffer   = {kind = ""},
+    calc     = {kind = ""},
+    vsnip    = {kind = ""},
+    spell    = {kind = ""},
+    nvim_lsp = {kind = ""},
+    nvim_lua = false,
+    tags     = false,
+  },
 }
 EOF
 
