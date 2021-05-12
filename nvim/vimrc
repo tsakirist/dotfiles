@@ -1117,6 +1117,15 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   },
 
+  indent = {
+    enable = true
+  },
+
+  -- This is from nvim-autopairs
+  autopairs = {
+    enable = true,
+  },
+
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -1125,10 +1134,6 @@ require'nvim-treesitter.configs'.setup {
       scope_incremental = "grc",
       node_decremental = "grm",
     }
-  },
-
-  indent = {
-    enable = true
   },
 
   textobjects = {
@@ -1160,7 +1165,7 @@ require'nvim-treesitter.configs'.setup {
 
     move = {
       enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
+      set_jumps = true,
       goto_next_start = {
         ["]m"] = "@function.outer",
         ["]c"] = "@class.outer",
@@ -1176,6 +1181,14 @@ require'nvim-treesitter.configs'.setup {
       goto_previous_end = {
         ["[M"] = "@function.outer",
         ["[C"] = "@class.outer",
+      },
+    },
+
+    lsp_interop = {
+      enable = true,
+      peek_definition_code = {
+        ["gf"] = "@function.outer",
+        ["gc"] = "@class.outer",
       },
     },
 
@@ -1195,18 +1208,6 @@ require'nvim-treesitter.configs'.setup {
         goto_node = '<cr>',
         show_help = '?',
       },
-    },
-
-    lsp_interop = {
-      enable = true,
-      peek_definition_code = {
-        ["gf"] = "@function.outer",
-        ["gc"] = "@class.outer",
-      },
-    },
-
-    autopairs = {
-      enable = true,
     },
   },
 }
