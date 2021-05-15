@@ -575,11 +575,8 @@ nnoremap <silent> <leader>bo :BufOnly<CR>
 " Shebang abbreviation for bash in scripts
 iab #! #!/usr/bin/env bash
 
-" Add multiline C++ comment
-iab /** /**<CR><Space>*<CR><Space>*/<Up>
-
 " Add current date
-iab idt Date: <C-R>=strftime('%c')<CR>
+iab <silent> idt Date: <C-R>=strftime('%c')<CR>
 
 " Add Lua heredoc
 iab lua< lua<<EOF<CR><CR>EOF<Up>
@@ -1037,12 +1034,12 @@ endif
 if functions#PluginLoaded('fzf.vim')
 
   " Custom fzf keybindings for searching
-  nnoremap <silent> <leader>fb :Buffers<CR>
-  nnoremap <silent> <leader>ff :Files<CR>
-  nnoremap <silent> <leader>rg :Rg<CR>
-  nnoremap <silent> <leader>fm :Maps<CR>
-  nnoremap <silent> <leader>fM :Marks<CR>
-  nnoremap <silent> <leader>fh :History:<CR>
+  " nnoremap <silent> <leader>fb :Buffers<CR>
+  " nnoremap <silent> <leader>ff :Files<CR>
+  " nnoremap <silent> <leader>rg :Rg<CR>
+  " nnoremap <silent> <leader>fm :Maps<CR>
+  " nnoremap <silent> <leader>fM :Marks<CR>
+  " nnoremap <silent> <leader>fh :History:<CR>
 
   " Start searching for files
   command! -bang -nargs=? -complete=dir Files
@@ -1108,6 +1105,8 @@ endif
 
 " ----------------------------------- 3. Web-devicons {{{
 
+if functions#PluginLoaded("nvim-web-devicons")
+
 lua << EOF
 function _G.webDevIcons(path)
   local extension = vim.fn.fnamemodify(path, ':e')
@@ -1124,6 +1123,8 @@ endfunction
 function! WebDevIconsGetFileTypeSymbol(path) abort
   return v:lua.webDevIcons(a:path)
 endfunction
+
+endif
 
 " }}}
 
@@ -1402,6 +1403,8 @@ endif
 
 " ----------------------------------- 6. Nvim-autopairs {{{
 
+if functions#PluginLoaded("nvim-autopairs")
+
 lua << EOF
 -- Setup auto-pairs nvim
 require'nvim-autopairs'.setup {
@@ -1431,9 +1434,13 @@ end
 vim.api.nvim_set_keymap('i', '<CR>', 'v:lua.MUtils.completion_confirm()', {expr = true, noremap = true})
 EOF
 
+endif
+
 " }}}
 
 " ----------------------------------- 7. Nvim-compe {{{
+
+if functions#PluginLoaded("nvim-compe")
 
 lua << EOF
 -- Setup nvim-compe
@@ -1462,6 +1469,8 @@ require'compe'.setup {
   },
 }
 EOF
+
+endif
 
 " }}}
 
