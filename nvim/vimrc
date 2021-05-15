@@ -862,9 +862,6 @@ luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
 
 if functions#PluginLoaded("vim-which-key")
 
-  " Set the timeout, 1000 is the default
-  set timeoutlen=1000
-
   " Map leader-space to which_key
   nnoremap <silent> <leader><space> :silent <c-u> :silent WhichKey '<Space>'<CR>
   vnoremap <silent> <leader><space> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
@@ -893,16 +890,13 @@ if functions#PluginLoaded("vim-which-key")
   let g:which_key_map['/'] = [ '<Plug>NERDCommenterToggle' , 'comment' ]
   let g:which_key_map['e'] = [ ':Vexplore'                 , 'explorer' ]
   let g:which_key_map['f'] = [ ':Files'                    , 'search files' ]
-  let g:which_key_map['h'] = [ '<C-w>s'                    , 'split below']
-  let g:which_key_map['r'] = [ '<C-w>r'                    , 'rotate split' ]
   let g:which_key_map['R'] = [ ':Rg'                       , 'search text' ]
   let g:which_key_map['S'] = [ ':Startify'                 , 'start screen' ]
-  let g:which_key_map['v'] = [ '<C-w>v'                    , 'split right']
   let g:which_key_map['z'] = [ ':Goyo'                     , 'zen' ]
 
   " s is for search
   let g:which_key_map.s = {
-        \ 'name' : '+search' ,
+        \ 'name' : '+Search' ,
         \ '/' : [':History/'   , 'history'],
         \ ':' : [':Commands'   , 'commands'],
         \ 'a' : [':Ag'         , 'text Ag'],
@@ -932,7 +926,7 @@ if functions#PluginLoaded("vim-which-key")
 
   " b is for buffer
   let g:which_key_map.b = {
-        \ 'name' : '+buffer' ,
+        \ 'name' : '+Buffer' ,
         \ 'a' : [':ball'       , 'one window per buffer'],
         \ 'd' : [':bd'         , 'delete-buffer'],
         \ 'f' : [':bfirst'     , 'first-buffer'],
@@ -944,22 +938,37 @@ if functions#PluginLoaded("vim-which-key")
         \ '?' : [':Buffers'    , 'fzf-buffers'],
         \ }
 
+  " w is for windows
+  let g:which_key_map.w = {
+        \ 'name' : '+Windows' ,
+        \ '=' : ['<C-w>='   , 'equal windows'],
+        \ '?' : [':Windows' , 'fzf windows'],
+        \ 'd' : ['<C-W>c'   , 'delete-window'],
+        \ 'h' : ['<C-W>h'   , 'window-left'],
+        \ 'j' : ['<C-W>j'   , 'window-below'],
+        \ 'l' : ['<C-W>l'   , 'window-right'],
+        \ 'k' : ['<C-W>k'   , 'window-up'],
+        \ 'r' : ['<C-w>r'   , 'rotate split'],
+        \ 's' : ['<C-w>s'   , 'split below'],
+        \ 'v' : ['<C-w>v'   , 'split right'],
+        \}
+
   " g is for git
   let g:which_key_map.g = {
-        \ 'name' : '+git' ,
-        \ 'b' : [':Git blame'   , 'blame'],
-        \ 'B' : [':GBrowse'     , 'browse'],
-        \ 'd' : [':Git diff'    , 'diff'],
-        \ 'l' : [':Git log'     , 'log'],
-        \ 'L' : [':Git lg'      , 'lg'],
-        \ 's' : [':Gstatus'     , 'status'],
-        \ 'S' : [':Git add'     , 'stage'],
-        \ 'r' : [':Git reflog'  , 'reflog'],
+        \ 'name' : '+Git' ,
+        \ 'b' : [':Git blame'  , 'blame'],
+        \ 'B' : [':GBrowse'    , 'browse'],
+        \ 'd' : [':Git diff'   , 'diff'],
+        \ 'l' : [':Git log'    , 'log'],
+        \ 'L' : [':Git lg'     , 'lg'],
+        \ 's' : [':Gstatus'    , 'status'],
+        \ 'S' : [':Git add'    , 'stage'],
+        \ 'r' : [':Git reflog' , 'reflog'],
         \ }
 
   " p is for vim plug
   let g:which_key_map.p = {
-        \ 'name' : '+plug' ,
+        \ 'name' : '+Plug' ,
         \ 'c' : [':PlugClean'   , 'clean'],
         \ 'd' : [':PlugDiff'    , 'diff'],
         \ 'i' : [':PlugInstall' , 'install'],
@@ -971,7 +980,7 @@ if functions#PluginLoaded("vim-which-key")
 
   " t is for Telescope
   let g:which_key_map.t = {
-        \ 'name' : '+telescope' ,
+        \ 'name' : '+Telescope' ,
         \ ':' : [':Telescope commands'                  , 'commands'],
         \ '/' : [':Telescope search_history'            , 'search history'],
         \ 'b' : [':Telescope buffers'                   , 'buffers'],
@@ -986,19 +995,34 @@ if functions#PluginLoaded("vim-which-key")
         \ 'M' : [':Telescope man_pages'                 , 'man pages'],
         \ 'o' : [':Telescope oldfiles'                  , 'oldfiles'],
         \ 'O' : [':Telescope vim_options'               , 'vim options'],
-        \ 'q' : [':Telscope quickfix'                   , 'quickfix list'],
+        \ 'q' : [':Telescope quickfix'                  , 'quickfix list'],
         \ 's' : [':Telescope grep_string'               , 'search string'],
         \ 't' : [':Telescope tags'                      , 'tags'],
         \}
 
   " t.g is for Telescope git_*
   let g:which_key_map.t.g = {
-        \ 'name' : '+git' ,
-        \ 'c' : [':Telescope git_commits'  , 'commmits'],
+        \ 'name' : '+Git' ,
         \ 'b' : [':Telescope git_bcommits' , 'buffer commmits'],
+        \ 'c' : [':Telescope git_commits'  , 'commmits'],
         \ 'f' : [':Telescope git_files'    , 'git files'],
         \ 'r' : [':Telescope git_branches' , 'git branches'],
         \ 's' : [':Telescope git_status'   , 'git status'],
+        \}
+
+  " t.l is for Telescope lsp_*
+  let g:which_key_map.t.l = {
+        \ 'name' : '+LSP' ,
+        \ 'c' : [':Telescope lsp_code_actions'              , 'code actions'],
+        \ 'C' : [':Telescope lsp_range_code_actions'        , 'range code actions'],
+        \ 'd' : [':Telescope lsp_document_diagnostics'      , 'diagnostics'],
+        \ 'D' : [':Telescope lsp_workspace_diagnostics'     , 'workspace diagnostics'],
+        \ 'f' : [':Telescope lsp_definitions'               , 'definitions'],
+        \ 'i' : [':Telescope lsp_implementations'           , 'implementations'],
+        \ 'r' : [':Telescope lsp_references'                , 'references'],
+        \ 's' : [':Telescope lsp_document_symbols'          , 'symbols'],
+        \ 'S' : [':Telescope lsp_workspace_symbols'         , 'workspace symbols'],
+        \ 'w' : [':Telescope lsp_dynamic_workspace_symbols' , 'dynamic workspace symbols'],
         \}
 
   " Register which key map
