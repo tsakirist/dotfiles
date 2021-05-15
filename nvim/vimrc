@@ -398,38 +398,38 @@ endif
 
 " ----------------------------------- 6. Keybindings {{{
 
-" Change buffers quickly
-nnoremap <silent> <leader>bn :bnext<CR>
-nnoremap <silent> <leader>bp :bprevious<CR>
-nnoremap <silent> <Tab>      :bnext<CR>
-nnoremap <silent> <S-tab>    :bprevious<CR>
-
-" List buffers and prepend :b on the cmd line
-nnoremap <leader>bf :ls<CR>:b<Space>
-
-" Close buffer without closing window/split
-" nnoremap <silent> <leader>bd :bp<CR>:bd #<CR>
-
-" Use bbye plugin's :Bdelete to close buffer w/o losing splits/windows
-nnoremap <silent> <leader>bd :Bdelete<CR>
-
-" Typing %% on the command line will expand to active buffer's path
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-
 " Toggle Goyo - distraction free writing
 nnoremap <silent> <F1> :Goyo<CR>
 
 " Toggle between folds
 nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
 
-" Use space to toggle fold
-nnoremap <space> za<CR>
-
 " Fill the current line with a leading "<space><prev_line_cols>[-]
 nnoremap <expr> <F3> ':call functions#Fill(45)\<CR>'
 
-" Fill the current line with string '" <count><char>'
-" nnoremap <expr> <F3> ':call functions#Fill('.getchar().")\<CR>"
+" Change buffers quickly
+nnoremap <silent> <leader>bn :bnext<CR>
+nnoremap <silent> <leader>bp :bprevious<CR>
+
+" List buffers and prepend :b on the cmd line
+nnoremap <leader>bf :ls<CR>:b<space>
+
+" Search within buffers and send results in the qflist
+" Copied from junegunn dotfiles
+nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd @@g %<Bar>cw<S-left><S-left><right>
+
+" Use bbye plugin's :Bdelete to close buffer w/o losing splits/windows
+nnoremap <silent> <leader>bd :Bdelete<CR>
+
+" Change windows quickly
+nnoremap <Tab>   <C-w>w
+nnoremap <S-tab> <C-w>W
+
+" Typing %% on the command line will expand to active buffer's path
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+
+" Use space to toggle fold
+nnoremap <space> za<CR>
 
 " Set Ctrl-t to jump to next occurence of the word under cursor
 nnoremap <silent> <C-t> *
@@ -472,13 +472,27 @@ inoremap <silent> <C-q> <Esc>:q<CR>
 vnoremap <silent> <C-q> <Esc>:q<CR>
 
 " Keymap to quit all buffers with shift+q
-nnoremap <silent> <S-q> <Esc>:qa<CR>
+nnoremap <silent> Q <Esc>:qa<CR>
+
+" Quicker <Esc> for Insert and Command-line modes
+inoremap jk <Esc>
+cnoremap jk <C-c>
+
+" Quick movemens in Insert mode without having to change to Normal mode
+inoremap <C-h> <C-o>h
+inoremap <C-l> <C-o>l
+inoremap <C-j> <C-o>j
+inoremap <C-k> <C-o>k
+inoremap <C-^> <C-o><C-^>
+
+" Make Y behave like the other commands and copy till EOL
+nnoremap Y y$
 
 " Easiliy toggle comments @NERDCommenter
-map <leader><leader> <leader>c<Space>
+map <leader><leader> <leader>c<space>
 
 " Toggling comment in insert mode keeps insert mode :startinsert
-imap <leader><leader> <Esc><leader>c<Space>:startinsert<CR>
+imap <leader><leader> <Esc><leader>c<space>:startinsert<CR>
 
 " Clear highlighting with escape when in normal mode
 " https://stackoverflow.com/a/1037182/6654329
@@ -503,7 +517,7 @@ tnoremap <silent> <leader>fk <C-\><C-n>:FloatermKill<CR>
 
 " Make a whole-word search proc with <leader>/
 command! -nargs=1 SearchWord call functions#SearchWord(<f-args>)
-nnoremap <leader>/ :SearchWord<Space>
+nnoremap <leader>/ :SearchWord<space>
 
 " Command and key mapping to enable the zoom-in and zoom-out
 command! ZoomToggle call functions#ZoomToggle()
@@ -532,8 +546,10 @@ nmap <silent> <leader>gm <Plug>(git-messenger)
 " EasyAlign keybindings
 " 'vipga' starts interactive EasyAlign in visual mode
 " 'gaip' starts interactive EasyAlign for text/motion object
-xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
+nmap <leader>ga <Plug>(LiveEasyAlign)
+xmap <leader>ga <Plug>(LiveEasyAlign)
 
 " Use <Tab> and <S-Tab> to navigate through the autocomplete options
 inoremap <silent> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -860,8 +876,8 @@ luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
 if functions#PluginLoaded("vim-which-key")
 
   " Map leader-space to which_key
-  nnoremap <silent> <leader><space> :silent <c-u> :silent WhichKey '<Space>'<CR>
-  vnoremap <silent> <leader><space> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
+  nnoremap <silent> <leader><space> :silent <c-u> :silent WhichKey '<space>'<CR>
+  vnoremap <silent> <leader><space> :silent <c-u> :silent WhichKeyVisual '<space>'<CR>
 
   " Create map to add keys to
   let g:which_key_map={}
@@ -1023,7 +1039,7 @@ if functions#PluginLoaded("vim-which-key")
         \}
 
   " Register which key map
-  call which_key#register('<Space>', "g:which_key_map")
+  call which_key#register('<space>', "g:which_key_map")
 
 endif
 
@@ -1143,7 +1159,7 @@ require'nvim-treesitter.configs'.setup {
   },
 
   indent = {
-    enable = true
+    enable = true,
   },
 
   -- This is for nvim-autopairs
