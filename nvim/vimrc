@@ -1110,7 +1110,7 @@ if functions#PluginLoaded('nvim-treesitter')
 lua << EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    'c', 'cpp', 'json', 'python', 'lua', 'bash'
+    'c', 'cpp', 'json', 'python', 'lua', 'bash', 'typescript'
   },
 
   highlight = {
@@ -1121,7 +1121,7 @@ require'nvim-treesitter.configs'.setup {
     enable = true
   },
 
-  -- This is from nvim-autopairs
+  -- This is for nvim-autopairs
   autopairs = {
     enable = true,
   },
@@ -1144,10 +1144,10 @@ require'nvim-treesitter.configs'.setup {
         ["if"] = "@function.inner",
         ["al"] = "@loop.outer",
         ["il"] = "@loop.inner",
-        ['as'] = '@conditional.outer',
-        ['is'] = '@conditional.inner',
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
+        ['ac'] = '@conditional.outer',
+        ['ic'] = '@conditional.inner',
+        ["aC"] = "@class.outer",
+        ["iC"] = "@class.inner",
       },
     },
 
@@ -1242,8 +1242,6 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fl :lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fm :lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_dropdown({}))<CR>
   nnoremap <silent> <leader>fv :lua find_in_vim_root()<CR>
-
-  " This might be able to replace the git_files, need to evaluate it in action
   nnoremap <silent> <leader>fp :lua find_in_project_root()<CR>
 
   " Make matching characters to follow darcula scheme if active
@@ -1255,7 +1253,7 @@ lua << EOF
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 
--- Telescope main setup
+-- Setup Telescope
 require'telescope'.setup {
   defaults = {
     prompt_prefix = '❯ ',
@@ -1298,13 +1296,13 @@ require'telescope'.setup {
         ["<C-q>"] = actions.close,
         ["<ESC>"] = actions.close,
         ["<CR>"]  = actions.select_default + actions.center,
-        ["<C-l>"] = actions.smart_send_to_qflist + actions.open_qflist,
         ["<Tab>"] = actions.toggle_selection,
+        ["<leader>q"] = actions.smart_send_to_qflist + actions.open_qflist,
       },
       n = {
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
-        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+        ["<leader>q"] = actions.smart_send_to_qflist + actions.open_qflist,
       }
     }
   },
@@ -1429,14 +1427,14 @@ require'compe'.setup {
   max_menu_width = 100,
   documentation = true,
   source = {
-    path     = {kind = ""},
-    buffer   = {kind = ""},
-    calc     = {kind = ""},
-    vsnip    = {kind = ""},
-    spell    = {kind = ""},
-    nvim_lsp = {kind = ""},
-    nvim_lua = false,
-    tags     = false,
+    path     = {kind = "   (Path)"},
+    buffer   = {kind = "   (Buffer)"},
+    calc     = {kind = "   (Calc)"},
+    spell    = {kind = "   (Spell)"},
+    nvim_lsp = {kind = "   (LSP)"},
+    nvim_lua = {kind = "   (Lua)"},
+    tags     = {kind = "   (Tag)"},
+    vsnip    = false,
   },
 }
 EOF
@@ -1466,7 +1464,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', ']d'         , '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
   buf_set_keymap('n', 'dp'         , '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
   buf_set_keymap('n', 'dn'         , '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
-  buf_set_keymap('n', '<leader>q'  , '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>'           , opts)
+  buf_set_keymap('n', '<leader>l'  , '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>'           , opts)
 
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
@@ -1477,11 +1475,19 @@ local on_attach = function(client, bufnr)
   end
 end
 
--- Use a loop to conveniently both setup defined servers
--- and map buffer local keybindings when the language server attaches
+-- Install and setup the required servers
 require'lspinstall'.setup{}
-local servers = require'lspinstall'.installed_servers()
-for _, server in pairs(servers) do
+local required_servers = {"cpp", "vim", "lua", "bash", "python", "typescript"}
+local installed_servers = require'lspinstall'.installed_servers()
+for _, server in pairs(required_servers) do
+  if not vim.tbl_contains(installed_servers, server) then
+    require'lspinstall'.install_server(server)
+  end
+end
+
+-- Map local buffer keybindings when the server attaches
+local installed_servers = require'lspinstall'.installed_servers()
+for _, server in pairs(installed_servers) do
   require'lspconfig'[server].setup{on_attach=on_attach}
 end
 
@@ -1498,31 +1504,31 @@ require'lsp_signature'.on_attach({
 
 -- Custom icons for the auto-completion
 vim.lsp.protocol.CompletionItemKind = {
-  "  (Text) ",
-  "  (Method)",
-  "  (Function)",
-  "  (Constructor)",
-  "  (Field)",
+  "   (Text) ",
+  "   (Method)",
+  "   (Function)",
+  "   (Constructor)",
+  "   (Field)",
   "[] (Variable)",
-  "  (Class)",
-  " ﰮ (Interface)",
-  "  (Module)",
-  " 襁(Property)",
-  "  (Unit)",
-  "  (Value)",
-  " 練(Enum)",
-  "  (Keyword)",
-  "  (Snippet)",
-  "  (Color)",
-  "  (File)",
-  "  (Reference)",
-  "  (Folder)",
-  "  (EnumMember)",
-  " ﲀ (Constant)",
-  "  (Struct)",
-  "  (Event)",
-  "  (Operator)",
-  "  (TypeParameter)"
+  "   (Class)",
+  " ﰮ  (Interface)",
+  "   (Module)",
+  " 襁 (Property)",
+  "   (Unit)",
+  "   (Value)",
+  " 練 (Enum)",
+  "   (Keyword)",
+  "   (Snippet)",
+  "   (Color)",
+  "   (File)",
+  "   (Reference)",
+  "   (Folder)",
+  "   (EnumMember)",
+  " ﲀ  (Constant)",
+  "   (Struct)",
+  "   (Event)",
+  "   (Operator)",
+  "   (TypeParameter)"
 }
 EOF
 
