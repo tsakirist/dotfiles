@@ -1551,6 +1551,12 @@ require'lsp_signature'.on_attach({
   decorator = {"`", "`"},
 })
 
+-- Custom icons for LSP diagnostics
+vim.fn.sign_define("LspDiagnosticsSignError",       {text = "", numhl = "LspDiagnosticsDefaultError"})
+vim.fn.sign_define("LspDiagnosticsSignWarning",     {text = "", numhl = "LspDiagnosticsDefaultWarning"})
+vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
+vim.fn.sign_define("LspDiagnosticsSignHint",        {text = "", numhl = "LspDiagnosticsDefaultHint"})
+
 -- Custom icons for the auto-completion
 vim.lsp.protocol.CompletionItemKind = {
   "   (Text) ",
