@@ -58,6 +58,24 @@ Plug 'hoob3rt/lualine.nvim'
 " A temporary tabline for buffers, untill I find a better one
 Plug 'pacha/vem-tabline'
 
+" Add file type icons to various plugins
+Plug 'kyazdani42/nvim-web-devicons'
+
+" Fancy starting screen
+Plug 'mhinz/vim-startify'
+
+" Distraction free mode
+Plug 'junegunn/goyo.vim'
+
+" Display available keybinds in pop-up
+Plug 'liuchengxu/vim-which-key'
+
+" Measure the startup time of vim
+Plug 'dstein64/vim-startuptime'
+
+" An interactive calculator inside a buffer
+Plug 'fedorenchik/VimCalc3'
+
 " Some useful keymappings
 Plug 'tpope/vim-unimpaired'
 
@@ -67,17 +85,11 @@ Plug 'tpope/vim-abolish'
 " Comment lines easily
 Plug 'scrooloose/nerdcommenter'
 
-" Multiple cursors like in Sublime3
+" Multiple cursors
 Plug 'terryma/vim-multiple-cursors'
-
-" Fancy starting screen
-Plug 'mhinz/vim-startify'
 
 " Display indentation levels with lines
 Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
-
-" Distraction free mode
-Plug 'junegunn/goyo.vim'
 
 " Surround mappings for enclosed text
 Plug 'tpope/vim-surround'
@@ -85,8 +97,51 @@ Plug 'tpope/vim-surround'
 " Auto insert brackets, parentheses, etc
 Plug 'windwp/nvim-autopairs'
 
+" Alternate between absolute/relative numbers
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
+
+" Text alignment
+Plug 'junegunn/vim-easy-align'
+
+" Alternate between header/source
+Plug 'ton/vim-alternate'
+
+" Rooter changes the working directory to the project root when you open a file or directory
+Plug 'airblade/vim-rooter'
+
+" Close buffers without losing splits/windows
+Plug 'moll/vim-bbye'
+
+" Remove all buffers except current
+Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
+
+" Easy resize windows/splits
+Plug 'sedm0784/vim-resize-mode'
+
+" Vim wrapper for UNIX shell commands
+" :SudoWrite, :SudoRead doesn't work with nvim
+Plug 'tpope/vim-eunuch'
+
+" Write/Read files with sudo from within vim
+Plug 'lambdalisue/suda.vim'
+
+" Use terminal in a floating pop up window
+Plug 'voldikss/vim-floaterm'
+
+" Color highlighter
+Plug 'norcalli/nvim-colorizer.lua'
+
+" Highlight/Underline word under cursor
+Plug 'dominikduda/vim_current_word'
+
 " Easily locate cursor after search
 Plug 'inside/vim-search-pulse'
+
+" Visual indication when jumping long distances
+Plug 'edluffy/specs.nvim'
+
+" Highlight first occurences of characters in words, e.g. to move with f{char}
+Plug 'unblevable/quick-scope'
 
 " Show an indication in the sign column for git diffs
 Plug 'mhinz/vim-signify'
@@ -97,72 +152,14 @@ Plug 'tpope/vim-fugitive'
 " Enables :GBrowse to open GitHub urls from vim
 Plug 'tpope/vim-rhubarb'
 
-" Git blamer with inline text
-Plug 'APZelos/blamer.nvim'
-
-" Vim wrapper for UNIX shell commands
-" :SudoWrite, :SudoRead doesn't work with nvim
-Plug 'tpope/vim-eunuch'
-
-" Write/Read files with sudo from within vim
-Plug 'lambdalisue/suda.vim'
-
-" An interactive calculator inside a buffer
-Plug 'fedorenchik/VimCalc3'
-
-" Highlight/Underline word under cursor
-Plug 'dominikduda/vim_current_word'
-
-" Text alignment
-Plug 'junegunn/vim-easy-align'
-
-" Use terminal in a floating pop up window
-Plug 'voldikss/vim-floaterm'
-
-" Add file type icons to various plugins
-Plug 'kyazdani42/nvim-web-devicons'
-
-" Measure the startup time of vim
-Plug 'dstein64/vim-startuptime'
-
-" Display available keybinds in pop-up
-Plug 'liuchengxu/vim-which-key'
-
-" Alternate between header/source
-Plug 'ton/vim-alternate'
-
-" Rooter changes the working directory to the project root when you open a file or directory
-Plug 'airblade/vim-rooter'
-
-" Alternate between absolute/relative numbers
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
-
-" Easy resize windows/splits
-Plug 'sedm0784/vim-resize-mode'
-
-" Close buffers without losing splits/windows
-Plug 'moll/vim-bbye'
-
 " More pleasant commit experience
 Plug 'rhysd/committia.vim'
 
 " Git floating popup with blame-commit details
 Plug 'rhysd/git-messenger.vim'
 
-" Color highlighter
-Plug 'norcalli/nvim-colorizer.lua'
-
-" Visual indication when jumping long distances
-Plug 'edluffy/specs.nvim'
-
-" Remove all buffers except current
-Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
-
-" Highlight first occurences of characters in words, e.g. to move with f{char}
-Plug 'unblevable/quick-scope'
-
-" Git diff view
-Plug 'sindrets/diffview.nvim'
+" Git blamer with inline text
+Plug 'APZelos/blamer.nvim'
 
 " Treesitter incremental parsing library
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
