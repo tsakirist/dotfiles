@@ -1455,6 +1455,18 @@ endif
 
 if functions#PluginLoaded("nvim-compe")
 
+  " Speedup the startup of nvim-compe, don't load these
+  let g:loaded_compe_snippets_nvim=0
+  let g:loaded_compe_treesitter   =0
+  let g:loaded_compe_spell        =0
+  let g:loaded_compe_calc         =0
+  let g:loaded_compe_tags         =0
+  let g:loaded_compe_emoji        =0
+  let g:loaded_compe_ultisnips    =0
+  let g:loaded_compe_vsnip        =0
+  let g:loaded_compe_vim_lsp      =0
+  let g:loaded_compe_vim_lsc      =0
+
 lua << EOF
 -- Setup nvim-compe
 require'compe'.setup {
@@ -1471,14 +1483,18 @@ require'compe'.setup {
   max_menu_width = 100,
   documentation = true,
   source = {
-    path     = {kind = "   (Path)"},
-    buffer   = {kind = "   (Buffer)"},
-    calc     = {kind = "   (Calc)"},
-    spell    = {kind = "   (Spell)"},
-    nvim_lsp = {kind = "   (LSP)"},
-    nvim_lua = {kind = "   (Lua)"},
-    tags     = {kind = "   (Tag)"},
-    vsnip    = false,
+    path          = {kind = "   (Path)"},
+    buffer        = {kind = "   (Buffer)"},
+    nvim_lsp      = {kind = "   (LSP)"},
+    nvim_lua      = {kind = "   (Lua)"},
+    tags          = false,
+    spell         = false,
+    calc          = false,
+    luasnip       = false,
+    vsnip         = false,
+    snippets_nvim = false,
+    emoji         = false,
+    treesitter    = false,
   },
 }
 EOF
