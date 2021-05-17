@@ -183,6 +183,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
 Plug 'hrsh7th/nvim-compe'
 Plug 'ray-x/lsp_signature.nvim'
+Plug 'kosayoda/nvim-lightbulb'
 
 " Pretty list of showing diagnostics, telescope results etc
 Plug 'folke/trouble.nvim'
@@ -353,6 +354,7 @@ autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
 " This will automatically resize windows/splits when resizing host window
 autocmd VimResized * wincmd =
 
+" Autocmd for vim-eunuch
 if functions#PluginLoaded('vim-eunuch')
   " Remove SudoWrite, SudoEdit from the commands as they do not work
   autocmd VimEnter * :delcommand SudoWrite | :delcommand SudoEdit
@@ -362,6 +364,11 @@ endif
 if functions#PluginLoaded('blamer.nvim')
   " Hide blamer on startup
   autocmd VimEnter * :BlamerHide
+endif
+
+" Autocmd for lsp lightbulb code-action
+if functions#PluginLoaded('nvim-lightbulb')
+  autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb{ sign = { enabled = true } }
 endif
 
 " Autocmd configurations for :term
