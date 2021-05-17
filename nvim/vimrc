@@ -183,14 +183,11 @@ Plug 'kabouzeid/nvim-lspinstall'
 Plug 'hrsh7th/nvim-compe'
 Plug 'ray-x/lsp_signature.nvim'
 
-" Symbols for autocomplete
-" Plug 'onsails/lspkind-nvim'
+" Pretty list of showing diagnostics, telescope results etc
+Plug 'folke/trouble.nvim'
 
 " Cool UI LSP related plugin
 " Plug 'glepnir/lspsaga.nvim'
-
-" A visualization plugin for the undo/redo branches
-" Plug 'mbbill/undotree'
 
 " Update/auto-generate ctags
 " Plug 'ludovicchabant/vim-gutentags'
@@ -596,7 +593,7 @@ iab lua< lua<<EOF<CR><CR>EOF<Up>
 
 " }}}
 
-" ----------------------------------- 8. Plugins extras {{{
+" ---------------------------------- 8. Plugins extras {{{
 
 " ----------------------------------- 1. Plugin options {{{
 
@@ -831,7 +828,8 @@ let g:vem_tabline_multiwindow_mode=v:true
 " Show numbers on the buffer tab
 let g:vem_tabline_show_number="buffnr"
 
-let g:vem_tabline_number_symbol="| "
+" Symbol to show after the number
+let g:vem_tabline_number_symbol=" "
 
 " }}}
 
@@ -841,7 +839,7 @@ let g:vem_tabline_number_symbol="| "
 
 lua << EOF
 -- Setup nvim-colorizer
-require'colorizer'.setup {}
+require'colorizer'.setup()
 
 -- Setup specs-nvim
 require('specs').setup {
@@ -1414,7 +1412,76 @@ endif
 
 " }}}
 
-" ----------------------------------- 6. Nvim-autopairs {{{
+" ----------------------------------- 6. Trouble {{{
+
+if functions#PluginLoaded('trouble.nvim')
+
+  " Trouble list command-line sugar
+  nnoremap <silent> <leader>tt :TroubleToggle<CR>
+  nnoremap <silent> <leader>tw :TroubleToggle lsp_workspace_diagnostics<CR>
+  nnoremap <silent> <leader>td :TroubleToggle lsp_document_diagnostics<CR>
+  nnoremap <silent> <leader>tq :TroubleToggle quickfix<CR>
+  nnoremap <silent> <leader>tl :TroubleToggle loclist<CR>
+  nnoremap <silent> <leader>tr :TroubleToggle lsp_references<CR>
+
+lua << EOF
+-- Setup Trouble
+require("trouble").setup {
+  position = "bottom",                -- position of the list can be: bottom, top, left, right
+  height = 12,                        -- height of the trouble list when position is top or bottom
+  width = 50,                         -- width of the list when position is left or right
+  icons = true,                       -- use devicons for filenames
+  mode = "lsp_document_diagnostics",  -- "lsp_workspace_diagnostics", "quickfix", "lsp_references", "loclist"
+  fold_open = "",                    -- icon used for open folds
+  fold_closed = "",                  -- icon used for closed folds
+  action_keys = {                     -- key mappings for actions in the trouble list
+    close = "q",                      -- close the list
+    cancel = "<esc>",                 -- cancel the preview and get back to your last window / buffer / cursor
+    refresh = "r",                    -- manually refresh
+    jump = {"<cr>", "<tab>", "o"},    -- jump to the diagnostic or open / close folds
+    jump_close = {"go"},              -- jump to the diagnostic and close the list
+    toggle_mode = "m",                -- toggle between "workspace" and "document" diagnostics mode
+    toggle_preview = "P",             -- toggle auto_preview
+    hover = "K",                      -- opens a small poup with the full multiline message
+    preview = "p",                    -- preview the diagnostic location
+    close_folds = {"zM", "zm"},       -- close all folds
+    open_folds = {"zR", "zr"},        -- open all folds
+    toggle_fold = {"<space>", "za"},  -- toggle fold of current file
+    previous = "<C-k>",               -- previous item
+    next = "<C-j>",                   -- next item
+  },
+  indent_lines = true,                -- add an indent guide below the fold icons
+  auto_open = false,                  -- automatically open the list when you have diagnostics
+  auto_close = false,                 -- automatically close the list when you have no diagnostics
+  auto_preview = true,                -- automatically preview the location of the diagnostic
+  auto_fold = false,                  -- automatically fold a file trouble list at creation
+  signs = {
+      error = "",
+      warning = "",
+      hint = "",
+      information = "",
+      other = "﫠"
+  },
+  use_lsp_diagnostic_signs = false    -- enabling this will use the signs defined in your lsp client
+}
+
+-- Add Telescope keybinds to open results in Trouble
+local trouble = require("trouble.providers.telescope")
+require'telescope'.setup {
+  defaults = {
+    mappings = {
+      i = { ["<c-t>"] = trouble.open_with_trouble },
+      n = { ["<c-t>"] = trouble.open_with_trouble },
+    },
+  },
+}
+EOF
+
+endif
+
+"}}}
+
+" ----------------------------------- 7. Nvim-autopairs {{{
 
 if functions#PluginLoaded("nvim-autopairs")
 
@@ -1451,7 +1518,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 7. Nvim-compe {{{
+" ----------------------------------- 8. Nvim-compe {{{
 
 if functions#PluginLoaded("nvim-compe")
 
@@ -1503,7 +1570,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 8. LSP {{{
+" ----------------------------------- 9. LSP {{{
 
 lua << EOF
 -- Setup LSP configuration
