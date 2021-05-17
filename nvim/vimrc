@@ -43,6 +43,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'joshdick/onedark.vim'
 Plug 'doums/darcula'
 Plug 'ghifarit53/tokyonight-vim'
+Plug 'folke/tokyonight.nvim', { 'on': [] }
 
 " Lightline statusline and tabline
 Plug 'itchyny/lightline.vim', { 'on': [] }
@@ -208,6 +209,13 @@ syntax on
 
 " Set true colors inside nvim
 set termguicolors
+
+" Custom options for tokyonight-nvim colorscheme
+if functions#PluginLoaded('tokyonight.nvim')
+  let g:tokyonight_style="night"
+  let g:tokyonight_italic_functions=1
+  let g:tokyonight_sidebars=["terminal"]
+endif
 
 " Custom colorscheme
 " silent! colorscheme onedark
@@ -1626,7 +1634,7 @@ require'lsp_signature'.on_attach({
   doc_lines = 10,
   hint_enable = false,
   handler_opts = {
-    border = "none"   -- double, single, shadow, none
+    border = "none" -- double, single, shadow, none
   },
   decorator = {"`", "`"},
 })
