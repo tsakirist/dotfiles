@@ -492,6 +492,8 @@ inoremap <C-h> <C-o>h
 inoremap <C-l> <C-o>l
 inoremap <C-j> <C-o>j
 inoremap <C-k> <C-o>k
+inoremap <C-a> <C-o>A
+inoremap <C-o> <C-o>0
 inoremap <C-^> <C-o><C-^>
 
 " Make Y behave like the other commands and copy till EOL
