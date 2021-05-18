@@ -1349,7 +1349,6 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fO :Telescope vim_options<CR>
   nnoremap <silent> <leader>fs :Telescope grep_string<CR>
   nnoremap <silent> <leader>fT :Telescope tags<CR>
-  nnoremap <silent> <leader>fS :Telescope git_status<CR>
 
   " Custom commands with extra options
   nnoremap <silent> <leader>fb :lua require'telescope.builtin'.buffers({shorten_path = true})<CR>
@@ -1361,6 +1360,7 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fm :lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_dropdown({}))<CR>
   nnoremap <silent> <leader>fv :lua find_in_vim_root()<CR>
   nnoremap <silent> <leader>fp :lua find_in_project_root()<CR>
+  nnoremap <silent> <leader>fG :lua live_grep_in_project_root()<CR>
 
   " Make matching characters to follow darcula scheme if active
   if functions#ColorschemeActive('darcula')
@@ -1460,12 +1460,23 @@ function find_in_vim_root()
 end
 
 -- Custom lua function to search from project root
--- uses vim-rooter's findRootDirectory function
+-- uses vim-rooter's FindRootDirectory function
 function find_in_project_root()
   require'telescope.builtin'.find_files {
     prompt_title = "Project root",
     shorten_path = true,
     cwd = vim.fn.FindRootDirectory(),
+  }
+end
+
+-- Custom lua function to search from project root
+-- uses vim-rooter's FindRootDirectory function
+function live_grep_in_project_root()
+  require'telescope.builtin'.live_grep {
+    prompt_title = "Project root live grep",
+    shorten_path = true,
+    cwd = vim.fn.FindRootDirectory(),
+    layout_strategy = "vertical",
   }
 end
 
@@ -1689,4 +1700,5 @@ EOF
 
 " }}}
 
-" TODO: Find out how to yank visual select something from telescope results in normal mode
+" TODO: Find out how to yank or visual select something from telescope results in normal mode
+" TODO: Find a better way for FindRootDirectory() custom telescope functions
