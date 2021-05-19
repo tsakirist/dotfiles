@@ -407,13 +407,16 @@ endif
 
 " ----------------------------------- 6. Keybindings {{{
 
+" Keymap to source the vimrc automatically
+nnoremap <silent> <leader>sc :source $MYVIMRC<CR>
+
 " Toggle Goyo - distraction free writing
 nnoremap <silent> <F1> :Goyo<CR>
 
 " Toggle between folds
 nnoremap <expr> <F2> &foldlevel ? 'zM' :'zR'
 
-" Fill the current line with a leading "<space><prev_line_cols>[-]
+" Fill the current line with a leading "<Space><prev_line_cols>[-]
 nnoremap <expr> <F3> ':call functions#Fill(45)\<CR>'
 
 " Change buffers quickly
@@ -421,11 +424,11 @@ nnoremap <silent> <leader>bn :bnext<CR>
 nnoremap <silent> <leader>bp :bprevious<CR>
 
 " List buffers and prepend :b on the cmd line
-nnoremap <leader>bf :ls<CR>:b<space>
+nnoremap <leader>bf :ls<CR>:b<Space>
 
 " Search within buffers and send results in the qflist
 " Copied from junegunn dotfiles
-nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd @@g %<Bar>cw<S-left><S-left><right>
+nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd @@g %<Bar>cw<S-Left><S-Left><Right>
 
 " Use bbye plugin's :Bdelete to close buffer w/o losing splits/windows
 nnoremap <silent> <leader>bd :Bdelete<CR>
@@ -438,28 +441,24 @@ nnoremap <S-tab> <C-w>W
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 " Use space to toggle fold
-nnoremap <space> za<CR>
+nnoremap <Space> za<CR>
 
 " Set Ctrl-t to jump to next occurence of the word under cursor
 nnoremap <silent> <C-t> *
 
-" Keybinds to move lines like
-" https://vim.fandom.com/wiki/Moving_lines_up_or_down
-" gv=gv re-selects the visual block after each operation
-" '==' re-indents the line after it has been moved
-nnoremap <silent> <C-S-Up> :m-2<CR>==
+" Keybinds to move lines up and down
+" gv=gv re-selects the visual block, indents it and finally re-selects it again
+nnoremap <silent> <C-S-Up>   :m-2<CR>==
 nnoremap <silent> <C-S-Down> :m+<CR>==
-inoremap <silent> <C-S-Up> <Esc>:m-2<CR>==gi
+inoremap <silent> <C-S-Up>   <Esc>:m-2<CR>==gi
 inoremap <silent> <C-S-Down> <Esc>:m+<CR>==gi
-vnoremap <silent> <C-S-Up> :m '<-2<CR>gv=gv
+vnoremap <silent> <C-S-Up>   :m '<-2<CR>gv=gv
 vnoremap <silent> <C-S-Down> :m '>+1<CR>gv=gv
 
-nnoremap <silent> <C-K> :m-2<CR>==
-nnoremap <silent> <C-J> :m+<CR>==
-inoremap <silent> <C-K> <Esc>:m-2<CR>==gi
-inoremap <silent> <C-J> <Esc>:m+<CR>==gi
-vnoremap <silent> <C-K> :m '<-2<CR>gv=gv
-vnoremap <silent> <C-J> :m '>+1<CR>gv=gv
+nnoremap <silent> <C-k> :m-2<CR>==
+nnoremap <silent> <C-j> :m+<CR>==
+vnoremap <silent> <C-k> :m '<-2<CR>gv=gv
+vnoremap <silent> <C-j> :m '>+1<CR>gv=gv
 
 " Duplicate the current line
 " 't' command is a synonym for copy
@@ -493,7 +492,6 @@ inoremap <C-l> <C-o>l
 inoremap <C-j> <C-o>j
 inoremap <C-k> <C-o>k
 inoremap <C-a> <C-o>A
-inoremap <C-o> <C-o>0
 inoremap <C-^> <C-o><C-^>
 
 " Make Y behave like the other commands and copy till EOL
@@ -508,9 +506,6 @@ imap <leader><leader> <C-o><Plug>NERDCommenterToggle
 nnoremap <silent> <Esc> :noh<return><Esc>
 nnoremap <silent> <Esc>^[ <Esc>^[
 
-" Keymap to source the vimrc automatically
-nnoremap <silent> <leader>sc :source $MYVIMRC<CR>
-
 " Commands/Keymaps to open terminals horizontally and vertically
 command! -nargs=* HT split  | terminal <args>
 command! -nargs=* VT vsplit | terminal <args>
@@ -524,9 +519,9 @@ nnoremap <silent> <leader>fk :FloatermKill<CR>
 tnoremap <silent> <leader>ft <C-\><C-n>:FloatermToggle<CR>
 tnoremap <silent> <leader>fk <C-\><C-n>:FloatermKill<CR>
 
-" Make a whole-word search proc with <leader>/
+" Make a whole-word search with <leader>/
 command! -nargs=1 SearchWord call functions#SearchWord(<f-args>)
-nnoremap <leader>/ :SearchWord<space>
+nnoremap <leader>/ :SearchWord<Space>
 
 " Command and key mapping to enable the zoom-in and zoom-out
 command! ZoomToggle call functions#ZoomToggle()
@@ -586,11 +581,11 @@ nnoremap <silent> <leader>gb :BlamerToggle<CR>
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
-" Also, '[q', ']q' work for cprev cnext, check vim-unimpaired
+" Also, '[q', ']q' work for cprev cnext, from vim-unimpaired
 nnoremap <silent> <leader>co :copen<CR>
 nnoremap <silent> <leader>cc :cclose<CR>
 
-" Also '[l', ']l' work for lprev lnext, check vim-unimpaired
+" Also '[l', ']l' work for lprev lnext, from vim-unimpaired
 nnoremap <silent> <leader>lo :lopen<CR>
 nnoremap <silent> <leader>lc :lclose<CR>
 
@@ -812,8 +807,8 @@ let g:indent_blankline_show_current_context=v:true
 let g:indent_blankline_context_patterns=
       \ ['class', 'function', 'method', 'if', 'while', 'for', 'try', 'except', 'argument_list']
 
-" Set the highlight for the treesitter context
-highlight IndentBlanklineContextChar guifg=#545c82 gui=nocombine
+" Change the highlight for the treesitter context, to a light gray
+" highlight IndentBlanklineContextChar guifg=#545c82 gui=nocombine
 
 " Git-messenger options
 " ---------------------
@@ -859,7 +854,6 @@ let g:vem_tabline_number_symbol=" "
 lua << EOF
 -- Setup nvim-colorizer
 require'colorizer'.setup()
-
 EOF
 
 " Load a custom lualine theme
@@ -873,8 +867,8 @@ luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
 if functions#PluginLoaded('vim-which-key')
 
   " Map leader-space to which_key
-  nnoremap <silent> <leader><space> :silent <c-u> :silent WhichKey '<space>'<CR>
-  vnoremap <silent> <leader><space> :silent <c-u> :silent WhichKeyVisual '<space>'<CR>
+  nnoremap <silent> <leader><Space> :silent <c-u> :silent WhichKey '<Space>'<CR>
+  vnoremap <silent> <leader><Space> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
 
   " Create map to add keys to
   let g:which_key_map={}
@@ -1036,7 +1030,7 @@ if functions#PluginLoaded('vim-which-key')
         \}
 
   " Register which key map
-  call which_key#register('<space>', "g:which_key_map")
+  call which_key#register('<Space>', "g:which_key_map")
 
 endif
 
@@ -1054,11 +1048,12 @@ function _G.webDevIcons(path)
 end
 EOF
 
+" Function for Startify in-order to use web-devicons in place of devicons
 function! StartifyEntryFormat() abort
   return 'v:lua.webDevIcons(absolute_path) . " " . entry_path'
 endfunction
 
-" Function for vem-tabline, from vim-devicons to web-devicons
+" Function for vem-tabline, to get web-devicons in place of devicons
 function! WebDevIconsGetFileTypeSymbol(path) abort
   return v:lua.webDevIcons(a:path)
 endfunction
@@ -1174,30 +1169,24 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = {
     'c', 'cpp', 'json', 'python', 'lua', 'bash', 'typescript'
   },
-
   highlight = {
     enable = true,
   },
-
   indent = {
     enable = true,
   },
-
-  -- This is for nvim-autopairs
   autopairs = {
     enable = true,
   },
-
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = "gnn",
-      node_incremental = "grn",
+      init_selection    = "gnn",
+      node_incremental  = "grn",
       scope_incremental = "grc",
-      node_decremental = "grm",
+      node_decremental  = "grm",
     }
   },
-
   textobjects = {
     select = {
       enable = true,
@@ -1212,7 +1201,6 @@ require'nvim-treesitter.configs'.setup {
         ["iC"] = "@class.inner",
       },
     },
-
     swap = {
       enable = true,
       swap_next = {
@@ -1224,7 +1212,6 @@ require'nvim-treesitter.configs'.setup {
         ["<leader>sM"] = "@function.outer",
       },
     },
-
     move = {
       enable = true,
       set_jumps = true,
@@ -1245,7 +1232,6 @@ require'nvim-treesitter.configs'.setup {
         ["[C"] = "@class.outer",
       },
     },
-
     lsp_interop = {
       enable = true,
       peek_definition_code = {
@@ -1253,7 +1239,6 @@ require'nvim-treesitter.configs'.setup {
         ["gc"] = "@class.outer",
       },
     },
-
     playground = {
       enable = true,
       updatetime = 25,
@@ -1313,7 +1298,7 @@ require('trouble').setup {
     preview = "p",                    -- preview the diagnostic location
     close_folds = {"zM", "zm"},       -- close all folds
     open_folds = {"zR", "zr"},        -- open all folds
-    toggle_fold = {"<space>", "za"},  -- toggle fold of current file
+    toggle_fold = {"<Space>", "za"},  -- toggle fold of current file
     previous = "<C-k>",               -- previous item
     next = "<C-j>",                   -- next item
   },
@@ -1323,11 +1308,11 @@ require('trouble').setup {
   auto_preview = true,                -- automatically preview the location of the diagnostic
   auto_fold = false,                  -- automatically fold a file trouble list at creation
   signs = {
-      error = "",
-      warning = "",
-      hint = "",
-      information = "",
-      other = "﫠"
+    error       = "",
+    information = "",
+    warning     = "",
+    hint        = "",
+    other       = "﫠"
   },
   use_lsp_diagnostic_signs = false    -- enabling this will use the signs defined in your lsp client
 }
@@ -1342,27 +1327,27 @@ endif
 if functions#PluginLoaded('telescope.nvim')
 
   " Find files using Telescope command-line sugar
-  nnoremap <silent> <leader>fc :Telescope git_commits<CR>
-  nnoremap <silent> <leader>fC :Telescope git_bcommits<CR>
-  nnoremap <silent> <leader>fh :Telescope command_history<CR>
-  nnoremap <silent> <leader>fm :Telescope keymaps<CR>
-  nnoremap <silent> <leader>fM :Telescope marks<CR>
-  nnoremap <silent> <leader>fo :Telescope oldfiles<CR>
-  nnoremap <silent> <leader>fO :Telescope vim_options<CR>
-  nnoremap <silent> <leader>fs :Telescope grep_string<CR>
-  nnoremap <silent> <leader>fT :Telescope tags<CR>
+  nnoremap <silent> <leader>fc <Cmd>Telescope git_commits<CR>
+  nnoremap <silent> <leader>fC <Cmd>Telescope git_bcommits<CR>
+  nnoremap <silent> <leader>fh <Cmd>Telescope command_history<CR>
+  nnoremap <silent> <leader>fm <Cmd>Telescope keymaps<CR>
+  nnoremap <silent> <leader>fM <Cmd>Telescope marks<CR>
+  nnoremap <silent> <leader>fo <Cmd>Telescope oldfiles<CR>
+  nnoremap <silent> <leader>fO <Cmd>Telescope vim_options<CR>
+  nnoremap <silent> <leader>fs <Cmd>Telescope grep_string<CR>
+  nnoremap <silent> <leader>fT <Cmd>Telescope tags<CR>
 
   " Custom commands with extra options
-  nnoremap <silent> <leader>fb :lua require'telescope.builtin'.buffers({shorten_path = true})<CR>
-  nnoremap <silent> <leader>fB :lua custom_file_browser()<CR>
-  nnoremap <silent> <leader>ff :lua require'telescope.builtin'.find_files({shorten_path = true})<CR>
-  nnoremap <silent> <leader>fF :lua require'telescope.builtin'.git_files({shorten_path = true})<CR>
-  nnoremap <silent> <leader>fg :lua require'telescope.builtin'.live_grep({layout_strategy = "vertical"})<CR>
-  nnoremap <silent> <leader>fl :lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
-  nnoremap <silent> <leader>fm :lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_dropdown({}))<CR>
-  nnoremap <silent> <leader>fv :lua find_in_vim_root()<CR>
-  nnoremap <silent> <leader>fp :lua find_in_project_root()<CR>
-  nnoremap <silent> <leader>fG :lua live_grep_in_project_root()<CR>
+  nnoremap <silent> <leader>fb <Cmd>lua require'telescope.builtin'.buffers({shorten_path = true})<CR>
+  nnoremap <silent> <leader>fB <Cmd>lua custom_file_browser()<CR>
+  nnoremap <silent> <leader>ff <Cmd>lua require'telescope.builtin'.find_files({shorten_path = true})<CR>
+  nnoremap <silent> <leader>fF <Cmd>lua require'telescope.builtin'.git_files({shorten_path = true})<CR>
+  nnoremap <silent> <leader>fg <Cmd>lua require'telescope.builtin'.live_grep({layout_strategy = "vertical"})<CR>
+  nnoremap <silent> <leader>fl <Cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
+  nnoremap <silent> <leader>fm <Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_dropdown({}))<CR>
+  nnoremap <silent> <leader>fv <Cmd>lua find_in_vim_root()<CR>
+  nnoremap <silent> <leader>fp <Cmd>lua find_in_project_root()<CR>
+  nnoremap <silent> <leader>fG <Cmd>lua live_grep_in_project_root()<CR>
 
   " Make matching characters to follow darcula scheme if active
   if functions#ColorschemeActive('darcula')
@@ -1381,7 +1366,6 @@ require'telescope'.setup {
     selection_caret = '❯ ',
     winblend = 10,
     preview_cutoff = 120,
-
     layout_strategy = 'horizontal',
     layout_defaults = {
       horizontal = {
@@ -1395,27 +1379,24 @@ require'telescope'.setup {
         preview_height = 0.65,
       }
     },
-
+    use_less = true,
+    color_devicons = true,
+    prompt_position = "top",
+    scroll_strategy = "cycle",
     selection_strategy = "reset",
     sorting_strategy = "ascending",
-    scroll_strategy = "cycle",
-    prompt_position = "top",
-    color_devicons = true,
-    use_less = true,
     set_env = { ['COLORTERM'] = 'truecolor' },
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-
     file_sorter = require'telescope.sorters'.get_fzy_sorter,
     file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
     grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
     qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
-
     mappings = {
       i = {
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
         ["<C-q>"] = actions.close,
-        ["<ESC>"] = actions.close,
+        ["<Esc>"] = actions.close,
         ["<CR>"]  = actions.select_default + actions.center,
         ["<Tab>"] = actions.toggle_selection,
         ["<C-t>"] = trouble.open_with_trouble,
@@ -1429,7 +1410,6 @@ require'telescope'.setup {
       }
     }
   },
-
   extensions = {
     fzy_native = {
       override_generic_sorter = true,
@@ -1447,8 +1427,8 @@ function find_in_vim_root()
     prompt_title = "~/.vim",
     shorten_path = false,
     cwd = "~/.vim",
-    follow = true, -- follow symbolic links
-    file_ignore_patterns = { "undo%-dir" }, -- character '-' needs escape
+    follow = true,                          -- follow symbolic links
+    file_ignore_patterns = { "undo%-dir" }, -- character '-' needs to be escaped
     layout_strategy = 'flex',
     layout_config = {
       horizontal = {
@@ -1471,7 +1451,7 @@ function find_in_project_root()
   }
 end
 
--- Custom lua function to search from project root
+-- Custom lua function to live_grep from project root
 -- uses vim-rooter's FindRootDirectory function
 function live_grep_in_project_root()
   require'telescope.builtin'.live_grep {
@@ -1482,6 +1462,7 @@ function live_grep_in_project_root()
   }
 end
 
+-- This is copied from Tj's dotfiles
 -- Custom file browser with keybindgs
 -- '-' go to parent directory
 -- '~' go to home directory
@@ -1497,7 +1478,7 @@ function custom_file_browser()
         current_picker.cwd = new_cwd
         current_picker:refresh(opts.new_finder(new_cwd), { reset_prompt = true })
       end
-      map('i', '-', function() modify_cwd(current_picker.cwd .. "/..") end)
+      map('i', '-', function() modify_cwd(current_picker.cwd .. '/..') end)
       map('i', '~', function() modify_cwd(vim.fn.expand('~')) end)
       return true
     end
@@ -1515,15 +1496,15 @@ endif
 if functions#PluginLoaded('nvim-compe')
 
   " Speedup the startup of nvim-compe, don't load these
-  let g:loaded_compe_treesitter=0
-  let g:loaded_compe_spell=0
   let g:loaded_compe_calc=0
   let g:loaded_compe_tags=0
   let g:loaded_compe_emoji=0
-  let g:loaded_compe_ultisnips=0
   let g:loaded_compe_vsnip=0
+  let g:loaded_compe_spell=0
   let g:loaded_compe_vim_lsp=0
   let g:loaded_compe_vim_lsc=0
+  let g:loaded_compe_ultisnips=0
+  let g:loaded_compe_treesitter=0
   let g:loaded_compe_snippets_nvim=0
 
 lua << EOF
@@ -1567,12 +1548,9 @@ endif
 if functions#PluginLoaded('nvim-autopairs')
 
 lua << EOF
--- Setup auto-pairs nvim
+-- Setup nvim-autopairs
 require'nvim-autopairs'.setup {
-  disable_filetype = {
-    "TelescopePrompt",
-    "vim",
-  },
+  disable_filetype = { "TelescopePrompt", "vim" },
   check_ts = true,
 }
 
@@ -1592,7 +1570,7 @@ MUtils.completion_confirm = function()
   end
 end
 
-vim.api.nvim_set_keymap('i', '<CR>', 'v:lua.MUtils.completion_confirm()', {expr = true, noremap = true})
+vim.api.nvim_set_keymap('i', '<CR>', 'v:lua.MUtils.completion_confirm()', { expr = true, noremap = true })
 EOF
 
 endif
@@ -1611,31 +1589,31 @@ local on_attach = function(client, bufnr)
 
   -- Mappings
   local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gD'         , '<cmd>lua vim.lsp.buf.declaration()<CR>'                  , opts)
-  buf_set_keymap('n', 'gd'         , '<cmd>lua vim.lsp.buf.definition()<CR>'                   , opts)
-  buf_set_keymap('n', 'gr'         , '<cmd>lua vim.lsp.buf.references()<CR>'                   , opts)
-  buf_set_keymap('n', 'K'          , '<cmd>lua vim.lsp.buf.hover()<CR>'                        , opts)
-  buf_set_keymap('n', '<leader>rn' , '<cmd>lua vim.lsp.buf.rename()<CR>'                       , opts)
-  buf_set_keymap('n', '<leader>ca' , '<cmd>lua vim.lsp.buf.code_action()<CR>'                  , opts)
-  buf_set_keymap('n', '<leader>e'  , '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>' , opts)
-  buf_set_keymap('n', '[d'         , '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
-  buf_set_keymap('n', ']d'         , '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
-  buf_set_keymap('n', 'dp'         , '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
-  buf_set_keymap('n', 'dn'         , '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
-  buf_set_keymap('n', '<leader>l'  , '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>'           , opts)
+  buf_set_keymap('n', 'gD'         , '<Cmd>lua vim.lsp.buf.declaration()<CR>'                  , opts)
+  buf_set_keymap('n', 'gd'         , '<Cmd>lua vim.lsp.buf.definition()<CR>'                   , opts)
+  buf_set_keymap('n', 'gr'         , '<Cmd>lua vim.lsp.buf.references()<CR>'                   , opts)
+  buf_set_keymap('n', 'K'          , '<Cmd>lua vim.lsp.buf.hover()<CR>'                        , opts)
+  buf_set_keymap('n', '<leader>rn' , '<Cmd>lua vim.lsp.buf.rename()<CR>'                       , opts)
+  buf_set_keymap('n', '<leader>ca' , '<Cmd>lua vim.lsp.buf.code_action()<CR>'                  , opts)
+  buf_set_keymap('n', '<leader>e'  , '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>' , opts)
+  buf_set_keymap('n', '[d'         , '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
+  buf_set_keymap('n', ']d'         , '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
+  buf_set_keymap('n', 'dp'         , '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
+  buf_set_keymap('n', 'dn'         , '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
+  buf_set_keymap('n', '<leader>l'  , '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>'           , opts)
 
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    buf_set_keymap('n', '<leader>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', opts)
   end
   if client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap("v", "<leader>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+    buf_set_keymap('v', '<leader>f', '<Cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
   end
 end
 
 -- Install and setup the required servers
 require'lspinstall'.setup{}
-local required_servers = {"cpp", "vim", "lua", "bash", "python", "typescript"}
+local required_servers = { "cpp", "vim", "lua", "bash", "python", "typescript" }
 local installed_servers = require'lspinstall'.installed_servers()
 for _, server in pairs(required_servers) do
   if not vim.tbl_contains(installed_servers, server) then
@@ -1644,7 +1622,7 @@ for _, server in pairs(required_servers) do
 end
 
 -- Map local buffer keybindings when the server attaches
-local installed_servers = require'lspinstall'.installed_servers()
+installed_servers = require'lspinstall'.installed_servers()
 for _, server in pairs(installed_servers) do
   require'lspconfig'[server].setup{on_attach=on_attach}
 end
@@ -1655,16 +1633,16 @@ require'lsp_signature'.on_attach({
   doc_lines = 10,
   hint_enable = false,
   handler_opts = {
-    border = "none" -- double, single, shadow, none
+    border = "none", -- double, single, shadow, none
   },
   decorator = {"`", "`"},
 })
 
 -- Custom icons for LSP diagnostics
-vim.fn.sign_define("LspDiagnosticsSignError",       {text = "", numhl = "LspDiagnosticsDefaultError"})
-vim.fn.sign_define("LspDiagnosticsSignWarning",     {text = "", numhl = "LspDiagnosticsDefaultWarning"})
-vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
-vim.fn.sign_define("LspDiagnosticsSignHint",        {text = "", numhl = "LspDiagnosticsDefaultHint"})
+vim.fn.sign_define("LspDiagnosticsSignHint",        { text = "", numhl = "LspDiagnosticsDefaultHint" })
+vim.fn.sign_define("LspDiagnosticsSignError",       { text = "", numhl = "LspDiagnosticsDefaultError" })
+vim.fn.sign_define("LspDiagnosticsSignWarning",     { text = "", numhl = "LspDiagnosticsDefaultWarning" })
+vim.fn.sign_define("LspDiagnosticsSignInformation", { text = "", numhl = "LspDiagnosticsDefaultInformation" })
 
 -- Custom icons for the auto-completion
 vim.lsp.protocol.CompletionItemKind = {
