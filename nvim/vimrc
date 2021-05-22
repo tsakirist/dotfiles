@@ -1327,10 +1327,8 @@ endif
 if functions#PluginLoaded('telescope.nvim')
 
   " Find files using Telescope command-line sugar
-  nnoremap <silent> <leader>fc <Cmd>Telescope git_commits<CR>
-  nnoremap <silent> <leader>fC <Cmd>Telescope git_bcommits<CR>
-  nnoremap <silent> <leader>fh <Cmd>Telescope command_history<CR>
-  nnoremap <silent> <leader>fm <Cmd>Telescope keymaps<CR>
+  nnoremap <silent> <leader>fc <Cmd>Telescope command_history<CR>
+  nnoremap <silent> <leader>fC <Cmd>Telescope commands<CR>
   nnoremap <silent> <leader>fM <Cmd>Telescope marks<CR>
   nnoremap <silent> <leader>fo <Cmd>Telescope oldfiles<CR>
   nnoremap <silent> <leader>fO <Cmd>Telescope vim_options<CR>
@@ -1343,11 +1341,13 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>ff <Cmd>lua require'telescope.builtin'.find_files({shorten_path = true})<CR>
   nnoremap <silent> <leader>fF <Cmd>lua require'telescope.builtin'.git_files({shorten_path = true})<CR>
   nnoremap <silent> <leader>fg <Cmd>lua require'telescope.builtin'.live_grep({layout_strategy = "vertical"})<CR>
+  nnoremap <silent> <leader>fh <Cmd>lua require'telescope.builtin'.help_tags({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fl <Cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fm <Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_dropdown({}))<CR>
   nnoremap <silent> <leader>fv <Cmd>lua find_in_vim_root()<CR>
   nnoremap <silent> <leader>fp <Cmd>lua find_in_project_root()<CR>
   nnoremap <silent> <leader>fG <Cmd>lua live_grep_in_project_root()<CR>
+  nnoremap <silent> <leader>fS <Cmd>lua custom_grep_string()<CR>
 
   " Make matching characters to follow darcula scheme if active
   if functions#ColorschemeActive('darcula')
@@ -1483,7 +1483,15 @@ function custom_file_browser()
       return true
     end
   }
-  require('telescope.builtin').file_browser(opts)
+  require'telescope.builtin'.file_browser(opts)
+end
+
+-- Custom function to search for a provided string
+function custom_grep_string()
+  require'telescope.builtin'.grep_string {
+    shorten_path = true,
+    search = vim.fn.input("Grep string ﯀ "),
+  }
 end
 EOF
 
