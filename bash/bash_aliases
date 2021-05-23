@@ -50,6 +50,9 @@ alias rm='rm -i'
 # Make mv command verbose
 alias mv='mv -v'
 
+# Make cp command verbose
+alias cp='cp -v'
+
 # This is to log out
 alias logout='gnome-session-quit'
 
