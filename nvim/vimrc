@@ -162,8 +162,9 @@ Plug 'rhysd/git-messenger.vim'
 " Git blamer with inline text
 Plug 'APZelos/blamer.nvim'
 
-" Viewer and finder for LSP symbols and tags
-Plug 'liuchengxu/vista.vim'
+" Switch between single-line and multiline forms of code
+" Doesn't work exactly as I want it to, so it's here on a temp basis
+Plug 'AndrewRadev/splitjoin.vim'
 
 " Treesitter incremental parsing library
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
