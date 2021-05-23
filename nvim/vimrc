@@ -162,6 +162,9 @@ Plug 'rhysd/git-messenger.vim'
 " Git blamer with inline text
 Plug 'APZelos/blamer.nvim'
 
+" Viewer and finder for LSP symbols and tags
+Plug 'liuchengxu/vista.vim'
+
 " Treesitter incremental parsing library
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -184,6 +187,9 @@ Plug 'kabouzeid/nvim-lspinstall'
 Plug 'hrsh7th/nvim-compe'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'kosayoda/nvim-lightbulb'
+
+" Viewer and finder for LSP symbols and tags
+Plug 'liuchengxu/vista.vim'
 
 " Pretty list of showing diagnostics, telescope results etc
 Plug 'folke/trouble.nvim'
@@ -592,6 +598,10 @@ nnoremap <silent> <leader>lc :lclose<CR>
 " Close all buffers except the current one
 nnoremap <silent> <leader>bo :BufOnly<CR>
 
+" Keybindings to toggle Vista and open Vista finder more easily
+nnoremap <silent> <leader>vv :Vista!!<CR>
+nnoremap <silent> <leader>vf :Vista finder nvim_lsp<CR>
+
 " }}}
 
 " ----------------------------------- 7. Abbreviations {{{
@@ -845,6 +855,27 @@ let g:vem_tabline_show_number="buffnr"
 
 " Symbol to show after the number
 let g:vem_tabline_number_symbol=" "
+
+" Vista options
+" -------------
+" How each level is indented and what to prepend.
+" This could make the display more compact or more spacious. e.g., more compact: ["▸ ", ""]
+let g:vista_icon_indent=["╰─▸ ", "├─▸ "]
+
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+let g:vista_default_executive='nvim_lsp'
+
+" Set the executive for some filetypes explicitly. Use the explicit executive
+" instead of the default one for these filetypes when using `:Vista` without
+" specifying the executive.
+let g:vista_executive_for={'cpp': 'nvim_lsp'}
+
+" To enable fzf's preview window set g:vista_fzf_preview.
+let g:vista_fzf_preview=['right:50%']
+
+" Enable icons
+let g:vista#renderer#enable_icon=1
 
 " }}}
 
@@ -1464,7 +1495,7 @@ function live_grep_in_project_root()
 end
 
 -- This is copied from Tj's dotfiles
--- Custom file browser with keybindgs
+-- Custom file browser with keybindings
 -- '-' go to parent directory
 -- '~' go to home directory
 function custom_file_browser()
