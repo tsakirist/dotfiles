@@ -734,7 +734,7 @@ let g:suda_smart_edit=1
 
 " Nerd Commenter options
 " ----------------------
-" Create default mappings
+" Do not create default mappings
 let g:NERDCreateDefaultMappings=0
 
 " Add spaces after comment delimiters by default
@@ -751,6 +751,7 @@ let g:NERDDefaultAlign='left'
 
 " Git blamer optionss
 " -------------------
+" Enable plugin and set the delay before triggering
 let g:blamer_enabled=1
 let g:blamer_delay=500
 
@@ -1122,19 +1123,19 @@ if functions#PluginLoaded('fzf.vim')
 
   " Make FZF colors match the active colorscheme
   let g:fzf_colors = {
-        \ 'fg':      ['fg', 'Normal'],
-        \ 'bg':      ['bg', 'Normal'],
-        \ 'hl':      ['fg', 'Comment'],
-        \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-        \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-        \ 'hl+':     ['fg', 'Statement'],
-        \ 'info':    ['fg', 'PreProc'],
-        \ 'border':  ['fg', 'Ignore'],
-        \ 'prompt':  ['fg', 'Conditional'],
-        \ 'pointer': ['fg', 'Exception'],
-        \ 'marker':  ['fg', 'Keyword'],
-        \ 'spinner': ['fg', 'Label'],
-        \ 'header':  ['fg', 'Comment']
+        \ 'fg'      : ['fg', 'Normal'],
+        \ 'bg'      : ['bg', 'Normal'],
+        \ 'hl'      : ['fg', 'Comment'],
+        \ 'fg+'     : ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+        \ 'bg+'     : ['bg', 'CursorLine', 'CursorColumn'],
+        \ 'hl+'     : ['fg', 'Statement'],
+        \ 'info'    : ['fg', 'PreProc'],
+        \ 'border'  : ['fg', 'Ignore'],
+        \ 'prompt'  : ['fg', 'Conditional'],
+        \ 'pointer' : ['fg', 'Exception'],
+        \ 'marker'  : ['fg', 'Keyword'],
+        \ 'spinner' : ['fg', 'Label'],
+        \ 'header'  : ['fg', 'Comment']
         \}
 
   " Popup window (anchored to the bottom of the current window)
@@ -1151,9 +1152,9 @@ if functions#PluginLoaded('fzf.vim')
 
   " This is the default extra key bindings
   let g:fzf_action = {
-        \ 'ctrl-t': 'tab split',
-        \ 'ctrl-x': 'split',
-        \ 'ctrl-v': 'vsplit'
+        \ 'ctrl-t' : 'tab split',
+        \ 'ctrl-x' : 'split',
+        \ 'ctrl-v' : 'vsplit'
         \}
 
 endif
@@ -1181,10 +1182,10 @@ require'nvim-treesitter.configs'.setup {
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection    = "gnn",
-      node_incremental  = "grn",
-      scope_incremental = "grc",
-      node_decremental  = "grm",
+      init_selection    = "gis",
+      node_incremental  = "ni",
+      node_decremental  = "nd",
+      scope_incremental = "si",
     }
   },
   textobjects = {
@@ -1688,5 +1689,3 @@ EOF
 
 " }}}
 
-" TODO: Find out how to yank or visual select something from telescope results in normal mode
-" TODO: Find a better way for FindRootDirectory() custom telescope functions
