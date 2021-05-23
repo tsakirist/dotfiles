@@ -377,6 +377,12 @@ if functions#PluginLoaded('nvim-lightbulb')
   autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb{ sign = { enabled = true } }
 endif
 
+" Autocmd for highlighting yanked text
+augroup LuaHighlightGroup
+  autocmd!
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+augroup END
+
 " Autocmd configurations for :term
 augroup TermAuGroup
   " Clear old autocommands of this group
@@ -475,10 +481,11 @@ vnoremap <silent> <leader>d :t.<CR>
 " Hitting ESC when inside a :term to get into normal mode
 tnoremap <Esc> <C-\><C-N>
 
-" Save files with ctrl+s in every mode
-nnoremap <C-s> :w<CR>
-inoremap <C-s> <Esc>:w<CR>
-vnoremap <C-s> <Esc>:w<CR>
+" Save files with ctrl+s
+" Use :update instead of :write, to only write the file when modified
+nnoremap <silent> <C-s> :update<CR>
+inoremap <silent> <C-s> <Esc>:update<CR>
+vnoremap <silent> <C-s> <Esc>:update<CR>
 
 " Keymaps to quit current buffer with ctrl+q
 nnoremap <silent> <C-q> :q<CR>
@@ -502,6 +509,10 @@ inoremap <C-^> <C-o><C-^>
 
 " Make Y behave like the other commands and copy till EOL
 nnoremap Y y$
+
+" Keep Visual mode selection when indenting text
+xmap > >gv
+xmap < <gv
 
 " Easiliy toggle comments, both in Normal and Insert mode
 map  <leader><leader> <Plug>NERDCommenterToggle
