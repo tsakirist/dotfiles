@@ -1393,11 +1393,6 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fG <Cmd>lua live_grep_in_project_root()<CR>
   nnoremap <silent> <leader>fS <Cmd>lua custom_grep_string()<CR>
 
-  " Make matching characters to follow darcula scheme if active
-  if functions#ColorschemeActive('darcula')
-    highlight TelescopeMatching guifg=#CC7832
-  endif
-
 lua << EOF
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
@@ -1724,6 +1719,29 @@ vim.lsp.protocol.CompletionItemKind = {
   "   (Operator)",
   "   (TypeParameter)"
 }
+
+-- Hacky way to toggle diagnostics on/off
+vim.g.diagnostics_active = true
+function _G.toggle_diagnostics()
+  if vim.g.diagnostics_active then
+    vim.g.diagnostics_active = false
+    vim.lsp.diagnostic.clear(0)
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+  else
+    vim.g.diagnostics_active = true
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = true,
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+      }
+    )
+  end
+  print("LSP diagnostics: " .. tostring(vim.g.diagnostics_active))
+end
+
+vim.api.nvim_set_keymap('n', '<leader>dt', ':call v:lua.toggle_diagnostics()<CR>', {noremap = true, silent = true})
 EOF
 
 " }}}
