@@ -24,4 +24,4 @@ done
 rm $RM_OPT $HOME/.*.~*
 rm $RM_OPT $HOME/.vim/autoload/*.vim.~*
 rm $RM_OPT $HOME/.config/nvim/init.vim.~*
-rm $RM_OPT $HOME/.config/nvim/coc-settings.json.~*
+rm $RM_OPT $HOME/.config/kitty/kitty.conf.~*

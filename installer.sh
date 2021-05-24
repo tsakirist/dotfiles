@@ -478,6 +478,23 @@ function _tilix() {
     _install tilix
 }
 
+function _kitty() {
+    _print i "kity" ": the fast, featureful, GPU based terminal emulator"
+    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
+    ln -sv $HOME/.local/kitty.app/bin/kitty /usr/local/bin/
+    # Place the kitty.desktop file somewhere it can be found
+    cp -v ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
+    # Update the path to the kitty icon in the kitty.desktop file
+    sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" \
+        ~/.local/share/applications/kitty.desktop
+}
+
+function _kitty_config() {
+    _check_file kitty/kitty.conf
+    _print s "kitty.conf"
+    ln -sv --backup=numbered "$(pwd)/kitty/kitty.conf" $HOME/.config/kitty/kitty.conf
+}
+
 function _set_wallpaper() {
     local wlp="wallpapers/1.jpg"
     _check_file "$wlp"
@@ -582,6 +599,8 @@ pkgs=(
     "    oh-my-zsh"
     "    bashrc, bash_aliases, bash_functions"
     "    tilix: terminal emulator"
+    "    kitty: the fast, featureful, GPU based terminal emulator"
+    "    kitty configuration"
     "    fzf: fuzzy finder"
     "    fzf configuration"
     "    fd: improved version of find"
@@ -624,6 +643,8 @@ pkgs_functions=(
     _oh_my_zsh
     _bash_config
     _tilix
+    _kitty
+    _kitty_config
     _fzf
     _fzf_config
     _fd
@@ -665,6 +686,7 @@ dotfiles_functions=(
     _fzf_config
     _nvimrc
     _tmux_config
+    _kitty_config
 )
 
 # -------------------------------------------------------- Menus -------------------------------------------------------

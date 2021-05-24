@@ -123,8 +123,13 @@ export EDITOR="$VISUAL"
 # Right enter might not work in some cases so we have to bind it to the enter
 bindkey -s "^[OM" "^M"
 
+# Add autocompletion for kitty
+autoload -Uz compinit
+compinit
+kitty + complete setup zsh | source /dev/stdin
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[ ! -f ~/.p10k.zsh ] || source ~/.p10k.zsh
 
 # Source my custom aliases
 [ -f ~/.zsh_aliases ] && . ~/.zsh_aliases
