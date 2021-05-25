@@ -495,6 +495,11 @@ function _kitty_config() {
     ln -sv --backup=numbered "$(pwd)/kitty/kitty.conf" $HOME/.config/kitty/kitty.conf
 }
 
+function _kitty_themes() {
+    _print i "kitty-themes"
+    git clone --depth=1 https://github.com/dexpota/kitty-themes.git ~/.config/kitty/kitty-themes
+}
+
 function _set_wallpaper() {
     local wlp="wallpapers/1.jpg"
     _check_file "$wlp"
@@ -601,6 +606,7 @@ pkgs=(
     "    tilix: terminal emulator"
     "    kitty: the fast, featureful, GPU based terminal emulator"
     "    kitty configuration"
+    "    kitty themes"
     "    fzf: fuzzy finder"
     "    fzf configuration"
     "    fd: improved version of find"
@@ -645,6 +651,7 @@ pkgs_functions=(
     _tilix
     _kitty
     _kitty_config
+    _kitty_themes
     _fzf
     _fzf_config
     _fd

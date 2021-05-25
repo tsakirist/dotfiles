@@ -86,3 +86,6 @@ alias network_restart2='sudo service network-manager restart'
 
 # Alias to get my ip
 alias myip='hostname -I'
+
+# Kitty aliases
+alias icat='kitty +kitten icat'
