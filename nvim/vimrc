@@ -1501,24 +1501,29 @@ function live_grep_in_project_root()
   }
 end
 
--- This is copied from Tj's dotfiles
--- Custom file browser with keybindings
--- '-' go to parent directory
--- '~' go to home directory
+-- This is copied from Tj's dotfiles and adjusted
+-- Custom file browser with various keybindings
 function custom_file_browser()
   local opts
   opts = {
     sorting_strategy = "ascending",
     scroll_strategy = "cycle",
     prompt_position = "top",
+    hidden = true,
     attach_mappings = function(prompt_bufnr, map)
       local current_picker = action_state.get_current_picker(prompt_bufnr)
       local modify_cwd = function(new_cwd)
         current_picker.cwd = new_cwd
         current_picker:refresh(opts.new_finder(new_cwd), { reset_prompt = true })
       end
-      map('i', '-', function() modify_cwd(current_picker.cwd .. '/..') end)
-      map('i', '~', function() modify_cwd(vim.fn.expand('~')) end)
+      local toggle_hidden = function()
+        opts.hidden = not opts.hidden
+        current_picker:refresh(opts.new_finder(current_picker.cwd), { reset_prompt = true })
+      end
+      map('i',   '-',   function() modify_cwd(current_picker.cwd .. '/..') end)
+      map('i',   '~',   function() modify_cwd(vim.fn.expand('~')) end)
+      map('i', '<M-h>', function() toggle_hidden() end)
+      map('i', '<M-y>', function() local entry = action_state.get_selected_entry() vim.fn.setreg('+', entry.value) end)
       return true
     end
   }
@@ -1642,12 +1647,12 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'K'          , '<Cmd>lua vim.lsp.buf.hover()<CR>'                        , opts)
   buf_set_keymap('n', '<leader>rn' , '<Cmd>lua vim.lsp.buf.rename()<CR>'                       , opts)
   buf_set_keymap('n', '<leader>ca' , '<Cmd>lua vim.lsp.buf.code_action()<CR>'                  , opts)
-  buf_set_keymap('n', '<leader>e'  , '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>' , opts)
   buf_set_keymap('n', '[d'         , '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
   buf_set_keymap('n', ']d'         , '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
   buf_set_keymap('n', 'dp'         , '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
   buf_set_keymap('n', 'dn'         , '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
-  buf_set_keymap('n', '<leader>l'  , '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>'           , opts)
+  buf_set_keymap('n', '<leader>ll' , '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>'           , opts)
+  buf_set_keymap('n', '<leader>ld' , '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>' , opts)
 
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
