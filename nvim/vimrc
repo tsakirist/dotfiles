@@ -475,9 +475,9 @@ vnoremap <silent> <C-j> :m '>+1<CR>gv=gv
 
 " Duplicate the current line
 " 't' command is a synonym for copy
-nnoremap <silent> <leader>d :t.<CR>
-inoremap <silent> <leader>d <Esc>:t.<CR>
-vnoremap <silent> <leader>d :t.<CR>
+nnoremap <silent> <leader>dd :t.<CR>
+inoremap <silent> <leader>dd <Esc>:t.<CR>
+vnoremap <silent> <leader>dd :t.<CR>
 
 " Hitting ESC when inside a :term to get into normal mode
 tnoremap <Esc> <C-\><C-N>
