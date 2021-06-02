@@ -1,4 +1,4 @@
-" vim et sw=2
+" vim: et sw=2
 
 " Function that checks if a plugin has been loaded or not
 " Returns 1 if the plugin is loaded 0 otherwise

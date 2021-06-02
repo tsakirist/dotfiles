@@ -218,7 +218,7 @@ syntax on
 " Set true colors inside nvim
 set termguicolors
 
-" Custom options for tokyonight-nvim colorscheme
+" Configure colorscheme
 if functions#PluginLoaded('tokyonight.nvim')
   let g:tokyonight_style="night"
   let g:tokyonight_italic_functions=1
@@ -226,9 +226,9 @@ if functions#PluginLoaded('tokyonight.nvim')
 endif
 
 " Custom colorscheme
-" silent! colorscheme onedark
+silent! colorscheme onedark
 " silent! colorscheme darcula
-silent! colorscheme tokyonight
+" silent! colorscheme tokyonight
 
 " Set the color for the folded sections
 highlight Folded guibg=Black guifg=DarkGray
@@ -475,9 +475,9 @@ vnoremap <silent> <C-j> :m '>+1<CR>gv=gv
 
 " Duplicate the current line
 " 't' command is a synonym for copy
-nnoremap <silent> <leader>dd :t.<CR>
-inoremap <silent> <leader>dd <Esc>:t.<CR>
-vnoremap <silent> <leader>dd :t.<CR>
+nnoremap <silent> <leader>d :t.<CR>
+inoremap <silent> <leader>d <Esc>:t.<CR>
+vnoremap <silent> <leader>d :t.<CR>
 
 " Hitting ESC when inside a :term to get into normal mode
 tnoremap <Esc> <C-\><C-N>
@@ -505,6 +505,8 @@ inoremap <C-h> <C-o>h
 inoremap <C-l> <C-o>l
 inoremap <C-j> <C-o>j
 inoremap <C-k> <C-o>k
+inoremap <C-b> <C-o>B
+inoremap <C-e> <C-o>E
 inoremap <C-a> <C-o>A
 inoremap <C-^> <C-o><C-^>
 
@@ -1373,6 +1375,7 @@ if functions#PluginLoaded('telescope.nvim')
   " Find files using Telescope command-line sugar
   nnoremap <silent> <leader>fc <Cmd>Telescope command_history<CR>
   nnoremap <silent> <leader>fC <Cmd>Telescope commands<CR>
+  nnoremap <silent> <leader>fH <Cmd>Telescope highlights<CR>
   nnoremap <silent> <leader>fM <Cmd>Telescope marks<CR>
   nnoremap <silent> <leader>fo <Cmd>Telescope oldfiles<CR>
   nnoremap <silent> <leader>fO <Cmd>Telescope vim_options<CR>
@@ -1501,7 +1504,6 @@ function live_grep_in_project_root()
   }
 end
 
--- This is copied from Tj's dotfiles and adjusted
 -- Custom file browser with various keybindings
 function custom_file_browser()
   local opts
@@ -1509,7 +1511,7 @@ function custom_file_browser()
     sorting_strategy = "ascending",
     scroll_strategy = "cycle",
     prompt_position = "top",
-    hidden = true,
+    hidden = false,
     attach_mappings = function(prompt_bufnr, map)
       local current_picker = action_state.get_current_picker(prompt_bufnr)
       local modify_cwd = function(new_cwd)
@@ -1746,8 +1748,12 @@ function _G.toggle_diagnostics()
   print("LSP diagnostics: " .. tostring(vim.g.diagnostics_active))
 end
 
-vim.api.nvim_set_keymap('n', '<leader>dt', ':call v:lua.toggle_diagnostics()<CR>', {noremap = true, silent = true})
+-- Consider this when another keybind sequence makes more sensse, don't want to bind <leader>dd cuz of this
+-- vim.api.nvim_set_keymap('n', '<leader>dt', ':call v:lua.toggle_diagnostics()<CR>', {noremap = true, silent = true})
 EOF
+
+" Add a user defined command to call, instead of adding a mapping to <leader>dt
+command! ToggleLSPDiagnostics call v:lua.toggle_diagnostics()
 
 " }}}
 
