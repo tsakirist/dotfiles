@@ -604,10 +604,16 @@ xnoremap & :&&<CR>
 " Also, '[q', ']q' work for cprev cnext, from vim-unimpaired
 nnoremap <silent> <leader>co :copen<CR>
 nnoremap <silent> <leader>cc :cclose<CR>
+nnoremap <silent> <leader>cr :cexpr []<CR>
 
 " Also '[l', ']l' work for lprev lnext, from vim-unimpaired
 nnoremap <silent> <leader>lo :lopen<CR>
 nnoremap <silent> <leader>lc :lclose<CR>
+nnoremap <silent> <leader>lr :lexpr []<CR>
+
+" Toggle quickfix and locationlist
+nnoremap <silent> <leader>ct :call functions#ToggleList('qf')<CR>
+nnoremap <silent> <leader>lt :call functions#ToggleList('loc')<CR>
 
 " Close all buffers except the current one
 nnoremap <silent> <leader>bo :BufOnly<CR>
@@ -1441,14 +1447,14 @@ require'telescope'.setup {
         ["<Esc>"] = actions.close,
         ["<CR>"]  = actions.select_default + actions.center,
         ["<Tab>"] = actions.toggle_selection,
+        ["<C-c>"] = actions.smart_send_to_qflist  + actions.open_qflist,
+        ["<C-l>"] = actions.smart_send_to_loclist + actions.open_loclist,
         ["<C-t>"] = trouble.open_with_trouble,
-        ["<leader>q"] = actions.smart_send_to_qflist + actions.open_qflist,
       },
       n = {
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
         ["<C-t>"] = trouble.open_with_trouble,
-        ["<leader>q"] = actions.smart_send_to_qflist + actions.open_qflist,
       }
     }
   },

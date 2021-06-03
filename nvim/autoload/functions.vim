@@ -45,3 +45,29 @@ function! functions#Fill(c) abort
   exec 'norm '.(strlen(getline(line('.') - 1)) - 2).'A'.nr2char(a:c)
 endfunction
 
+" Function to toggle either quickfix or location list
+function! functions#ToggleList(list) abort
+  if a:list == 'qf'
+    call s:toggleQuickfixList()
+  elseif a:list == 'loc'
+    call s:toggleLocationList()
+  else
+    echoerr "Supplied argument '" . a:list . "' is invalid. Valid options ['qf', 'loc']."
+  endif
+endfunction
+
+function! s:toggleQuickfixList() abort
+  if getqflist({'winid': 0}).winid
+    cclose
+  else
+    copen
+  endif
+endfunction
+
+function! s:toggleLocationList() abort
+  if getloclist(0, {'winid': 0}).winid
+    lclose
+  else
+    lopen
+  endif
+endfunction
