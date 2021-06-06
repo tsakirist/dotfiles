@@ -452,8 +452,8 @@ nnoremap <silent> <leader>bp :bprevious<CR>
 nnoremap <leader>bf :ls<CR>:b<Space>
 
 " Search within buffers and send results in the qflist
-" Copied from junegunn dotfiles
-nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd @@g %<Bar>cw<S-Left><S-Left><Right>
+" nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd @@g %<Bar>cw<S-Left><S-Left><Right>
+nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd //gj %<Bar>Trouble quickfix<S-Left><S-Left><S-Left><Right>
 
 " Use bbye plugin's :Bdelete to close buffer w/o losing splits/windows
 nnoremap <silent> <leader>bd :Bdelete<CR>
