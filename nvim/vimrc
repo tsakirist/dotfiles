@@ -361,6 +361,12 @@ autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
 " This will automatically resize windows/splits when resizing host window
 autocmd VimResized * wincmd =
 
+" Autocmd for vim-signify
+if functions#PluginLoaded('vim-signify')
+  " Show the hunk number when jumping to a hunk
+  autocmd User SignifyHunk call functions#ShowCurrentHunk()
+endif
+
 " Autocmd for vim-eunuch
 if functions#PluginLoaded('vim-eunuch')
   " Remove SudoWrite, SudoEdit from the commands as they do not work
@@ -557,8 +563,10 @@ xnoremap <ScrollWheelDown> 4<C-e>
 nnoremap <silent> <leader>gh :SignifyToggleHighlight<CR>
 nnoremap <silent> <leader>gf :SignifyFold<CR>
 nnoremap <silent> <leader>gd :SignifyDiff<CR>
+nnoremap <silent> <leader>hd :SignifyHunkDiff<CR>
+nnoremap <silent> <leader>hu :SignifyHunkUndo<CR>
 
-" Jump between git diff hunks
+" Git-signify jump between git diff hunks
 nmap <silent> <leader>gj <Plug>(signify-next-hunk)
 nmap <silent> <leader>gk <Plug>(signify-prev-hunk)
 nmap <silent> <leader>gJ 9999<leader>gj
@@ -725,6 +733,7 @@ let g:committia_min_window_width=140
 
 " Goyo options
 " ------------
+" Goyo window configurations
 let g:goyo_width="80%"
 let g:goyo_height="85%"
 let g:goyo_linenr=0
@@ -741,12 +750,10 @@ let g:signify_sign_delete='-'
 " -------------------
 " Better highlights for diff
 if functions#ColorschemeActive('darcula')
-  hi DiffAdded   guifg=#499C54
-  hi DiffRemoved guifg=#ab4b52
-
-  " Change the delete color to a shade of red both for sign and line
+  hi DiffAdded         guifg=#499C54
+  hi DiffRemoved       guifg=#ab4b52
   hi SignifyLineDelete guibg=#ab4b52
-  hi SignifySignDelete guibg=#ab4b5
+  hi SignifySignDelete guibg=#ab4b52
 endif
 
 " Vim Current Word options
@@ -800,7 +807,7 @@ let g:startify_fortune_use_unicode=1
 let g:startify_custom_header='startify#center(startify#fortune#cowsay())'
 
 " Add custom bookmarks
-let g:startify_bookmarks=[ {'v': '~/.vimrc'}, {'c': '~/.zshrc'}, {'a': '~/.zsh_aliases'} ]
+let g:startify_bookmarks=[{'v': '~/.vimrc'}, {'z': '~/.zshrc'}, {'a': '~/.zsh_aliases'}]
 
 " Indent-blankline options
 " ------------------------

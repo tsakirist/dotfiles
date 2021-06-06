@@ -71,3 +71,11 @@ function! s:toggleLocationList() abort
     lopen
   endif
 endfunction
+
+" When jumping to a diff hunk, print the hunk number in statusline
+function! functions#ShowCurrentHunk() abort
+  let h = sy#util#get_hunk_stats()
+  if !empty(h)
+    echo printf('[Hunk %d/%d]', h.current_hunk, h.total_hunks)
+  endif
+endfunction
