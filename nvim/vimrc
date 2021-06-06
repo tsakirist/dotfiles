@@ -221,6 +221,9 @@ syntax on
 " Set true colors inside nvim
 set termguicolors
 
+" Don't show the (INSERT, REPLACE, VISUAL) modes on the last line
+set noshowmode
+
 " Configure colorscheme
 if functions#PluginLoaded('tokyonight.nvim')
   let g:tokyonight_style="night"
@@ -228,7 +231,7 @@ if functions#PluginLoaded('tokyonight.nvim')
   let g:tokyonight_sidebars=["terminal"]
 endif
 
-" Custom colorscheme
+" Apply custom colorscheme
 silent! colorscheme onedark
 " silent! colorscheme darcula
 " silent! colorscheme tokyonight
@@ -376,7 +379,7 @@ if functions#PluginLoaded('vim-eunuch')
   autocmd VimEnter * :delcommand SudoWrite | :delcommand SudoEdit
 endif
 
-" Autocmd configurations for blamer
+" Autocmd for git blamer
 if functions#PluginLoaded('blamer.nvim')
   " Hide blamer on startup
   autocmd VimEnter * :BlamerHide
@@ -665,9 +668,6 @@ else
   let s:_colorScheme='onedark'
 endif
 
-" Don't show the mode in airline/lightline
-set noshowmode
-
 " Statusline options
 " ------------------
 if functions#PluginLoaded('vim-airline')
@@ -889,6 +889,12 @@ let g:vem_tabline_show_number="buffnr"
 
 " Symbol to show after the number
 let g:vem_tabline_number_symbol=" "
+
+" Change the colors of the bufferline for onedark
+if functions#ColorschemeActive('onedark')
+  highlight VemTablineSelected       guifg=#282c34 guibg=#c678dd
+  highlight VemTablineNumberSelected guifg=#282c34 guibg=#c678dd
+endif
 
 " Vista options
 " -------------
