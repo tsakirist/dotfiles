@@ -89,3 +89,6 @@ alias myip='hostname -I'
 
 # Kitty aliases
 alias icat='kitty +kitten icat'
+
+# Git aliases
+alias gc-='git checkout -'
