@@ -1,13 +1,20 @@
+; vim: sw=2
+
 [alias]
   lg = log --graph --pretty=format:'%C(bold red)%h%Creset - %s %C(yellow bold)%d%Creset %C(bold green)(%cr) %C(bold cyan)<%an>%Creset' --abbrev-commit
-  log-count = rev-list HEAD --count
+  commit-count = rev-list HEAD --count
   when-added = log --diff-filter=A --
   when-deleted = log --diff-filter=D --
   when-modified = log --diff-filter=M --
 
-[core]
-  ; pager = delta
-  pager = diff-so-fancy | less --tabs=4 -RFX
+[pager]
+  diff = delta
+  log = delta
+  reflog = delta
+  show = delta
+
+[interactive]
+  diffFilter = delta --color-only
 
 [color "diff"]
   old = red bold
@@ -23,16 +30,25 @@
   newNormal = green bold
   newHighlight = green bold 22
 
+[delta]
+  features = decorations
+  syntax-theme = Monokai Extended
+  line-numbers = true
+  side-by-side = false
+  plus-style          = syntax "#005500"
+  plus-non-emph-style = syntax "#005500"
+  plus-emph-style     = syntax "#006000"
+  minus-style         = syntax "#601011"
+  minus-non-emph-style= syntax "#601011"
+  minus-emph-style    = syntax "#901011"
+  whitespace-error-style = 22 reverse
+
+[delta "decorations"]
+  commit-decoration-style = cyan box ul
+  file-style = cyan ul
+  file-decoration-style = none
+  hunk-header-decoration-style = cyan box
+
 [user]
   name = Tsakiris Tryfon
   email = tr.tsakiris@gmail.com
-
-; [delta]
-  ; features = line-numbers decorations side-by-side
-  ; whitespace-error-style = 22 reverse
-  ; syntax-theme = Monokai Extended
-
-; [delta "decorations"]
-  ; commit-decoration-style = yellow box ul
-  ; file-style = yellow ul
-  ; file-decoration-style = none
