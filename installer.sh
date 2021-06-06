@@ -201,22 +201,6 @@ function _oh_my_zsh() {
     _zshrc
 }
 
-function _coc_requirements() {
-    # Install necessary packages
-    if ! command -v node > /dev/null 2>&1; then
-        _print i "node"
-        curl -sL install-node.now.sh/lts | sudo bash -s -- -y > /dev/null
-    fi
-    if ! command -v clangd > /dev/null 2>&1; then
-        _print i "clangd" ": language server (LSP)"
-        _install clang-tools-8 && sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-8 100
-    fi
-    # Set the coc-json file for the LSP
-    _check_file nvim/coc/coc-settings.json
-    _print s "coc-settings.json"
-    cp -v --backup=numbered nvim/coc/coc-settings.json $HOME/.config/nvim/
-}
-
 function _vim() {
     _print i "vim"
     _install vim vim-gnome
@@ -227,7 +211,6 @@ function _vimrc() {
     _print s ".vimrc"
     ln -sv --backup=numbered "$(pwd)/nvim/vimrc" $HOME/.vimrc
     vim +PlugInstall +qall
-    # _coc_requirements
 }
 
 function _nvim() {
@@ -251,7 +234,6 @@ function _nvimrc() {
     ln -sv --backup=numbered "$(pwd)/nvim/init.vim" $HOME/.config/nvim/init.vim
     _nvim_autoload
     nvim +PlugInstall +qall
-    # _coc_requirements
 }
 
 function _tmux() {
@@ -500,6 +482,12 @@ function _kitty_themes() {
     git clone --depth=1 https://github.com/dexpota/kitty-themes.git ~/.config/kitty/kitty-themes
 }
 
+function _x_profile() {
+    _check_file x/xprofile
+    _print s "xprofile"
+    ln -sv --backup=numbered "$(pwd)/x/xprofile" $HOME/.xprofile
+}
+
 function _set_wallpaper() {
     local wlp="wallpapers/1.jpg"
     _check_file "$wlp"
@@ -509,7 +497,7 @@ function _set_wallpaper() {
     gsettings set org.gnome.desktop.background picture-uri "$uri"
 }
 
-function _install_from_dir() {
+function _install_fonts_from_dir() {
     local fonts_dir="fonts"
     local fonts_dest=$HOME/.local/share/fonts/
     for font in "$fonts_dir"/*.ttf; do
@@ -519,7 +507,7 @@ function _install_from_dir() {
 
 function _install_fonts() {
     _print i "fonts"
-    _install_from_dir
+    _install_fonts_from_dir
     sudo apt install fonts-firacode
 }
 
@@ -614,7 +602,7 @@ pkgs=(
     "    rg: ripgrep recursive search for a pattern in files"
     "    nvim"
     "    nvimrc"
-    "    coc-requirements"
+    "    xprofile"
     "    tmux: terminal multiplexer"
     "    tmux configuration"
     "    xclip"
@@ -659,7 +647,7 @@ pkgs_functions=(
     _rg
     _nvim
     _nvimrc
-    _coc_requirements
+    _x_profile
     _tmux
     _tmux_config
     _xclip
@@ -694,6 +682,7 @@ dotfiles_functions=(
     _nvimrc
     _tmux_config
     _kitty_config
+    _x_profile
 )
 
 # -------------------------------------------------------- Menus -------------------------------------------------------
