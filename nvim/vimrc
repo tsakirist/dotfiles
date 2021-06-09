@@ -185,6 +185,9 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
 Plug 'junegunn/fzf.vim'
 
+" Goto preview in a floating window
+Plug 'rmagatti/goto-preview'
+
 " LSP related
 Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
@@ -1587,7 +1590,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 9. Nvim-compe {{{
+" ----------------------------------- 8. Nvim-compe {{{
 
 if functions#PluginLoaded('nvim-compe')
 
@@ -1639,7 +1642,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 8. Nvim-autopairs {{{
+" ----------------------------------- 9. Nvim-autopairs {{{
 
 if functions#PluginLoaded('nvim-autopairs')
 
@@ -1673,7 +1676,27 @@ endif
 
 " }}}
 
-" ----------------------------------- 10. LSP {{{
+" ----------------------------------- 10. Goto-preview {{{
+
+lua<<EOF
+-- Setup goto-preview configuration
+require'goto-preview'.setup {
+  width = 120;              -- Width of the floating window
+  height = 25;              -- Height of the floating window
+  opacity = 5;              -- 0-100 opacity level of the floating window where 100 is fully transparent.
+  debug = false;            -- Print debug information
+  default_mappings = false; -- Bind default mappings
+}
+
+local opts = { noremap=true, silent=true }
+vim.api.nvim_set_keymap("n", "gp", "<Cmd>lua require('goto-preview').goto_preview_definition()<CR>", opts)
+vim.api.nvim_set_keymap("n", "gP", "<Cmd>lua require('goto-preview').close_all_win()<CR>",           opts)
+
+EOF
+
+" }}}
+
+" ----------------------------------- 11. LSP {{{
 
 lua << EOF
 -- Setup LSP configuration
