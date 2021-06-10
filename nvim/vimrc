@@ -1403,6 +1403,7 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fO <Cmd>Telescope vim_options<CR>
   nnoremap <silent> <leader>fs <Cmd>Telescope grep_string<CR>
   nnoremap <silent> <leader>fT <Cmd>Telescope tags<CR>
+  nnoremap <silent> <leader>f/ <Cmd>Telescope search_history<CR>
 
   " Custom commands with extra options
   nnoremap <silent> <leader>fb <Cmd>lua require'telescope.builtin'.buffers({shorten_path = true})<CR>
@@ -1410,13 +1411,13 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>ff <Cmd>lua require'telescope.builtin'.find_files({shorten_path = true})<CR>
   nnoremap <silent> <leader>fF <Cmd>lua require'telescope.builtin'.git_files({shorten_path = true})<CR>
   nnoremap <silent> <leader>fg <Cmd>lua require'telescope.builtin'.live_grep({layout_strategy = "vertical"})<CR>
+  nnoremap <silent> <leader>fG <Cmd>lua live_grep_in_project_root()<CR>
   nnoremap <silent> <leader>fh <Cmd>lua require'telescope.builtin'.help_tags({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fl <Cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fm <Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_dropdown({}))<CR>
-  nnoremap <silent> <leader>fv <Cmd>lua find_in_vim_root()<CR>
   nnoremap <silent> <leader>fp <Cmd>lua find_in_project_root()<CR>
-  nnoremap <silent> <leader>fG <Cmd>lua live_grep_in_project_root()<CR>
   nnoremap <silent> <leader>fS <Cmd>lua custom_grep_string()<CR>
+  nnoremap <silent> <leader>fv <Cmd>lua find_in_vim_root()<CR>
 
 lua << EOF
 local actions = require('telescope.actions')
