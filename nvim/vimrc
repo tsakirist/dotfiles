@@ -98,10 +98,6 @@ Plug 'tpope/vim-surround'
 " Auto insert brackets, parentheses, etc
 Plug 'windwp/nvim-autopairs'
 
-" Switch between single-line and multiline forms of code
-" Doesn't work exactly as I want it to, so it's here on a temp basis
-Plug 'AndrewRadev/splitjoin.vim'
-
 " Alternate between absolute/relative numbers
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
@@ -113,9 +109,6 @@ Plug 'ton/vim-alternate'
 
 " Rooter changes the working directory to the project root when you open a file or directory
 Plug 'airblade/vim-rooter'
-
-" File explorer
-Plug 'kyazdani42/nvim-tree.lua'
 
 " Close buffers without losing splits/windows
 Plug 'moll/vim-bbye'
@@ -168,6 +161,10 @@ Plug 'rhysd/git-messenger.vim'
 
 " Git blamer with inline text
 Plug 'APZelos/blamer.nvim'
+
+" Switch between single-line and multiline forms of code
+" Doesn't work exactly as I want it to, so it's here on a temp basis
+Plug 'AndrewRadev/splitjoin.vim'
 
 " Treesitter incremental parsing library
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
@@ -639,10 +636,6 @@ nnoremap <silent> <leader>bo :BufOnly<CR>
 nnoremap <silent> <leader>vv :Vista!!<CR>
 nnoremap <silent> <leader>vf :Vista finder nvim_lsp<CR>
 
-" Nvim-tree lua keybidings
-nnoremap <silent> <leader>nt :NvimTreeToggle<CR>
-nnoremap <silent> <leader>nc :NvimTreeClose<CR>
-
 " }}}
 
 " ----------------------------------- 7. Abbreviations {{{
@@ -919,22 +912,6 @@ let g:vista_fzf_preview=['right:50%']
 
 " Enable icons
 let g:vista#renderer#enable_icon=1
-
-" Nvim tree options
-" -----------------
-" The below list with my configuration does not contain all the available options that exist
-let g:nvim_tree_side='left'
-let g:nvim_tree_width=40
-let g:nvim_tree_ignore=['.git', 'node_modules', '.cache']
-let g:nvim_tree_gitignore=1
-let g:nvim_tree_auto_ignore_ft=['startify']
-let g:nvim_tree_hide_dotfiles=1
-let g:nvim_tree_follow=1 "This option allows the cursor to be updated when entering a buffer
-let g:nvim_tree_git_hl=1 "Will enable file highlight for git attributes (can be used without the icons).
-let g:nvim_tree_highlight_opened_files=1 "Will enable folder and file icon highlight for opened files/directories.
-let g:nvim_tree_width_allow_resize=1 "Will not resize the tree when opening a file
-let g:nvim_tree_special_files=['README.md', 'Makefile', 'MAKEFILE'] "List that gets highlighted with NvimTreeSpecialFile
-let g:nvim_tree_icons={'default': ''}
 
 " }}}
 
