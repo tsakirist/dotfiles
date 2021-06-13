@@ -491,6 +491,7 @@ function _x_profile() {
 function _set_wallpaper() {
     local wlp="wallpapers/1.jpg"
     _check_file "$wlp"
+
     local path="$(readlink -e $wlp)"
     local uri="'file://$path'"
     _print s "wallpaper" ": $path"
@@ -500,6 +501,9 @@ function _set_wallpaper() {
 function _install_fonts_from_dir() {
     local fonts_dir="fonts"
     local fonts_dest=$HOME/.local/share/fonts/
+
+    _check_dir $fonts_dir
+
     for font in "$fonts_dir"/*.ttf; do
         cp -v "$font" "$fonts_dest"
     done
@@ -508,7 +512,6 @@ function _install_fonts_from_dir() {
 function _install_fonts() {
     _print i "fonts"
     _install_fonts_from_dir
-    sudo apt install fonts-firacode
 }
 
 function _fzf_config() {
