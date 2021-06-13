@@ -40,9 +40,9 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " Colorschemes
-Plug 'joshdick/onedark.vim'
+" Plug 'joshdick/onedark.vim'
+Plug 'ful1e5/onedark.nvim'
 Plug 'doums/darcula'
-Plug 'ghifarit53/tokyonight-vim'
 Plug 'folke/tokyonight.nvim', { 'on': [] }
 
 " Lightline statusline and tabline
