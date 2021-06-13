@@ -468,9 +468,6 @@ cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 " Use space to toggle fold
 nnoremap <Space> za<CR>
 
-" Set Ctrl-t to jump to next occurence of the word under cursor
-nnoremap <silent> <C-t> *
-
 " Keybinds to move lines up and down
 " gv=gv re-selects the visual block, indents it and finally re-selects it again
 nnoremap <silent> <C-S-Up>   :m-2<CR>==
