@@ -45,8 +45,8 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin('~/.vim/plugged')
 
 " Colorschemes
-" Plug 'joshdick/onedark.vim'
-Plug 'ful1e5/onedark.nvim'
+" Plug 'ful1e5/onedark.nvim'
+Plug 'joshdick/onedark.vim'
 Plug 'doums/darcula'
 Plug 'folke/tokyonight.nvim', { 'on': [] }
 
@@ -95,7 +95,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
 
 " Display indentation levels with lines
-Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
+Plug 'lukas-reineke/indent-blankline.nvim'
 
 " Surround mappings for enclosed text
 Plug 'tpope/vim-surround'
@@ -1164,9 +1164,9 @@ if functions#PluginLoaded('fzf.vim')
   " nnoremap <silent> <leader>fb :Buffers<CR>
   " nnoremap <silent> <leader>ff :Files<CR>
   " nnoremap <silent> <leader>rg :Rg<CR>
-  " nnoremap <silent> <leader>fm :Maps<CR>
   " nnoremap <silent> <leader>fM :Marks<CR>
   " nnoremap <silent> <leader>fh :History:<CR>
+  nnoremap <silent> <leader>fm <Cmd>Maps<CR>
 
   " Start searching for files
   command! -bang -nargs=? -complete=dir Files
@@ -1400,7 +1400,6 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fc <Cmd>Telescope command_history<CR>
   nnoremap <silent> <leader>fC <Cmd>Telescope commands<CR>
   nnoremap <silent> <leader>fH <Cmd>Telescope highlights<CR>
-  nnoremap <silent> <leader>fM <Cmd>Telescope marks<CR>
   nnoremap <silent> <leader>fo <Cmd>Telescope oldfiles<CR>
   nnoremap <silent> <leader>fO <Cmd>Telescope vim_options<CR>
   nnoremap <silent> <leader>fs <Cmd>Telescope grep_string<CR>
@@ -1408,15 +1407,15 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>f/ <Cmd>Telescope search_history<CR>
 
   " Custom commands with extra options
-  nnoremap <silent> <leader>fb <Cmd>lua require'telescope.builtin'.buffers({shorten_path = true})<CR>
+  nnoremap <silent> <leader>fb <Cmd>lua require'telescope.builtin'.buffers({path_display = { "shorten" }})<CR>
   nnoremap <silent> <leader>fB <Cmd>lua custom_file_browser()<CR>
-  nnoremap <silent> <leader>ff <Cmd>lua require'telescope.builtin'.find_files({shorten_path = true})<CR>
-  nnoremap <silent> <leader>fF <Cmd>lua require'telescope.builtin'.git_files({shorten_path = true})<CR>
+  nnoremap <silent> <leader>ff <Cmd>lua require'telescope.builtin'.find_files({path_display= { "shorten" }})<CR>
+  nnoremap <silent> <leader>fF <Cmd>lua require'telescope.builtin'.git_files({path_display = { "shorten" }})<CR>
   nnoremap <silent> <leader>fg <Cmd>lua require'telescope.builtin'.live_grep({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fG <Cmd>lua live_grep_in_project_root()<CR>
   nnoremap <silent> <leader>fh <Cmd>lua require'telescope.builtin'.help_tags({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fl <Cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
-  nnoremap <silent> <leader>fm <Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_dropdown({}))<CR>
+  nnoremap <silent> <leader>fM <Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_dropdown({}))<CR>
   nnoremap <silent> <leader>fp <Cmd>lua find_in_project_root()<CR>
   nnoremap <silent> <leader>fS <Cmd>lua custom_grep_string()<CR>
   nnoremap <silent> <leader>fv <Cmd>lua find_in_vim_root()<CR>
@@ -1431,29 +1430,32 @@ require'telescope'.setup {
   defaults = {
     prompt_prefix = '❯ ',
     selection_caret = '❯ ',
-    winblend = 10,
-    preview_cutoff = 120,
+    winblend = 15,
     layout_strategy = 'horizontal',
-    layout_defaults = {
+    layout_config = {
+      prompt_position = "top",
       horizontal = {
-        width_padding = 0.1,
-        height_padding = 0.1,
+        width = { padding = 0.1 },
+        height = { padding = 0.1 },
         preview_width = 0.5,
+        mirror = false,
       },
       vertical = {
-        width_padding = 0.1,
-        height_padding = 0.1,
+        width = { padding = 0.1 },
+        height = { padding = 0.1 },
         preview_height = 0.65,
-      }
+        mirror = false,
+      },
     },
     use_less = true,
     color_devicons = true,
-    prompt_position = "top",
+    initial_mode = "insert",
     scroll_strategy = "cycle",
     selection_strategy = "reset",
     sorting_strategy = "ascending",
     set_env = { ['COLORTERM'] = 'truecolor' },
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
+    file_ignore_patterns = {},
     file_sorter = require'telescope.sorters'.get_fzy_sorter,
     file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
     grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
@@ -1492,19 +1494,10 @@ require'telescope'.load_extension('fzy_native')
 function find_in_vim_root()
   require'telescope.builtin'.find_files {
     prompt_title = "~/.vim",
-    shorten_path = false,
+    path_display= { "shorten" },
     cwd = "~/.vim",
     follow = true,                          -- follow symbolic links
     file_ignore_patterns = { "undo%-dir" }, -- character '-' needs to be escaped
-    layout_strategy = 'flex',
-    layout_config = {
-      horizontal = {
-        preview_width = 120,
-      },
-      vertical = {
-        preview_height = 0.75,
-      }
-    }
   }
 end
 
@@ -1513,7 +1506,7 @@ end
 function find_in_project_root()
   require'telescope.builtin'.find_files {
     prompt_title = "Project root",
-    shorten_path = true,
+    path_display = { "shorten" },
     cwd = vim.fn.FindRootDirectory(),
   }
 end
@@ -1523,9 +1516,17 @@ end
 function live_grep_in_project_root()
   require'telescope.builtin'.live_grep {
     prompt_title = "Project root live grep",
-    shorten_path = true,
+    path_display = { "shorten" },
     cwd = vim.fn.FindRootDirectory(),
     layout_strategy = "vertical",
+  }
+end
+
+-- Custom function to search for a provided string
+function custom_grep_string()
+  require'telescope.builtin'.grep_string {
+    path_display = { "shorten" },
+    search = vim.fn.input("Grep string ﯀ "),
   }
 end
 
@@ -1535,7 +1536,6 @@ function custom_file_browser()
   opts = {
     sorting_strategy = "ascending",
     scroll_strategy = "cycle",
-    prompt_position = "top",
     hidden = false,
     attach_mappings = function(prompt_bufnr, map)
       local current_picker = action_state.get_current_picker(prompt_bufnr)
@@ -1555,14 +1555,6 @@ function custom_file_browser()
     end
   }
   require'telescope.builtin'.file_browser(opts)
-end
-
--- Custom function to search for a provided string
-function custom_grep_string()
-  require'telescope.builtin'.grep_string {
-    shorten_path = true,
-    search = vim.fn.input("Grep string ﯀ "),
-  }
 end
 EOF
 
