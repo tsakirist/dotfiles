@@ -32,6 +32,11 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" Install missing plugins during startup
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | q | source $MYVIMRC
+\| endif
+
 " }}}
 
 " ----------------------------------- 2. Plugin list {{{
