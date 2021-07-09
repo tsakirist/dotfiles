@@ -171,6 +171,9 @@ Plug 'APZelos/blamer.nvim'
 " Doesn't work exactly as I want it to, so it's here on a temp basis
 Plug 'AndrewRadev/splitjoin.vim'
 
+" Minimal and simple file explorer as a replacement to netrw
+Plug 'tamago324/lir.nvim'
+
 " Treesitter incremental parsing library
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -637,6 +640,9 @@ nnoremap <silent> <leader>bo :BufOnly<CR>
 " Keybindings to toggle Vista and open Vista finder more easily
 nnoremap <silent> <leader>vv :Vista!!<CR>
 nnoremap <silent> <leader>vf :Vista finder nvim_lsp<CR>
+
+" Open up the lir file explorer, alternatively we can use :e .
+nnoremap <silent> <leader>e :edit %:h<CR>
 
 " }}}
 
@@ -1668,7 +1674,73 @@ EOF
 
 " }}}
 
-" ----------------------------------- 11. LSP {{{
+" ----------------------------------- 11. Lir {{{
+
+lua<<EOF
+local actions = require'lir.actions'
+local mark_actions = require 'lir.mark.actions'
+local clipboard_actions = require'lir.clipboard.actions'
+
+-- Setup lir file explorer
+require'lir'.setup {
+  show_hidden_files = false,
+  devicons_enable = true,
+  -- hide_cursor = true,
+  float = {
+    winblend = 15,
+  },
+  mappings = {
+    ['<C-s>'] = actions.split,
+    ['<C-v>'] = actions.vsplit,
+    ['<C-t>'] = actions.tabedit,
+    ['<CR>']  = actions.edit,
+    ['o']     = actions.edit,
+    ['-']     = actions.up,
+    ['q']     = actions.quit,
+    ['M']     = actions.mkdir,
+    ['N']     = actions.newfile,
+    ['R']     = actions.rename,
+    ['D']     = actions.delete,
+    ['@']     = actions.cd,
+    ['Y']     = actions.yank_path,
+    ['.']     = actions.toggle_show_hidden,
+
+    ['<Tab>'] = function()
+      mark_actions.toggle_mark()
+      vim.cmd('normal! j')
+    end,
+
+    -- Do not know yet what is their use case
+    ['C']     = clipboard_actions.copy,
+    ['X']     = clipboard_actions.cut,
+    ['P']     = clipboard_actions.paste,
+  },
+}
+
+-- Add custom folder icon
+require'nvim-web-devicons'.setup {
+  override = {
+    lir_folder_icon = {
+      icon = "",
+      color = "#7ebae4",
+      name = "LirFolderNode"
+    },
+  }
+}
+
+-- Add git status indicators for lir
+require'lir.git_status'.setup {
+  show_ignored = false
+}
+
+-- Do not load netrw
+vim.g.loaded_netrw=1
+vim.g.loaded_netrwPlugin=1
+EOF
+
+" }}}
+
+" ----------------------------------- 12. LSP {{{
 
 lua << EOF
 -- Setup LSP configuration
