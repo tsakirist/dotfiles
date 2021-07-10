@@ -109,8 +109,9 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 " Text alignment
 Plug 'junegunn/vim-easy-align'
 
-" Alternate between header/source
-Plug 'ton/vim-alternate'
+" Currently checking if ClangdSwitchSourceHeader works better
+" Alternate between header/source,
+" Plug 'ton/vim-alternate'
 
 " Rooter changes the working directory to the project root when you open a file or directory
 Plug 'airblade/vim-rooter'
@@ -190,15 +191,15 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
 Plug 'junegunn/fzf.vim'
 
-" Goto preview in a floating window
-Plug 'rmagatti/goto-preview'
-
 " LSP related
 Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
 Plug 'hrsh7th/nvim-compe'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'kosayoda/nvim-lightbulb'
+
+" Goto preview in a floating window
+Plug 'rmagatti/goto-preview'
 
 " Viewer and finder for LSP symbols and tags
 Plug 'liuchengxu/vista.vim'
@@ -239,10 +240,13 @@ if functions#PluginLoaded('tokyonight.nvim')
   let g:tokyonight_sidebars=["terminal"]
 endif
 
-" Apply custom colorscheme
-silent! colorscheme onedark
+" Apply custom vimscript colorschemes
+" silent! colorscheme onedark
 " silent! colorscheme darcula
 " silent! colorscheme tokyonight
+
+" Apply custom Lua colorschemes
+lua require('onedark').setup()
 
 " Set the color for the folded sections
 highlight Folded guibg=Black guifg=DarkGray
@@ -608,7 +612,8 @@ vnoremap <silent> <Up>    :<C-u>echoe "Use k"<CR>
 vnoremap <silent> <Down>  :<C-u>echoe "Use j"<CR>
 
 " Alternate between header/source files
-nnoremap <silent> <leader>ko :Alternate<CR>
+" nnoremap <silent> <leader>ko :Alternate<CR>
+nnoremap <silent> <leader>ko :ClangdSwitchSourceHeader<CR>
 
 " Git blame keybind toggle
 nnoremap <silent> <leader>gb :BlamerToggle<CR>
@@ -919,6 +924,14 @@ let g:vista_fzf_preview=['right:50%']
 
 " Enable icons
 let g:vista#renderer#enable_icon=1
+
+" Vim alternate options
+" ---------------------
+if functions#PluginLoaded('vim-alternate')
+  " Set the alternate extension mappings
+  let g:AlternateExtensionMappings=[{'.cpp' : '.h', '.h' : '.hpp', '.hpp' : '.cpp'},
+        \ {'.c': '.h', '.h': '.c'}, {'.cc': '.h', '.h': '.hpp', '.hpp': '.cc'}]
+endif
 
 " }}}
 
@@ -1354,34 +1367,34 @@ if functions#PluginLoaded('trouble.nvim')
 lua << EOF
 -- Setup Trouble
 require('trouble').setup {
-  position = "bottom",                -- position of the list can be: bottom, top, left, right
-  height = 12,                        -- height of the trouble list when position is top or bottom
-  width = 50,                         -- width of the list when position is left or right
-  icons = true,                       -- use devicons for filenames
-  mode = "lsp_document_diagnostics",  -- "lsp_workspace_diagnostics", "quickfix", "lsp_references", "loclist"
-  fold_open = "",                    -- icon used for open folds
-  fold_closed = "",                  -- icon used for closed folds
-  action_keys = {                     -- key mappings for actions in the trouble list
-    close = "q",                      -- close the list
-    cancel = "<esc>",                 -- cancel the preview and get back to your last window / buffer / cursor
-    refresh = "r",                    -- manually refresh
-    jump = {"<cr>", "<tab>", "o"},    -- jump to the diagnostic or open / close folds
-    jump_close = {"go"},              -- jump to the diagnostic and close the list
-    toggle_mode = "m",                -- toggle between "workspace" and "document" diagnostics mode
-    toggle_preview = "P",             -- toggle auto_preview
-    hover = "K",                      -- opens a small poup with the full multiline message
-    preview = "p",                    -- preview the diagnostic location
-    close_folds = {"zM", "zm"},       -- close all folds
-    open_folds = {"zR", "zr"},        -- open all folds
-    toggle_fold = {"<Space>", "za"},  -- toggle fold of current file
-    previous = "<C-k>",               -- previous item
-    next = "<C-j>",                   -- next item
+  position = "bottom",                 -- position of the list can be: bottom, top, left, right
+  height = 12,                         -- height of the trouble list when position is top or bottom
+  width = 50,                          -- width of the list when position is left or right
+  icons = true,                        -- use devicons for filenames
+  mode = "lsp_document_diagnostics",   -- "lsp_workspace_diagnostics", "quickfix", "lsp_references", "loclist"
+  fold_open = "",                     -- icon used for open folds
+  fold_closed = "",                   -- icon used for closed folds
+  action_keys = {                      -- key mappings for actions in the trouble list
+    close = "q",                       -- close the list
+    cancel = "<esc>",                  -- cancel the preview and get back to your last window / buffer / cursor
+    refresh = "r",                     -- manually refresh
+    jump = { "<cr>", "<tab>", "o" },   -- jump to the diagnostic or open / close folds
+    jump_close = { "go" },             -- jump to the diagnostic and close the list
+    toggle_mode = "m",                 -- toggle between "workspace" and "document" diagnostics mode
+    toggle_preview = "P",              -- toggle auto_preview
+    hover = "K",                       -- opens a small poup with the full multiline message
+    preview = "p",                     -- preview the diagnostic location
+    close_folds = { "zM", "zm" },      -- close all folds
+    open_folds = { "zR", "zr" },       -- open all folds
+    toggle_fold = { "<Space>", "za" }, -- toggle fold of current file
+    previous = "<C-k>",                -- previous item
+    next = "<C-j>",                    -- next item
   },
-  indent_lines = true,                -- add an indent guide below the fold icons
-  auto_open = false,                  -- automatically open the list when you have diagnostics
-  auto_close = false,                 -- automatically close the list when you have no diagnostics
-  auto_preview = true,                -- automatically preview the location of the diagnostic
-  auto_fold = false,                  -- automatically fold a file trouble list at creation
+  indent_lines = true,                 -- add an indent guide below the fold icons
+  auto_open = false,                   -- automatically open the list when you have diagnostics
+  auto_close = false,                  -- automatically close the list when you have no diagnostics
+  auto_preview = true,                 -- automatically preview the location of the diagnostic
+  auto_fold = false,                   -- automatically fold a file trouble list at creation
   signs = {
     error       = "",
     information = "",
@@ -1499,7 +1512,6 @@ require'telescope'.load_extension('fzy_native')
 function find_in_vim_root()
   require'telescope.builtin'.find_files {
     prompt_title = "~/.vim",
-    path_display= { "shorten" },
     cwd = "~/.vim",
     follow = true,                          -- follow symbolic links
     file_ignore_patterns = { "undo%-dir" }, -- character '-' needs to be escaped
