@@ -45,10 +45,9 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin('~/.vim/plugged')
 
 " Colorschemes
-" Plug 'ful1e5/onedark.nvim'
-Plug 'joshdick/onedark.vim'
+Plug 'ful1e5/onedark.nvim'
+" Plug 'joshdick/onedark.vim'
 Plug 'doums/darcula'
-Plug 'folke/tokyonight.nvim', { 'on': [] }
 
 " Lightline statusline and tabline
 Plug 'itchyny/lightline.vim', { 'on': [] }
@@ -224,6 +223,8 @@ call plug#end()
 
 " ----------------------------------- 3. Settings {{{
 
+" ----------------------------------- 3.1 Options {{{
+
 " Syntax highlighting
 syntax on
 
@@ -232,24 +233,6 @@ set termguicolors
 
 " Don't show the (INSERT, REPLACE, VISUAL) modes on the last line
 set noshowmode
-
-" Configure colorscheme
-if functions#PluginLoaded('tokyonight.nvim')
-  let g:tokyonight_style="night"
-  let g:tokyonight_italic_functions=1
-  let g:tokyonight_sidebars=["terminal"]
-endif
-
-" Apply custom vimscript colorschemes
-" silent! colorscheme onedark
-" silent! colorscheme darcula
-" silent! colorscheme tokyonight
-
-" Apply custom Lua colorschemes
-lua require('onedark').setup()
-
-" Set the color for the folded sections
-highlight Folded guibg=Black guifg=DarkGray
 
 " Highlight the current line and also highlight the column @120 (ruler)
 set colorcolumn=120
@@ -357,6 +340,34 @@ set completeopt=menuone,noinsert,noselect
 
 " Avoid showing message extra message when using completion
 set shortmess+=c
+
+" Set rg as the grep program
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+
+" }}}
+
+" ----------------------------------- 3.2 Colorscheme {{{
+
+if functions#PluginLoaded('onedark.vim')
+  " Set the vimscript onedark colorscheme plugin
+  silent! colorscheme onedark
+
+  " Set the floating window/pop-up menu color to a dark-variant
+  highlight Pmenu guibg=#21252b guifg=#abb2bf
+  highlight PmenuSel guibg=#5c6370
+  highlight PmenuSbar guibg=#21252b guifg=#abb2bf
+elseif functions#PluginLoaded('onedark.nvim')
+  " Set the lua onedark colorscheme plugin
+  lua require('onedark').setup()
+endif
+
+" Set the color for the folded sections
+highlight Folded guibg=Black guifg=DarkGray
+
+" }}}
 
 " }}}
 
@@ -645,8 +656,8 @@ nnoremap <silent> <leader>bo :BufOnly<CR>
 nnoremap <silent> <leader>vv :Vista!!<CR>
 nnoremap <silent> <leader>vf :Vista finder nvim_lsp<CR>
 
-" Open up the lir file explorer, alternatively we can use :e .
-nnoremap <silent> <leader>e :edit %:h<CR>
+" Open up the lir file explorer
+nnoremap <silent> <leader>e :e .<CR>
 
 " }}}
 
@@ -1366,7 +1377,7 @@ if functions#PluginLoaded('trouble.nvim')
 
 lua << EOF
 -- Setup Trouble
-require('trouble').setup {
+require'trouble'.setup {
   position = "bottom",                 -- position of the list can be: bottom, top, left, right
   height = 12,                         -- height of the trouble list when position is top or bottom
   width = 50,                          -- width of the list when position is left or right
@@ -1379,7 +1390,7 @@ require('trouble').setup {
     cancel = "<esc>",                  -- cancel the preview and get back to your last window / buffer / cursor
     refresh = "r",                     -- manually refresh
     jump = { "<cr>", "<tab>", "o" },   -- jump to the diagnostic or open / close folds
-    jump_close = { "go" },             -- jump to the diagnostic and close the list
+    jump_close = { "oc", "go" },             -- jump to the diagnostic and close the list
     toggle_mode = "m",                 -- toggle between "workspace" and "document" diagnostics mode
     toggle_preview = "P",              -- toggle auto_preview
     hover = "K",                       -- opens a small poup with the full multiline message
@@ -1415,13 +1426,13 @@ endif
 if functions#PluginLoaded('telescope.nvim')
 
   " Find files using Telescope command-line sugar
-  nnoremap <silent> <leader>fc <Cmd>Telescope command_history<CR>
-  nnoremap <silent> <leader>fC <Cmd>Telescope commands<CR>
+  nnoremap <silent> <leader>fc <Cmd>Telescope commands<CR>
   nnoremap <silent> <leader>fH <Cmd>Telescope highlights<CR>
   nnoremap <silent> <leader>fo <Cmd>Telescope oldfiles<CR>
   nnoremap <silent> <leader>fO <Cmd>Telescope vim_options<CR>
   nnoremap <silent> <leader>fs <Cmd>Telescope grep_string<CR>
   nnoremap <silent> <leader>fT <Cmd>Telescope tags<CR>
+  nnoremap <silent> <leader>f: <Cmd>Telescope command_history<CR>
   nnoremap <silent> <leader>f/ <Cmd>Telescope search_history<CR>
 
   " Custom commands with extra options
