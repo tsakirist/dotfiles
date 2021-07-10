@@ -456,6 +456,9 @@ nnoremap <expr> <F3> ':call functions#Fill(45)\<CR>'
 nnoremap <silent> <leader>bn :bnext<CR>
 nnoremap <silent> <leader>bp :bprevious<CR>
 
+nnoremap <Tab>   :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
+
 " List buffers and prepend :b on the cmd line
 nnoremap <leader>bf :ls<CR>:b<Space>
 
@@ -465,10 +468,6 @@ nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd //gj %<Bar>Trouble quickfix<S-L
 
 " Use bbye plugin's :Bdelete to close buffer w/o losing splits/windows
 nnoremap <silent> <leader>bd :Bdelete<CR>
-
-" Change windows quickly
-nnoremap <Tab>   <C-w>w
-nnoremap <S-tab> <C-w>W
 
 " Typing %% on the command line will expand to active buffer's path
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
