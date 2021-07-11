@@ -359,9 +359,21 @@ if functions#PluginLoaded('onedark.vim')
   highlight Pmenu guibg=#21252b guifg=#abb2bf
   highlight PmenuSel guibg=#5c6370
   highlight PmenuSbar guibg=#21252b guifg=#abb2bf
+
 elseif functions#PluginLoaded('onedark.nvim')
   " Set the lua onedark colorscheme plugin
-  lua require('onedark').setup()
+lua<<EOF
+  require'onedark'.setup {
+    transparent = false,
+    sidebars = {
+      "vista_kind",
+      "terminal",
+    },
+    colors = {
+      border_highlight = "#5c6370",
+    },
+  }
+EOF
 endif
 
 " Set the color for the folded sections
