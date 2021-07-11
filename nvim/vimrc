@@ -175,6 +175,9 @@ Plug 'AndrewRadev/splitjoin.vim'
 " Minimal and simple file explorer as a replacement to netrw
 Plug 'tamago324/lir.nvim'
 
+" Peak lines easiliy with :<number>
+Plug 'nacro90/numb.nvim'
+
 " Treesitter incremental parsing library
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -1692,7 +1695,23 @@ endif
 
 " }}}
 
-" ----------------------------------- 11. Lir {{{
+" ----------------------------------- 11. Numb {{{
+
+if functions#PluginLoaded('numb.nvim')
+
+lua<<EOF
+require'numb'.setup {
+  show_numbers = true,    -- Enable 'number' for the window while peeking
+  number_only = true,     -- Peek only when the command is only a number instead of when it starts with a number
+  show_cursorline = true, -- Enable 'cursorline' for the window while peeking
+}
+EOF
+
+endif
+
+" }}}
+
+" ----------------------------------- 12. Lir {{{
 
 if functions#PluginLoaded('lir.nvim')
 
@@ -1762,7 +1781,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 12. LSP {{{
+" ----------------------------------- 13. LSP {{{
 
 lua << EOF
 -- Setup LSP configuration
