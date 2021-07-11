@@ -187,7 +187,7 @@ Plug 'nvim-treesitter/playground'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzy-native.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
 " The world-renowned fuzzy finder FZF
 " This will try to install FZF outside of vim plug directory
@@ -378,6 +378,9 @@ lua<<EOF
     },
   }
 EOF
+
+  " Set the promptPrefix color to purple
+  highlight TelescopePromptPrefix guibg=#282c34 guifg=#c678dd
 endif
 
 " Set the color for the folded sections
@@ -1506,7 +1509,8 @@ require'telescope'.setup {
     set_env = { ['COLORTERM'] = 'truecolor' },
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
     file_ignore_patterns = {},
-    file_sorter = require'telescope.sorters'.get_fzy_sorter,
+    file_sorter = require'telescope.sorters'.get_fuzzy_file,
+    generic_sorter = require'telescope.sorters'.get_generic_fuzzy_sorter,
     file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
     grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
     qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
@@ -1530,15 +1534,17 @@ require'telescope'.setup {
     }
   },
   extensions = {
-    fzy_native = {
+    fzf = {
+      fuzzy = true,
       override_generic_sorter = true,
       override_file_sorter = true,
+      case_mode = "smart_case",
     }
   }
 }
 
 -- Load extensions
-require'telescope'.load_extension('fzy_native')
+require'telescope'.load_extension('fzf')
 
 -- Custom lua function to edit ~/.vim
 function find_in_vim_root()
