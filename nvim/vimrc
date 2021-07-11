@@ -101,6 +101,7 @@ Plug 'tpope/vim-surround'
 
 " Auto insert brackets, parentheses, etc
 Plug 'windwp/nvim-autopairs'
+Plug 'windwp/nvim-ts-autotag'
 
 " Alternate between absolute/relative numbers
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
@@ -1278,7 +1279,7 @@ if functions#PluginLoaded('nvim-treesitter')
 lua << EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    'c', 'cpp', 'json', 'python', 'lua', 'bash', 'typescript'
+    'c', 'cpp', 'json', 'python', 'lua', 'bash', 'typescript', 'javascript', 'html'
   },
   highlight = {
     enable = true,
@@ -1287,6 +1288,9 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   },
   autopairs = {
+    enable = true,
+  },
+  autotag = {
     enable = true,
   },
   incremental_selection = {
@@ -1301,6 +1305,7 @@ require'nvim-treesitter.configs'.setup {
   textobjects = {
     select = {
       enable = true,
+      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
       keymaps = {
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
@@ -1345,6 +1350,7 @@ require'nvim-treesitter.configs'.setup {
     },
     lsp_interop = {
       enable = true,
+      border = "none",
       peek_definition_code = {
         ["gf"] = "@function.outer",
         ["gc"] = "@class.outer",
@@ -1663,25 +1669,32 @@ endif
 
 " ----------------------------------- 10. Goto-preview {{{
 
+if functions#PluginLoaded('goto-preview')
+
 lua<<EOF
 -- Setup goto-preview configuration
 require'goto-preview'.setup {
-  width = 120;              -- Width of the floating window
-  height = 25;              -- Height of the floating window
-  opacity = 5;              -- 0-100 opacity level of the floating window where 100 is fully transparent.
-  debug = false;            -- Print debug information
-  default_mappings = false; -- Bind default mappings
+  width = 120,              -- Width of the floating window
+  height = 25,              -- Height of the floating window
+  opacity = 5,              -- 0-100 opacity level of the floating window where 100 is fully transparent.
+  debug = false,            -- Print debug information
+  post_open_hook = nil,     -- A function taking two arguments, a buffer and a window to be ran as a hook.
+  default_mappings = false, -- Bind default mappings
 }
 
-local opts = { noremap=true, silent=true }
+local opts = { noremap = true, silent = true }
 vim.api.nvim_set_keymap("n", "gp", "<Cmd>lua require('goto-preview').goto_preview_definition()<CR>", opts)
 vim.api.nvim_set_keymap("n", "gP", "<Cmd>lua require('goto-preview').close_all_win()<CR>",           opts)
 
 EOF
 
+endif
+
 " }}}
 
 " ----------------------------------- 11. Lir {{{
+
+if functions#PluginLoaded('lir.nvim')
 
 lua<<EOF
 local actions = require'lir.actions'
@@ -1745,6 +1758,8 @@ vim.g.loaded_netrw=1
 vim.g.loaded_netrwPlugin=1
 EOF
 
+endif
+
 " }}}
 
 " ----------------------------------- 12. LSP {{{
@@ -1758,7 +1773,7 @@ local on_attach = function(client, bufnr)
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings
-  local opts = { noremap=true, silent=true }
+  local opts = { noremap = true, silent = true }
   buf_set_keymap('n', 'gD'         , '<Cmd>lua vim.lsp.buf.declaration()<CR>'                  , opts)
   buf_set_keymap('n', 'gd'         , '<Cmd>lua vim.lsp.buf.definition()<CR>'                   , opts)
   buf_set_keymap('n', 'gr'         , '<Cmd>lua vim.lsp.buf.references()<CR>'                   , opts)
