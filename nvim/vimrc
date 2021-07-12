@@ -174,6 +174,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 " Minimal and simple file explorer as a replacement to netrw
 Plug 'tamago324/lir.nvim'
+Plug 'tamago324/lir-git-status.nvim'
 
 " Peak lines easiliy with :<number>
 Plug 'nacro90/numb.nvim'
@@ -376,6 +377,7 @@ lua<<EOF
     colors = {
       border_highlight = "#5c6370",
     },
+    keywordStyle = "NONE",
   }
 EOF
 
@@ -490,8 +492,8 @@ nnoremap <expr> <F3> ':call functions#Fill(45)\<CR>'
 nnoremap <silent> <leader>bn :bnext<CR>
 nnoremap <silent> <leader>bp :bprevious<CR>
 
-nnoremap <Tab>   :bnext<CR>
-nnoremap <S-Tab> :bprevious<CR>
+nnoremap <silent> <Tab>   :bnext<CR>
+nnoremap <silent> <S-Tab> :bprevious<CR>
 
 " List buffers and prepend :b on the cmd line
 nnoremap <leader>bf :ls<CR>:b<Space>
@@ -676,7 +678,8 @@ nnoremap <silent> <leader>vv :Vista!!<CR>
 nnoremap <silent> <leader>vf :Vista finder nvim_lsp<CR>
 
 " Open up the lir file explorer
-nnoremap <silent> <leader>e :e .<CR>
+nnoremap <silent> <leader>ex :e .<CR>
+nnoremap <silent> <leader>eh :e %:h<CR>
 
 " }}}
 
