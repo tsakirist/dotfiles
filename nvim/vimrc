@@ -569,6 +569,10 @@ nnoremap Y y$
 xmap > >gv
 xmap < <gv
 
+" Do not update the unnamed register when pasting yanked text
+" text in visual mode, use black-hole register "_
+vnoremap p "_dP
+
 " Easiliy toggle comments, both in Normal and Insert mode
 map  <leader><leader> <Plug>NERDCommenterToggle
 imap <leader><leader> <C-o><Plug>NERDCommenterToggle
@@ -1695,6 +1699,7 @@ require'goto-preview'.setup {
 }
 
 local opts = { noremap = true, silent = true }
+-- These keymaps are overwriting default gp and gP for pasting, and keeping cursor on new line
 vim.api.nvim_set_keymap("n", "gp", "<Cmd>lua require('goto-preview').goto_preview_definition()<CR>", opts)
 vim.api.nvim_set_keymap("n", "gP", "<Cmd>lua require('goto-preview').close_all_win()<CR>",           opts)
 
@@ -1848,7 +1853,6 @@ require'lsp_signature'.on_attach({
   handler_opts = {
     border = "none", -- double, single, shadow, none
   },
-  decorator = {"`", "`"},
 })
 
 -- Custom icons for LSP diagnostics
