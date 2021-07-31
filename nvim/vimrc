@@ -90,9 +90,6 @@ Plug 'tpope/vim-abolish'
 " Comment lines easily
 Plug 'scrooloose/nerdcommenter'
 
-" Multiple cursors
-Plug 'terryma/vim-multiple-cursors'
-
 " Display indentation levels with lines
 Plug 'lukas-reineke/indent-blankline.nvim'
 
@@ -309,8 +306,9 @@ set clipboard^=unnamed,unnamedplus
 
 " This option will render characters for spaces, tabs etc
 " set listchars=trail:·,tab:»·,eol:↲,nbsp:␣,extends:⟩,precedes:⟨
-set listchars=nbsp:␣,extends:⟩,precedes:⟨,trail:·,tab:»·
+" set listchars=eol:↴
 set list
+set listchars=nbsp:␣,extends:⟩,precedes:⟨,trail:·,tab:»·,eol:↴
 
 " The number of lines to show above/below when navigating
 set scrolloff=5
@@ -368,18 +366,23 @@ if functions#PluginLoaded('onedark.vim')
 elseif functions#PluginLoaded('onedark.nvim')
   " Set the lua onedark colorscheme plugin
 lua<<EOF
-  require'onedark'.setup {
-    transparent = false,
-    sidebars = {
-      "vista_kind",
-      "terminal",
-    },
-    colors = {
-      border_highlight = "#5c6370",
-    },
-    keywordStyle = "NONE",
-  }
+require'onedark'.setup {
+  transparent = false,
+  darkSidebar = true,
+  darkFloat = true,
+  sidebars = {
+    "vista_kind",
+    "terminal",
+  },
+  colors = {
+    border_highlight = "#5c6370",
+  },
+  keywordStyle = "NONE",
+}
 EOF
+
+  " This needs to be set if we want to show the eol character
+  " highlight! link NonText WhiteSpace
 
   " Set the promptPrefix color to purple
   highlight TelescopePromptPrefix guibg=#282c34 guifg=#c678dd
@@ -875,14 +878,14 @@ let g:indent_blankline_show_first_indent_level=v:false
 " If there is a single tab in a line, use only tabs to calclulate indentation
 let g:indent_blankline_strict_tabs=v:true
 
-" Do not display trailing indentation guide on blank line
+" Do not display trailing indentation guide on blank lines
 let g:indent_blankline_show_trailing_blankline_indent=v:false
 
-" Do not show indentation on blank lines
-let g:indent_blankline_show_trailing_blankline_indent=v:false
+" Display eol character from listchars instead of indent guide
+let g:indent_blankline_show_end_of_line=v:true
 
 " Exclude indentation for these filetypes
-let g:indent_blankline_filetype_exclude=['help', 'startify']
+let g:indent_blankline_filetype_exclude=['help', 'startify', 'gitcommit', 'vistakind']
 
 " Exclude indentation for these buftypes
 let g:indent_blankline_buftype_exclude=['terminal']
@@ -895,7 +898,7 @@ let g:indent_blankline_show_current_context=v:true
 
 " Patterns to match against treesitter nodes for highlighting
 let g:indent_blankline_context_patterns=
-      \ ['class', 'function', 'method', 'if', 'while', 'for', 'try', 'except', 'argument_list']
+      \ ['class', 'function', 'method', '^if', 'while', 'for', 'try', 'except', 'argument_list']
 
 " Change the highlight for the treesitter context, to a light gray
 " highlight IndentBlanklineContextChar guifg=#545c82 gui=nocombine
@@ -961,6 +964,9 @@ let g:vista_fzf_preview=['right:50%']
 
 " Enable icons
 let g:vista#renderer#enable_icon=1
+
+" How to show detailed information of current cursor symbol in Vista
+let g:vista_echo_cursor_strategy='floating_win'
 
 " Vim alternate options
 " ---------------------
@@ -1627,12 +1633,19 @@ require'compe'.setup {
   max_abbr_width = 100,
   max_kind_width = 100,
   max_menu_width = 100,
-  documentation = true,
+  documentation = {
+    border = { '', '', '', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
+    winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+    max_width = 120,
+    min_width = 60,
+    max_height = math.floor(vim.o.lines * 0.3),
+    min_height = 1,
+  },
   source = {
-    path          = {kind = "   (Path)"},
-    buffer        = {kind = "   (Buffer)"},
-    nvim_lsp      = {kind = "   (LSP)"},
-    nvim_lua      = {kind = "   (Lua)"},
+    path          = { kind = "   (Path)" },
+    buffer        = { kind = "   (Buffer)" },
+    nvim_lsp      = { kind = "   (LSP)" },
+    nvim_lua      = { kind = "   (Lua)" },
     tags          = false,
     spell         = false,
     calc          = false,
@@ -1643,6 +1656,17 @@ require'compe'.setup {
     treesitter    = false,
   },
 }
+
+-- Set nvim-compe keymaps
+local opts = { noremap = true, silent = true, expr = true }
+vim.api.nvim_set_keymap('i', '<C-Space>', 'compe#complete()',              opts)
+vim.api.nvim_set_keymap('i', '<C-e>'    , 'compe#close("<C-e>")',          opts)
+vim.api.nvim_set_keymap('i', '<C-f>'    , 'compe#scroll({ "delta": +4 })', opts)
+vim.api.nvim_set_keymap('i', '<C-d>'    , 'compe#scroll({ "delta": -4 })', opts)
+
+-- This is handled by the setup-config of autopairs
+--  Note: [[ ]] is string escaping
+-- vim.api.nvim_set_keymap('i', '<CR>', [[ compe#confirm(luaeval('require 'nvim-autopairs'.autopairs_cr()')) ]], opts)
 EOF
 
 endif
@@ -1661,22 +1685,10 @@ require'nvim-autopairs'.setup {
 }
 
 -- Fix <CR> for nvim-compe
-local nvim_pairs = require('nvim-autopairs')
-_G.MUtils = {}
-vim.g.completion_confirm_key = ""
-MUtils.completion_confirm = function()
-  if vim.fn.pumvisible() ~= 0  then
-    if vim.fn.complete_info()["selected"] ~= -1 then
-      return vim.fn["compe#confirm"](nvim_pairs.esc("<cr>"))
-    else
-      return nvim_pairs.esc("<cr>")
-    end
-  else
-    return nvim_pairs.autopairs_cr()
-  end
-end
-
-vim.api.nvim_set_keymap('i', '<CR>', 'v:lua.MUtils.completion_confirm()', { expr = true, noremap = true })
+require'nvim-autopairs.completion.compe'.setup {
+  map_cr = true,      -- map <CR> on insert mode
+  map_complete = true -- it will auto insert `(` after select function or method item
+}
 EOF
 
 endif
@@ -1699,10 +1711,9 @@ require'goto-preview'.setup {
 }
 
 local opts = { noremap = true, silent = true }
--- These keymaps are overwriting default gp and gP for pasting, and keeping cursor on new line
+-- These keymaps are overwriting default gp and gP for pasting and keeping cursor on new line
 vim.api.nvim_set_keymap("n", "gp", "<Cmd>lua require('goto-preview').goto_preview_definition()<CR>", opts)
 vim.api.nvim_set_keymap("n", "gP", "<Cmd>lua require('goto-preview').close_all_win()<CR>",           opts)
-
 EOF
 
 endif
@@ -1800,6 +1811,8 @@ endif
 lua << EOF
 -- Setup LSP configuration
 local on_attach = function(client, bufnr)
+
+  -- Syntactic sugar
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -1829,20 +1842,39 @@ local on_attach = function(client, bufnr)
   end
 end
 
--- Install and setup the required servers
-require'lspinstall'.setup{}
-local required_servers = { "cpp", "vim", "lua", "bash", "python", "typescript" }
-local installed_servers = require'lspinstall'.installed_servers()
-for _, server in pairs(required_servers) do
-  if not vim.tbl_contains(installed_servers, server) then
-    require'lspinstall'.install_server(server)
+-- Function to install and setup LSP servers
+local setup_servers = function()
+  -- Main setup
+  require'lspinstall'.setup{}
+
+  -- Install the required servers also takes care of installing missing servers
+  local required_servers = { "cpp", "vim", "lua", "bash", "python", "typescript" }
+  local installed_servers = require'lspinstall'.installed_servers()
+  for _, server in pairs(required_servers) do
+    if not vim.tbl_contains(installed_servers, server) then
+      require'lspinstall'.install_server(server)
+    end
   end
+
+  -- Map local buffer keybindings when the server attaches
+  installed_servers = require'lspinstall'.installed_servers()
+  for _, server in pairs(installed_servers) do
+    require'lspconfig'[server].setup{ on_attach = on_attach }
+  end
+
+  -- Fix 'vim' is undefined global for lua LSP
+  require'lspconfig'.lua.setup {
+    settings = { Lua = { diagnostics = { globals = { 'vim' } } } }
+  }
 end
 
--- Map local buffer keybindings when the server attaches
-installed_servers = require'lspinstall'.installed_servers()
-for _, server in pairs(installed_servers) do
-  require'lspconfig'[server].setup{on_attach=on_attach}
+-- Setup LSP servers
+setup_servers()
+
+-- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+require'lspinstall'.post_install_hook = function()
+  setup_servers()    -- reload installed servers
+  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 end
 
 -- Setup lsp-signature
@@ -1911,7 +1943,7 @@ function _G.toggle_diagnostics()
   print("LSP diagnostics: " .. tostring(vim.g.diagnostics_active))
 end
 
--- Consider this when another keybind sequence makes more sensse, don't want to bind <leader>dd cuz of this
+-- Consider this when another keybind sequence makes more sense, don't want to bind <leader>dd
 -- vim.api.nvim_set_keymap('n', '<leader>dt', ':call v:lua.toggle_diagnostics()<CR>', {noremap = true, silent = true})
 EOF
 
