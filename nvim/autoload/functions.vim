@@ -34,6 +34,7 @@ endfunction
 
 " Function to make a whole word search faster
 function! functions#SearchWord(word) abort
+  " Write to the search pattern register '@/'
   let @/ = '\<' . a:word . '\>'
   normal n
 endfunction

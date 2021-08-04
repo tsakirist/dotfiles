@@ -306,9 +306,9 @@ set clipboard^=unnamed,unnamedplus
 
 " This option will render characters for spaces, tabs etc
 " set listchars=trail:·,tab:»·,eol:↲,nbsp:␣,extends:⟩,precedes:⟨
-" set listchars=eol:↴
+" set listchars=eol:↴,¬,
 set list
-set listchars=nbsp:␣,extends:⟩,precedes:⟨,trail:·,tab:»·,eol:↴
+set listchars=nbsp:␣,extends:⟩,precedes:⟨,trail:·,tab:»·
 
 " The number of lines to show above/below when navigating
 set scrolloff=5
@@ -400,13 +400,13 @@ highlight Folded guibg=Black guifg=DarkGray
 " Format options configuration:
 " 't': is required in format options to wrap text in insert mode
 " 'l': a line that is longer than textwidth may not be wraped if 'l' is in format options
-" 'r': disables the <CR> key from autocommenting when pressing enter in line that contains a comment
+" 'r': enables the <CR> key from autocommenting when pressing enter in line that contains a comment, enables javadoc
 " 'o': don't insert comment when pressing 'o' or 'O'
 " 'q': allow formatting comments with gq
 autocmd BufEnter * set fo+=t fo-=r fo-=l fo-=o fo+=q
 
 " Remove trailing whitespaces on file save
-autocmd BufWritePre * :call functions#TrimTrailingWhitespace()
+autocmd BufWritePre * call functions#TrimTrailingWhitespace()
 
 " This is used to preserve the clipboard when vim exits
 autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
@@ -515,7 +515,6 @@ cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 nnoremap <Space> za<CR>
 
 " Keybinds to move lines up and down
-" gv=gv re-selects the visual block, indents it and finally re-selects it again
 nnoremap <silent> <C-S-Up>   :m-2<CR>==
 nnoremap <silent> <C-S-Down> :m+<CR>==
 inoremap <silent> <C-S-Up>   <Esc>:m-2<CR>==gi
@@ -552,8 +551,8 @@ vnoremap <silent> <C-q> <Esc>:q<CR>
 nnoremap <silent> Q <Esc>:qa<CR>
 
 " Quicker <Esc> for Insert and Command-line modes
-inoremap jk <Esc>
-cnoremap jk <C-c>
+" inoremap jk <Esc>
+" cnoremap jk <C-c>
 
 " Quick movements in Insert mode without having to change to Normal mode
 inoremap <C-h> <C-o>h
@@ -576,9 +575,21 @@ xmap < <gv
 " text in visual mode, use black-hole register "_
 vnoremap p "_dP
 
-" Easiliy toggle comments, both in Normal and Insert mode
-map  <leader><leader> <Plug>NERDCommenterToggle
-imap <leader><leader> <C-o><Plug>NERDCommenterToggle
+" The '&' command repeats last substitution and the
+" second '&' keeps the previous flags that were used
+" So, usually we want to have this as the default behavior
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
+
+" Remind myself to stop using the god damn arrow keys
+nnoremap <silent> <Left>  :echoe "Use h"<CR>
+nnoremap <silent> <Right> :echoe "Use l"<CR>
+nnoremap <silent> <Up>    :echoe "Use k"<CR>
+nnoremap <silent> <Down>  :echoe "Use j"<CR>
+vnoremap <silent> <Left>  :<C-u>echoe "Use h"<CR>
+vnoremap <silent> <Right> :<C-u>echoe "Use l"<CR>
+vnoremap <silent> <Up>    :<C-u>echoe "Use k"<CR>
+vnoremap <silent> <Down>  :<C-u>echoe "Use j"<CR>
 
 " Clear highlighting with escape when in normal mode
 " https://stackoverflow.com/a/1037182/6654329
@@ -591,12 +602,6 @@ command! -nargs=* VT vsplit | terminal <args>
 
 nnoremap <silent> <leader>ht :HT<CR>
 nnoremap <silent> <leader>vt :VT<CR>
-
-" Keybindings to toggle and kill the floating term window
-nnoremap <silent> <leader>ft :FloatermToggle<CR>
-nnoremap <silent> <leader>fk :FloatermKill<CR>
-tnoremap <silent> <leader>ft <C-\><C-n>:FloatermToggle<CR>
-tnoremap <silent> <leader>fk <C-\><C-n>:FloatermKill<CR>
 
 " Make a whole-word search with <leader>/
 command! -nargs=1 SearchWord call functions#SearchWord(<f-args>)
@@ -611,6 +616,24 @@ nnoremap <ScrollWheelUp>   4<C-y>
 nnoremap <ScrollWheelDown> 4<C-e>
 xnoremap <ScrollWheelUp>   4<C-y>
 xnoremap <ScrollWheelDown> 4<C-e>
+
+" Set a mark when moving more than 5 lines upwards/downards
+" this will populate the jumplist enabling us to jump back with Ctrl-O
+nnoremap <expr> k (v:count > 5 ? "m'" . v:count : "") . 'k'
+nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j'
+
+" Insert newlines below and above
+nnoremap <silent> <leader>o o<Esc>kO<Esc>j
+
+" Easiliy toggle comments, both in Normal and Insert mode
+map  <leader><leader> <Plug>NERDCommenterToggle
+imap <leader><leader> <C-o><Plug>NERDCommenterToggle
+
+" Keybindings to toggle and kill the floating term window
+nnoremap <silent> <leader>ft :FloatermToggle<CR>
+nnoremap <silent> <leader>fk :FloatermKill<CR>
+tnoremap <silent> <leader>ft <C-\><C-n>:FloatermToggle<CR>
+tnoremap <silent> <leader>fk <C-\><C-n>:FloatermKill<CR>
 
 " Git-signify keybinds to use the plugin more easily
 nnoremap <silent> <leader>gh :SignifyToggleHighlight<CR>
@@ -640,28 +663,12 @@ xmap <leader>ga <Plug>(LiveEasyAlign)
 inoremap <silent> <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" Remind myself to stop using the god damn arrow keys
-nnoremap <silent> <Left>  :echoe "Use h"<CR>
-nnoremap <silent> <Right> :echoe "Use l"<CR>
-nnoremap <silent> <Up>    :echoe "Use k"<CR>
-nnoremap <silent> <Down>  :echoe "Use j"<CR>
-vnoremap <silent> <Left>  :<C-u>echoe "Use h"<CR>
-vnoremap <silent> <Right> :<C-u>echoe "Use l"<CR>
-vnoremap <silent> <Up>    :<C-u>echoe "Use k"<CR>
-vnoremap <silent> <Down>  :<C-u>echoe "Use j"<CR>
-
 " Alternate between header/source files
 " nnoremap <silent> <leader>ko :Alternate<CR>
 nnoremap <silent> <leader>ko :ClangdSwitchSourceHeader<CR>
 
 " Git blame keybind toggle
 nnoremap <silent> <leader>gb :BlamerToggle<CR>
-
-" The '&' command repeats last substitution and the
-" second '&' keeps the previous flags that were used
-" So, usually we want to have this as the default behavior
-nnoremap & :&&<CR>
-xnoremap & :&&<CR>
 
 " Also, '[q', ']q' work for cprev cnext, from vim-unimpaired
 nnoremap <silent> <leader>co :copen<CR>
@@ -685,7 +692,7 @@ nnoremap <silent> <leader>vv :Vista!!<CR>
 nnoremap <silent> <leader>vf :Vista finder nvim_lsp<CR>
 
 " Open up the lir file explorer
-nnoremap <silent> <leader>ex :e .<CR>
+nnoremap <silent> <leader>ee :e .<CR>
 nnoremap <silent> <leader>eh :e %:h<CR>
 
 " }}}
@@ -988,19 +995,18 @@ if functions#PluginLoaded('vim-which-key')
     \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
 
   " Single mappings
-  let g:which_key_map['/'] = [ '<Plug>NERDCommenterToggle' , 'comment' ]
-  let g:which_key_map['e'] = [ ':Vexplore'                 , 'explorer' ]
-  let g:which_key_map['f'] = [ ':Files'                    , 'search files' ]
-  let g:which_key_map['R'] = [ ':Rg'                       , 'search text' ]
-  let g:which_key_map['S'] = [ ':Startify'                 , 'start screen' ]
-  let g:which_key_map['z'] = [ ':Goyo'                     , 'zen' ]
+  let g:which_key_map['/'] = [ '<Plug>NERDCommenterToggle', 'comment' ]
+  let g:which_key_map['e'] = [ ':e .'                     , 'explorer' ]
+  let g:which_key_map['f'] = [ ':Files'                   , 'search files' ]
+  let g:which_key_map['R'] = [ ':Rg'                      , 'search text' ]
+  let g:which_key_map['S'] = [ ':Startify'                , 'start screen' ]
+  let g:which_key_map['z'] = [ ':Goyo'                    , 'zen' ]
 
   " s is for search
   let g:which_key_map.s = {
         \ 'name' : '+Search' ,
         \ '/' : [':History/'   , 'history'],
         \ ':' : [':Commands'   , 'commands'],
-        \ 'a' : [':Ag'         , 'text Ag'],
         \ 'b' : [':BLines'     , 'current buffer'],
         \ 'B' : [':Buffers'    , 'open buffers'],
         \ 'c' : [':Commits'    , 'commits'],
@@ -1715,10 +1721,7 @@ local clipboard_actions = require'lir.clipboard.actions'
 require'lir'.setup {
   show_hidden_files = false,
   devicons_enable = true,
-  -- hide_cursor = true,
-  float = {
-    winblend = 15,
-  },
+  hide_cursor = true,
   mappings = {
     ['<C-s>'] = actions.split,
     ['<C-v>'] = actions.vsplit,
@@ -1763,7 +1766,7 @@ require'lir.git_status'.setup {
   show_ignored = false
 }
 
--- Do not load netrw
+-- Disable netrw explorer
 vim.g.loaded_netrw=1
 vim.g.loaded_netrwPlugin=1
 EOF
