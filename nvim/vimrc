@@ -1890,29 +1890,21 @@ vim.lsp.protocol.CompletionItemKind = {
   "   (TypeParameter)"
 }
 
--- Hacky way to toggle diagnostics on/off
+-- Toggle LSP diagnostics on and off
 vim.g.diagnostics_active = true
 function _G.toggle_diagnostics()
   if vim.g.diagnostics_active then
     vim.g.diagnostics_active = false
-    vim.lsp.diagnostic.clear(0)
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+    vim.lsp.diagnostic.disable()
   else
     vim.g.diagnostics_active = true
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-      vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = true,
-        signs = true,
-        underline = true,
-        update_in_insert = false,
-      }
-    )
+    vim.lsp.diagnostic.enable()
   end
   print("LSP diagnostics: " .. tostring(vim.g.diagnostics_active))
 end
 
 -- Consider this when another keybind sequence makes more sense, don't want to bind <leader>dd
--- vim.api.nvim_set_keymap('n', '<leader>dt', ':call v:lua.toggle_diagnostics()<CR>', {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap('n', '<leader>dt', ':call v:lua.toggle_diagnostics()<CR>', { noremap = true, silent = true })
 EOF
 
 " Add a user defined command to call, instead of adding a mapping to <leader>dt
