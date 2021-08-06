@@ -403,7 +403,7 @@ highlight Folded guibg=Black guifg=DarkGray
 " 'r': enables the <CR> key from autocommenting when pressing enter in line that contains a comment, enables javadoc
 " 'o': don't insert comment when pressing 'o' or 'O'
 " 'q': allow formatting comments with gq
-autocmd BufEnter * set fo+=t fo-=r fo-=l fo-=o fo+=q
+autocmd BufEnter * set fo+=t fo+=r fo-=l fo-=o fo+=q
 
 " Remove trailing whitespaces on file save
 autocmd BufWritePre * call functions#TrimTrailingWhitespace()
@@ -550,17 +550,13 @@ vnoremap <silent> <C-q> <Esc>:q<CR>
 " Keymap to quit all buffers with shift+q
 nnoremap <silent> Q <Esc>:qa<CR>
 
-" Quicker <Esc> for Insert and Command-line modes
-" inoremap jk <Esc>
-" cnoremap jk <C-c>
-
 " Quick movements in Insert mode without having to change to Normal mode
 inoremap <C-h> <C-o>h
 inoremap <C-l> <C-o>l
 inoremap <C-j> <C-o>j
 inoremap <C-k> <C-o>k
 inoremap <C-b> <C-o>B
-inoremap <C-e> <C-o>E
+inoremap <C-e> <C-o>E<C-o>l
 inoremap <C-a> <C-o>A
 inoremap <C-^> <C-o><C-^>
 
@@ -571,8 +567,8 @@ nnoremap Y y$
 xmap > >gv
 xmap < <gv
 
-" Do not update the unnamed register when pasting yanked text
-" text in visual mode, use black-hole register "_
+" Make visual pasting a word to not update the unnamed register
+" Thus, allowing us to repeatedly paste the word. {"_ : black-hole register}
 vnoremap p "_dP
 
 " The '&' command repeats last substitution and the
@@ -1199,7 +1195,12 @@ if functions#PluginLoaded('fzf.vim')
   " nnoremap <silent> <leader>rg :Rg<CR>
   " nnoremap <silent> <leader>fM :Marks<CR>
   " nnoremap <silent> <leader>fh :History:<CR>
-  nnoremap <silent> <leader>fm <Cmd>Maps<CR>
+  " nnoremap <silent> <leader>fm <Cmd>Maps<CR>
+
+  " Open mappings depending on what mode we're currently using
+  nmap <silent> <leader>fm <Plug>(fzf-maps-n)
+  imap <silent> <leader>fm <Plug>(fzf-maps-i)
+  xmap <silent> <leader>fm <Plug>(fzf-maps-x)
 
   " Start searching for files
   command! -bang -nargs=? -complete=dir Files
@@ -1439,8 +1440,9 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fH <Cmd>Telescope highlights<CR>
   nnoremap <silent> <leader>fo <Cmd>Telescope oldfiles<CR>
   nnoremap <silent> <leader>fO <Cmd>Telescope vim_options<CR>
-  nnoremap <silent> <leader>fs <Cmd>Telescope grep_string<CR>
+  nnoremap <silent> <leader>fw <Cmd>Telescope grep_string<CR>
   nnoremap <silent> <leader>fT <Cmd>Telescope tags<CR>
+  nnoremap <silent> <leader>fs <Cmd>Telescope lsp_document_symbols<CR>
   nnoremap <silent> <leader>f: <Cmd>Telescope command_history<CR>
   nnoremap <silent> <leader>f/ <Cmd>Telescope search_history<CR>
 
@@ -1632,9 +1634,6 @@ require'compe'.setup {
 -- Set nvim-compe keymaps
 local opts = { noremap = true, silent = true, expr = true }
 vim.api.nvim_set_keymap('i', '<C-Space>', 'compe#complete()',              opts)
-vim.api.nvim_set_keymap('i', '<C-e>'    , 'compe#close("<C-e>")',          opts)
-vim.api.nvim_set_keymap('i', '<C-f>'    , 'compe#scroll({ "delta": +4 })', opts)
-vim.api.nvim_set_keymap('i', '<C-d>'    , 'compe#scroll({ "delta": -4 })', opts)
 
 -- This is handled by the setup-config of autopairs
 --  Note: [[ ]] is string escaping
