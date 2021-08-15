@@ -110,10 +110,19 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Set custom HIST_STAMPS for history
+# Set history configuration settings
 HIST_STAMPS="%d/%m/%y %T"
+HISTSIZE=100000
+SAVEHIST=$HISTSIZE
+HISTFILE=$HOME/.zsh_history
 
 # setopt configurations
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_DUPS
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_SPACE
+setopt HIST_SAVE_NO_DUPS
+setopt SHARE_HISTORY
 unsetopt histverify
 
 # Make nvim default editor
