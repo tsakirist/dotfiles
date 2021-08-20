@@ -45,9 +45,10 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin('~/.vim/plugged')
 
 " Colorschemes
+" Plug 'joshdick/onedark.vim'
 Plug 'tsakirist/onedark.nvim'
-" Plug 'joshdick/onedark.vim
 Plug 'doums/darcula'
+Plug 'EdenEast/nightfox.nvim'
 
 " Lightline statusline and tabline
 Plug 'itchyny/lightline.vim', { 'on': [] }
@@ -393,6 +394,12 @@ endif
 " Set the color for the folded sections
 highlight Folded guibg=Black guifg=DarkGray
 
+" Manually override the colorscheme, TODO find a better way to handle colorschemes
+if functions#PluginLoaded('nightfox.nvim')
+  let g:nightfox_stlye='nordfox'
+  colorscheme nightfox
+endif
+
 " }}}
 
 " }}}
@@ -727,8 +734,10 @@ if functions#ColorschemeActive('darcula')
   let s:_colorScheme='darculaOriginal'
 elseif functions#ColorschemeActive('tokyonight')
   let s:_colorScheme='tokyonight'
-else
+elseif functions#ColorschemeActive('onedark')
   let s:_colorScheme='onedark'
+elseif functions#ColorschemeActive('nightfox')
+  let s:_colorScheme='nightfox'
 endif
 
 " Statusline options
