@@ -980,14 +980,22 @@ endif
 
 " ----------------------------------- 0. Simple lua plugins {{{
 
+if functions#PluginLoaded('nvim-colorizer')
+
 lua << EOF
 -- Setup nvim-colorizer
 require'colorizer'.setup()
 EOF
 
+endif
+
+if functions#PluginLoaded('lualine.nvim')
+
 " Load a custom lualine theme
 " https://gist.githubusercontent.com/shadmansaleh/cd526bc166237a5cbd51429cc1f6291b/raw/8702542d9dc40f3323a25480ba35d0082fd4deba/evil_lualine.lua
 luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
+
+endif
 
 "}}}
 
@@ -1192,6 +1200,8 @@ endif
 
 " ----------------------------------- 3. Specs {{{
 
+if functions#PluginLoaded('specs.nvim')
+
 lua<<EOF
 -- Setup specs-nvim
 require('specs').setup {
@@ -1211,6 +1221,8 @@ require('specs').setup {
   },
 }
 EOF
+
+endif
 
 " }}}
 
@@ -1477,7 +1489,6 @@ if functions#PluginLoaded('telescope.nvim')
 
   " Custom commands with extra options
   nnoremap <silent> <leader>fb <Cmd>lua require'telescope.builtin'.buffers({path_display = { "shorten" }})<CR>
-  nnoremap <silent> <leader>fB <Cmd>lua custom_file_browser()<CR>
   nnoremap <silent> <leader>ff <Cmd>lua require'telescope.builtin'.find_files({path_display= { "shorten" }})<CR>
   nnoremap <silent> <leader>fF <Cmd>lua require'telescope.builtin'.git_files({path_display = { "shorten" }})<CR>
   nnoremap <silent> <leader>fg <Cmd>lua require'telescope.builtin'.live_grep({layout_strategy = "vertical"})<CR>
@@ -1877,7 +1888,7 @@ command! ToggleLSPDiagnostics call v:lua.toggle_diagnostics()
 
 " ----------------------------------- 13. Indent-blankline {{{
 
-if functions#PluginLoaded('indent-blankline')
+if functions#PluginLoaded('indent-blankline.nvim')
 
 lua<<EOF
 -- Setup indent-blankline
@@ -1912,7 +1923,7 @@ lua <<EOF
   vim.g.nvim_tree_auto_open = 1                   -- opens the tree when typing `vim $DIR` or `vim`
   vim.g.nvim_tree_auto_close = 1                  -- closes the tree when it's the last window
   vim.g.nvim_tree_quit_on_open = 1                -- closes the tree when you open a file
-  vim.g.nvim_tree_follow = 1                      -- this option allows the cursor to be updated when entering a buffer
+  vim.g.nvim_tree_follow = 0                      -- this option allows the cursor to be updated when entering a buffer
   vim.g.nvim_tree_indent_markers = 1              -- this option shows indent markers when folders are open
   vim.g.nvim_tree_hide_dotfiles = 1               -- this option hides files and folders starting with a dot `.`
   vim.g.nvim_tree_git_hl = 1                      -- will enable file highlight for git attributes (can be used without the icons)
@@ -1923,8 +1934,8 @@ lua <<EOF
   vim.g.nvim_tree_disable_netrw = 1               -- disables netrw
   vim.g.nvim_tree_hijack_netrw = 1                -- prevents netrw from automatically opening when opening directories
   vim.g.nvim_tree_add_trailing = 1                -- append a trailing slash to folder names
-  vim.g.nvim_tree_group_empty = 1                 -- compact folders that only contain a single folder into one node in the file tree
-  vim.g.nvim_tree_lsp_diagnostics = 0             -- will show lsp diagnostics in the signcolumn. See :help nvim_tree_lsp_diagnostics
+  vim.g.nvim_tree_group_empty = 1                 -- compact folders that only contain a single folder into one node
+  vim.g.nvim_tree_lsp_diagnostics = 0             -- will show lsp diagnostics in the signcolumn
   vim.g.nvim_tree_disable_window_picker = 0       -- will disable the window picker
   vim.g.nvim_tree_hijack_cursor = 0               -- when moving cursor in the tree, will position the cursor at the start of the file on the current line
   vim.g.nvim_tree_icon_padding = ' '              -- used for rendering the space between the icon and the filename.
