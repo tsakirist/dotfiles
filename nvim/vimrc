@@ -966,6 +966,14 @@ if functions#PluginLoaded('vim-alternate')
         \ {'.c': '.h', '.h': '.c'}, {'.cc': '.h', '.h': '.hpp', '.hpp': '.cc'}]
 endif
 
+" Vim surround options
+" --------------------
+if functions#PluginLoaded('vim-surround')
+  " Set extra custom replacement rule that surrounds <text> with /*<text>*/
+  " 120 denotes the nr2char key which corresponds to 'x'
+  let g:surround_120="/*\r*/"
+endif
+
 " }}}
 
 " ----------------------------------- 2. Plugin configurations {{{
