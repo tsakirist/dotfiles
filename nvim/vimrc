@@ -1587,7 +1587,7 @@ end
 -- uses vim-rooter's FindRootDirectory function
 function find_in_project_root()
   require'telescope.builtin'.find_files {
-    prompt_title = "Project root",
+    prompt_title = "Project search",
     path_display = { "shorten" },
     cwd = vim.fn.FindRootDirectory(),
   }
