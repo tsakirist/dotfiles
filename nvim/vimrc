@@ -170,7 +170,6 @@ Plug 'rhysd/git-messenger.vim'
 Plug 'APZelos/blamer.nvim'
 
 " Switch between single-line and multiline forms of code
-" Doesn't work exactly as I want it to, so it's here on a temp basis
 Plug 'AndrewRadev/splitjoin.vim'
 
 " Peak lines easiliy with :<number>
@@ -210,12 +209,6 @@ Plug 'liuchengxu/vista.vim'
 
 " Pretty list of showing diagnostics, telescope results etc
 Plug 'folke/trouble.nvim'
-
-" Cool UI LSP related plugin
-" Plug 'glepnir/lspsaga.nvim'
-
-" Update/auto-generate ctags
-" Plug 'ludovicchabant/vim-gutentags'
 
 " -------------------------
 
@@ -708,6 +701,7 @@ nnoremap <silent> <leader>vf :Vista finder nvim_lsp<CR>
 
 " Nvim-tree toggle keybinding
 nnoremap <silent> <leader>nt :NvimTreeToggle<CR>
+nnoremap <silent> <leader>nf :NvimTreeFindFile<CR>
 
 " }}}
 
