@@ -357,17 +357,12 @@ endif
 
 " ----------------------------------- 3.2 Colorscheme {{{
 
-if functions#PluginLoaded('onedark.vim')
-  " Set the vimscript onedark colorscheme plugin
-  silent! colorscheme onedark
-
-  " Set the floating window/pop-up menu color to a dark-variant
-  highlight Pmenu guibg=#21252b guifg=#abb2bf
-  highlight PmenuSel guibg=#5c6370
-  highlight PmenuSbar guibg=#21252b guifg=#abb2bf
-
-elseif functions#PluginLoaded('onedark.nvim')
-  " Set the lua onedark colorscheme plugin
+" Convenient function to set-up onedark colorscheme
+function! s:SetOneDarkColorScheme() abort
+  if !functions#PluginLoaded('onedark.nvim')
+    echoerr "Error: 'onedark.nvim' colorscheme has not been installed or loaded!"
+    return
+  endif
 lua<<EOF
 require'onedark'.setup {
   transparent = false,
@@ -383,21 +378,25 @@ require'onedark'.setup {
   keywordStyle = "NONE",
 }
 EOF
-
   " This needs to be set if we want to show the eol character
   " highlight! link NonText WhiteSpace
-
   " Set the promptPrefix color to purple
   highlight TelescopePromptPrefix guibg=#282c34 guifg=#c678dd
-endif
+  " Re-set the color for the folded sections
+  highlight Folded guibg=Black guifg=DarkGray
+endfunction
 
-" Set the color for the folded sections
-highlight Folded guibg=Black guifg=DarkGray
+" Convenient command to set-up onedark.nvim colorscheme
+command! OneDarkColorScheme call s:SetOneDarkColorScheme()
 
-" Manually override the colorscheme, TODO find a better way to handle colorschemes
-if functions#PluginLoaded('nightfox.nvim')
-  let g:nightfox_stlye='nordfox'
-  colorscheme nightfox
+" Convenient variable that's used to set the desired colorscheme
+let s:_colorScheme='nightfox.nvim'
+
+if functions#PluginLoaded('onedark.nvim') && s:_colorScheme=='onedark.nvim'
+  call s:SetOneDarkColorScheme()
+elseif functions#PluginLoaded('nightfox.nvim') && s:_colorScheme=='nightfox.nvim'
+  let nightfox_stlye='nordfox'
+  silent! colorscheme nightfox
 endif
 
 " }}}
