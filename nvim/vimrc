@@ -517,8 +517,21 @@ nnoremap <leader>bf :ls<CR>:b<Space>
 " nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd @@g %<Bar>cw<S-Left><S-Left><Right>
 nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd //gj %<Bar>Trouble quickfix<S-Left><S-Left><S-Left><Right>
 
+" Split comma separated arguments of function from one-line-all to one-line-each
+" f)%:       finds the starting '(' of the function signature
+" csbb:      changes surround blockwise from ( to ( on its own line
+" s/,/,\r/g: substitutes each ',' with ',' and carriage return '\r', one-arg-per-line
+" J:         joins the last ')' to the last argument
+" vib=:      select the surrounding text inside '()' and indent it visually
+" gv>:       re-select the surrounding text and indent it manually
+" TODO: need to check my C++ indentation opts, last one shouldn't be needed
+map <leader>bp f)%cSbbj:s/,/,\r/g<CR>Jvib=gv><Esc>:nohl<CR>
+
 " Use bbye plugin's :Bdelete to close buffer w/o losing splits/windows
 nnoremap <silent> <leader>bd :Bdelete<CR>
+
+" Close all buffers except the current one
+nnoremap <silent> <leader>bo :BufOnly<CR>
 
 " Typing %% on the command line will expand to active buffer's path
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
@@ -571,9 +584,6 @@ inoremap <C-b> <C-o>B
 inoremap <C-e> <C-o>E<C-o>l
 inoremap <C-a> <C-o>A
 inoremap <C-^> <C-o><C-^>
-
-" Make Y behave like the other commands and copy till EOL
-nnoremap Y y$
 
 " Keep Visual mode selection when indenting text
 xmap > >gv
@@ -691,9 +701,6 @@ nnoremap <silent> <leader>lr :lexpr []<CR>
 " Toggle quickfix and locationlist
 nnoremap <silent> <leader>ct :call functions#ToggleList('qf')<CR>
 nnoremap <silent> <leader>lt :call functions#ToggleList('loc')<CR>
-
-" Close all buffers except the current one
-nnoremap <silent> <leader>bo :BufOnly<CR>
 
 " Keybindings to toggle Vista and open Vista finder more easily
 nnoremap <silent> <leader>vv :Vista!!<CR>
