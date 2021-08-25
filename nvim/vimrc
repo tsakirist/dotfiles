@@ -214,6 +214,9 @@ Plug 'liuchengxu/vista.vim'
 " Pretty list of showing diagnostics, telescope results etc
 Plug 'folke/trouble.nvim'
 
+" A fancy, configurable, notification manager
+Plug 'rcarriga/nvim-notify'
+
 " -------------------------
 
 " List ends here. Plugins become visible to Vim after this call
@@ -1014,6 +1017,15 @@ luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
 
 endif
 
+if functions#PluginLoaded('nvim-notify')
+
+lua<<EOF
+-- Set default notify to nvim-notify
+vim.notify = require("notify")
+EOF
+
+endif
+
 "}}}
 
 " ----------------------------------- 1. Which-key {{{
@@ -1138,14 +1150,18 @@ if functions#PluginLoaded('vim-which-key')
   " t is for Telescope
   let g:which_key_map.t = {
         \ 'name' : '+Telescope' ,
-        \ ':' : [':Telescope commands'                  , 'commands'],
+        \ ':' : [':Telescope command_history'           , 'command history'],
         \ '/' : [':Telescope search_history'            , 'search history'],
+        \ 'a' : [':Telescope autocommands'              , 'autocommands'],
         \ 'b' : [':Telescope buffers'                   , 'buffers'],
         \ 'B' : [':Telescope file_browser'              , 'file browser'],
-        \ 'c' : [':Telescope current_buffer_fuzzy_find' , 'current buffer lines'],
+        \ 'c' : [':Telescope commands'                  , 'commands'],
+        \ 'C' : [':Telescope current_buffer_fuzzy_find' , 'current buffer lines'],
         \ 'f' : [':Telescope find_files'                , 'find files'],
+        \ 'F' : [':Telescope filetypes'                 , 'filetypes'],
         \ 'g' : [':Telescope live_grep'                 , 'live grep'],
-        \ 'h' : [':Telescope command_history'           , 'command history'],
+        \ 'h' : [':Telescope highlights'                , 'highlights'],
+        \ 'j' : [':Telescope jumplist'                  , 'jumplist'],
         \ 'k' : [':Telescope keymaps'                   , 'keymappings'],
         \ 'l' : [':Telescope loclist'                   , 'location list'],
         \ 'm' : [':Telescope marks'                     , 'marks'],
@@ -1163,6 +1179,7 @@ if functions#PluginLoaded('vim-which-key')
         \ 'b' : [':Telescope git_bcommits' , 'buffer commmits'],
         \ 'c' : [':Telescope git_commits'  , 'commmits'],
         \ 'f' : [':Telescope git_files'    , 'git files'],
+        \ 'h' : [':Telescope git_stash'    , 'git stash'],
         \ 'r' : [':Telescope git_branches' , 'git branches'],
         \ 's' : [':Telescope git_status'   , 'git status'],
         \}
