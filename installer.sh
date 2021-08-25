@@ -247,56 +247,6 @@ function _tmux_config() {
     ln -sv --backup=numbered "$(pwd)/tmux/tmux.conf" $HOME/.tmux.conf
 }
 
-function _sublime_pkgctrl() {
-    # Create the necessary folder for Package Control and install it manually
-    if [ ! -f "${HOME}/.config/sublime-text-3/Installed Packages/Package Control.sublime-package" ]; then
-        wget -q "https://packagecontrol.io/Package%20Control.sublime-package" \
-             -P "${HOME}/.config/sublime-text-3/Installed Packages"
-    fi
-}
-
-function _sublime_init() {
-    # Create some necessary folders in order to be able to copy settings
-    mkdir -v -p "${HOME}/.config/sublime-text-3/Installed Packages"
-    mkdir -v -p "${HOME}/.config/sublime-text-3/Packages/User/"
-}
-
-function _sublime_text() {
-    _print i "SublimeText 3"
-    wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-    sudo sh -c 'echo "deb https://download.sublimetext.com/ apt/stable/" > /etc/apt/sources.list.d/sublime-text.list'
-    sudo apt-get -qq update && _install sublime-text
-}
-
-function _sublime_settings() {
-    _check_file sublime/Preferences.sublime-settings
-    _print s "sublime settings"
-    cp -v --backup=numbered "sublime/Preferences.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
-}
-
-function _sublime_keybindings() {
-    _check_file "sublime/Default (Linux).sublime-keymap"
-    _print s "sublime keybindings"
-    cp -v --backup=numbered "sublime/Default (Linux).sublime-keymap" "$HOME/.config/sublime-text-3/Packages/User/"
-}
-
-function _sublime_packages() {
-    _check_file "sublime/Package Control.sublime-settings"
-    _print s "sublime packages"
-    cp -v --backup=numbered "sublime/Package Control.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
-}
-
-function _sublime_terminus() {
-    _check_file "sublime/Terminus.sublime-settings"
-    _print s "sublime terminus settings"
-    cp -v --backup=numbered "sublime/Terminus.sublime-settings" "$HOME/.config/sublime-text-3/Packages/User/"
-}
-
-function _sublime_config() {
-    _sublime_init && _sublime_pkgctrl
-    _sublime_settings && _sublime_keybindings && _sublime_packages && _sublime_terminus
-}
-
 function _vscode() {
     _print i "Visual Studio Code"
     curl -s https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
@@ -322,27 +272,6 @@ function _neofetch() {
 function _xclip() {
     _print i "xclip"
     _install xclip
-}
-
-function _powerline() {
-    _print i "powerline"
-    _install python-pip
-    pip install powerline-status
-    pip install powerline-gitstatus
-    _install fonts-powerline
-}
-
-function _powerline_config() {
-    _check_file powerline_configs/themes/shell/default.json
-    _check_file powerline_configs/colorschemes/default.json
-
-    _print s "themes/shell/default.json"
-    cp -v --backup=numbered "powerline_configs/themes/shell/default.json" \
-        "$HOME/.local/lib/python2.7/site-packages/powerline/config_files/themes/shell"
-
-    _print s "colorschemes/default.json"
-    cp -v --backup=numbered "powerline_configs/colorschemes/default.json" \
-        "$HOME/.local/lib/python2.7/site-packages/powerline/config_files/colorschemes"
 }
 
 function _dconf_tilix() {
@@ -618,11 +547,7 @@ pkgs=(
     "    gnome-shell-extensions"
     "    gitconfig"
     "    gitsofancy"
-    "    powerline"
-    "    powerline configuration"
     "    java and javac"
-    "    sublime text 3"
-    "    sublime text 3: settings, keybindings, packages"
     "    vscode"
     "    google chrome"
     "    preload"
@@ -663,11 +588,7 @@ pkgs_functions=(
     _gnome_shell_extensions
     _git_config
     _git_so_fancy
-    _powerline
-    _powerline_config
     _java
-    _sublime_text
-    _sublime_config
     _vscode
     _google_chrome
     _preload
