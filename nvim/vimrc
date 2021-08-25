@@ -198,7 +198,10 @@ Plug 'junegunn/fzf.vim'
 " LSP related
 Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
-Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-path'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'kosayoda/nvim-lightbulb'
 
@@ -1631,69 +1634,64 @@ endif
 
 " }}}
 
-" ----------------------------------- 8. Nvim-compe {{{
+" ----------------------------------- 8. Nvim-cmp {{{
 
-if functions#PluginLoaded('nvim-compe')
+if functions#PluginLoaded('nvim-cmp')
 
-  " Speedup the startup of nvim-compe, don't load these
-  let g:loaded_compe_calc=0
-  let g:loaded_compe_tags=0
-  let g:loaded_compe_emoji=0
-  let g:loaded_compe_vsnip=0
-  let g:loaded_compe_spell=0
-  let g:loaded_compe_vim_lsp=0
-  let g:loaded_compe_vim_lsc=0
-  let g:loaded_compe_ultisnips=0
-  let g:loaded_compe_treesitter=0
-  let g:loaded_compe_snippets_nvim=0
-
-lua << EOF
--- Setup nvim-compe
-require'compe'.setup {
-  enabled = true,
-  autocomplete = true,
-  debug = false,
-  min_length = 1,
-  preselect = 'enable',
-  throttle_time = 80,
-  source_timeout = 200,
-  incomplete_delay = 400,
-  max_abbr_width = 100,
-  max_kind_width = 100,
-  max_menu_width = 100,
-  documentation = {
-    border = { '', '', '', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
-    winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
-    max_width = 120,
-    min_width = 60,
-    max_height = math.floor(vim.o.lines * 0.3),
-    min_height = 1,
+lua<<EOF
+-- Setup custom icons for the autocompletion
+local cmp_kinds = {
+  Class         = "  ",
+  Color         = "  ",
+  Constant      = "  ",
+  Constructor   = "  ",
+  Enum          = "了 ",
+  EnumMember    = "  ",
+  Field         = "  ",
+  File          = "  ",
+  Folder        = "  ",
+  Function      = "ƒ  ",
+  Interface     = "  ",
+  Keyword       = "  ",
+  Method        = "  ",
+  Module        = "  ",
+  Property      = "  ",
+  Snippet       = "﬌  ",
+  Struct        = "  ",
+  Reference     = "  ",
+  Text          = "  ",
+  Unit          = "塞 ",
+  Value         = "  ",
+  Variable      = "  ",
+  Operator      = "  ",
+  Event         = "  ",
+  TypeParameter = "  ",
+}
+-- Setup nvim-cmp
+local cmp = require'cmp'
+cmp.setup {
+  formatting = {
+    format = function(_, vim_item)
+      vim_item.kind = (cmp_kinds[vim_item.kind] or "") .. vim_item.kind
+      return vim_item
+    end
   },
-  source = {
-    path          = { kind = "   (Path)" },
-    buffer        = { kind = "   (Buffer)" },
-    nvim_lsp      = { kind = "   (LSP)" },
-    nvim_lua      = { kind = "   (Lua)" },
-    tags          = false,
-    spell         = false,
-    calc          = false,
-    luasnip       = false,
-    vsnip         = false,
-    snippets_nvim = false,
-    emoji         = false,
-    treesitter    = false,
+  mapping = {
+    ['<CR>']      = cmp.mapping.confirm(),
+    ['<Tab>']     = cmp.mapping.select_next_item(),
+    ['<S-Tab>']   = cmp.mapping.select_prev_item(),
+    ["<C-Space>"] = cmp.mapping.complete(),
+  },
+  snippet = {
+  },
+  sources = {
+    { name = "nvim_lsp" },
+    { name = "cmp_tabnine" },
+    { name = "buffer" },
+    { name = "path" },
   },
 }
-
--- Set nvim-compe keymaps
-local opts = { noremap = true, silent = true, expr = true }
-vim.api.nvim_set_keymap('i', '<C-Space>', 'compe#complete()',              opts)
-
--- This is handled by the setup-config of autopairs
---  Note: [[ ]] is string escaping
--- vim.api.nvim_set_keymap('i', '<CR>', [[ compe#confirm(luaeval('require 'nvim-autopairs'.autopairs_cr()')) ]], opts)
 EOF
-
 endif
 
 " }}}
@@ -1710,7 +1708,7 @@ require'nvim-autopairs'.setup {
 }
 
 -- Fix <CR> for nvim-compe
-require'nvim-autopairs.completion.compe'.setup {
+require'nvim-autopairs.completion.cmp'.setup {
   map_cr = true,      -- map <CR> on insert mode
   map_complete = true -- it will auto insert `(` after select function or method item
 }
@@ -1812,10 +1810,13 @@ local setup_servers = function()
     end
   end
 
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
   -- Map local buffer keybindings when the server attaches
   installed_servers = require'lspinstall'.installed_servers()
   for _, server in pairs(installed_servers) do
-    require'lspconfig'[server].setup{ on_attach = on_attach }
+    require'lspconfig'[server].setup { on_attach = on_attach, capabilities = capabilities }
   end
 
   -- Fix 'vim' is undefined global for lua LSP
@@ -1848,35 +1849,6 @@ vim.fn.sign_define("LspDiagnosticsSignHint",        { text = "", numhl = "Lsp
 vim.fn.sign_define("LspDiagnosticsSignError",       { text = "", numhl = "LspDiagnosticsDefaultError" })
 vim.fn.sign_define("LspDiagnosticsSignWarning",     { text = "", numhl = "LspDiagnosticsDefaultWarning" })
 vim.fn.sign_define("LspDiagnosticsSignInformation", { text = "", numhl = "LspDiagnosticsDefaultInformation" })
-
--- Custom icons for the auto-completion
-vim.lsp.protocol.CompletionItemKind = {
-  "   (Text) ",
-  "   (Method)",
-  "   (Function)",
-  "   (Constructor)",
-  "   (Field)",
-  "[] (Variable)",
-  "   (Class)",
-  " ﰮ  (Interface)",
-  "   (Module)",
-  " 襁 (Property)",
-  "   (Unit)",
-  "   (Value)",
-  " 練 (Enum)",
-  "   (Keyword)",
-  "   (Snippet)",
-  "   (Color)",
-  "   (File)",
-  "   (Reference)",
-  "   (Folder)",
-  "   (EnumMember)",
-  " ﲀ  (Constant)",
-  "   (Struct)",
-  "   (Event)",
-  "   (Operator)",
-  "   (TypeParameter)"
-}
 
 -- Toggle LSP diagnostics on and off
 vim.g.diagnostics_active = true
