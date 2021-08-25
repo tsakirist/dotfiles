@@ -999,7 +999,7 @@ endif
 
 if functions#PluginLoaded('nvim-colorizer')
 
-lua << EOF
+lua<<EOF
 -- Setup nvim-colorizer
 require'colorizer'.setup()
 EOF
@@ -1193,7 +1193,7 @@ endif
 
 if functions#PluginLoaded('nvim-web-devicons')
 
-lua << EOF
+lua<<EOF
 function _G.webDevIcons(path)
   local extension = vim.fn.fnamemodify(path, ':e')
   local filename = vim.fn.fnamemodify(path, ':t')
@@ -1326,7 +1326,7 @@ endif
 
 if functions#PluginLoaded('nvim-treesitter')
 
-lua << EOF
+lua<<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
     'c', 'cpp', 'json', 'python', 'lua', 'bash', 'typescript', 'javascript', 'html'
@@ -1443,7 +1443,7 @@ if functions#PluginLoaded('trouble.nvim')
   nnoremap <silent> <leader>tl :TroubleToggle loclist<CR>
   nnoremap <silent> <leader>tr :TroubleToggle lsp_references<CR>
 
-lua << EOF
+lua<<EOF
 -- Setup Trouble
 require'trouble'.setup {
   position = "bottom",                 -- position of the list can be: bottom, top, left, right
@@ -1517,7 +1517,7 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>fS <Cmd>lua custom_grep_string()<CR>
   nnoremap <silent> <leader>fv <Cmd>lua find_in_vim_root()<CR>
 
-lua << EOF
+lua<<EOF
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 local trouble = require('trouble.providers.telescope')
@@ -1700,7 +1700,7 @@ endif
 
 if functions#PluginLoaded('nvim-autopairs')
 
-lua << EOF
+lua<<EOF
 -- Setup nvim-autopairs
 require'nvim-autopairs'.setup {
   disable_filetype = { "TelescopePrompt", "vim" },
@@ -1762,7 +1762,7 @@ endif
 
 " ----------------------------------- 12. LSP {{{
 
-lua << EOF
+lua<<EOF
 -- Setup LSP configurations
 local on_attach = function(client, bufnr)
 
@@ -1901,7 +1901,7 @@ endif
 
 if functions#PluginLoaded('nvim-tree.lua')
 
-lua <<EOF
+lua<<EOF
  -- Setup nvim-tree
   vim.g.nvim_tree_disable_default_keybindings = 1 -- disable default keybidings
   vim.g.nvim_tree_side = 'left'                   -- set the side in which the window will appear
@@ -1941,7 +1941,7 @@ lua <<EOF
     files = 1,
     folder_arrows = 1,
   }
-  vim.g.nvim_tree_icons = {                       -- set the desired icons
+  vim.g.nvim_tree_icons = {                       -- set the desired icons to display
     default = '',
     symlink = '',
     git = {
