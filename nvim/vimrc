@@ -46,7 +46,8 @@ call plug#begin('~/.vim/plugged')
 
 " Colorschemes
 " Plug 'joshdick/onedark.vim'
-Plug 'tsakirist/onedark.nvim'
+" Plug 'tsakirist/onedark.nvim'
+Plug 'ful1e5/onedark.nvim'
 Plug 'doums/darcula'
 Plug 'EdenEast/nightfox.nvim'
 
@@ -357,10 +358,12 @@ function! s:SetOneDarkColorScheme() abort
     return
   endif
 lua<<EOF
+-- Setup onedark
 require'onedark'.setup {
   transparent = false,
   darkSidebar = true,
   darkFloat = true,
+  msgAreaStyle = "bold",
   sidebars = {
     "vista_kind",
     "terminal",
@@ -379,17 +382,28 @@ EOF
   highlight Folded guibg=Black guifg=DarkGray
 endfunction
 
-" Convenient command to set-up onedark.nvim colorscheme
-command! OneDarkColorScheme call s:SetOneDarkColorScheme()
+function! s:SetNightfoxColorScheme() abort
+lua<<EOF
+-- Setup nightfox
+local nightfox = require'nightfox'
+nightfox.setup {
+  fox = "nordfox"
+  }
+nightfox.load()
+EOF
+endfunction
 
-" Convenient variable that's used to set the desired colorscheme
+" Convenient commands to set-up my colorschemes
+command! OneDarkColorScheme call s:SetOneDarkColorScheme()
+command! NightFoxColorScheme call s:SetNightfoxColorScheme()
+
+" The default colorscheme to use
 let s:_colorScheme='nightfox.nvim'
 
 if functions#PluginLoaded('onedark.nvim') && s:_colorScheme=='onedark.nvim'
   call s:SetOneDarkColorScheme()
 elseif functions#PluginLoaded('nightfox.nvim') && s:_colorScheme=='nightfox.nvim'
-  let nightfox_stlye='nordfox'
-  silent! colorscheme nightfox
+  call s:SetNightfoxColorScheme()
 endif
 
 " }}}
