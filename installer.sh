@@ -63,6 +63,16 @@ function _check_command() {
     fi
 }
 
+# Function that takes as argument the author/repo and installs the latest deb
+# TODO: think/check/validate that this works for all repos
+# TODO: change all *.deb related functions to use this
+function _install_latest_deb() {
+    local repo="https://api.github.com/repos/$1/releases/latest"
+    local url=$(curl -s "$repo" | grep "browser_download_url" | grep -v "musl" | grep "amd64" | cut -d '"' -f 4)
+    local filename=$(basename $url)
+    wget -qO /tmp/$filename $url && sudo dpkg -i $filename > /dev/null
+}
+
 function _install() {
     # -qq: option implies --yes and also is less verbose
     sudo apt-get -qq install "$@" > /dev/null
@@ -132,12 +142,9 @@ function _git_config() {
     ln -sv --backup=numbered "$(pwd)/git/gitconfig" $HOME/.gitconfig
 }
 
-function _git_so_fancy() {
-    if ! command -v diff-so-fancy > /dev/null 2>&1; then
-        _print s "git-diff-so-fancy"
-        wget -q "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy"
-        chmod +x diff-so-fancy && sudo mv diff-so-fancy /usr/bin/
-    fi
+function _git_delta() {
+    _print i "delta" " a better viewer for git and diff output"
+    _install_latest_deb dandavison/delta
 }
 
 function _bashrc() {
@@ -545,7 +552,7 @@ pkgs=(
     "    gnome-tweaks"
     "    gnome-shell-extensions"
     "    gitconfig"
-    "    gitsofancy"
+    "    git delta"
     "    java and javac"
     "    vscode"
     "    google chrome"
@@ -586,7 +593,7 @@ pkgs_functions=(
     _gnome_tweaks
     _gnome_shell_extensions
     _git_config
-    _git_so_fancy
+    _git_delta
     _java
     _vscode
     _google_chrome
