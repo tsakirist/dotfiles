@@ -199,10 +199,10 @@ Plug 'junegunn/fzf.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
 Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'kosayoda/nvim-lightbulb'
 
@@ -1013,7 +1013,7 @@ endif
 if functions#PluginLoaded('lualine.nvim')
 
 " Load a custom lualine theme
-" https://gist.githubusercontent.com/shadmansaleh/cd526bc166237a5cbd51429cc1f6291b/raw/8702542d9dc40f3323a25480ba35d0082fd4deba/evil_lualine.lua
+" https://gist.githubusercontent.com/hoob3rt/b200435a765ca18f09f83580a606b878/raw/d99388470ed5ddb1da32a0bd3bccd4a69eb15429/evil_lualine.lua
 luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
 
 endif
@@ -1688,10 +1688,21 @@ local cmp_kinds = {
 -- Setup nvim-cmp
 local cmp = require'cmp'
 cmp.setup {
+  completion = {
+    -- Setup preselect like nvim-compe
+    -- completeopt = 'menu,menuone,noinsert',
+  },
   formatting = {
-    format = function(_, vim_item)
+    format = function(entry, vim_item)
+      -- Add icon for the suggestions
       vim_item.kind = (cmp_kinds[vim_item.kind] or "") .. vim_item.kind
-      vim_item.abbr = vim_item.abbr:sub(1, -2) -- Remove the '~' character from suggestions
+      -- Set a name for each source
+      vim_item.menu = ({
+        nvim_lua = "[Lua]",
+        nvim_lsp = "[LSP]",
+        buffer   = "[Buffer]",
+        path     = "[Path]"
+      })[entry.source.name]
       return vim_item
     end
   },
@@ -1706,7 +1717,6 @@ cmp.setup {
   sources = {
     { name = "nvim_lsp" },
     { name = "nvim_lua" },
-    { name = "cmp_tabnine" },
     { name = "buffer" },
     { name = "path" },
   },
