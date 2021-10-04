@@ -229,7 +229,7 @@ set termguicolors
 set noshowmode
 
 " Highlight the current line and also highlight the column @120 (ruler)
-set colorcolumn=120
+" set colorcolumn=120
 set cursorline
 
 " Set hidden to on so as to be able to change buffers without saving first
@@ -1327,14 +1327,6 @@ require'nvim-treesitter.configs'.setup {
       goto_previous_end = {
         ["[M"] = "@function.outer",
         ["[C"] = "@class.outer",
-      },
-    },
-    lsp_interop = {
-      enable = true,
-      border = "none",
-      peek_definition_code = {
-        ["gf"] = "@function.outer",
-        ["gc"] = "@class.outer",
       },
     },
     playground = {
