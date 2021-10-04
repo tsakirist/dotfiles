@@ -50,14 +50,6 @@ Plug 'ful1e5/onedark.nvim'
 Plug 'doums/darcula'
 Plug 'EdenEast/nightfox.nvim'
 
-" Lightline statusline and tabline
-Plug 'itchyny/lightline.vim', { 'on': [] }
-Plug 'mengelbrecht/lightline-bufferline', { 'on': [] }
-
-" Airline statusline/tabline
-Plug 'vim-airline/vim-airline', { 'on': [] }
-Plug 'vim-airline/vim-airline-themes', { 'on': [] }
-
 " Lua-based statusline
 Plug 'hoob3rt/lualine.nvim'
 
@@ -746,81 +738,6 @@ iab lua< lua<<EOF<CR><CR>EOF<Up>
 
 " ----------------------------------- 1. Plugin options {{{
 
-" Set the theme for airline/lightline according to the active colorscheme
-if functions#ColorschemeActive('darcula')
-  let s:_colorScheme='darculaOriginal'
-elseif functions#ColorschemeActive('tokyonight')
-  let s:_colorScheme='tokyonight'
-elseif functions#ColorschemeActive('onedark')
-  let s:_colorScheme='onedark'
-elseif functions#ColorschemeActive('nightfox')
-  let s:_colorScheme='nightfox'
-endif
-
-" Statusline options
-" ------------------
-if functions#PluginLoaded('vim-airline')
-
-  " Airline options
-  " -----------------
-  " Specify the default airline theme
-  let g:airline_theme=s:_colorScheme
-
-  " Enable tabline extension
-  let g:airline#extensions#tabline#enabled=1
-
-  " Add powerline fonts to populate powerline symbols
-  let g:airline_powerline_fonts=1
-
-elseif functions#PluginLoaded('lightline.vim')
-
-  " Lightline options
-  " -------------------
-  " Specify default options
-  let g:lightline = {
-        \ 'colorscheme': s:_colorScheme,
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ],
-        \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-        \ },
-        \ 'tabline': {
-        \   'left': [ ['buffers'] ],
-        \   'right': [ ['close'] ]
-        \ },
-        \ 'component_expand': {
-        \   'buffers': 'lightline#bufferline#buffers'
-        \ },
-        \ 'component_type': {
-        \   'buffers': 'tabsel'
-        \ },
-        \ 'component_function': {
-        \   'gitbranch': 'FugitiveHead'
-        \ },
-        \ 'component_raw': {
-        \   'buffers': 1
-        \ },
-        \}
-
-  " Lightline-bufferline options
-  " ------------------------------
-  " Add devicons to the bufferline
-  let g:lightline#bufferline#enable_devicons=1
-
-  " Make buffer clickable this also requires 'component_raw': 'buffres' : 1
-  let g:lightline#bufferline#clickable=1
-
-  " Use different symbols in the buffers for modified etc
-  let g:lightline#bufferline#unicode_symbols=1
-
-  " Enable numbering on the buffers, option: 1 as shown by the :ls command
-  let g:lightline#bufferline#show_number=1
-
-  " Position the icon to the right of the buffer name
-  let g:lightline#bufferline#icon_position="right"
-
-  " This is required for lightline to show the buffers
-  set showtabline=2
-endif
 
 " Committia options
 " -----------------
