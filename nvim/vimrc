@@ -46,7 +46,6 @@ call plug#begin('~/.vim/plugged')
 
 " Colorschemes
 " Plug 'joshdick/onedark.vim'
-" Plug 'tsakirist/onedark.nvim'
 Plug 'ful1e5/onedark.nvim'
 Plug 'doums/darcula'
 Plug 'EdenEast/nightfox.nvim'
@@ -107,10 +106,6 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " Text alignment
 Plug 'junegunn/vim-easy-align'
-
-" Currently checking if ClangdSwitchSourceHeader works better
-" Alternate between header/source,
-" Plug 'ton/vim-alternate'
 
 " Rooter changes the working directory to the project root when you open a file or directory
 Plug 'airblade/vim-rooter'
@@ -205,6 +200,7 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'kosayoda/nvim-lightbulb'
+Plug 'weilbith/nvim-code-action-menu', { 'on': 'CodeActionMenu' }
 
 " Goto preview in a floating window
 Plug 'rmagatti/goto-preview'
@@ -1809,7 +1805,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gr'         , '<Cmd>lua vim.lsp.buf.references()<CR>'                   , opts)
   buf_set_keymap('n', 'K'          , '<Cmd>lua vim.lsp.buf.hover()<CR>'                        , opts)
   buf_set_keymap('n', '<leader>rn' , '<Cmd>lua vim.lsp.buf.rename()<CR>'                       , opts)
-  buf_set_keymap('n', '<leader>ca' , '<Cmd>lua vim.lsp.buf.code_action()<CR>'                  , opts)
+  buf_set_keymap('n', '<leader>ca' , '<Cmd>CodeActionMenu<CR>'                                 , opts)
   buf_set_keymap('n', '[d'         , '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
   buf_set_keymap('n', ']d'         , '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
   buf_set_keymap('n', 'dp'         , '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
