@@ -1929,29 +1929,16 @@ if functions#PluginLoaded('nvim-tree.lua')
 
 lua<<EOF
  -- Setup nvim-tree
-  vim.g.nvim_tree_disable_default_keybindings = 1 -- disable default keybidings
-  vim.g.nvim_tree_side = 'left'                   -- set the side in which the window will appear
-  vim.g.nvim_tree_width = 45                      -- set the width of the window
-  vim.g.nvim_tree_auto_open = 1                   -- opens the tree when typing `vim $DIR` or `vim`
-  vim.g.nvim_tree_auto_close = 1                  -- closes the tree when it's the last window
   vim.g.nvim_tree_quit_on_open = 1                -- closes the tree when you open a file
-  vim.g.nvim_tree_follow = 0                      -- this option allows the cursor to be updated when entering a buffer
   vim.g.nvim_tree_indent_markers = 1              -- this option shows indent markers when folders are open
   vim.g.nvim_tree_hide_dotfiles = 1               -- this option hides files and folders starting with a dot `.`
   vim.g.nvim_tree_git_hl = 1                      -- will enable file highlight for git attributes (can be used without the icons)
   vim.g.nvim_tree_highlight_opened_files = 1      -- will enable folder and file icon highlight for opened files/directories
   vim.g.nvim_tree_root_folder_modifier = ':~'     -- default. See :help filename-modifiers for more options
-  vim.g.nvim_tree_tab_open = 1                    -- will open the tree when entering a new tab and tree was previously open
-  vim.g.nvim_tree_auto_resize = 1                 -- will resize the tree to its saved width when opening a file
-  vim.g.nvim_tree_disable_netrw = 1               -- disables netrw
-  vim.g.nvim_tree_hijack_netrw = 1                -- prevents netrw from automatically opening when opening directories
   vim.g.nvim_tree_add_trailing = 1                -- append a trailing slash to folder names
   vim.g.nvim_tree_group_empty = 1                 -- compact folders that only contain a single folder into one node
-  vim.g.nvim_tree_lsp_diagnostics = 0             -- will show lsp diagnostics in the signcolumn
   vim.g.nvim_tree_disable_window_picker = 0       -- will disable the window picker
-  vim.g.nvim_tree_hijack_cursor = 0               -- when moving cursor in the tree, will position the cursor at the start of the file on the current line
   vim.g.nvim_tree_icon_padding = ' '              -- used for rendering the space between the icon and the filename.
-  vim.g.nvim_tree_update_cwd = 1                  -- will update the tree cwd when changing nvim's directory (DirChanged event)
   vim.g.nvim_tree_respect_buf_cwd = 1             -- will change cwd of nvim-tree to that of new buffer's when opening nvim-tree
   vim.g.nvim_tree_git_hl = 0                      -- disable this for better perfomance
   vim.g.nvim_tree_gitignore = 0                   -- disable this for better performance, do not respect gitignore
@@ -1999,7 +1986,7 @@ lua<<EOF
 
   -- Custom keybindings
   local tree_cb = require'nvim-tree.config'.nvim_tree_callback
-  vim.g.nvim_tree_bindings = {
+  local nvim_tree_bindings = {
     { key = {"<CR>", "o", "<2-LeftMouse>"}, cb = tree_cb("edit") },
     { key = {"<C-]>", "+"},                 cb = tree_cb("cd") },
     { key = "<C-v>",                        cb = tree_cb("vsplit") },
@@ -2031,7 +2018,42 @@ lua<<EOF
     { key = "-",                            cb = tree_cb("dir_up") },
     { key = "s",                            cb = tree_cb("system_open") },
     { key = "q",                            cb = tree_cb("close") },
-    { key = "?",                            cb = tree_cb("toggle_help") },
+    { key = "g?",                           cb = tree_cb("toggle_help") },
+  }
+
+  require'nvim-tree'.setup {
+    disable_netrw       = true,   -- disables netrw
+    hijack_netrw        = true,   -- prevents netrw from automatically opening when opening directories
+    open_on_setup       = false,  -- don't open when running setup
+    ignore_ft_on_setup  = {},     -- ignore filetypes when running setup
+    update_to_buf_dir   = {       -- hijacks new directory buffers when they are opened, opens the tree when typing `vim $DIR` or `vim`
+      enable = true,
+      auto_open = true,           -- open the tree if it was previsouly closed
+    },
+    auto_close          = false,  -- do not close neovim when nvim-tree is the last window
+    open_on_tab         = true,   -- open tree automatically when switching tab or opening new one
+    hijack_cursor       = false,  -- when moving cursor in the tree, will position the cursor at the start of the file on the current line
+    update_cwd          = true,   -- update the tree cwd when changing nvim's directory (DirChanged event)
+    lsp_diagnostics     = false,  -- do not show LSP diagnostics in nvim-tree
+    update_focused_file = {       -- do not update tree to follow the focused file
+      enable      = false,
+      update_cwd  = false,        -- update the root directory of the tree to the one of the folder containing the file
+      ignore_list = {}
+    },
+    system_open = {               -- configuration options for the system command, 's' in the tree by default
+      cmd  = nil,                 -- the command to run, nil should work on most cases
+      args = {}                   -- the command arguments as a list
+    },
+    view = {                      -- configuration options for the view
+      width = 45,                 -- width of the window, can be either columns or string in '%'
+      height = 30,                -- height of the window, can be either columns or string in '%'
+      side = 'left',              -- the side where the tree should open
+      auto_resize = true,         -- resize the tree when opening a file
+      mappings = {
+        custom_only = true,       -- disable default keybindings
+        list = nvim_tree_bindings -- set our own custom keybindings
+      }
+    }
   }
 EOF
 
