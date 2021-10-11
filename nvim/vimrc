@@ -356,9 +356,9 @@ lua<<EOF
 -- Setup onedark
 require'onedark'.setup {
   transparent = false,
-  darkSidebar = true,
-  darkFloat = true,
-  msgAreaStyle = "bold",
+  dark_sidebar = true,
+  dark_float = true,
+  msg_area_style = "bold",
   sidebars = {
     "vista_kind",
     "terminal",
@@ -366,7 +366,8 @@ require'onedark'.setup {
   colors = {
     border_highlight = "#5c6370",
   },
-  keywordStyle = "NONE",
+  keyword_style = "NONE",
+  transparent = true
 }
 EOF
   " This needs to be set if we want to show the eol character
@@ -382,8 +383,9 @@ lua<<EOF
 -- Setup nightfox
 local nightfox = require'nightfox'
 nightfox.setup {
-  fox = "nordfox"
-  }
+  fox = "nordfox",
+  transparent = true,
+}
 nightfox.load()
 EOF
 endfunction
@@ -1884,13 +1886,7 @@ lua<<EOF
       empty_open = "",
       symlink = "",
       symlink_open = "",
-    },
-    lsp = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
-    }
+      }
   }
 
   -- Custom keybindings
@@ -1931,36 +1927,44 @@ lua<<EOF
   }
 
   require'nvim-tree'.setup {
-    disable_netrw       = true,   -- disables netrw
-    hijack_netrw        = true,   -- prevents netrw from automatically opening when opening directories
-    open_on_setup       = false,  -- don't open when running setup
-    ignore_ft_on_setup  = {},     -- ignore filetypes when running setup
-    update_to_buf_dir   = {       -- hijacks new directory buffers when they are opened, opens the tree when typing `vim $DIR` or `vim`
+    disable_netrw = true,    -- disables netrw
+    hijack_netrw = true,     -- prevents netrw from automatically opening when opening directories
+    open_on_setup = false,   -- don't open when running setup
+    ignore_ft_on_setup = {}, -- ignore filetypes when running setup
+    update_to_buf_dir = {    -- hijacks new directory buffers when they are opened, opens the tree when typing `vim $DIR` or `vim`
       enable = true,
-      auto_open = true,           -- open the tree if it was previsouly closed
+      auto_open = true,      -- open the tree if it was previsouly closed
     },
-    auto_close          = false,  -- do not close neovim when nvim-tree is the last window
-    open_on_tab         = true,   -- open tree automatically when switching tab or opening new one
-    hijack_cursor       = false,  -- when moving cursor in the tree, will position the cursor at the start of the file on the current line
-    update_cwd          = true,   -- update the tree cwd when changing nvim's directory (DirChanged event)
-    lsp_diagnostics     = false,  -- do not show LSP diagnostics in nvim-tree
-    update_focused_file = {       -- do not update tree to follow the focused file
-      enable      = false,
-      update_cwd  = false,        -- update the root directory of the tree to the one of the folder containing the file
+    auto_close = false,      -- do not close neovim when nvim-tree is the last window
+    open_on_tab = true,      -- open tree automatically when switching tab or opening new one
+    hijack_cursor = false,   -- when moving cursor in the tree, will position the cursor at the start of the file on the current line
+    update_cwd = true,       -- update the tree cwd when changing nvim's directory (DirChanged event)
+    diagnostics = {          -- lsp diagnostics in the signcolumn
+      enable = false,
+      icons = {
+        hint = "",
+        info = "",
+        warning = "",
+        error = "",
+      }
+    },
+    update_focused_file = {  -- do not update tree to follow the focused file
+      enable = false,
+      update_cwd = false,    -- update the root directory of the tree to the one of the folder containing the file
       ignore_list = {}
     },
-    system_open = {               -- configuration options for the system command, 's' in the tree by default
-      cmd  = nil,                 -- the command to run, nil should work on most cases
-      args = {}                   -- the command arguments as a list
+    system_open = {          -- configuration options for the system command, 's' in the tree by default
+      cmd = nil,             -- the command to run, nil should work on most cases
+      args = {}              -- the command arguments as a list
     },
-    view = {                      -- configuration options for the view
-      width = 45,                 -- width of the window, can be either columns or string in '%'
-      height = 30,                -- height of the window, can be either columns or string in '%'
-      side = 'left',              -- the side where the tree should open
-      auto_resize = true,         -- resize the tree when opening a file
+    view = {                 -- configuration options for the view
+      width = 45,            -- width of the window, can be either columns or string in '%'
+      height = 30,           -- height of the window, can be either columns or string in '%'
+      side = 'left',         -- the side where the tree should open
+      auto_resize = true,    -- resize the tree when opening a file
       mappings = {
-        custom_only = true,       -- disable default keybindings
-        list = nvim_tree_bindings -- set our own custom keybindings
+        custom_only = true,  -- disable default keybindings
+        list = nvim_tree_bindings
       }
     }
   }
