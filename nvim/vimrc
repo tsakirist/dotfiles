@@ -253,12 +253,16 @@ set shiftwidth=4
 " Use the indentation level of the previous line when pressing enter
 set autoindent
 
-" Do smart auto-indenting when starting a new line
-set smartindent
-
-" The two following options are used alongside with linebreak, but I currently use textwidth
-" Make wrapped lines to visually indent properly
-" set breakindent
+" Enable automatic C/C++ program indentinga with the corresponding options
+" NOTE: These options will only apply when `cindent` is on
+" gN: sets the indentation of scope declarations like public, private, protected
+" :N: sets the indentation for case labels inside switch statements
+" lN: align with a case label instead of the statement after it in the same line
+" NN: sets the indentation of content inside namespaces
+" (N: sets the indentation when in unclosed parentheses to line up vertically
+" wN: when in unclosed parentheses line up with the first character rather than the first non-white character
+" WN: sets the indentation when in unclosed parentheses of the following line N characters relative to the outer context
+set cinoptions=g0,:0,l1,N-s,(0,w1,W1s
 
 " Set the visual character to be shown for wrapped lines
 " set showbreak=\ \\_
@@ -367,7 +371,6 @@ require'onedark'.setup {
     border_highlight = "#5c6370",
   },
   keyword_style = "NONE",
-  transparent = true
 }
 EOF
   " This needs to be set if we want to show the eol character
@@ -384,7 +387,6 @@ lua<<EOF
 local nightfox = require'nightfox'
 nightfox.setup {
   fox = "nordfox",
-  transparent = true,
 }
 nightfox.load()
 EOF
@@ -534,9 +536,7 @@ nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd //gj %<Bar>Trouble quickfix<S-L
 " s/,/,\r/g: substitutes each ',' with ',' and carriage return '\r', one-arg-per-line
 " J:         joins the last ')' to the last argument
 " vib=:      select the surrounding text inside '()' and indent it visually
-" gv>:       re-select the surrounding text and indent it manually
-" TODO: need to check my C++ indentation opts, last one shouldn't be needed
-map <leader>bp f)%cSbbj:s/,/,\r/g<CR>Jvib=gv><Esc>:nohl<CR>
+map <leader>bp f)%cSbbj:s/,/,\r/g<CR>Jvib=<CR>
 
 " Use bbye plugin's :Bdelete to close buffer w/o losing splits/windows
 nnoremap <silent> <leader>bd :Bdelete<CR>
@@ -1262,13 +1262,14 @@ if functions#PluginLoaded('nvim-treesitter')
 lua<<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    'c', 'cpp', 'json', 'python', 'lua', 'bash', 'typescript', 'javascript', 'html'
+    "c", "cpp", "json", "python", "lua", "bash", "typescript", "javascript", "html"
   },
   highlight = {
     enable = true,
   },
   indent = {
     enable = true,
+    disable = { "c", "cpp" },
   },
   autopairs = {
     enable = true,
