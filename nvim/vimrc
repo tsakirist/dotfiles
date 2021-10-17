@@ -177,22 +177,30 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
-" The world-renowned fuzzy finder FZF
-" This will try to install FZF outside of vim plug directory
+" Fuzzy finder FZF, this will also install FZF outside of vim plug directory, globally
 Plug 'junegunn/fzf', { 'dir': '~/.fzf','do': './install --key-bindings --completion --no-update-rc' }
 Plug 'junegunn/fzf.vim'
+
+" Snippet engine in lua
+Plug 'L3MON4D3/LuaSnip'
+
+" My Fork with preconfigured snippets for many languages
+Plug 'tsakirist/friendly-snippets'
 
 " LSP related
 Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
+Plug 'ray-x/lsp_signature.nvim'
+Plug 'kosayoda/nvim-lightbulb'
+Plug 'weilbith/nvim-code-action-menu', { 'on': 'CodeActionMenu' }
+
+" Autocomplete
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
-Plug 'ray-x/lsp_signature.nvim'
-Plug 'kosayoda/nvim-lightbulb'
-Plug 'weilbith/nvim-code-action-menu', { 'on': 'CodeActionMenu' }
+Plug 'saadparwaiz1/cmp_luasnip'
 
 " Goto preview in a floating window
 Plug 'rmagatti/goto-preview'
@@ -202,9 +210,6 @@ Plug 'liuchengxu/vista.vim'
 
 " Pretty list of showing diagnostics, telescope results etc
 Plug 'folke/trouble.nvim'
-
-" A fancy, configurable, notification manager
-Plug 'rcarriga/nvim-notify'
 
 " -------------------------
 
@@ -335,7 +340,7 @@ set equalalways
 set pumblend=15
 
 " Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
+set completeopt=menu,noinsert,noselect
 
 " Avoid showing message extra message when using completion
 set shortmess+=c
@@ -466,17 +471,6 @@ augroup TermAuGroup
   " Disable linenumbering when in terminal
   autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
-
-" Autocmd configuration for NvimTree
-if functions#PluginLoaded('nvim-tree.lua')
-  augroup NvimTreeAuGroup
-    " Clear old autocommands of this group
-    autocmd!
-    " This will resize the NvimTree depending on its focused state 60 - 40
-    autocmd WinEnter NvimTree :vertical resize 60
-    autocmd WinLeave NvimTree :vertical resize 40
-  augroup END
-endif
 
 " }}}
 
@@ -927,18 +921,16 @@ endif
 
 if functions#PluginLoaded('lualine.nvim')
 
-" Load a custom lualine theme
-" https://gist.githubusercontent.com/hoob3rt/b200435a765ca18f09f83580a606b878/raw/d99388470ed5ddb1da32a0bd3bccd4a69eb15429/evil_lualine.lua
-luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
+  " Load a custom lualine theme
+  " https://gist.githubusercontent.com/hoob3rt/b200435a765ca18f09f83580a606b878/raw/d99388470ed5ddb1da32a0bd3bccd4a69eb15429/evil_lualine.lua
+  luafile ~/.vim/plugged/lualine.nvim/lua/lualine/themes/evil_lualine.lua
 
 endif
 
-if functions#PluginLoaded('nvim-notify')
+if functions#PluginLoaded('LuaSnip')
 
-lua<<EOF
--- Set default notify to nvim-notify
-vim.notify = require("notify")
-EOF
+  " Lazy load the plugins
+  lua require'luasnip.loaders.from_vscode'.lazy_load()
 
 endif
 
@@ -1134,7 +1126,7 @@ function _G.webDevIcons(path)
 end
 EOF
 
-" Function for Startify in-order to use web-devicons in place of devicons
+" Function for startify in-order to use web-devicons in place of devicons
 function! StartifyEntryFormat() abort
   return 'v:lua.webDevIcons(absolute_path) . " " . entry_path'
 endfunction
@@ -1154,7 +1146,7 @@ if functions#PluginLoaded('specs.nvim')
 
 lua<<EOF
 -- Setup specs-nvim
-require('specs').setup {
+require'specs'.setup {
   show_jumps = true,
   min_jump = 30,
   popup = {
@@ -1370,10 +1362,10 @@ if functions#PluginLoaded('trouble.nvim')
   nnoremap <silent> <leader>tr :TroubleToggle lsp_references<CR>
 
 lua<<EOF
--- Setup Trouble
+-- Setup trouble
 require'trouble'.setup {
   position = "bottom",                 -- position of the list can be: bottom, top, left, right
-  height = 12,                         -- height of the trouble list when position is top or bottom
+  height = 18,                         -- height of the trouble list when position is top or bottom
   width = 50,                          -- width of the list when position is left or right
   icons = true,                        -- use devicons for filenames
   mode = "lsp_document_diagnostics",   -- "lsp_workspace_diagnostics", "quickfix", "lsp_references", "loclist"
@@ -1384,7 +1376,7 @@ require'trouble'.setup {
     cancel = "<esc>",                  -- cancel the preview and get back to your last window / buffer / cursor
     refresh = "r",                     -- manually refresh
     jump = { "<cr>", "<tab>", "o" },   -- jump to the diagnostic or open / close folds
-    jump_close = { "oc", "go" },             -- jump to the diagnostic and close the list
+    jump_close = { "oc", "go" },       -- jump to the diagnostic and close the list
     toggle_mode = "m",                 -- toggle between "workspace" and "document" diagnostics mode
     toggle_preview = "P",              -- toggle auto_preview
     hover = "K",                       -- opens a small poup with the full multiline message
@@ -1593,43 +1585,89 @@ local cmp_kinds = {
   Event         = "  ",
   TypeParameter = "  ",
 }
--- Setup nvim-cmp
+
 local cmp = require'cmp'
+local luasnip = require'luasnip'
+
+-- Functions for mapping <Tab> and <S-Tab> for nvim-cmp
+local function tab(fallback)
+  local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+  end
+  if cmp.visible() then
+    cmp.select_next_item()
+  elseif luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+  elseif has_words_before() then
+    cmp.complete()
+  else
+    fallback()
+  end
+end
+
+local function shift_tab(fallback)
+  if cmp.visible() then
+    cmp.select_prev_item()
+  elseif luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+  else
+    fallback()
+  end
+end
+
+-- Setup nvim-cmp
 cmp.setup {
-  completion = {
-    -- Setup preselect like nvim-compe
-    -- completeopt = 'menu,menuone,noinsert',
-  },
   formatting = {
     format = function(entry, vim_item)
-      -- Add icon for the suggestions
+      -- Add icons for the suggestions
       vim_item.kind = (cmp_kinds[vim_item.kind] or "") .. vim_item.kind
       -- Set a name for each source
       vim_item.menu = ({
-        nvim_lua = "[Lua]",
         nvim_lsp = "[LSP]",
+        nvim_lua = "[Lua]",
+        luasnip  = "[LuaSnip]",
+        path     = "[Path]",
         buffer   = "[Buffer]",
-        path     = "[Path]"
       })[entry.source.name]
+      -- Do not add duplicate entries if an item with the same word is already present
+      -- Seems to fix, the duplicate entries with the snippets
+      vim_item.dup = 0
       return vim_item
     end
   },
-  mapping = {
-    ['<CR>']      = cmp.mapping.confirm(),
-    ['<Tab>']     = cmp.mapping.select_next_item(),
-    ['<S-Tab>']   = cmp.mapping.select_prev_item(),
-    ["<C-Space>"] = cmp.mapping.complete(),
-  },
   snippet = {
+    expand = function(args)
+      require'luasnip'.lsp_expand(args.body)
+    end
+  },
+  mapping = {
+    ['<CR>']      = cmp.mapping.confirm({ select = true }),
+    ['<Tab>']     = cmp.mapping(tab, { "i", "s" }),
+    ['<S-Tab>']   = cmp.mapping(shift_tab, { "i", "s" }),
+    ['<C-Space>'] = cmp.mapping.complete(),
   },
   sources = {
     { name = "nvim_lsp" },
     { name = "nvim_lua" },
-    { name = "buffer" },
+    { name = "luasnip" },
     { name = "path" },
+    { name = "buffer",
+      opts = {
+        -- Get results only from visible buffers rather than from all buffers
+        get_bufnrs = function()
+          local bufs = {}
+          for _, win in ipairs(vim.api.nvim_list_wins()) do
+            bufs[vim.api.nvim_win_get_buf(win)] = true
+          end
+          return vim.tbl_keys(bufs)
+        end
+      },
+    },
   },
 }
 EOF
+
 endif
 
 " }}}
@@ -1748,8 +1786,9 @@ local setup_servers = function()
     end
   end
 
+  -- Add additional capabilities supported by nvim-cmp
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+  capabilities = require'cmp_nvim_lsp'.update_capabilities(capabilities)
 
   -- Map local buffer keybindings when the server attaches
   installed_servers = require'lspinstall'.installed_servers()
@@ -1840,135 +1879,135 @@ endif
 if functions#PluginLoaded('nvim-tree.lua')
 
 lua<<EOF
- -- Setup nvim-tree
-  vim.g.nvim_tree_quit_on_open = 1                -- closes the tree when you open a file
-  vim.g.nvim_tree_indent_markers = 1              -- this option shows indent markers when folders are open
-  vim.g.nvim_tree_hide_dotfiles = 1               -- this option hides files and folders starting with a dot `.`
-  vim.g.nvim_tree_git_hl = 1                      -- will enable file highlight for git attributes (can be used without the icons)
-  vim.g.nvim_tree_highlight_opened_files = 1      -- will enable folder and file icon highlight for opened files/directories
-  vim.g.nvim_tree_root_folder_modifier = ':~'     -- default. See :help filename-modifiers for more options
-  vim.g.nvim_tree_add_trailing = 1                -- append a trailing slash to folder names
-  vim.g.nvim_tree_group_empty = 1                 -- compact folders that only contain a single folder into one node
-  vim.g.nvim_tree_disable_window_picker = 0       -- will disable the window picker
-  vim.g.nvim_tree_icon_padding = ' '              -- used for rendering the space between the icon and the filename.
-  vim.g.nvim_tree_respect_buf_cwd = 1             -- will change cwd of nvim-tree to that of new buffer's when opening nvim-tree
-  vim.g.nvim_tree_git_hl = 0                      -- disable this for better perfomance
-  vim.g.nvim_tree_gitignore = 0                   -- disable this for better performance, do not respect gitignore
-  vim.g.nvim_tree_ignore = {                      -- do not load and display on these folders
-    '.git', 'node_modules', '.cache'
-  }
-  vim.g.nvim_tree_auto_ignore_ft = {              -- do not load nvim-tree for these filetypes
-    'startify'
-  }
-  vim.g.nvim_tree_show_icons = {                  -- disable/enable icons per type, disable git for better perfomance
-    git = 0,
-    folders = 1,
-    files = 1,
-    folder_arrows = 1,
-  }
-  vim.g.nvim_tree_icons = {                       -- set the desired icons to display
-    default = '',
-    symlink = '',
-    git = {
-      unstaged = "✗",
-      staged = "✓",
-      unmerged = "",
-      renamed = "➜",
-      untracked = "★",
-      deleted = "",
-      ignored = "◌"
-    },
-    folder = {
-      arrow_open = "",
-      arrow_closed = "",
-      open = "",
-      default = "",
-      empty = "",
-      empty_open = "",
-      symlink = "",
-      symlink_open = "",
-      }
-  }
+-- Setup nvim-tree
+vim.g.nvim_tree_quit_on_open = 1            -- closes the tree when you open a file
+vim.g.nvim_tree_indent_markers = 1          -- this option shows indent markers when folders are open
+vim.g.nvim_tree_hide_dotfiles = 1           -- this option hides files and folders starting with a dot `.`
+vim.g.nvim_tree_git_hl = 1                  -- will enable file highlight for git attributes (can be used without the icons)
+vim.g.nvim_tree_highlight_opened_files = 1  -- will enable folder and file icon highlight for opened files/directories
+vim.g.nvim_tree_root_folder_modifier = ':~' -- default. See :help filename-modifiers for more options
+vim.g.nvim_tree_add_trailing = 1            -- append a trailing slash to folder names
+vim.g.nvim_tree_group_empty = 1             -- compact folders that only contain a single folder into one node
+vim.g.nvim_tree_disable_window_picker = 0   -- will disable the window picker
+vim.g.nvim_tree_icon_padding = ' '          -- used for rendering the space between the icon and the filename.
+vim.g.nvim_tree_respect_buf_cwd = 1         -- will change cwd of nvim-tree to that of new buffer's when opening nvim-tree
+vim.g.nvim_tree_git_hl = 0                  -- disable this for better perfomance
+vim.g.nvim_tree_gitignore = 0               -- disable this for better performance, do not respect gitignore
+vim.g.nvim_tree_ignore = {                  -- do not load and display on these folders
+  '.git', 'node_modules', '.cache'
+}
+vim.g.nvim_tree_auto_ignore_ft = {          -- do not load nvim-tree for these filetypes
+  'startify'
+}
+vim.g.nvim_tree_show_icons = {              -- disable/enable icons per type, disable git for better perfomance
+  git = 0,
+  folders = 1,
+  files = 1,
+  folder_arrows = 1,
+}
+vim.g.nvim_tree_icons = {                   -- set the desired icons to display
+  default = '',
+  symlink = '',
+  git = {
+    unstaged = "✗",
+    staged = "✓",
+    unmerged = "",
+    renamed = "➜",
+    untracked = "★",
+    deleted = "",
+    ignored = "◌"
+  },
+  folder = {
+    arrow_open = "",
+    arrow_closed = "",
+    open = "",
+    default = "",
+    empty = "",
+    empty_open = "",
+    symlink = "",
+    symlink_open = "",
+  },
+}
 
-  -- Custom keybindings
-  local tree_cb = require'nvim-tree.config'.nvim_tree_callback
-  local nvim_tree_bindings = {
-    { key = {"<CR>", "o", "<2-LeftMouse>"}, cb = tree_cb("edit") },
-    { key = {"<C-]>", "+"},                 cb = tree_cb("cd") },
-    { key = "<C-v>",                        cb = tree_cb("vsplit") },
-    { key = "<C-x>",                        cb = tree_cb("split") },
-    { key = "<C-t>",                        cb = tree_cb("tabnew") },
-    { key = "<",                            cb = tree_cb("prev_sibling") },
-    { key = ">",                            cb = tree_cb("next_sibling") },
-    { key = "P",                            cb = tree_cb("parent_node") },
-    { key = "<BS>",                         cb = tree_cb("close_node") },
-    { key = "<S-CR>",                       cb = tree_cb("close_node") },
-    { key = "<Tab>",                        cb = tree_cb("preview") },
-    { key = "K",                            cb = tree_cb("first_sibling") },
-    { key = "J",                            cb = tree_cb("last_sibling") },
-    { key = "I",                            cb = tree_cb("toggle_ignored") },
-    { key = "H",                            cb = tree_cb("toggle_dotfiles") },
-    { key = "R",                            cb = tree_cb("refresh") },
-    { key = "a",                            cb = tree_cb("create") },
-    { key = "d",                            cb = tree_cb("remove") },
-    { key = "r",                            cb = tree_cb("rename") },
-    { key = "<C-r>",                        cb = tree_cb("full_rename") },
-    { key = "x",                            cb = tree_cb("cut") },
-    { key = "c",                            cb = tree_cb("copy") },
-    { key = "p",                            cb = tree_cb("paste") },
-    { key = "y",                            cb = tree_cb("copy_name") },
-    { key = "Y",                            cb = tree_cb("copy_path") },
-    { key = "gy",                           cb = tree_cb("copy_absolute_path") },
-    { key = "[c",                           cb = tree_cb("prev_git_item") },
-    { key = "]c",                           cb = tree_cb("next_git_item") },
-    { key = "-",                            cb = tree_cb("dir_up") },
-    { key = "s",                            cb = tree_cb("system_open") },
-    { key = "q",                            cb = tree_cb("close") },
-    { key = "g?",                           cb = tree_cb("toggle_help") },
-  }
+-- Custom keybindings
+local tree_cb = require'nvim-tree.config'.nvim_tree_callback
+local nvim_tree_bindings = {
+  { key = {"<CR>", "o", "<2-LeftMouse>"}, cb = tree_cb("edit") },
+  { key = {"<C-]>", "+"},                 cb = tree_cb("cd") },
+  { key = "<C-v>",                        cb = tree_cb("vsplit") },
+  { key = "<C-x>",                        cb = tree_cb("split") },
+  { key = "<C-t>",                        cb = tree_cb("tabnew") },
+  { key = "<",                            cb = tree_cb("prev_sibling") },
+  { key = ">",                            cb = tree_cb("next_sibling") },
+  { key = "P",                            cb = tree_cb("parent_node") },
+  { key = "<BS>",                         cb = tree_cb("close_node") },
+  { key = "<S-CR>",                       cb = tree_cb("close_node") },
+  { key = "<Tab>",                        cb = tree_cb("preview") },
+  { key = "K",                            cb = tree_cb("first_sibling") },
+  { key = "J",                            cb = tree_cb("last_sibling") },
+  { key = "I",                            cb = tree_cb("toggle_ignored") },
+  { key = "H",                            cb = tree_cb("toggle_dotfiles") },
+  { key = "R",                            cb = tree_cb("refresh") },
+  { key = "a",                            cb = tree_cb("create") },
+  { key = "d",                            cb = tree_cb("remove") },
+  { key = "r",                            cb = tree_cb("rename") },
+  { key = "<C-r>",                        cb = tree_cb("full_rename") },
+  { key = "x",                            cb = tree_cb("cut") },
+  { key = "c",                            cb = tree_cb("copy") },
+  { key = "p",                            cb = tree_cb("paste") },
+  { key = "y",                            cb = tree_cb("copy_name") },
+  { key = "Y",                            cb = tree_cb("copy_path") },
+  { key = "gy",                           cb = tree_cb("copy_absolute_path") },
+  { key = "[c",                           cb = tree_cb("prev_git_item") },
+  { key = "]c",                           cb = tree_cb("next_git_item") },
+  { key = "-",                            cb = tree_cb("dir_up") },
+  { key = "s",                            cb = tree_cb("system_open") },
+  { key = "q",                            cb = tree_cb("close") },
+  { key = "g?",                           cb = tree_cb("toggle_help") },
+}
 
-  require'nvim-tree'.setup {
-    disable_netrw = true,    -- disables netrw
-    hijack_netrw = true,     -- prevents netrw from automatically opening when opening directories
-    open_on_setup = false,   -- don't open when running setup
-    ignore_ft_on_setup = {}, -- ignore filetypes when running setup
-    update_to_buf_dir = {    -- hijacks new directory buffers when they are opened, opens the tree when typing `vim $DIR` or `vim`
-      enable = true,
-      auto_open = true,      -- open the tree if it was previsouly closed
-    },
-    auto_close = false,      -- do not close neovim when nvim-tree is the last window
-    open_on_tab = true,      -- open tree automatically when switching tab or opening new one
-    hijack_cursor = false,   -- when moving cursor in the tree, will position the cursor at the start of the file on the current line
-    update_cwd = true,       -- update the tree cwd when changing nvim's directory (DirChanged event)
-    diagnostics = {          -- lsp diagnostics in the signcolumn
-      enable = false,
-      icons = {
-        hint = "",
-        info = "",
-        warning = "",
-        error = "",
-      }
-    },
-    update_focused_file = {  -- do not update tree to follow the focused file
-      enable = false,
-      update_cwd = false,    -- update the root directory of the tree to the one of the folder containing the file
-      ignore_list = {}
-    },
-    system_open = {          -- configuration options for the system command, 's' in the tree by default
-      cmd = nil,             -- the command to run, nil should work on most cases
-      args = {}              -- the command arguments as a list
-    },
-    view = {                 -- configuration options for the view
-      width = 45,            -- width of the window, can be either columns or string in '%'
-      height = 30,           -- height of the window, can be either columns or string in '%'
-      side = 'left',         -- the side where the tree should open
-      auto_resize = true,    -- resize the tree when opening a file
-      mappings = {
-        custom_only = true,  -- disable default keybindings
-        list = nvim_tree_bindings
-      }
+require'nvim-tree'.setup {
+  disable_netrw = true,    -- disables netrw
+  hijack_netrw = true,     -- prevents netrw from automatically opening when opening directories
+  open_on_setup = false,   -- don't open when running setup
+  ignore_ft_on_setup = {}, -- ignore filetypes when running setup
+  update_to_buf_dir = {    -- hijacks new directory buffers when they are opened, opens the tree when typing `vim $DIR` or `vim`
+    enable = true,
+    auto_open = true,      -- open the tree if it was previsouly closed
+  },
+  auto_close = false,      -- do not close neovim when nvim-tree is the last window
+  open_on_tab = true,      -- open tree automatically when switching tab or opening new one
+  hijack_cursor = false,   -- when moving cursor in the tree, will position the cursor at the start of the file on the current line
+  update_cwd = true,       -- update the tree cwd when changing nvim's directory (DirChanged event)
+  diagnostics = {          -- lsp diagnostics in the signcolumn
+    enable = false,
+    icons = {
+      hint = "",
+      info = "",
+      warning = "",
+      error = "",
+    }
+  },
+  update_focused_file = {  -- do not update tree to follow the focused file
+    enable = false,
+    update_cwd = false,    -- update the root directory of the tree to the one of the folder containing the file
+    ignore_list = {}
+  },
+  system_open = {          -- configuration options for the system command, 's' in the tree by default
+    cmd = nil,             -- the command to run, nil should work on most cases
+    args = {}              -- the command arguments as a list
+  },
+  view = {                 -- configuration options for the view
+    width = 45,            -- width of the window, can be either columns or string in '%'
+    height = 30,           -- height of the window, can be either columns or string in '%'
+    side = 'left',         -- the side where the tree should open
+    auto_resize = true,    -- resize the tree when opening a file
+    mappings = {
+      custom_only = true,  -- disable default keybindings
+      list = nvim_tree_bindings
     }
   }
+}
 EOF
 
 endif
