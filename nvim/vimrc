@@ -185,7 +185,7 @@ Plug 'tsakirist/friendly-snippets'
 
 " LSP related
 Plug 'neovim/nvim-lspconfig'
-Plug 'kabouzeid/nvim-lspinstall'
+Plug 'williamboman/nvim-lsp-installer'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'kosayoda/nvim-lightbulb'
 Plug 'weilbith/nvim-code-action-menu', { 'on': 'CodeActionMenu' }
@@ -1771,44 +1771,60 @@ local on_attach = function(client, bufnr)
   end
 end
 
--- Function to install and setup LSP servers
+-- Function to install and setup LSP servers automatically
 local setup_servers = function()
-  -- Main setup
-  require'lspinstall'.setup{}
-
-  -- Install the required servers also takes care of installing missing servers
-  local required_servers = { "cpp", "vim", "lua", "bash", "python", "typescript" }
-  local installed_servers = require'lspinstall'.installed_servers()
-  for _, server in pairs(required_servers) do
-    if not vim.tbl_contains(installed_servers, server) then
-      require'lspinstall'.install_server(server)
-    end
-  end
 
   -- Add additional capabilities supported by nvim-cmp
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require'cmp_nvim_lsp'.update_capabilities(capabilities)
 
-  -- Map local buffer keybindings when the server attaches
-  installed_servers = require'lspinstall'.installed_servers()
-  for _, server in pairs(installed_servers) do
-    require'lspconfig'[server].setup { on_attach = on_attach, capabilities = capabilities }
+  -- Nvim-lsp-installer configuration
+  local lsp_installer = require'nvim-lsp-installer'
+  lsp_installer.settings {
+    ui = {
+      icons = {
+        server_installed = "✓",
+        server_pending = "➜",
+        server_uninstalled = "✗"
+      }
+    }
+  }
+  lsp_installer.on_server_ready(function(server)
+    server:setup({
+      on_attach = on_attach,
+      capabilities = capabilities
+     })
+    vim.cmd [[ do User LspAttachBuffers ]]
+  end)
+
+  -- Define the required LSP servers
+  local required_servers = { "clangd", "vimls", "sumneko_lua", "bashls", "pyright", "tsserver" }
+
+  -- Install missing servers
+  for _, server_name in pairs(required_servers) do
+    local ok, server = lsp_installer.get_server(server_name)
+    if ok then if not server:is_installed() then
+        server:install()
+      end
+    end
   end
 
   -- Fix 'vim' is undefined global for lua LSP
-  require'lspconfig'.lua.setup {
-    settings = { Lua = { diagnostics = { globals = { 'vim' } } } }
+  require'lspconfig'.sumneko_lua.setup {
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = {
+            'vim'
+          }
+        }
+      }
+    }
   }
 end
 
--- Setup LSP servers
+-- Setup the LSP servers
 setup_servers()
-
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'lspinstall'.post_install_hook = function()
-  setup_servers()    -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
 
 -- Setup lsp-signature
 require'lsp_signature'.on_attach({
