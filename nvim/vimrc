@@ -28,7 +28,7 @@ endif
 " Automate the process of installing vim-plug when required
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
@@ -53,7 +53,7 @@ Plug 'EdenEast/nightfox.nvim'
 " Lua-based statusline
 Plug 'hoob3rt/lualine.nvim'
 
-" A temporary tabline for buffers, untill I find a better one
+" Simple tabline for opened buffers
 Plug 'pacha/vem-tabline'
 
 " Add file type icons to various plugins
@@ -102,9 +102,6 @@ Plug 'junegunn/vim-easy-align'
 " Rooter changes the working directory to the project root when you open a file or directory
 Plug 'airblade/vim-rooter'
 
-" Close buffers without losing splits/windows
-Plug 'moll/vim-bbye'
-
 " Remove all buffers except current
 Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
 
@@ -112,7 +109,6 @@ Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
 Plug 'sedm0784/vim-resize-mode'
 
 " Vim wrapper for UNIX shell commands
-" :SudoWrite, :SudoRead doesn't work with nvim
 Plug 'tpope/vim-eunuch'
 
 " Write/Read files with sudo from within vim
@@ -208,7 +204,7 @@ Plug 'rmagatti/goto-preview'
 " Viewer and finder for LSP symbols and tags
 Plug 'liuchengxu/vista.vim'
 
-" Pretty list of showing diagnostics, telescope results etc
+" Pretty list of showing diagnostics, telescope results and more
 Plug 'folke/trouble.nvim'
 
 " -------------------------
@@ -258,8 +254,8 @@ set shiftwidth=4
 " Use the indentation level of the previous line when pressing enter
 set autoindent
 
-" Enable automatic C/C++ program indentinga with the corresponding options
-" NOTE: These options will only apply when `cindent` is on
+" Enable automatic C/C++ program indenting with the following options:
+" NOTE: These options will only apply when `cindent` is on, happens automatically for C-like files
 " gN: sets the indentation of scope declarations like public, private, protected
 " :N: sets the indentation for case labels inside switch statements
 " lN: align with a case label instead of the statement after it in the same line
@@ -302,7 +298,6 @@ set encoding=UTF-8
 set fileformat=unix
 
 " This is used to control the Ctrl + C command and copy to the system's clipboard
-" set clipboard+=unnamedplus
 set clipboard^=unnamed,unnamedplus
 
 " This option will render characters for spaces, tabs etc
@@ -517,8 +512,14 @@ nnoremap <silent> <leader>bp :bprevious<CR>
 nnoremap <silent> <Tab>   :bnext<CR>
 nnoremap <silent> <S-Tab> :bprevious<CR>
 
+" Close the current buffer
+nnoremap <silent> <leader>bd :bdelete<CR>
+
 " List buffers and prepend :b on the cmd line
 nnoremap <leader>bf :ls<CR>:b<Space>
+
+" Close all buffers except the current one
+nnoremap <silent> <leader>bo :BufOnly<CR>
 
 " Search within buffers and send results in the qflist
 " nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd @@g %<Bar>cw<S-Left><S-Left><Right>
@@ -531,12 +532,6 @@ nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd //gj %<Bar>Trouble quickfix<S-L
 " J:         joins the last ')' to the last argument
 " vib=:      select the surrounding text inside '()' and indent it visually
 map <leader>bp f)%cSbbj:s/,/,\r/g<CR>Jvib=<CR>
-
-" Use bbye plugin's :Bdelete to close buffer w/o losing splits/windows
-nnoremap <silent> <leader>bd :Bdelete<CR>
-
-" Close all buffers except the current one
-nnoremap <silent> <leader>bo :BufOnly<CR>
 
 " Typing %% on the command line will expand to active buffer's path
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
@@ -1252,12 +1247,16 @@ endif
 if functions#PluginLoaded('nvim-treesitter')
 
 lua<<EOF
+-- Setup nvim-treesitter
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    "c", "cpp", "json", "python", "lua", "bash", "typescript", "javascript", "html"
+    "bash", "c", "cpp", "cmake", "html", "javascript",
+    "json", "lua", "python", "typescript", "tsx"
   },
   highlight = {
     enable = true,
+    custom_captures = {},
+    additional_vim_regex_highlighting = false,
   },
   indent = {
     enable = true,
@@ -1652,7 +1651,7 @@ cmp.setup {
     { name = "nvim_lua" },
     { name = "luasnip" },
     { name = "path" },
-    { name = "buffer",
+    { name = "buffer", keyword_length = 4,
       opts = {
         -- Get results only from visible buffers rather than from all buffers
         get_bufnrs = function()
@@ -1683,7 +1682,7 @@ require'nvim-autopairs'.setup {
   check_ts = true,
 }
 
--- Fix <CR> for nvim-compe
+-- Fix <CR> for nvim-cmp
 require'nvim-autopairs.completion.cmp'.setup {
   map_cr = true,      -- map <CR> on insert mode
   map_complete = true -- it will auto insert `(` after select function or method item
@@ -1967,7 +1966,7 @@ local nvim_tree_bindings = {
 }
 
 require'nvim-tree'.setup {
-  disable_netrw = true,    -- disables netrw
+  disable_netrw = false,   -- disables netrw
   hijack_netrw = true,     -- prevents netrw from automatically opening when opening directories
   open_on_setup = false,   -- don't open when running setup
   ignore_ft_on_setup = {}, -- ignore filetypes when running setup
