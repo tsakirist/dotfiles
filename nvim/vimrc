@@ -80,8 +80,8 @@ Plug 'tpope/vim-unimpaired'
 " Supecharged substitute command and more
 Plug 'tpope/vim-abolish'
 
-" Comment lines easily
-Plug 'scrooloose/nerdcommenter'
+" Smart and powerful comment plugin
+Plug 'numToStr/Comment.nvim'
 
 " Display indentation levels with lines
 Plug 'lukas-reineke/indent-blankline.nvim'
@@ -652,8 +652,8 @@ nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j'
 nnoremap <silent> <leader>o o<Esc>kO<Esc>j
 
 " Easiliy toggle comments, both in Normal and Insert mode
-map  <leader><leader> <Plug>NERDCommenterToggle
-imap <leader><leader> <C-o><Plug>NERDCommenterToggle
+map  <leader><leader> gcc
+imap <leader><leader> <C-o><Cmd>lua require'Comment'.toggle()<CR>
 
 " Keybindings to toggle and kill the floating term window
 nnoremap <silent> <leader>ft :FloatermToggle<CR>
@@ -780,23 +780,6 @@ let g:vim_current_word#highlight_only_in_focused_window=1
 " ------------
 " Automatically open files with sudo when needed
 let g:suda_smart_edit=1
-
-" Nerd Commenter options
-" ----------------------
-" Do not create default mappings
-let g:NERDCreateDefaultMappings=0
-
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims=1
-
-" Do not comment out empty lines
-let g:NERDCommentEmptyLines=0
-
-" Enable trimming of trailing whitespace when uncommenting
-let g:NERDTrimTrailingWhitespace=1
-
-" Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign='left'
 
 " Git blamer optionss
 " -------------------
@@ -968,12 +951,12 @@ if functions#PluginLoaded('vim-which-key')
     \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
 
   " Single mappings
-  let g:which_key_map['/'] = [ '<Plug>NERDCommenterToggle', 'comment' ]
-  let g:which_key_map['e'] = [ ':e .'                     , 'explorer' ]
-  let g:which_key_map['f'] = [ ':Files'                   , 'search files' ]
-  let g:which_key_map['R'] = [ ':Rg'                      , 'search text' ]
-  let g:which_key_map['S'] = [ ':Startify'                , 'start screen' ]
-  let g:which_key_map['z'] = [ ':Goyo'                    , 'zen' ]
+  let g:which_key_map['/'] = [ 'gcc',       'comment' ]
+  let g:which_key_map['e'] = [ ':e .',      'explorer' ]
+  let g:which_key_map['f'] = [ ':Files',    'search files' ]
+  let g:which_key_map['R'] = [ ':Rg',       'search text' ]
+  let g:which_key_map['S'] = [ ':Startify', 'start screen' ]
+  let g:which_key_map['z'] = [ ':Goyo',     'zen' ]
 
   " s is for search
   let g:which_key_map.s = {
@@ -2037,6 +2020,73 @@ require'nvim-tree'.setup {
       list = nvim_tree_bindings
     }
   }
+}
+EOF
+
+endif
+
+" }}}
+
+" ----------------------------------- 15. Comment {{{
+
+if functions#PluginLoaded('Comment.nvim')
+
+lua<<EOF
+-- Setup Comment
+require'Comment'.setup {
+  ---Add a space b/w comment and the line
+  ---@type boolean
+  padding = true,
+
+  ---Whether the cursor should stay at its position
+  ---NOTE: This only affects NORMAL mode mappings and doesn't work with dot-repeat
+  ---@type boolean
+  sticky = true,
+
+  ---Lines to be ignored while comment/uncomment
+  ---Could be a regex string or a function that returns a regex string
+  ---@type string | function
+  ignore = '^$',
+
+  ---Create basic (operator-pending) and extended mappings for NORMAL + VISUAL mode
+  ---@type table
+  mappings = {
+    ---operator-pending mapping
+    ---Includes `gcc`, `gcb`, `gc[count]{motion}` and `gb[count]{motion}`
+    basic = true,
+    ---extra mapping
+    ---Includes `gco`, `gcO`, `gcA`
+    extra = true,
+    ---extended mapping
+    ---Includes `g>`, `g<`, `g>[count]{motion}` and `g<[count]{motion}`
+    extended = false,
+  },
+
+  ---LHS of toggle mapping in NORMAL + VISUAL mode
+  ---@type table
+  toggler = {
+    ---line-comment keymap
+    line = 'gcc',
+    ---block-comment keymap
+    block = 'gbc',
+  },
+
+  ---LHS of operator-pending mapping in NORMAL + VISUAL mode
+  ---@type table
+  opleader = {
+    ---line-comment keymap
+    line = 'gc',
+    ---block-comment keymap
+    block = 'gb',
+  },
+
+  ---Pre-hook, called before commenting the line
+  ---@type function | nil
+  pre_hook = nil,
+
+  ---Post-hook, called after commenting is done
+  ---@type function | nil
+  post_hook = nil,
 }
 EOF
 
