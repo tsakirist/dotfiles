@@ -458,13 +458,21 @@ augroup LuaHighlightGroup
 augroup END
 
 " Autocmd configurations for :term
-augroup TermAuGroup
+augroup TermGroup
   " Clear old autocommands of this group
   autocmd!
   " Automatically enter in insert mode when in terminal pane
   autocmd TermOpen,BufEnter,WinEnter * if &buftype == 'terminal' | :startinsert | endif
   " Disable linenumbering when in terminal
   autocmd TermOpen * setlocal nonumber norelativenumber
+augroup END
+
+" Autocmd for adding spelling and wrapping for specific filetypes
+augroup SpellWrapGroup
+  " Clear old autocommands of this group
+  autocmd!
+  " Enable spelling and wrapping when doing a commit message or writing to a markdown file
+  autocmd FileType gitcommit,markdown setlocal spell wrap
 augroup END
 
 " }}}
@@ -1774,8 +1782,15 @@ end
 -- Function to install and setup LSP servers automatically
 local setup_servers = function()
 
-  -- Add additional capabilities supported by nvim-cmp
+  -- Make a new object describing the LSP client capabilities
   local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+  -- Disable LSP snippets for the time being since I do not want
+  -- to have duplicate snippet suggestions between LuaSnip and LSP snippets
+  -- TODO: Need to check if these LSP snippets are actually useful, or just redundant
+  capabilities.textDocument.completion.completionItem.snippetSupport = false
+
+  -- Add additional capabilities supported by nvim-cmp
   capabilities = require'cmp_nvim_lsp'.update_capabilities(capabilities)
 
   -- Nvim-lsp-installer configuration
