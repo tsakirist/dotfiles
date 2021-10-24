@@ -63,22 +63,22 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'mhinz/vim-startify'
 
 " Distraction free mode
-Plug 'junegunn/goyo.vim'
+Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
 
 " Display available keybinds in pop-up
 Plug 'liuchengxu/vim-which-key'
 
 " Measure the startup time of vim
-Plug 'dstein64/vim-startuptime'
+Plug 'dstein64/vim-startuptime', { 'on': 'StartupTime' }
 
 " An interactive calculator inside a buffer
-Plug 'fedorenchik/VimCalc3'
+Plug 'fedorenchik/VimCalc3', { 'on': 'Calc' }
 
 " Some useful keymappings
 Plug 'tpope/vim-unimpaired'
 
 " Supecharged substitute command and more
-Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-abolish', { 'on': 'Subvert' }
 
 " Smart and powerful comment plugin
 Plug 'numToStr/Comment.nvim'
@@ -97,7 +97,7 @@ Plug 'windwp/nvim-ts-autotag'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " Text alignment
-Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', '<Plug>(LiveEasyAlign)'] }
 
 " Rooter changes the working directory to the project root when you open a file or directory
 Plug 'airblade/vim-rooter'
@@ -115,7 +115,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'lambdalisue/suda.vim'
 
 " Use terminal in a floating pop up window
-Plug 'voldikss/vim-floaterm'
+Plug 'voldikss/vim-floaterm', { 'on': ['FloatermToggle', 'FloatermKill'] }
 
 " Color highlighter
 Plug 'norcalli/nvim-colorizer.lua'
@@ -139,7 +139,7 @@ Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 
 " A visual git commit browser
-Plug 'junegunn/gv.vim'
+Plug 'junegunn/gv.vim', { 'on': ['GV', 'GV!'] }
 
 " Enables :GBrowse to open GitHub urls from vim
 Plug 'tpope/vim-rhubarb'
@@ -148,10 +148,10 @@ Plug 'tpope/vim-rhubarb'
 Plug 'rhysd/committia.vim'
 
 " Git floating popup with blame-commit details
-Plug 'rhysd/git-messenger.vim'
+Plug 'rhysd/git-messenger.vim', { 'on': '<Plug>(git-messenger)' }
 
 " Git blamer with inline text
-Plug 'APZelos/blamer.nvim'
+Plug 'APZelos/blamer.nvim', { 'on': 'BlamerToggle' }
 
 " Switch between single-line and multiline forms of code
 Plug 'AndrewRadev/splitjoin.vim'
@@ -202,7 +202,7 @@ Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'rmagatti/goto-preview'
 
 " Viewer and finder for LSP symbols and tags
-Plug 'liuchengxu/vista.vim'
+Plug 'liuchengxu/vista.vim', { 'on': ['Vista', 'Vista!!'] }
 
 " Pretty list of showing diagnostics, telescope results and more
 Plug 'folke/trouble.nvim'
