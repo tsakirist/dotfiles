@@ -381,6 +381,7 @@ EOF
   highlight Folded guibg=Black guifg=DarkGray
 endfunction
 
+" Function to setup NightFoxColorScheme
 function! s:SetNightfoxColorScheme() abort
 lua<<EOF
 -- Setup nightfox
@@ -403,6 +404,16 @@ if functions#PluginLoaded('onedark.nvim') && s:_colorScheme=='onedark.nvim'
   call s:SetOneDarkColorScheme()
 elseif functions#PluginLoaded('nightfox.nvim') && s:_colorScheme=='nightfox.nvim'
   call s:SetNightfoxColorScheme()
+elseif functions#PluginLoaded('darcula') && s:_colorScheme=='darcula'
+  colorscheme darcula
+endif
+
+" Darcula better highlights for diff
+if functions#ColorschemeActive('darcula')
+  hi DiffAdded         guifg=#499C54
+  hi DiffRemoved       guifg=#ab4b52
+  hi SignifyLineDelete guibg=#ab4b52
+  hi SignifySignDelete guibg=#ab4b52
 endif
 
 " }}}
@@ -757,16 +768,6 @@ let g:signify_sign_show_text=1
 
 " Change the delete sign of git-signify from '_' to '-'
 let g:signify_sign_delete='-'
-
-" Darcula vim options
-" -------------------
-" Better highlights for diff
-if functions#ColorschemeActive('darcula')
-  hi DiffAdded         guifg=#499C54
-  hi DiffRemoved       guifg=#ab4b52
-  hi SignifyLineDelete guibg=#ab4b52
-  hi SignifySignDelete guibg=#ab4b52
-endif
 
 " Vim Current Word options
 " ------------------------
