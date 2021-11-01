@@ -1613,6 +1613,7 @@ cmp.setup {
     format = function(entry, vim_item)
       -- Add icons for the suggestions
       vim_item.kind = (cmp_kinds[vim_item.kind] or "") .. vim_item.kind
+
       -- Set a name for each source
       vim_item.menu = ({
         nvim_lsp = "[LSP]",
@@ -1621,12 +1622,17 @@ cmp.setup {
         path     = "[Path]",
         buffer   = "[Buffer]",
       })[entry.source.name]
+
       -- Do not add duplicate entries if an item with the same word is already present
       -- Seems to fix, the duplicate entries with the snippets
       vim_item.dup = 0
+
       return vim_item
     end
   },
+  -- documentation = {
+  --   border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+  -- },
   snippet = {
     expand = function(args)
       require'luasnip'.lsp_expand(args.body)
@@ -2049,7 +2055,7 @@ require'Comment'.setup {
 
   ---Lines to be ignored while comment/uncomment
   ---Could be a regex string or a function that returns a regex string
-  ---@type string | function
+  ---@type string|function
   ignore = '^$',
 
   ---Create basic (operator-pending) and extended mappings for NORMAL + VISUAL mode
@@ -2085,11 +2091,11 @@ require'Comment'.setup {
   },
 
   ---Pre-hook, called before commenting the line
-  ---@type function | nil
+  ---@type function|nil
   pre_hook = nil,
 
   ---Post-hook, called after commenting is done
-  ---@type function | nil
+  ---@type function|nil
   post_hook = nil,
 }
 EOF
