@@ -1675,10 +1675,9 @@ require'nvim-autopairs'.setup {
 }
 
 -- Fix <CR> for nvim-cmp
-require'nvim-autopairs.completion.cmp'.setup {
-  map_cr = true,      -- map <CR> on insert mode
-  map_complete = true -- it will auto insert `(` after select function or method item
-}
+local cmp_autopairs = require'nvim-autopairs.completion.cmp'
+local cmp = require'cmp'
+cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 EOF
 
 endif
@@ -1896,7 +1895,6 @@ lua<<EOF
 -- Setup nvim-tree
 vim.g.nvim_tree_quit_on_open = 1            -- closes the tree when you open a file
 vim.g.nvim_tree_indent_markers = 1          -- this option shows indent markers when folders are open
-vim.g.nvim_tree_hide_dotfiles = 1           -- this option hides files and folders starting with a dot `.`
 vim.g.nvim_tree_git_hl = 1                  -- will enable file highlight for git attributes (can be used without the icons)
 vim.g.nvim_tree_highlight_opened_files = 1  -- will enable folder and file icon highlight for opened files/directories
 vim.g.nvim_tree_root_folder_modifier = ':~' -- default. See :help filename-modifiers for more options
@@ -1907,9 +1905,6 @@ vim.g.nvim_tree_icon_padding = ' '          -- used for rendering the space betw
 vim.g.nvim_tree_respect_buf_cwd = 1         -- will change cwd of nvim-tree to that of new buffer's when opening nvim-tree
 vim.g.nvim_tree_git_hl = 0                  -- disable this for better perfomance
 vim.g.nvim_tree_gitignore = 0               -- disable this for better performance, do not respect gitignore
-vim.g.nvim_tree_ignore = {                  -- do not load and display on these folders
-  '.git', 'node_modules', '.cache'
-}
 vim.g.nvim_tree_auto_ignore_ft = {          -- do not load nvim-tree for these filetypes
   'startify'
 }
@@ -2020,7 +2015,15 @@ require'nvim-tree'.setup {
       custom_only = true,  -- disable default keybindings
       list = nvim_tree_bindings
     }
-  }
+  },
+  filters = {
+    dotfiles = false,       -- hide files and folders starting with a dot '.'
+    custom = {              -- do not load and display on these folders
+      '.git',
+      'node_modules',
+      '.cache'
+    }
+  },
 }
 EOF
 
