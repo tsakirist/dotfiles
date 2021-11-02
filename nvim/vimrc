@@ -190,6 +190,9 @@ Plug 'ray-x/lsp_signature.nvim'
 Plug 'kosayoda/nvim-lightbulb'
 Plug 'weilbith/nvim-code-action-menu', { 'on': 'CodeActionMenu' }
 
+" Use Neovim as a language server to inject LSP diagnostics, code actions, formatting and more
+Plug 'jose-elias-alvarez/null-ls.nvim'
+
 " Autocomplete
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -747,7 +750,6 @@ iab lua< lua<<EOF<CR><CR>EOF<Up>
 " ---------------------------------- 8. Plugins extras {{{
 
 " ----------------------------------- 1. Plugin options {{{
-
 
 " Committia options
 " -----------------
@@ -1469,13 +1471,12 @@ require'telescope'.setup {
     qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
     mappings = {
       i = {
-        ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous,
         ["<C-q>"] = actions.close,
         ["<Esc>"] = actions.close,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
         ["<CR>"]  = actions.select_default + actions.center,
-        ["<Tab>"] = actions.toggle_selection,
-        ["<C-c>"] = actions.smart_send_to_qflist  + actions.open_qflist,
+        ["<C-c>"] = actions.smart_send_to_qflist + actions.open_qflist,
         ["<C-l>"] = actions.smart_send_to_loclist + actions.open_loclist,
         ["<C-t>"] = trouble.open_with_trouble,
       },
@@ -1742,6 +1743,7 @@ local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
+  -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings
@@ -1758,14 +1760,10 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'dn'         , '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
   buf_set_keymap('n', '<leader>ll' , '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>'           , opts)
   buf_set_keymap('n', '<leader>ld' , '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>' , opts)
+  buf_set_keymap('n', '<leader>fr' , '<Cmd>lua vim.lsp.buf.formatting()<CR>'                   , opts)
 
-  -- Set some keybinds conditional on server capabilities
-  if client.resolved_capabilities.document_formatting then
-    buf_set_keymap('n', '<leader>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-  end
-  if client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap('v', '<leader>f', '<Cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
-  end
+  -- Disable default LSP formatting as this is handled by null-ls LSP plugin
+  client.resolved_capabilities.document_formatting = false
 end
 
 -- Function to install and setup LSP servers automatically
@@ -1784,6 +1782,7 @@ local setup_servers = function()
 
   -- Nvim-lsp-installer configuration
   local lsp_installer = require'nvim-lsp-installer'
+
   lsp_installer.settings {
     ui = {
       icons = {
@@ -1793,6 +1792,7 @@ local setup_servers = function()
       }
     }
   }
+
   lsp_installer.on_server_ready(function(server)
     server:setup({
       on_attach = on_attach,
@@ -1812,19 +1812,6 @@ local setup_servers = function()
       end
     end
   end
-
-  -- Fix 'vim' is undefined global for lua LSP
-  require'lspconfig'.sumneko_lua.setup {
-    settings = {
-      Lua = {
-        diagnostics = {
-          globals = {
-            'vim'
-          }
-        }
-      }
-    }
-  }
 end
 
 -- Setup the LSP servers
@@ -1868,7 +1855,28 @@ command! ToggleLSPDiagnostics call v:lua.toggle_diagnostics()
 
 " }}}
 
-" ----------------------------------- 13. Indent-blankline {{{
+" ----------------------------------- 13. Null-ls {{{
+
+if functions#PluginLoaded('null-ls.nvim')
+
+lua<<EOF
+-- Setup null-ls
+local null_ls = require'null-ls'
+null_ls.config({
+  -- Define which sources to use
+  sources = {
+    null_ls.builtins.formatting.prettierd,
+    null_ls.builtins.formatting.clang_format
+  }
+})
+require'lspconfig'['null-ls'].setup({})
+EOF
+
+endif
+
+" }}}
+
+" ----------------------------------- 14. Indent-blankline {{{
 
 if functions#PluginLoaded('indent-blankline.nvim')
 
@@ -1893,7 +1901,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 14. Nvim-tree {{{
+" ----------------------------------- 15. Nvim-tree {{{
 
 if functions#PluginLoaded('nvim-tree.lua')
 
@@ -2037,7 +2045,7 @@ endif
 
 " }}}
 
-" ----------------------------------- 15. Comment {{{
+" ----------------------------------- 16. Comment {{{
 
 if functions#PluginLoaded('Comment.nvim')
 
