@@ -665,8 +665,9 @@ nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j'
 " Insert newlines below and above
 nnoremap <silent> <leader>o o<Esc>kO<Esc>j
 
-" Easiliy toggle comments, both in Normal and Insert mode
+" Easiliy toggle comments
 map  <leader><leader> gcc
+vmap <leader><leader> gc
 imap <leader><leader> <C-o><Cmd>lua require'Comment'.toggle()<CR>
 
 " Keybindings to toggle and kill the floating term window
