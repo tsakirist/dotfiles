@@ -1763,8 +1763,9 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>ld' , '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>' , opts)
   buf_set_keymap('n', '<leader>fr' , '<Cmd>lua vim.lsp.buf.formatting()<CR>'                   , opts)
 
-  -- Disable default LSP formatting as this is handled by null-ls LSP plugin
+  -- Disable default LSP formatting as this is handled by 'null-ls' LSP
   client.resolved_capabilities.document_formatting = false
+  client.resolved_capabilities.document_range_formatting = false
 end
 
 -- Function to install and setup LSP servers automatically
@@ -1866,8 +1867,15 @@ local null_ls = require'null-ls'
 null_ls.config({
   -- Define which sources to use
   sources = {
+    -- Formatting
     null_ls.builtins.formatting.prettierd,
-    null_ls.builtins.formatting.clang_format
+    null_ls.builtins.formatting.clang_format,
+    null_ls.builtins.formatting.shfmt.with({
+      extra_args = { "-i", "4", "-bn", "-ci", "-sr" }
+    }),
+    -- Diagnostics
+    null_ls.builtins.diagnostics.shellcheck,
+    null_ls.builtins.diagnostics.eslint_d,
   }
 })
 require'lspconfig'['null-ls'].setup({})
