@@ -1750,11 +1750,39 @@ endif
 
 " }}}
 
-" ----------------------------------- 12. LSP {{{
+" ----------------------------------- 12. Null-ls {{{
+
+if functions#PluginLoaded('null-ls.nvim')
+
+lua<<EOF
+-- Setup null-ls
+local null_ls = require'null-ls'
+null_ls.config({
+  -- Define which sources to use
+  sources = {
+    -- Formatting
+    null_ls.builtins.formatting.prettierd,
+    null_ls.builtins.formatting.clang_format,
+    null_ls.builtins.formatting.shfmt.with({
+      extra_args = { "-i", "4", "-bn", "-ci", "-sr" }
+    }),
+    -- Diagnostics
+    null_ls.builtins.diagnostics.shellcheck,
+    null_ls.builtins.diagnostics.eslint_d,
+  }
+})
+require'lspconfig'['null-ls'].setup({})
+EOF
+
+endif
+
+" }}}
+
+" ----------------------------------- 13. LSP {{{
 
 lua<<EOF
 -- Setup LSP configurations
-local on_attach = function(client, bufnr)
+local on_attach_common = function(client, bufnr)
 
   -- Syntactic sugar
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -1784,19 +1812,62 @@ local on_attach = function(client, bufnr)
   client.resolved_capabilities.document_range_formatting = false
 end
 
+-- Make a new object describing the LSP client capabilities
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+-- Disable LSP snippets for the time being since I do not want
+-- to have duplicate snippet suggestions between LuaSnip and LSP snippets
+capabilities.textDocument.completion.completionItem.snippetSupport = false
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    "documentation",
+    "detail",
+    "additionalTextEdits",
+    },
+  }
+
+-- Add additional capabilities supported by nvim-cmp
+local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if status_ok then
+  capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+end
+
 -- Function to install and setup LSP servers automatically
 local setup_servers = function()
 
-  -- Make a new object describing the LSP client capabilities
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  -- Settings for nvim-lsp-ts-utils
+  local ts_utils_settings = {
+      -- Imports
+      import_all_timeout = 5000,
+      import_all_scan_buffers = 100,
 
-  -- Disable LSP snippets for the time being since I do not want
-  -- to have duplicate snippet suggestions between LuaSnip and LSP snippets
-  -- TODO: Need to check if these LSP snippets are actually useful, or just redundant
-  capabilities.textDocument.completion.completionItem.snippetSupport = false
+      -- Formatting
+      enable_formatting = false, -- formatting is handled by 'null-ls'
+      formatter = "prettierd",
+      formatter_opts = {},
 
-  -- Add additional capabilities supported by nvim-cmp
-  capabilities = require'cmp_nvim_lsp'.update_capabilities(capabilities)
+      -- Eslint
+      eslint_enable_code_actions = true,
+      eslint_enable_disable_comments = true, -- enables ESLint code actions to disable rule for line
+      eslint_bin = "eslint_d",
+      eslint_enable_diagnostics = false, -- diagnostics are handled by 'null-ls'
+      eslint_opts = {},
+
+      -- Update imports on file move
+      update_imports_on_move = true,
+      require_confirmation_on_move = false,
+  }
+
+  -- Custom on_attach for tsserver
+  local ts_server_on_attach = function(client, bufnr)
+   -- Call the common on_attach
+    on_attach_common(client, bufnr)
+
+    -- Setup ts-utils
+    local ts_utils = require"nvim-lsp-ts-utils"
+    ts_utils.setup(ts_utils_settings)
+    ts_utils.setup_client(client)
+  end
 
   -- Nvim-lsp-installer configuration
   local lsp_installer = require'nvim-lsp-installer'
@@ -1812,10 +1883,11 @@ local setup_servers = function()
   }
 
   lsp_installer.on_server_ready(function(server)
+    local on_attach = server.name == "tsserver" and ts_server_on_attach or on_attach_common
     server:setup({
       on_attach = on_attach,
       capabilities = capabilities
-     })
+    })
     vim.cmd [[ do User LspAttachBuffers ]]
   end)
 
@@ -1870,34 +1942,6 @@ EOF
 
 " Add a user defined command to call, instead of adding a mapping to <leader>dt
 command! ToggleLSPDiagnostics call v:lua.toggle_diagnostics()
-
-" }}}
-
-" ----------------------------------- 13. Null-ls {{{
-
-if functions#PluginLoaded('null-ls.nvim')
-
-lua<<EOF
--- Setup null-ls
-local null_ls = require'null-ls'
-null_ls.config({
-  -- Define which sources to use
-  sources = {
-    -- Formatting
-    null_ls.builtins.formatting.prettierd,
-    null_ls.builtins.formatting.clang_format,
-    null_ls.builtins.formatting.shfmt.with({
-      extra_args = { "-i", "4", "-bn", "-ci", "-sr" }
-    }),
-    -- Diagnostics
-    null_ls.builtins.diagnostics.shellcheck,
-    null_ls.builtins.diagnostics.eslint_d,
-  }
-})
-require'lspconfig'['null-ls'].setup({})
-EOF
-
-endif
 
 " }}}
 
