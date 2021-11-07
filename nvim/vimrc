@@ -1170,6 +1170,9 @@ require'specs'.setup {
   ignore_buftypes = {
     nofile = true,
   },
+  ignore_filetypes = {
+    vim = true,
+  }
 }
 EOF
 
@@ -1602,6 +1605,15 @@ local cmp_kinds = {
   TypeParameter = "  ",
 }
 
+-- Setup custom menu entries for the autocompletion
+local cmp_source_names = {
+  nvim_lsp = "[LSP]",
+  nvim_lua = "[Lua]",
+  luasnip  = "[LuaSnip]",
+  path     = "[Path]",
+  buffer   = "[Buffer]",
+}
+
 local cmp = require'cmp'
 local luasnip = require'luasnip'
 
@@ -1637,16 +1649,10 @@ cmp.setup {
   formatting = {
     format = function(entry, vim_item)
       -- Add icons for the suggestions
-      vim_item.kind = (cmp_kinds[vim_item.kind] or "") .. vim_item.kind
+      vim_item.kind = cmp_kinds[vim_item.kind]
 
       -- Set a name for each source
-      vim_item.menu = ({
-        nvim_lsp = "[LSP]",
-        nvim_lua = "[Lua]",
-        luasnip  = "[LuaSnip]",
-        path     = "[Path]",
-        buffer   = "[Buffer]",
-      })[entry.source.name]
+      vim_item.menu = cmp_source_names[entry.source.name]
 
       -- Do not add duplicate entries if an item with the same word is already present
       -- Seems to fix, the duplicate entries with the snippets
@@ -1655,9 +1661,9 @@ cmp.setup {
       return vim_item
     end
   },
-  -- documentation = {
-  --   border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-  -- },
+  documentation = {
+    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+  },
   snippet = {
     expand = function(args)
       require'luasnip'.lsp_expand(args.body)
