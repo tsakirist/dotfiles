@@ -210,10 +210,19 @@ Plug 'liuchengxu/vista.vim', { 'on': ['Vista', 'Vista!!'] }
 " Pretty list of showing diagnostics, telescope results and more
 Plug 'folke/trouble.nvim'
 
+" A faster version of filetype.vim
+Plug 'nathom/filetype.nvim'
+
+" Improve startup time for Neovim by speeding up loading of lua modules
+Plug 'lewis6991/impatient.nvim'
+
 " -------------------------
 
 " List ends here. Plugins become visible to Vim after this call
 call plug#end()
+
+" Load impatient first before any other lua module, to speed up startuptime
+lua require'impatient'.enable_profile()
 
 " }}}
 
