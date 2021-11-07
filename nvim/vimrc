@@ -434,49 +434,42 @@ endif
 
 " ----------------------------------- 4. Autocommands {{{
 
-" Format options configuration:
-" 't': is required in format options to wrap text in insert mode
-" 'l': a line that is longer than textwidth may not be wraped if 'l' is in format options
-" 'r': enables the <CR> key from autocommenting when pressing enter in line that contains a comment, enables javadoc
-" 'o': don't insert comment when pressing 'o' or 'O'
-" 'q': allow formatting comments with gq
-autocmd BufEnter * set fo+=t fo+=r fo-=l fo-=o fo+=q
+" Autocmd group for generic autocommands
+augroup GenericGroup
+  " Clear old autocommands of this group
+  autocmd!
 
-" Remove trailing whitespaces on file save
-autocmd BufWritePre * call functions#TrimTrailingWhitespace()
+  " Format options configuration:
+  " 't': is required in format options to wrap text in insert mode
+  " 'l': a line that is longer than textwidth may not be wraped if 'l' is in format options
+  " 'r': enables the <CR> key from autocommenting when pressing enter in line that contains a comment, enables javadoc
+  " 'o': don't insert comment when pressing 'o' or 'O'
+  " 'q': allow formatting comments with gq
+  autocmd BufEnter * set fo+=t fo+=r fo-=l fo-=o fo+=q
 
-" This is used to preserve the clipboard when vim exits
-autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
+  " Remove trailing whitespaces on file save
+  autocmd BufWritePre * call functions#TrimTrailingWhitespace()
 
-" This will automatically resize windows/splits when resizing host window
-autocmd VimResized * wincmd =
+  " This is used to preserve the clipboard when vim exits
+  autocmd VimLeave * call system("xclip -selection clipboard -i", getreg("+"))
 
-" Autocmd for vim-signify
-if functions#PluginLoaded('vim-signify')
-  " Show the hunk number when jumping to a hunk
-  autocmd User SignifyHunk call functions#ShowCurrentHunk()
-endif
+  " This will automatically resize windows/splits when resizing host window
+  autocmd VimResized * wincmd =
+augroup END
 
-" Autocmd for vim-eunuch
-if functions#PluginLoaded('vim-eunuch')
-  " Remove SudoWrite, SudoEdit from the commands as they do not work
-  autocmd VimEnter * :delcommand SudoWrite | :delcommand SudoEdit
-endif
-
-" Autocmd for git blamer
-if functions#PluginLoaded('blamer.nvim')
-  " Hide blamer on startup
-  autocmd VimEnter * :BlamerHide
-endif
-
-" Autocmd for lsp lightbulb code-action
-if functions#PluginLoaded('nvim-lightbulb')
-  autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb{ sign = { enabled = true } }
-endif
+" Autocmd for adding spelling and wrapping for specific filetypes
+augroup SpellWrapGroup
+  " Clear old autocommands of this group
+  autocmd!
+  " Enable spelling and wrapping when doing a commit message or writing to a markdown file
+  autocmd FileType gitcommit,markdown setlocal spell wrap
+augroup END
 
 " Autocmd for highlighting yanked text
 augroup LuaHighlightGroup
+  " Clear old autocommands of this group
   autocmd!
+  " Enable highlighting when yanking text
   autocmd TextYankPost * silent! lua vim.highlight.on_yank()
 augroup END
 
@@ -490,12 +483,26 @@ augroup TermGroup
   autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
 
-" Autocmd for adding spelling and wrapping for specific filetypes
-augroup SpellWrapGroup
-  " Clear old autocommands of this group
+" Autocommands group for plugins
+augroup PluginsGroup
+  " Clear old autocommands for this group
   autocmd!
-  " Enable spelling and wrapping when doing a commit message or writing to a markdown file
-  autocmd FileType gitcommit,markdown setlocal spell wrap
+
+  if functions#PluginLoaded('nvim-lightbulb')
+    autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb{ sign = { enabled = true } }
+  endif
+
+  if functions#PluginLoaded('blamer.nvim')
+    autocmd VimEnter * :BlamerHide
+  endif
+
+  if functions#PluginLoaded('vim-eunuch')
+    autocmd VimEnter * :delcommand SudoWrite | :delcommand SudoEdit
+  endif
+
+  if functions#PluginLoaded('vim-signify')
+    autocmd User SignifyHunk call functions#ShowCurrentHunk()
+  endif
 augroup END
 
 " }}}
