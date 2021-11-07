@@ -341,13 +341,16 @@ set mouse=a
 set modeline
 
 " Make updates happen faster
-set updatetime=1000
+set updatetime=300
 
 " Keep windows equal in size after split, close etc
 set equalalways
 
 " Set transparency for the popup window
 set pumblend=15
+
+" Set pop-up menu height
+set pumheight=12
 
 " Set completeopt to have a better completion experience
 set completeopt=menu,noinsert,noselect
@@ -1432,7 +1435,10 @@ endif
 if functions#PluginLoaded('telescope.nvim')
 
   " Find files using Telescope command-line sugar
+  nnoremap <silent> <leader>fb <Cmd>Telescope buffers<CR>
   nnoremap <silent> <leader>fc <Cmd>Telescope commands<CR>
+  nnoremap <silent> <leader>ff <Cmd>Telescope find_files<CR>
+  nnoremap <silent> <leader>fF <Cmd>Telescope git_files<CR>
   nnoremap <silent> <leader>fH <Cmd>Telescope highlights<CR>
   nnoremap <silent> <leader>fo <Cmd>Telescope oldfiles<CR>
   nnoremap <silent> <leader>fO <Cmd>Telescope vim_options<CR>
@@ -1443,9 +1449,6 @@ if functions#PluginLoaded('telescope.nvim')
   nnoremap <silent> <leader>f/ <Cmd>Telescope search_history<CR>
 
   " Custom commands with extra options
-  nnoremap <silent> <leader>fb <Cmd>lua require'telescope.builtin'.buffers({path_display = { "shorten" }})<CR>
-  nnoremap <silent> <leader>ff <Cmd>lua require'telescope.builtin'.find_files({path_display= { "shorten" }})<CR>
-  nnoremap <silent> <leader>fF <Cmd>lua require'telescope.builtin'.git_files({path_display = { "shorten" }})<CR>
   nnoremap <silent> <leader>fg <Cmd>lua require'telescope.builtin'.live_grep({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fG <Cmd>lua live_grep_in_project_root()<CR>
   nnoremap <silent> <leader>fh <Cmd>lua require'telescope.builtin'.help_tags({layout_strategy = "vertical"})<CR>
@@ -1482,20 +1485,10 @@ require'telescope'.setup {
         mirror = false,
       },
     },
-    use_less = true,
-    color_devicons = true,
-    initial_mode = "insert",
-    scroll_strategy = "cycle",
-    selection_strategy = "reset",
+    -- path_display = { shorten = 5},
+    path_display = { smart },
     sorting_strategy = "ascending",
     set_env = { ['COLORTERM'] = 'truecolor' },
-    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-    file_ignore_patterns = {},
-    file_sorter = require'telescope.sorters'.get_fuzzy_file,
-    generic_sorter = require'telescope.sorters'.get_generic_fuzzy_sorter,
-    file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
-    grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
-    qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
     mappings = {
       i = {
         ["<C-q>"] = actions.close,
@@ -1646,6 +1639,14 @@ end
 
 -- Setup nvim-cmp
 cmp.setup {
+  completion = {
+    -- The minimum length of a word to complete on
+    keyword_length = 1,
+  },
+  experimental = {
+    ghost_text = true,
+    native_menu = false,
+  },
   formatting = {
     format = function(entry, vim_item)
       -- Add icons for the suggestions
@@ -1673,6 +1674,8 @@ cmp.setup {
     ['<CR>']      = cmp.mapping.confirm({ select = true }),
     ['<Tab>']     = cmp.mapping(tab, { "i", "s" }),
     ['<S-Tab>']   = cmp.mapping(shift_tab, { "i", "s" }),
+    ['<C-d>']     = cmp.mapping.scroll_docs(-4),
+    ['<C-f>']     = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
   },
   sources = {
