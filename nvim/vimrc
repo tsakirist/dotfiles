@@ -162,10 +162,13 @@ Plug 'nacro90/numb.nvim'
 " File explorer tree for neovim
 Plug 'kyazdani42/nvim-tree.lua'
 
-" Treesitter incremental parsing library
+" Treesitter parser generator tool and incremental parsing library
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/playground'
+
+" Treesitter plugin for setting the commentstring based on the cursor location in a file
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
 " Telescope fuzzy finder
 Plug 'nvim-lua/popup.nvim'
@@ -1261,8 +1264,18 @@ lua<<EOF
 -- Setup nvim-treesitter
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    "bash", "c", "cpp", "cmake", "html", "javascript",
-    "json", "lua", "python", "typescript", "tsx"
+    "bash", "c", "cpp", "cmake", "comment", "css", "html", "javascript",
+    "json", "lua", "python", "typescript", "tsx", "vim"
+  },
+  autopairs = {
+    enable = true,
+  },
+  autotag = {
+    enable = true,
+  },
+  context_commentstring = {
+    enable = true,
+    enable_autocmd = false,
   },
   highlight = {
     enable = true,
@@ -1272,12 +1285,6 @@ require'nvim-treesitter.configs'.setup {
   indent = {
     enable = true,
     disable = { "c", "cpp" },
-  },
-  autopairs = {
-    enable = true,
-  },
-  autotag = {
-    enable = true,
   },
   incremental_selection = {
     enable = true,
@@ -1892,7 +1899,7 @@ local setup_servers = function()
   end)
 
   -- Define the required LSP servers
-  local required_servers = { "clangd", "vimls", "sumneko_lua", "bashls", "pyright", "tsserver" }
+  local required_servers = { "bashls", "clangd", "cmake", "pyright", "sumneko_lua", "tsserver", "vimls" }
 
   -- Install missing servers
   for _, server_name in pairs(required_servers) do
@@ -2169,7 +2176,25 @@ require'Comment'.setup {
 
   ---Pre-hook, called before commenting the line
   ---@type function|nil
-  pre_hook = nil,
+  pre_hook = function(ctx)
+    local U = require('Comment.utils')
+
+    -- Detemine whether to use linewise or blockwise commentstring
+    local type = ctx.ctype == U.ctype.line and '__default' or '__multiline'
+
+    -- Determine the location where to calculate commentstring from
+    local location = nil
+    if ctx.ctype == U.ctype.block then
+      location = require('ts_context_commentstring.utils').get_cursor_location()
+    elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+      location = require('ts_context_commentstring.utils').get_visual_start_location()
+    end
+
+    return require('ts_context_commentstring.internal').calculate_commentstring({
+      key = type,
+      location = location,
+    })
+  end,
 
   ---Post-hook, called after commenting is done
   ---@type function|nil
