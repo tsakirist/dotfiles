@@ -1450,12 +1450,9 @@ if functions#PluginLoaded('telescope.nvim')
 
   " Custom commands with extra options
   nnoremap <silent> <leader>fg <Cmd>lua require'telescope.builtin'.live_grep({layout_strategy = "vertical"})<CR>
-  nnoremap <silent> <leader>fG <Cmd>lua live_grep_in_project_root()<CR>
   nnoremap <silent> <leader>fh <Cmd>lua require'telescope.builtin'.help_tags({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fl <Cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = "vertical"})<CR>
   nnoremap <silent> <leader>fM <Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_dropdown({}))<CR>
-  nnoremap <silent> <leader>fp <Cmd>lua find_in_project_root()<CR>
-  nnoremap <silent> <leader>fS <Cmd>lua custom_grep_string()<CR>
   nnoremap <silent> <leader>fv <Cmd>lua find_in_vim_root()<CR>
 
 lua<<EOF
@@ -1507,14 +1504,6 @@ require'telescope'.setup {
       }
     }
   },
-  extensions = {
-    fzf = {
-      fuzzy = true,
-      override_generic_sorter = true,
-      override_file_sorter = true,
-      case_mode = "smart_case",
-    }
-  }
 }
 
 -- Load extensions
@@ -1527,35 +1516,6 @@ function find_in_vim_root()
     cwd = "~/.vim",
     follow = true,                          -- follow symbolic links
     file_ignore_patterns = { "undo%-dir" }, -- character '-' needs to be escaped
-  }
-end
-
--- Custom lua function to search from project root
--- uses vim-rooter's FindRootDirectory function
-function find_in_project_root()
-  require'telescope.builtin'.find_files {
-    prompt_title = "Project search",
-    path_display = { "shorten" },
-    cwd = vim.fn.FindRootDirectory(),
-  }
-end
-
--- Custom lua function to live_grep from project root
--- uses vim-rooter's FindRootDirectory function
-function live_grep_in_project_root()
-  require'telescope.builtin'.live_grep {
-    prompt_title = "Project root live grep",
-    path_display = { "shorten" },
-    cwd = vim.fn.FindRootDirectory(),
-    layout_strategy = "vertical",
-  }
-end
-
--- Custom function to search for a provided string
-function custom_grep_string()
-  require'telescope.builtin'.grep_string {
-    path_display = { "shorten" },
-    search = vim.fn.input("Grep string ﯀ "),
   }
 end
 EOF
