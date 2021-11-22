@@ -1,0 +1,28 @@
+require("indent_blankline").setup {
+    -- char_list = { '|', '¦', '┆', '┊' },
+    char = "│",
+    show_first_indent_level = false,
+    stricts_tabs = true,
+    show_trailing_blankline_indent = false,
+    show_end_of_line = true,
+    use_treesitter = true,
+    show_current_context = true,
+    buftype_exclude = { "terminal" },
+    filetype_exclude = {
+        "help",
+        "startify",
+        "gitcommit",
+        "vistakind",
+    },
+    context_patterns = {
+        "class",
+        "function",
+        "method",
+        "^if",
+        "^while",
+        "^for",
+        "^try",
+        "except",
+        "argument_list",
+    },
+}
