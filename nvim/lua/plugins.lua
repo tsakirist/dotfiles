@@ -1,5 +1,5 @@
 -- Take care of handling the automatic installation of packer
-local packer_bootstrap = require("bootstrap").packer_bootstrap()
+local packer_bootstrap = require("plugins.packer").packer_bootstrap()
 
 return require("packer").startup {
     function(use)
@@ -249,7 +249,6 @@ return require("packer").startup {
         use {
             {
                 "lewis6991/gitsigns.nvim",
-                disable = true,
                 event = "BufRead",
                 requires = { "nvim-lua/plenary.nvim" },
                 config = function()
@@ -279,7 +278,7 @@ return require("packer").startup {
         }
 
         -- Peak lines easily with :<number>
-        use { "nacro90/numb.nvim", event = "BufRead" }
+        use { "nacro90/numb.nvim" }
 
         -- Switch between single-line and multiline forms of code
         use { "AndrewRadev/splitjoin.vim", keys = { "gS", "gJ" } }

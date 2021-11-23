@@ -113,7 +113,7 @@ cmp.setup {
         {
             name = "buffer",
             keyword_length = 4,
-            opts = {
+            options = {
                 -- Get results only from visible buffers rather than from all buffers
                 get_bufnrs = function()
                     local bufs = {}

@@ -64,7 +64,7 @@ utils.map("v", "<leader>d", "<Cmd>t.<CR>")
 utils.map("t", "<Esc>", [[<C-\><C-N>]])
 
 -- Save files with ctrl+s
--- Use <Cmd>update instead of :write, to only write the file when modified
+-- Use update instead of :write, to only write the file when modified
 utils.map("n", "<C-s>", "<Cmd>update<CR>")
 utils.map("i", "<C-s>", "<Esc><Cmd>update<CR>")
 utils.map("v", "<C-s>", "<Esc><Cmd>update<CR>")
@@ -100,8 +100,7 @@ utils.map("x", "<", "<gv")
 -- Thus, allowing us to repeatedly paste the word. {"_ : black-hole register}
 utils.map("v", "p", [["_dP]])
 
--- The '&' command repeats last substitution and the
--- second '&' keeps the previous flags that were used
+-- The '&' command repeats last substitution and the second '&' keeps the previous flags that were used
 -- So, usually we want to have this as the default behavior
 utils.map("n", "&", "<Cmd>&&<CR>")
 utils.map("x", "&", "<Cmd>&&<CR>")
@@ -128,93 +127,33 @@ utils.map("n", "<leader>vt", "<Cmd>VT<CR>")
 -- Whole-word search
 vim.cmd [[nnoremap <leader>/ :/\<\><Left><Left>]]
 
--- utils.map("n", "<leader>z", "helper.zoomToggle()")
--- utils.map("n", "<leader>9", helper.trimTrailingWhiteSpace)
-
---[[
-
--- Command and key mapping to enable the zoom-in and zoom-out
-command! ZoomToggle call functions#ZoomToggle()
-utils.map("n", "<leader>z :ZoomToggle<CR>
-
--- Change the default mouse scrolling wheel options
-utils.map("n", <ScrollWheelUp>   4<C-y>
-utils.map("n", <ScrollWheelDown> 4<C-e>
-xnoremap <ScrollWheelUp>   4<C-y>
-xnoremap <ScrollWheelDown> 4<C-e>
+-- Change the default mouse scrolling wheel option
+utils.map("n", "<ScrollWheelUp>", "4<C-y>")
+utils.map("n", "<ScrollWheelDown>", "4<C-e>")
+utils.map("x", "<ScrollWheelUp>", "4<C-y>")
+utils.map("x", "<ScrollWheelDown>", "4<C-e>")
 
 -- Set a mark when moving more than 5 lines upwards/downards
 -- this will populate the jumplist enabling us to jump back with Ctrl-O
-utils.map("n", <expr> k (v:count > 5 ? "m'" . v:count : "") . 'k'
-utils.map("n", <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j'
+utils.map("n", "k", [[(v:count > 5 ? "m'" . v:count : "") . 'k']], { expr = true })
+utils.map("n", "j", [[(v:count > 5 ? "m'" . v:count : "") . 'j']], { expr = true })
 
 -- Insert newlines below and above
-utils.map("n", "<leader>o o<Esc>kO<Esc>j
-
--- Easiliy toggle comments
-map  <leader><leader> gcc
-vmap <leader><leader> gc
-imap <leader><leader> <C-o><Cmd>lua require'Comment'.toggle()<CR>
-
--- Keybindings to toggle and kill the floating term window
-utils.map("n", "<leader>ft :FloatermToggle<CR>
-utils.map("n", "<leader>fk :FloatermKill<CR>
-tnoremap "<leader>ft <C-\><C-n>:FloatermToggle<CR>
-tnoremap "<leader>fk <C-\><C-n>:FloatermKill<CR>
-
--- Git-signify keybinds to use the plugin more easily
-utils.map("n", "<leader>gh :SignifyToggleHighlight<CR>
-utils.map("n", "<leader>gf :SignifyFold<CR>
-utils.map("n", "<leader>gd :SignifyDiff<CR>
-utils.map("n", "<leader>hd :SignifyHunkDiff<CR>
-utils.map("n", "<leader>hu :SignifyHunkUndo<CR>
-
--- Git-signify jump between git diff hunks
-nmap "<leader>gj <Plug>(signify-next-hunk)
-nmap "<leader>gk <Plug>(signify-prev-hunk)
-nmap "<leader>gJ 9999<leader>gj
-nmap "<leader>gK 9999<leader>gk
-
--- Open git-messenger
-nmap "<leader>gm <Plug>(git-messenger)
+utils.map("n", "<leader>o", "o<Esc>kO<Esc>j")
 
 -- EasyAlign keybindings
 -- 'vipga' starts interactive EasyAlign in visual mode
 -- 'gaip' starts interactive EasyAlign for text/motion object
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
-nmap <leader>ga <Plug>(LiveEasyAlign)
-xmap <leader>ga <Plug>(LiveEasyAlign)
+utils.map("n", "ga", "<Plug>(EasyAlign)", { noremap = false })
+utils.map("x", "ga", "<Plug>(EasyAlign)", { noremap = false })
+utils.map("n", "<leader>ga", "<Plug>(LiveEasyAlign)", { noremap = false })
+utils.map("x", "<leader>ga", "<Plug>(LiveEasyAlign)", { noremap = false })
 
 -- Use <Tab> and <S-Tab> to navigate through the autocomplete options
-utils.map("i", "<expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-utils.map("i", "<expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+-- TODO: Check if the below are needed, if if we need to use nvim_replace_termcodes
+utils.map("i", "<Tab>", "pumvisible() ? '\\<C-n>' : '\\<Tab>'", { expr = true })
+utils.map("i", "<S-Tab>", "pumvisible() ? '\\<C-p>' : '\\<S-Tab>'", { expr = true })
 
 -- Alternate between header/source files
--- utils.map("n", "<leader>ko :Alternate<CR>
-utils.map("n", "<leader>ko :ClangdSwitchSourceHeader<CR>
-
--- Git blame keybind toggle
-utils.map("n", "<leader>gb :BlamerToggle<CR>
-
--- Also, '[q', ']q' work for cprev cnext, from vim-unimpaired
-utils.map("n", "<leader>co :copen<CR>
-utils.map("n", "<leader>cc :cclose<CR>
-utils.map("n", "<leader>cr :cexpr []<CR>
-
--- Also '[l', ']l' work for lprev lnext, from vim-unimpaired
-utils.map("n", "<leader>lo :lopen<CR>
-utils.map("n", "<leader>lc :lclose<CR>
-utils.map("n", "<leader>lr :lexpr []<CR>
-
--- Toggle quickfix and locationlist
-utils.map("n", "<leader>ct :call functions#ToggleList('qf')<CR>
-utils.map("n", "<leader>lt :call functions#ToggleList('loc')<CR>
-
--- Keybindings to toggle Vista and open Vista finder more easily
-utils.map("n", "<leader>vv :Vista!!<CR>
-utils.map("n", "<leader>vf :Vista finder nvim_lsp<CR>
-
--- Nvim-tree toggle keybinding
-utils.map("n", "<leader>nt :NvimTreeToggle<CR>
-utils.map("n", "<leader>nf :NvimTreeFindFile<CR> ]]
+-- TODO: move this to lspconfig?
+utils.map("n", "<leader>ko", "<Cmd>ClangdSwitchSourceHeader<CR>")

@@ -19,3 +19,9 @@ vim.g["vista#renderer#enable_icon"] = 1
 
 -- How to show detailed information of current cursor symbol in Vista
 vim.g.vista_echo_cursor_strategy = "floating_win"
+
+-- Setup vista keymappings
+local utils = require "utils"
+
+utils.map("n", "<leader>vv", "<Cmd>Vista!!<CR>")
+utils.map("n", "<leader>vf", "<Cmd>Vista finder nvim_lsp<CR>")
