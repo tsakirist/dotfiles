@@ -7,9 +7,8 @@ utils.map("n", "<F2>", "&foldlevel ? 'zM' : 'zR'", { expr = true })
 vim.cmd "cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'"
 
 -- Change buffers quickly
-utils.map("n", "<leader>bn", "<Cmd>bnext<CR>")
-utils.map("n", "<leader>bp", "<Cmd>bprevious<CR>")
-
+utils.map("n", "]b", "<Cmd>bnext<CR>")
+utils.map("n", "[b", "<Cmd>bprevious<CR>")
 utils.map("n", "<Tab>", "<Cmd>bnext<CR>")
 utils.map("n", "<S-Tab>", "<Cmd>bprevious<CR>")
 
@@ -148,11 +147,6 @@ utils.map("n", "ga", "<Plug>(EasyAlign)", { noremap = false })
 utils.map("x", "ga", "<Plug>(EasyAlign)", { noremap = false })
 utils.map("n", "<leader>ga", "<Plug>(LiveEasyAlign)", { noremap = false })
 utils.map("x", "<leader>ga", "<Plug>(LiveEasyAlign)", { noremap = false })
-
--- Use <Tab> and <S-Tab> to navigate through the autocomplete options
--- TODO: Check if the below are needed, if if we need to use nvim_replace_termcodes
-utils.map("i", "<Tab>", "pumvisible() ? '\\<C-n>' : '\\<Tab>'", { expr = true })
-utils.map("i", "<S-Tab>", "pumvisible() ? '\\<C-p>' : '\\<S-Tab>'", { expr = true })
 
 -- Alternate between header/source files
 -- TODO: move this to lspconfig?

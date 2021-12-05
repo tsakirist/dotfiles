@@ -1,11 +1,21 @@
 local setup_diagnostics = function()
-    -- Override settings for diagnostics handler
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+    -- Override settings for diagnostics
+    vim.diagnostic.config {
         underline = true,
         update_in_insert = false,
-        virtual_text = { spacing = 4, prefix = "●" },
         severity_sort = true,
-    })
+        virtual_text = {
+            spacing = 4,
+            prefix = "❰", --[[ prefix = "●"  ]]
+        },
+        float = {
+            show_header = true,
+            source = "if_many",
+            border = "rounded",
+            focusable = false,
+            severity_sort = true,
+        },
+    }
 
     -- Set custom signs for diagnostics
     local lsp_signs = { Error = "", Hint = "", Information = "", Warning = "" }
@@ -30,9 +40,6 @@ local setup_keymappings = function(_, bufnr)
     local function buf_set_keymap(...)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
     end
-
-    -- Enable completion triggered by <c-x><c-o>
-    vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 
     -- Mappings
     local opts = { noremap = true, silent = true }

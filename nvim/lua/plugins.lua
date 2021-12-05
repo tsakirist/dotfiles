@@ -51,7 +51,7 @@ return require("packer").startup {
             "hoob3rt/lualine.nvim",
             requires = { "kyazdani42/nvim-web-devicons" },
             config = function()
-                require "lualine.themes.evil_lualine"
+                require "themes.evil_lualine"
             end,
         }
 
@@ -101,33 +101,9 @@ return require("packer").startup {
             end,
         }
         use {
-            "ray-x/lsp_signature.nvim",
-            after = "nvim-lspconfig",
-            config = function()
-                require "plugins.lsp.lsp-signature"
-            end,
-        }
-        use {
-            "kosayoda/nvim-lightbulb",
-            after = "nvim-lspconfig",
-            module = "nvim-lightbulb",
-            config = function()
-                vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
-            end,
-        }
-        use {
-            "rmagatti/goto-preview",
-            keys = { "gp" },
-            after = "nvim-lspconfig",
-            config = function()
-                require "plugins.lsp.goto-preview"
-            end,
-        }
-        use {
             "liuchengxu/vista.vim",
-            cmd = { "Vista", "Vista!!" },
             keys = { "<leader>vv", "<leader>vf" },
-            after = "nvim-lspconfig",
+            cmd = "Vista",
             config = function()
                 require "plugins.lsp.vista"
             end,
@@ -139,8 +115,15 @@ return require("packer").startup {
             run = ":TSUpdate",
             event = "BufRead",
             requires = {
-                { "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" },
-                { "nvim-treesitter/playground", cmd = "TSPlaygroundToggle", after = "nvim-treesitter" },
+                {
+                    "nvim-treesitter/nvim-treesitter-textobjects",
+                    after = "nvim-treesitter",
+                },
+                {
+                    "nvim-treesitter/playground",
+                    cmd = "TSPlaygroundToggle",
+                    after = "nvim-treesitter",
+                },
             },
             config = function()
                 require "plugins.treesitter"
@@ -182,8 +165,8 @@ return require("packer").startup {
         use { "windwp/nvim-ts-autotag", after = "nvim-treesitter" }
 
         -- Fuzzy finder FZF, this also installs FZF globally
-        use { "junegunn/fzf", run = "./install --key-bindings --completion --no-update-rc" }
-        use { "junegunn/fzf.vim", after = "fzf" }
+        -- use { "junegunn/fzf", run = "./install --key-bindings --completion --no-update-rc" }
+        -- use { "junegunn/fzf.vim", after = "fzf" }
 
         -- Telescope related plugins
         use {
@@ -278,7 +261,13 @@ return require("packer").startup {
         }
 
         -- Peak lines easily with :<number>
-        use { "nacro90/numb.nvim" }
+        use {
+            "nacro90/numb.nvim",
+            event = "BufRead",
+            config = function()
+                require "plugins.numb"
+            end,
+        }
 
         -- Switch between single-line and multiline forms of code
         use { "AndrewRadev/splitjoin.vim", keys = { "gS", "gJ" } }
@@ -311,7 +300,7 @@ return require("packer").startup {
         }
 
         -- Easiliy locate cursor after search
-        use { "inside/vim-search-pulse", event = "BufRead" }
+        -- use { "inside/vim-search-pulse", event = "BufRead" }
 
         -- Measure the startup-time of neovim
         use { "dstein64/vim-startuptime", cmd = "StartupTime" }
