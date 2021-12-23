@@ -85,7 +85,7 @@ function _backup() {
 
 function _reboot() {
     echo "${black_bg}${bold}It is recommended to ${red_fg}reboot${white_fg} after a fresh installation" \
-         "of the packages and configurations.${reset}"
+        "of the packages and configurations.${reset}"
     read -n 1 -r -p "Would you like to reboot? [Y/n] " input
     if [[ "$input" =~ ^([yY])$ ]]; then
         sudo reboot
@@ -113,7 +113,7 @@ function _print() {
             "c") action="Changing" ;;
         esac
         echo -en "${black_bg}${thunder} ${action} ${bold}${red_fg}${*:2:1}${reset}"
-        echo -e  "${black_bg}${*:3} ...${reset}"
+        echo -e "${black_bg}${*:3} ...${reset}"
     fi
 }
 
@@ -125,14 +125,14 @@ function _change_shell() {
     local shell
     case "$1" in
         "bash") shell="bash" ;;
-        "zsh" ) shell="zsh" ;;
+        "zsh") shell="zsh" ;;
     esac
     local msg="Do you want to change the default shell to ${shell}?\nThis will issue 'chsh -s $(which ${shell})' command."
     if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
         chsh -s "$(which ${shell})"
         _print c "shell to $(which ${shell})"
         echo "In order for the ${start_underline}change${end_underline} to take effect you need to" \
-             "${bold}${red_fg}re-login${reset}."
+            "${bold}${red_fg}re-login${reset}."
     fi
 }
 
@@ -187,7 +187,7 @@ function _zsh_aliases() {
     ln -sv --backup=numbered "$(pwd)/zsh/zsh_aliases" $HOME/.zsh_aliases
 }
 
-function _zsh_functions () {
+function _zsh_functions() {
     _check_file zsh/zsh_functions
     _print s ".zsh_functions"
     ln -sv --backup=numbered "$(pwd)/zsh/zsh_functions" $HOME/.zsh_functions
@@ -227,6 +227,7 @@ function _nvim() {
     _install neovim
 }
 
+# TODO: Remove this?
 function _nvim_autoload() {
     _check_dir nvim/autoload && _check_file nvim/autoload/functions.vim
     mkdir -v -p $HOME/.vim/autoload/
@@ -241,6 +242,16 @@ function _nvimrc() {
     ln -sv --backup=numbered "$(pwd)/nvim/init.vim" $HOME/.config/nvim/init.vim
     _nvim_autoload
     nvim +PlugInstall +qall
+}
+
+function _shellcheck() {
+    _print i "shellcheck: Shell script static analysis tool - linter"
+    _install shellcheck
+}
+
+function _shfmt() {
+    _print i "shfmt: Shell formatter"
+    snap install shfmt
 }
 
 function _tmux() {
@@ -398,7 +409,7 @@ function _tilix() {
 function _kitty() {
     _print i "kity" ": the fast, featureful, GPU based terminal emulator"
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
-    ln -sv $HOME/.local/kitty.app/bin/kitty /usr/local/bin/
+    sudo ln -sv $HOME/.local/kitty.app/bin/kitty /usr/local/bin/
     # Place the kitty.desktop file somewhere it can be found
     cp -v ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
     # Update the path to the kitty icon in the kitty.desktop file
@@ -414,7 +425,9 @@ function _kitty_config() {
 
 function _kitty_themes() {
     _print i "kitty-themes"
-    git clone --depth=1 https://github.com/dexpota/kitty-themes.git ~/.config/kitty/kitty-themes
+    local themes_path="$HOME/.config/kitty/kitty-themes"
+    [ ! -d "$themes_path" ] \
+        && git clone --depth=1 https://github.com/dexpota/kitty-themes.git ~/.config/kitty/kitty-themes
 }
 
 function _x_profile() {
@@ -496,7 +509,7 @@ function _vm_swappiness() {
     if grep -q "^vm.swappiness" $file; then
         sudo sed -i "s/\(^vm.swappiness=\).*/\1$value/" $file
     else
-        echo "vm.swappiness=${value}" | sudo tee -a $file > /dev/null 2>&1;
+        echo "vm.swappiness=${value}" | sudo tee -a $file > /dev/null 2>&1
     fi
     sudo sysctl -q --system
     echo "Swappiness value:" "$(cat /proc/sys/vm/swappiness)"
@@ -504,8 +517,8 @@ function _vm_swappiness() {
 
 function _check_root() {
     local msg="$(printf '%s\n' \
-               "Would you like to have a completely unattended installation?"  \
-               "This will execute the installer with sudo to elevate privileges.")"
+        "Would you like to have a completely unattended installation?" \
+        "This will execute the installer with sudo to elevate privileges.")"
     if [ "$EUID" -ne 0 ]; then
         if (whiptail --title "Installer Privileges" --yesno "$msg" 8 78); then
             echo -e "${thunder} Trying to get ${start_underline}${bold}${red_fg}root${reset} access rights... "
@@ -538,6 +551,8 @@ pkgs=(
     "    fd: improved version of find"
     "    bat: a cat clone with syntax highlighting"
     "    rg: ripgrep recursive search for a pattern in files"
+    "    shfmt: Shell formatter"
+    "    shellcheck: Shell static analysis tool"
     "    nvim"
     "    nvimrc"
     "    xprofile"
@@ -579,6 +594,8 @@ pkgs_functions=(
     _fd
     _bat
     _rg
+    _shfmt
+    _shellcheck
     _nvim
     _nvimrc
     _x_profile
@@ -623,17 +640,17 @@ function _show_main_menu() {
     INFO+="$(hostnamectl | tail -n 3 | cut -c3-)"
     INPUT=$(whiptail --title "This script provides an easy way to install my preferred packages and configurations." \
         --menu "\nScript is executed from '$(pwd)'\n\n${INFO}" ${SIZE} 4 \
-        "1"  "    Fresh installation of everything" \
-        "2"  "    Selective installation" \
-        "3"  "    Dotfiles installation" \
-        "Q"  "    Quit" \
+        "1" "    Fresh installation of everything" \
+        "2" "    Selective installation" \
+        "3" "    Dotfiles installation" \
+        "Q" "    Quit" \
         3>&1 1>&2 2>&3)
 }
 
 function _create_selective_menu() {
     # Dynamically populate the GUI menu from the pkgs array
     menu_options=()
-    for (( i=0; i<"${#pkgs[@]}"; i++ )); do
+    for ((i = 0; i < "${#pkgs[@]}"; i++)); do
         menu_options+=("$((i + 1))")
         menu_options+=("${pkgs[$i]}")
     done
@@ -644,18 +661,18 @@ function _create_selective_menu() {
 
 function _show_selective_menu() {
     OPT=$(whiptail --title "Selectively install packages/configurations" \
-        --menu "\nSelect the packages and the configurations that you want to install/set." ${SIZE} $((ROWS-10)) \
+        --menu "\nSelect the packages and the configurations that you want to install/set." ${SIZE} $((ROWS - 10)) \
         "${menu_options[@]}" \
         3>&1 1>&2 2>&3)
 }
 
 function _show_dconf_menu() {
     local opt=$(whiptail --title "dconf settings" --menu "\nWhich dconf settings would you like to apply?" \
-                ${SIZE} 3 \
-                "1" "    dconf general settings without themes" \
-                "2" "    dconf general settings with themes" \
-                "3" "    dconf tilix settings" \
-                3>&1 1>&2 2>&3)
+        ${SIZE} 3 \
+        "1" "    dconf general settings without themes" \
+        "2" "    dconf general settings with themes" \
+        "3" "    dconf tilix settings" \
+        3>&1 1>&2 2>&3)
     case $opt in
         1) _dconf_settings ;;
         2) _dconf_settings_w_themes ;;
@@ -667,7 +684,7 @@ function _show_dconf_menu() {
 
 function _fresh_install() {
     _check_command curl && _check_command git
-    for (( i = 1; i < "${#pkgs_functions[@]}"; i++ )); do
+    for ((i = 1; i < "${#pkgs_functions[@]}"; i++)); do
         ${pkgs_functions[$i]}
     done
     _dconf
@@ -682,7 +699,7 @@ function _selective_install() {
         _show_selective_menu
         case $OPT in
             Q) exit_status=1 ;;
-            *) ${pkgs_functions[(($OPT - 1))]}
+            *) ${pkgs_functions[(($OPT - 1))]} ;;
         esac
         # Sleep only when user hasn't selected Quit
         [ $exit_status -eq 0 ] && sleep 2
@@ -690,7 +707,7 @@ function _selective_install() {
 }
 
 function _dotfiles_install() {
-    for (( i = 0;  i < "${#dotfiles_functions[@]}"; i++ )); do
+    for ((i = 0; i < "${#dotfiles_functions[@]}"; i++)); do
         ${dotfiles_functions[$i]}
     done
 }
