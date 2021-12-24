@@ -64,13 +64,11 @@ function _check_command() {
 }
 
 # Function that takes as argument the author/repo and installs the latest deb
-# TODO: think/check/validate that this works for all repos
-# TODO: change all *.deb related functions to use this
 function _install_latest_deb() {
     local repo="https://api.github.com/repos/$1/releases/latest"
     local url=$(curl -s "$repo" | grep "browser_download_url" | grep -v "musl" | grep "amd64" | cut -d '"' -f 4)
-    local filename=$(basename $url)
-    wget -qO /tmp/$filename $url && sudo dpkg -i $filename > /dev/null
+    local filename=$(basename "$url")
+    wget -qO /tmp/"$filename" "$url" && sudo dpkg -i /tmp/"$filename" > /dev/null
 }
 
 function _install() {
@@ -245,12 +243,12 @@ function _nvimrc() {
 }
 
 function _shellcheck() {
-    _print i "shellcheck: Shell script static analysis tool - linter"
+    _print i "shellcheck" ": Shell script static analysis tool - linter"
     _install shellcheck
 }
 
 function _shfmt() {
-    _print i "shfmt: Shell formatter"
+    _print i "shfmt" ": Shell formatter"
     snap install shfmt
 }
 
@@ -480,20 +478,17 @@ function _fzf() {
 
 function _fd() {
     _print i "fd" ": an improved version of find"
-    wget -q https://github.com/sharkdp/fd/releases/download/v7.4.0/fd-musl_7.4.0_amd64.deb -O /tmp/fd.deb
-    sudo dpkg -i /tmp/fd.deb > /dev/null
+    _install_latest_deb sharkdp/fd
 }
 
 function _bat() {
     _print i "bat" ": a clone of cat with syntax highlighting"
-    wget -q https://github.com/sharkdp/bat/releases/download/v0.12.1/bat-musl_0.12.1_amd64.deb -O /tmp/bat.deb
-    sudo dpkg -i /tmp/bat.deb > /dev/null
+    _install_latest_deb sharkdp/bat
 }
 
 function _rg() {
     _print i "rg" ": ripgrep recursive search for a pattern in files"
-    wget -q https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb -O /tmp/rg.deb
-    sudo dpkg -i /tmp/rg.deb > /dev/null
+    _install_latest_deb BurntSushi/ripgrep
 }
 
 function _lazygit() {
