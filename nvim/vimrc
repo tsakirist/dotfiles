@@ -1738,7 +1738,9 @@ null_ls.setup {
       extra_args = { "-i", "4", "-bn", "-ci", "-sr" }
     }),
     -- Diagnostics
-    null_ls.builtins.diagnostics.shellcheck,
+    null_ls.builtins.diagnostics.shellcheck.with({
+      diagnostics_format = "SC#{c}: #{m} (#{s})"
+    })
   }
 }
 EOF
