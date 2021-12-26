@@ -3,6 +3,10 @@
 # This script provides an easy way to install my preferred packages along with my configurations.
 # Author: Tsakiris Tryfon
 
+# --------------------------------------------- Disable Shellcheck rules------------------------------------------------
+# shellcheck disable=SC2155
+# SC2155: Declare and assign separately to avoid masking return values.
+
 # --------------------------------------------- Whiptail size variables ------------------------------------------------
 
 SIZE=$(stty size)
@@ -125,10 +129,10 @@ function _change_shell() {
         "bash") shell="bash" ;;
         "zsh") shell="zsh" ;;
     esac
-    local msg="Do you want to change the default shell to ${shell}?\nThis will issue 'chsh -s $(which ${shell})' command."
+    local msg="Do you want to change the default shell to ${shell}?\nThis will issue 'chsh -s $(command -v ${shell})' command."
     if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
-        chsh -s "$(which ${shell})"
-        _print c "shell to $(which ${shell})"
+        chsh -s "$(command -v ${shell})"
+        _print c "shell to $(command -v ${shell})"
         echo "In order for the ${start_underline}change${end_underline} to take effect you need to" \
             "${bold}${red_fg}re-login${reset}."
     fi
@@ -137,7 +141,7 @@ function _change_shell() {
 function _git_config() {
     _check_file git/gitconfig
     _print s ".gitconfig"
-    ln -sv --backup=numbered "$(pwd)/git/gitconfig" $HOME/.gitconfig
+    ln -sv --backup=numbered "$(pwd)/git/gitconfig" "$HOME"/.gitconfig
 }
 
 function _git_delta() {
@@ -148,19 +152,19 @@ function _git_delta() {
 function _bashrc() {
     _check_file bash/bashrc
     _print s ".bashrc"
-    ln -sv --backup=numbered "$(pwd)/bash/bashrc" $HOME/.bashrc
+    ln -sv --backup=numbered "$(pwd)/bash/bashrc" "$HOME"/.bashrc
 }
 
 function _bash_aliases() {
     _check_file bash/bash_aliases
     _print s ".bash_aliases"
-    ln -sv --backup=numbered "$(pwd)/bash/bash_aliases" $HOME/.bash_aliases
+    ln -sv --backup=numbered "$(pwd)/bash/bash_aliases" "$HOME"/.bash_aliases
 }
 
 function _bash_functions() {
     _check_file bash/bash_functions
     _print s ".bash_functions"
-    ln -sv --backup=numbered "$(pwd)/bash/bash_functions" $HOME/.bash_functions
+    ln -sv --backup=numbered "$(pwd)/bash/bash_functions" "$HOME"/.bash_functions
 }
 
 function _bash_config() {
@@ -176,19 +180,19 @@ function _zsh() {
 function _zshrc() {
     _check_file zsh/zshrc
     _print s ".zshrc"
-    ln -sv --backup=numbered "$(pwd)/zsh/zshrc" $HOME/.zshrc
+    ln -sv --backup=numbered "$(pwd)/zsh/zshrc" "$HOME"/.zshrc
 }
 
 function _zsh_aliases() {
     _check_file zsh/zsh_aliases
     _print s ".zsh_aliases"
-    ln -sv --backup=numbered "$(pwd)/zsh/zsh_aliases" $HOME/.zsh_aliases
+    ln -sv --backup=numbered "$(pwd)/zsh/zsh_aliases" "$HOME"/.zsh_aliases
 }
 
 function _zsh_functions() {
     _check_file zsh/zsh_functions
     _print s ".zsh_functions"
-    ln -sv --backup=numbered "$(pwd)/zsh/zsh_functions" $HOME/.zsh_functions
+    ln -sv --backup=numbered "$(pwd)/zsh/zsh_functions" "$HOME"/.zsh_functions
 }
 
 function _zsh_config() {
@@ -214,7 +218,7 @@ function _vim() {
 function _vimrc() {
     _check_file nvim/vimrc
     _print s ".vimrc"
-    ln -sv --backup=numbered "$(pwd)/nvim/vimrc" $HOME/.vimrc
+    ln -sv --backup=numbered "$(pwd)/nvim/vimrc" "$HOME"/.vimrc
     vim +PlugInstall +qall
 }
 
@@ -228,16 +232,16 @@ function _nvim() {
 # TODO: Remove this?
 function _nvim_autoload() {
     _check_dir nvim/autoload && _check_file nvim/autoload/functions.vim
-    mkdir -v -p $HOME/.vim/autoload/
-    ln -sv --backup=numbered "$(pwd)/nvim/autoload/functions.vim" $HOME/.vim/autoload/functions.vim
+    mkdir -v -p "$HOME"/.vim/autoload/
+    ln -sv --backup=numbered "$(pwd)/nvim/autoload/functions.vim" "$HOME"/.vim/autoload/functions.vim
 }
 
 function _nvimrc() {
     _check_file nvim/vimrc && _check_file nvim/init.vim
     _print s ".vimrc and init.vim and autoload"
-    ln -sv --backup=numbered "$(pwd)/nvim/vimrc" $HOME/.vimrc
-    mkdir -v -p $HOME/.config/nvim/
-    ln -sv --backup=numbered "$(pwd)/nvim/init.vim" $HOME/.config/nvim/init.vim
+    ln -sv --backup=numbered "$(pwd)/nvim/vimrc" "$HOME"/.vimrc
+    mkdir -v -p "$HOME"/.config/nvim/
+    ln -sv --backup=numbered "$(pwd)/nvim/init.vim" "$HOME"/.config/nvim/init.vim
     _nvim_autoload
     nvim +PlugInstall +qall
 }
@@ -260,7 +264,7 @@ function _tmux() {
 function _tmux_config() {
     _check_file tmux/tmux.conf
     _print s ".tmux.conf"
-    ln -sv --backup=numbered "$(pwd)/tmux/tmux.conf" $HOME/.tmux.conf
+    ln -sv --backup=numbered "$(pwd)/tmux/tmux.conf" "$HOME"/.tmux.conf
 }
 
 function _vscode() {
@@ -289,12 +293,6 @@ function _xclip() {
     _install xclip
 }
 
-function _dconf_tilix() {
-    _check_file dconf/tilix.dconf
-    _print s "tilix dconf settings"
-    dconf load /com/gexperts/Tilix/ < dconf/tilix.dconf
-}
-
 function _dconf_settings() {
     _check_file dconf/settings.dconf
     _print s "dconf settings"
@@ -308,7 +306,7 @@ function _dconf_settings_w_themes() {
 }
 
 function _dconf() {
-    _dconf_settings_w_themes && _dconf_tilix
+    _dconf_settings_w_themes
 }
 
 function _preload() {
@@ -360,9 +358,9 @@ function _arcmenu() {
     # Install prerequisites
     _install gnome-menus gettext libgettextpo-dev
     git clone --depth=1 https://gitlab.com/LinxGem33/Arc-Menu.git /tmp/Arc-Menu
-    pushd /tmp/Arc-Menu
+    pushd /tmp/Arc-Menu || return
     make install
-    popd
+    popd || return
 }
 
 function _gnome_shell_extensions() {
@@ -398,16 +396,10 @@ function _java() {
     _install default-jre default-jdk
 }
 
-function _tilix() {
-    _print i "tilix" ": a terminal emulator"
-    _check_ppa webupd8team/terminix
-    _install tilix
-}
-
 function _kitty() {
     _print i "kity" ": the fast, featureful, GPU based terminal emulator"
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
-    sudo ln -sv $HOME/.local/kitty.app/bin/kitty /usr/local/bin/
+    sudo ln -sv "$HOME"/.local/kitty.app/bin/kitty /usr/local/bin/
     # Place the kitty.desktop file somewhere it can be found
     cp -v ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
     # Update the path to the kitty icon in the kitty.desktop file
@@ -418,7 +410,7 @@ function _kitty() {
 function _kitty_config() {
     _check_file kitty/kitty.conf
     _print s "kitty.conf"
-    ln -sv --backup=numbered "$(pwd)/kitty/kitty.conf" $HOME/.config/kitty/kitty.conf
+    ln -sv --backup=numbered "$(pwd)/kitty/kitty.conf" "$HOME"/.config/kitty/kitty.conf
 }
 
 function _kitty_themes() {
@@ -431,7 +423,7 @@ function _kitty_themes() {
 function _x_profile() {
     _check_file x/xprofile
     _print s "xprofile"
-    ln -sv --backup=numbered "$(pwd)/x/xprofile" $HOME/.xprofile
+    ln -sv --backup=numbered "$(pwd)/x/xprofile" "$HOME"/.xprofile
 }
 
 function _set_wallpaper() {
@@ -463,17 +455,19 @@ function _install_fonts() {
 function _fzf_config() {
     _check_file fzf/fzf.config
     _print s "fzf configuration"
-    ln -sv --backup=numbered "$(pwd)/fzf/fzf.config" $HOME/.fzf.config
+    ln -sv --backup=numbered "$(pwd)/fzf/fzf.config" "$HOME"/.fzf.config
 }
 
 function _fzf() {
     _print i "fzf" ": Fuzzy finder"
-    if [ -d $HOME/.fzf ]; then
-        pushd $HOME/.fzf && git pull origin && popd
+    if [ -d "$HOME"/.fzf ]; then
+        pushd "$HOME"/.fzf || return \
+            && git pull origin \
+            && popd || return
     else
-        git clone --depth=1 https://github.com/junegunn/fzf.git $HOME/.fzf
+        git clone --depth=1 https://github.com/junegunn/fzf.git "$HOME"/.fzf
     fi
-    $HOME/.fzf/install --key-bindings --completion --no-update-rc
+    "$HOME"/.fzf/install --key-bindings --completion --no-update-rc
 }
 
 function _fd() {
@@ -537,7 +531,6 @@ pkgs=(
     "    zshrc, zsh_aliases, zsh_functions"
     "    oh-my-zsh"
     "    bashrc, bash_aliases, bash_functions"
-    "    tilix: terminal emulator"
     "    kitty: the fast, featureful, GPU based terminal emulator"
     "    kitty configuration"
     "    kitty themes"
@@ -580,7 +573,6 @@ pkgs_functions=(
     _zsh_config
     _oh_my_zsh
     _bash_config
-    _tilix
     _kitty
     _kitty_config
     _kitty_themes
@@ -666,12 +658,10 @@ function _show_dconf_menu() {
         ${SIZE} 3 \
         "1" "    dconf general settings without themes" \
         "2" "    dconf general settings with themes" \
-        "3" "    dconf tilix settings" \
         3>&1 1>&2 2>&3)
     case $opt in
         1) _dconf_settings ;;
         2) _dconf_settings_w_themes ;;
-        3) _dconf_tilix ;;
     esac
 }
 

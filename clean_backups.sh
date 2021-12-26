@@ -21,7 +21,7 @@ while [ -n "$1" ]; do
     shift
 done
 
-rm $RM_OPT $HOME/.*.~*
-rm $RM_OPT $HOME/.vim/autoload/*.vim.~*
-rm $RM_OPT $HOME/.config/nvim/init.vim.~*
-rm $RM_OPT $HOME/.config/kitty/kitty.conf.~*
+rm $RM_OPT "$HOME"/.*.~*
+rm $RM_OPT "$HOME"/.vim/autoload/*.vim.~*
+rm $RM_OPT "$HOME"/.config/nvim/init.vim.~*
+rm $RM_OPT "$HOME"/.config/kitty/kitty.conf.~*
