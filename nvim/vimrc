@@ -1365,8 +1365,8 @@ if functions#PluginLoaded('trouble.nvim')
 
   " Trouble list command-line sugar
   nnoremap <silent> <leader>tt :TroubleToggle<CR>
-  nnoremap <silent> <leader>tw :TroubleToggle lsp_workspace_diagnostics<CR>
-  nnoremap <silent> <leader>td :TroubleToggle lsp_document_diagnostics<CR>
+  nnoremap <silent> <leader>tw :TroubleToggle workspace_diagnostics<CR>
+  nnoremap <silent> <leader>td :TroubleToggle document_diagnostics<CR>
   nnoremap <silent> <leader>tq :TroubleToggle quickfix<CR>
   nnoremap <silent> <leader>tl :TroubleToggle loclist<CR>
   nnoremap <silent> <leader>tr :TroubleToggle lsp_references<CR>
@@ -1378,7 +1378,7 @@ require'trouble'.setup {
   height = 18,                         -- height of the trouble list when position is top or bottom
   width = 50,                          -- width of the list when position is left or right
   icons = true,                        -- use devicons for filenames
-  mode = "document_diagnostic",        -- "lsp_workspace_diagnostics", "quickfix", "lsp_references", "loclist"
+  mode = "document_diagnostics",        -- "lsp_workspace_diagnostics", "quickfix", "lsp_references", "loclist"
   fold_open = "",                     -- icon used for open folds
   fold_closed = "",                   -- icon used for closed folds
   group = true,                        -- groupe results by file
@@ -1768,12 +1768,14 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'K'          , '<Cmd>lua vim.lsp.buf.hover()<CR>'                        , opts)
   buf_set_keymap('n', '<leader>rn' , '<Cmd>lua vim.lsp.buf.rename()<CR>'                       , opts)
   buf_set_keymap('n', '<leader>ca' , '<Cmd>CodeActionMenu<CR>'                                 , opts)
-  buf_set_keymap('n', '[d'         , '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
-  buf_set_keymap('n', ']d'         , '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
-  buf_set_keymap('n', 'dp'         , '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'             , opts)
-  buf_set_keymap('n', 'dn'         , '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>'             , opts)
-  buf_set_keymap('n', '<leader>ll' , '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>'           , opts)
-  buf_set_keymap('n', '<leader>ld' , '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>' , opts)
+  buf_set_keymap('n', '[d'         , '<Cmd>lua vim.diagnostic.goto_prev()<CR>'             , opts)
+  buf_set_keymap('n', ']d'         , '<Cmd>lua vim.diagnostic.goto_next()<CR>'             , opts)
+  buf_set_keymap('n', 'dp'         , '<Cmd>lua vim.diagnostic.goto_prev()<CR>'             , opts)
+  buf_set_keymap('n', 'dp'         , '<Cmd>lua vim.diagnostic.goto_prev()<CR>'             , opts)
+  buf_set_keymap('n', 'dn'         , '<Cmd>lua vim.diagnostic.goto_next()<CR>'             , opts)
+  buf_set_keymap('n', '<leader>ll' , '<Cmd>lua vim.diagnostic.setloclist()<CR>'                , opts)
+  buf_set_keymap('n', '<leader>lq' , '<Cmd>lua vim.diagnostic.setqflist()<CR>'                 , opts)
+  buf_set_keymap('n', '<leader>ld' , '<Cmd>lua vim.diagnostic.open_float()<CR>'                , opts)
   buf_set_keymap('n', '<leader>fr' , '<Cmd>lua vim.lsp.buf.formatting()<CR>'                   , opts)
 
   -- Disable default LSP formatting as this is handled by 'null-ls' LSP
@@ -1892,10 +1894,10 @@ vim.g.diagnostics_active = true
 function _G.toggle_diagnostics()
   if vim.g.diagnostics_active then
     vim.g.diagnostics_active = false
-    vim.lsp.diagnostic.disable()
+    vim.diagnostic.disable()
   else
     vim.g.diagnostics_active = true
-    vim.lsp.diagnostic.enable()
+    vim.diagnostic.enable()
   end
   print("LSP diagnostics: " .. tostring(vim.g.diagnostics_active))
 end
