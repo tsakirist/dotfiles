@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 # ----------------------------------------------------- Functions -----------------------------------------------------
 
@@ -7,28 +8,28 @@
 
 # This function returns an approximation of the memory usage of a process
 # https://stackoverflow.com/questions/3853655/in-linux-how-to-tell-how-much-memory-processes-are-using
-mem () {
-    ps -eo rss,pid,euser,args:100 --sort %mem | grep --color=auto -v grep | grep --color=auto -i $@ \
+mem() {
+    ps -eo rss,pid,euser,args:100 --sort %mem | grep --color=auto -v grep | grep --color=auto -i "$@" \
         | awk '{printf $1/1024 " MB"; $1=""; print }'
 }
 
 # This function extracts any archive supplied as argument
-extract () {
-    for archive in $*; do
-        if [ -f $archive ] ; then
-            case $archive in
-                *.tar.gz)  tar xvzf $archive   ;;
-    *.tar.bz2) tar xvjf $archive   ;;
-                *.bz2)     bunzip2 $archive    ;;
-                *.rar)     rar x $archive      ;;
-                *.gz)      gunzip $archive     ;;
-                *.tar)     tar xvf $archive    ;;
-                *.tbz2)    tar xvjf $archive   ;;
-                *.tgz)     tar xvzf $archive   ;;
-                *.zip)     unzip $archive      ;;
-                *.Z)       uncompress $archive ;;
-                *.7z)      7z x $archive       ;;
-                *)         echo "Don't know how to extract '$archive' ..." ;;
+extract() {
+    for archive in "$@"; do
+        if [ -f "$archive" ]; then
+            case "$archive" in
+                *.tar.bz2) tar xvjf "$archive" ;;
+                 *.tar.gz) tar xvzf "$archive" ;;
+                    *.bz2) bunzip2 "$archive" ;;
+                    *.rar) rar x "$archive" ;;
+                     *.gz) gunzip "$archive" ;;
+                    *.tar) tar xvf "$archive" ;;
+                   *.tbz2) tar xvjf "$archive" ;;
+                    *.tgz) tar xvzf "$archive" ;;
+                    *.zip) unzip "$archive" ;;
+                      *.Z) uncompress "$archive" ;;
+                     *.7z) 7z x "$archive" ;;
+                        *) echo "Don't know how to extract '$archive' ..." ;;
             esac
         else
             echo "'$archive' is not a valid file!"
@@ -44,12 +45,12 @@ serve() {
             return 1
         fi
         saved_path=$(pwd)
-        cd $1
+        cd "$1" || exit
         served_path=$(pwd)
         echo "Serving '$served_path' ..."
         echo "IP: $(hostname -I)"
         python3 -m http.server
-        cd $saved_path
+        cd "$saved_path" || exit
     else
         echo "Serving current directory '.'"
         echo "IP: $(hostname -I)"
@@ -65,8 +66,13 @@ fix_perms() {
     else
         dest=$1
     fi
-    find "$dest" -type d | xargs chmod -v 755
-    find "$dest" -type f | xargs chmod -v 644
+    find "$dest" -type d -print0 | xargs chmod -v 755
+    find "$dest" -type f -print0 | xargs chmod -v 644
+}
+
+# This issue's help bash function while inside zsh
+help() {
+    $(command -v bash) -c "help $1"
 }
 
 # This function creates a backup of the provided directories & files
@@ -102,3 +108,19 @@ gmrebase() {
     git rebase master $(git rev-parse --abbrev-ref HEAD)
     echo ""
 }
+
+# Download latest neovim version -- nightly
+download_nvim() {
+    local RED='\033[0;31m'
+    local NC='\033[0m'
+    echo -e "${RED}==> Downloading nightly neovim...${NC}"
+    wget -q --show-progress -O \
+        /tmp/nvim.appimage https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+    pushd /tmp/ > /dev/null || return
+    [ -f nvim.appimage ] \
+        && chmod u+x nvim.appimage \
+        && ./nvim.appimage --version | grep -m 1 NVIM \
+        && sudo mv nvim.appimage -v /usr/bin/nvim
+    popd > /dev/null || return
+}
+
