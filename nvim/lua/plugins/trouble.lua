@@ -3,7 +3,7 @@ require("trouble").setup {
     height = 18, -- height of the trouble list when position is top or bottom
     width = 50, -- width of the list when position is left or right
     icons = true, -- use devicons for filenames
-    mode = "lsp_document_diagnostics", -- "lsp_workspace_diagnostics", "quickfix", "lsp_references", "loclist"
+    mode = "document_diagnostics", -- "lsp_workspace_diagnostics", "quickfix", "lsp_references", "loclist"
     fold_open = "", -- icon used for open folds
     fold_closed = "", -- icon used for closed folds
     group = true, -- groupe results by file
@@ -47,8 +47,8 @@ require("trouble").setup {
 local utils = require "utils"
 
 utils.map("n", "<leader>tt", "<Cmd>TroubleToggle<CR>")
-utils.map("n", "<leader>tw", "<Cmd>TroubleToggle lsp_workspace_diagnostics<CR>")
-utils.map("n", "<leader>td", "<Cmd>TroubleToggle lsp_document_diagnostics<CR>")
+utils.map("n", "<leader>tw", "<Cmd>TroubleToggle workspace_diagnostics<CR>")
+utils.map("n", "<leader>td", "<Cmd>TroubleToggle document_diagnostics<CR>")
 utils.map("n", "<leader>tr", "<Cmd>TroubleToggle lsp_references<CR>")
 utils.map("n", "<leader>tq", "<Cmd>TroubleToggle quickfix<CR>")
 utils.map("n", "<leader>tl", "<Cmd>TroubleToggle loclist<CR>")

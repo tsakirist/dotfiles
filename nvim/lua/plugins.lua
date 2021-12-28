@@ -113,6 +113,7 @@ return require("packer").startup {
         use {
             "nvim-treesitter/nvim-treesitter",
             run = ":TSUpdate",
+            -- TODO: Seems that this interferes with the installation process of the parsers
             event = "BufRead",
             requires = {
                 {
@@ -242,6 +243,9 @@ return require("packer").startup {
             {
                 "rhysd/committia.vim",
                 ft = "gitcommit",
+                config = function()
+                    vim.g.committia_min_window_width = 140
+                end,
             },
             -- Popup about the commit message under cursor
             {
@@ -251,13 +255,6 @@ return require("packer").startup {
                     require "plugins.git-messenger"
                 end,
             },
-            -- use {
-            --     "TimUntersberger/neogit",
-            --     cmd = "Neogit",
-            --     config = function()
-            --         require "plugins.neogit"
-            --     end,
-            -- },
         }
 
         -- Peak lines easily with :<number>

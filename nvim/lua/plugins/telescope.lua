@@ -60,7 +60,7 @@ local M = {}
 function M.find_in_installed_plugins()
     require("telescope.builtin").find_files {
         prompt_title = "Plugins",
-        cwd = vim.fn.stdpath "data" .. "/site/pack/packer/start",
+        cwd = vim.fn.stdpath "data" .. "/site/pack/packer/",
     }
 end
 
@@ -86,8 +86,8 @@ utils.map(
 )
 utils.map(
     "n",
-    "<leader>fM",
-    "<Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_dropdown({}))<CR>"
+    "<leader>fm",
+    "<Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_ivy({}))<CR>"
 )
 utils.map("n", "<leader>fv", "<Cmd>lua require'plugins.telescope'.find_in_installed_plugins()<CR>")
 

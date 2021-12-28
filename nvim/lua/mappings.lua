@@ -48,11 +48,6 @@ utils.map("n", "<C-j>", "<Cmd>m+<CR>==")
 utils.map("v", "<C-k>", "<Cmd>m '<-2<CR>gv=gv")
 utils.map("v", "<C-j>", "<Cmd>m '>+1<CR>gv=gv")
 
-utils.map("n", "<C-k>", "<Cmd>m-2<CR>==")
-utils.map("n", "<C-j>", " <Cmd>m+<CR>==")
-utils.map("v", "<C-k>", " <Cmd>m '<-2<CR>gv=gv")
-utils.map("v", "<C-j>", " <Cmd>m '>+1<CR>gv=gv")
-
 -- Duplicate the current line
 -- 't' command is a synonym for copy
 utils.map("n", "<leader>d", "<Cmd>t.<CR>")

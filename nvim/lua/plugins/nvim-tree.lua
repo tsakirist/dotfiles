@@ -11,7 +11,6 @@ vim.g.nvim_tree_disable_window_picker = 0 -- will disable the window picker
 vim.g.nvim_tree_icon_padding = " " -- used for rendering the space between the icon and the filename.
 vim.g.nvim_tree_respect_buf_cwd = 1 -- will change cwd of nvim-tree to that of new buffer's when opening nvim-tree
 vim.g.nvim_tree_git_hl = 0 -- disable this for better perfomance
-vim.g.nvim_tree_gitignore = 0 -- disable this for better performance, do not respect gitignore
 vim.g.nvim_tree_auto_ignore_ft = { -- do not load nvim-tree for these filetypes
     "startify",
 }
@@ -90,6 +89,11 @@ require("nvim-tree").setup {
     update_to_buf_dir = { -- hijacks new directory buffers when they are opened, opens the tree when typing `vim $DIR` or `vim`
         enable = true,
         auto_open = true, -- open the tree if it was previsouly closed
+    },
+    git = {
+        enable = true, -- Enable git integration
+        ignore = true, -- Ignore files base on .gitignore
+        timeout = 500, -- Kill the git process after some time if takes too long
     },
     auto_close = false, -- do not close neovim when nvim-tree is the last window
     open_on_tab = true, -- open tree automatically when switching tab or opening new one

@@ -2,7 +2,7 @@ local null_ls = require "null-ls"
 local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
 
-null_ls.config {
+null_ls.setup {
     sources = {
         -- Formatting
         formatting.prettierd,
@@ -18,5 +18,3 @@ null_ls.config {
         diagnostics.luacheck,
     },
 }
-
-require("lspconfig")["null-ls"].setup {}
