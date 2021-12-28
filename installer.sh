@@ -253,7 +253,34 @@ function _shellcheck() {
 
 function _shfmt() {
     _print i "shfmt" ": Shell formatter"
-    snap install shfmt
+    # TODO: Since this logic is repeating extract only the url logic to a function?
+    # Download latest zip from GitHub releases
+    local repo="https://api.github.com/repos/mvdan/sh/releases/latest"
+    local url=$(curl -s "$repo" | grep "browser_download_url" | grep "linux" | grep "amd64" | cut -d '"' -f 4)
+    local download_dir=$(mktemp -d)
+    local filename=$(basename "$url")
+    local file="$download_dir/$filename"
+    wget -qO "$file" "$url" && chmod u+x "$file" && sudo mv "$file" /usr/local/bin/shfmt
+}
+
+function _luacheck() {
+    _print i "luacheck" ": Static analysis tool and linter for Lua"
+    _install lua-check
+}
+
+function _stylua() {
+    _print i "stylua" ": An opiniated Lua formatter"
+    # Check dependencies
+    _check_command unzip
+    # TODO: Since this logic is repeating extract only the url logic to a function?
+    # Download latest zip from GitHub releases
+    local repo="https://api.github.com/repos/JohnnyMorganz/StyLua/releases/latest"
+    local url=$(curl -s "$repo" | grep "browser_download_url" | grep "linux" | cut -d '"' -f 4)
+    local download_dir=$(mktemp -d)
+    local filename=$(basename "$url")
+    local file="$download_dir/stylua"
+    wget -qO "$download_dir/$filename" "$url" && unzip -q "$download_dir/$filename" -d "$download_dir"
+    [ -f "$file" ] && chmod u+x "$file" && sudo mv "$file" /usr/local/bin
 }
 
 function _tmux() {
@@ -541,6 +568,8 @@ pkgs=(
     "    rg: ripgrep recursive search for a pattern in files"
     "    shfmt: Shell formatter"
     "    shellcheck: Shell static analysis tool"
+    "    stylua: An opiniated Lua formatter"
+    "    luacheck: Lua static analysis tool"
     "    nvim"
     "    nvimrc"
     "    xprofile"
@@ -583,6 +612,8 @@ pkgs_functions=(
     _rg
     _shfmt
     _shellcheck
+    _stylua
+    _luacheck
     _nvim
     _nvimrc
     _x_profile
