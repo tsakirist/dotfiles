@@ -25,7 +25,7 @@ function M.load_autocommands()
         -- 't': is required in format options to wrap text in insert mode
         -- 'l': a line that is longer than textwidth may not be wraped if 'l' is in format options
         -- 'r': makes <CR> key to autocomment when pressing enter in line that contains a comment, enables javadoc
-        -- 'o': don't insert comment when pressing 'o' or 'O'
+        -- 'o': insert comment when pressing 'o' or 'O'
         -- 'q': allow formatting comments with gq
         _format_options = {
             { "BufEnter", "*", "setlocal fo+=t fo+=r fo-=l fo-=o fo+=q" },
@@ -33,9 +33,10 @@ function M.load_autocommands()
         _trim_whitespace = {
             { "BufWritePre", "*", "lua require('helper').trimTrailingWhiteSpace()" },
         },
-        --_format_on_save = {
-        --    { "BufWritePre", "<buffer>", "lua vim.lsp.buf.foramatting_sync()" },
-        --},
+        -- Enable format on save only for *.lua files for now
+        _format_on_save = {
+            { "BufWritePre", "*.lua", "lua vim.lsp.buf.formatting_sync({}, 1000)" },
+        },
         _clipboard = {
             { "VimLeave", "*", "call system('xclip -selection clipboard -i', getreg('+')" },
         },

@@ -1,3 +1,4 @@
+-- Icons for the pop-up menu
 local cmp_kinds = {
     Class = "  ",
     Color = "  ",
@@ -25,6 +26,37 @@ local cmp_kinds = {
     Event = "  ",
     TypeParameter = "  ",
 }
+
+-- Vscode icons
+-- For installation information:
+-- https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-add-visual-studio-code-codicons-to-the-menu
+-- local vscode_kinds = {
+--     Class = "  ",
+--     Color = "  ",
+--     Constant = "  ",
+--     Constructor = "  ",
+--     Enum = "  ",
+--     EnumMember = "  ",
+--     Event = "  ",
+--     Field = "  ",
+--     File = "  ",
+--     Folder = "  ",
+--     Function = "  ",
+--     Interface = "  ",
+--     Keyword = "  ",
+--     Method = "  ",
+--     Module = "  ",
+--     Operator = "  ",
+--     Property = "  ",
+--     Reference = "  ",
+--     Snippet = "  ",
+--     Struct = "  ",
+--     Text = "  ",
+--     TypeParameter = "  ",
+--     Unit = "  ",
+--     Value = "  ",
+--     Variable = "  ",
+-- }
 
 -- Setup custom menu entries for the autocompletion
 local cmp_source_names = {
@@ -75,6 +107,9 @@ cmp.setup {
         native_menu = false,
     },
     formatting = {
+        -- Set the ordering of the fields/items in the pop-up menu
+        fields = { "abbr", "kind", "menu" },
+        -- Set the format function that will be used for the suggestiosn
         format = function(entry, vim_item)
             -- Add icons for the suggestions
             vim_item.kind = cmp_kinds[vim_item.kind]
@@ -112,7 +147,7 @@ cmp.setup {
         { name = "path" },
         {
             name = "buffer",
-            keyword_length = 4,
+            keyword_length = 3,
             options = {
                 -- Get results only from visible buffers rather than from all buffers
                 get_bufnrs = function()

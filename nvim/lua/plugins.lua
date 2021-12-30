@@ -1,5 +1,5 @@
 -- Take care of handling the automatic installation of packer
-local packer_bootstrap = require("plugins.packer").packer_bootstrap()
+local packer_bootstrap = require("plugins._packer").packer_bootstrap()
 
 return require("packer").startup {
     function(use)
@@ -7,7 +7,6 @@ return require("packer").startup {
         use { "wbthomason/packer.nvim" }
 
         -- Improve startup time for Neovim by speeding up loading lua modules
-        -- TODO: Check if this is the correct place to place this
         use {
             "lewis6991/impatient.nvim",
             config = function()
@@ -22,7 +21,7 @@ return require("packer").startup {
         use {
             "EdenEast/nightfox.nvim",
             config = function()
-                require "plugins.nightfox"
+                require "plugins._nightfox"
             end,
         }
 
@@ -42,7 +41,7 @@ return require("packer").startup {
             "akinsho/bufferline.nvim",
             requires = { "kyazdani42/nvim-web-devicons" },
             config = function()
-                require "plugins.bufferline"
+                require "plugins._bufferline"
             end,
         }
 
@@ -61,7 +60,7 @@ return require("packer").startup {
             cmd = "ZenMode",
             keys = "<F1>",
             config = function()
-                require "plugins.zen-mode"
+                require "plugins._zen-mode"
             end,
         }
 
@@ -70,7 +69,7 @@ return require("packer").startup {
             "folke/trouble.nvim",
             requires = "kyazdani42/nvim-web-devicons",
             config = function()
-                require "plugins.trouble"
+                require "plugins._trouble"
             end,
         }
 
@@ -78,17 +77,16 @@ return require("packer").startup {
         -- TODO: refactor this with a single require for the dependencies for lspconfig
         use {
             "neovim/nvim-lspconfig",
-            event = "BufReadPre",
             requires = "williamboman/nvim-lsp-installer",
             config = function()
-                require "plugins.lsp.nvim-lspconfig"
+                require "plugins.lsp._nvim-lspconfig"
             end,
         }
         use {
             "jose-elias-alvarez/null-ls.nvim",
             after = "nvim-lspconfig",
             config = function()
-                require "plugins.lsp.null-ls"
+                require "plugins.lsp._null-ls"
             end,
         }
         use {
@@ -105,7 +103,7 @@ return require("packer").startup {
             keys = { "<leader>vv", "<leader>vf" },
             cmd = "Vista",
             config = function()
-                require "plugins.lsp.vista"
+                require "plugins.lsp._vista"
             end,
         }
 
@@ -113,8 +111,6 @@ return require("packer").startup {
         use {
             "nvim-treesitter/nvim-treesitter",
             run = ":TSUpdate",
-            -- TODO: Seems that this interferes with the installation process of the parsers
-            event = "BufRead",
             requires = {
                 {
                     "nvim-treesitter/nvim-treesitter-textobjects",
@@ -127,20 +123,35 @@ return require("packer").startup {
                 },
             },
             config = function()
-                require "plugins.treesitter"
+                require "plugins._treesitter"
             end,
         }
 
-        -- Autocomplete related plugins and snippets
+        -- Autocomplete related plugins _and snippets
         use {
             "hrsh7th/nvim-cmp",
-            event = "InsertEnter",
+            -- event = "InsertEnter",
             requires = {
-                { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
-                { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
-                { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
-                { "hrsh7th/cmp-path", after = "nvim-cmp" },
-                { "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" },
+                {
+                    "hrsh7th/cmp-nvim-lsp",
+                    after = "nvim-cmp",
+                },
+                {
+                    "hrsh7th/cmp-nvim-lua",
+                    after = "nvim-cmp",
+                },
+                {
+                    "hrsh7th/cmp-buffer",
+                    after = "nvim-cmp",
+                },
+                {
+                    "hrsh7th/cmp-path",
+                    after = "nvim-cmp",
+                },
+                {
+                    "saadparwaiz1/cmp_luasnip",
+                    after = "nvim-cmp",
+                },
                 {
                     "L3MON4D3/LuaSnip",
                     after = "nvim-cmp",
@@ -151,7 +162,7 @@ return require("packer").startup {
                 },
             },
             config = function()
-                require "plugins.nvim-cmp"
+                require "plugins._nvim-cmp"
             end,
         }
 
@@ -160,7 +171,7 @@ return require("packer").startup {
             "windwp/nvim-autopairs",
             after = "nvim-cmp",
             config = function()
-                require "plugins.nvim-autopairs"
+                require "plugins._nvim-autopairs"
             end,
         }
         use { "windwp/nvim-ts-autotag", after = "nvim-treesitter" }
@@ -172,9 +183,9 @@ return require("packer").startup {
         -- Telescope related plugins
         use {
             "nvim-telescope/telescope.nvim",
-            cmd = "Telescope",
-            module = "telescope",
-            keys = { "<leader>f" },
+            -- cmd = "Telescope",
+            -- module = "telescope",
+            -- keys = { "<leader>f" },
             requires = {
                 { "nvim-lua/plenary.nvim" },
                 {
@@ -187,7 +198,7 @@ return require("packer").startup {
                 },
             },
             config = function()
-                require "plugins.telescope"
+                require "plugins._telescope"
             end,
         }
 
@@ -198,7 +209,7 @@ return require("packer").startup {
             keys = { "gc", "gb" },
             requires = { "JoosepAlviste/nvim-ts-context-commentstring", after = "nvim-treesitter" },
             config = function()
-                require "plugins.comment"
+                require "plugins._comment"
             end,
         }
 
@@ -207,7 +218,7 @@ return require("packer").startup {
             "lukas-reineke/indent-blankline.nvim",
             event = "BufReadPre",
             config = function()
-                require "plugins.indent-blankline"
+                require "plugins._indent-blankline"
             end,
         }
         -- Nvim-tree
@@ -216,7 +227,7 @@ return require("packer").startup {
             cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
             keys = { "<leader>nf", "<leader>nt" },
             config = function()
-                require "plugins.nvim-tree"
+                require "plugins._nvim-tree"
             end,
         }
 
@@ -225,7 +236,7 @@ return require("packer").startup {
             "akinsho/toggleterm.nvim",
             event = "BufRead",
             config = function()
-                require "plugins.toggleterm"
+                require "plugins._toggleterm"
             end,
         }
 
@@ -236,7 +247,7 @@ return require("packer").startup {
                 event = "BufRead",
                 requires = { "nvim-lua/plenary.nvim" },
                 config = function()
-                    require "plugins.gitsigns"
+                    require "plugins._gitsigns"
                 end,
             },
             -- More pleasant editing experience on commit messages
@@ -252,7 +263,7 @@ return require("packer").startup {
                 "rhysd/git-messenger.vim",
                 keys = "<leader>gm",
                 config = function()
-                    require "plugins.git-messenger"
+                    require "plugins._git-messenger"
                 end,
             },
         }
@@ -262,7 +273,7 @@ return require("packer").startup {
             "nacro90/numb.nvim",
             event = "BufRead",
             config = function()
-                require "plugins.numb"
+                require "plugins._numb"
             end,
         }
 
@@ -295,9 +306,6 @@ return require("packer").startup {
                 "SudoWrite",
             },
         }
-
-        -- Easiliy locate cursor after search
-        -- use { "inside/vim-search-pulse", event = "BufRead" }
 
         -- Measure the startup-time of neovim
         use { "dstein64/vim-startuptime", cmd = "StartupTime" }

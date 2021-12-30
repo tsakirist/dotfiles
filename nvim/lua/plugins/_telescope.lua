@@ -57,10 +57,17 @@ require("telescope").setup {
 local M = {}
 
 -- Define custom functions for telescope
-function M.find_in_installed_plugins()
+function M.find_in_plugins()
     require("telescope.builtin").find_files {
         prompt_title = "Plugins",
         cwd = vim.fn.stdpath "data" .. "/site/pack/packer/",
+    }
+end
+
+function M.find_in_nvim_config()
+    require("telescope.builtin").find_files {
+        prompt_title = "Nvim Config",
+        cwd = vim.fn.stdpath "config",
     }
 end
 
@@ -84,11 +91,8 @@ utils.map(
     "<leader>fl",
     "<Cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = 'vertical'})<CR>"
 )
-utils.map(
-    "n",
-    "<leader>fm",
-    "<Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_ivy({}))<CR>"
-)
-utils.map("n", "<leader>fv", "<Cmd>lua require'plugins.telescope'.find_in_installed_plugins()<CR>")
+utils.map("n", "<leader>fm", "<Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_ivy({}))<CR>")
+utils.map("n", "<leader>fp", "<Cmd>lua require'plugins.telescope'.find_in_plugins()<CR>")
+utils.map("n", "<leader>fv", "<Cmd>lua require'plugins.telescope'.find_in_nvim_config()<CR>")
 
 return M
