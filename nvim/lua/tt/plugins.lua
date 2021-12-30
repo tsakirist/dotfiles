@@ -30,6 +30,13 @@ return require("packer").startup {
         -- Add file type icons to various plugins
         use { "kyazdani42/nvim-web-devicons" }
 
+        use {
+            "goolord/alpha-nvim",
+            requires = { "kyazdani42/nvim-web-devicons" },
+            config = function()
+                require "tt.plugins._alpha"
+            end,
+        }
         -- Color highlighter
         use {
             "norcalli/nvim-colorizer.lua",
