@@ -16,10 +16,10 @@ utils.map("n", "<S-Tab>", "<Cmd>bprevious<CR>")
 utils.map("n", "<leader>bd", "<Cmd>bdelete<CR>")
 
 -- Close all buffers except the current one
-utils.map("n", "<leader>bo", "<Cmd>%bd<Bar>e#")
+utils.map("n", "<leader>bo", "<Cmd>%bd<Bar>e#<CR>")
 
 -- List buffers and prepend :b on the cmd line
-utils.map("n", "<leader>bf", "<Cmd>ls<CR><Cmd>b<Space>")
+utils.map("n", "<leader>bf", "<Cmd>ls<CR><Cmd>b<Space><CR>")
 
 -- Search within buffers and send results in the qflist
 vim.cmd "nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd //gj %<Bar>Trouble quickfix<S-Left><S-Left><S-Left><Right>"
@@ -36,23 +36,16 @@ utils.map("n", "<leader>bp", "f)%cSbbj:s/,/,\r/g<CR>Jvib=<CR>")
 utils.map("n", "<Space>", "za")
 
 -- Keybinds to move lines up and down
-utils.map("n", "<C-S-Up>", "<Cmd>m-2<CR>==")
-utils.map("n", "<C-S-Down>", "<Cmd>m+<CR>==")
-utils.map("i", "<C-S-Up>", "<Esc><Cmd>m-2<CR>==gi")
-utils.map("i", "<C-S-Down>", "<Esc><Cmd>m+<CR>==gi")
-utils.map("v", "<C-S-Up>", "<Cmd>m '<-2<CR>gv=gv")
-utils.map("v", "<C-S-Down>", "<Cmd>m '>+1<CR>gv=gv")
-
-utils.map("n", "<C-k>", "<Cmd>m-2<CR>==")
-utils.map("n", "<C-j>", "<Cmd>m+<CR>==")
-utils.map("v", "<C-k>", "<Cmd>m '<-2<CR>gv=gv")
-utils.map("v", "<C-j>", "<Cmd>m '>+1<CR>gv=gv")
+utils.map("n", "<C-k>", ":m-2<CR>==")
+utils.map("n", "<C-j>", ":m+<CR>==")
+utils.map("v", "<C-k>", ":m '<-2<CR>gv=gv")
+utils.map("v", "<C-j>", ":m '>+1<CR>gv=gv")
 
 -- Duplicate the current line
 -- 't' command is a synonym for copy
-utils.map("n", "<leader>d", "<Cmd>t.<CR>")
-utils.map("i", "<leader>d", "<Esc><Cmd>t.<CR>")
-utils.map("v", "<leader>d", "<Cmd>t.<CR>")
+utils.map("n", "<leader>d", ":t.<CR>")
+utils.map("i", "<leader>d", "<Esc>:t.<CR>")
+utils.map("v", "<leader>d", ":t.<CR>")
 
 -- Hitting ESC when inside a <Cmd>term to get into normal mode
 utils.map("t", "<Esc>", [[<C-\><C-N>]])
