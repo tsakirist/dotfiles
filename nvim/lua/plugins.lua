@@ -90,6 +90,13 @@ return require("packer").startup {
             end,
         }
         use {
+            "rmagatti/goto-preview",
+            after = "nvim-lspconfig",
+            config = function()
+                require "lua.plugins.lsp._goto-preview"
+            end,
+        }
+        use {
             "weilbith/nvim-code-action-menu",
             keys = { "<leader>ca" },
             cmd = "CodeActionMenu",
