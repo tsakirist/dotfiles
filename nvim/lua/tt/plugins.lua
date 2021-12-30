@@ -1,5 +1,5 @@
 -- Take care of handling the automatic installation of packer
-local packer_bootstrap = require("plugins._packer").packer_bootstrap()
+local packer_bootstrap = require("tt.plugins._packer").packer_bootstrap()
 
 return require("packer").startup {
     function(use)
@@ -11,7 +11,6 @@ return require("packer").startup {
             "lewis6991/impatient.nvim",
             config = function()
                 require "impatient"
-                require("impatient").enable_profile()
             end,
         }
 
@@ -21,9 +20,12 @@ return require("packer").startup {
         use {
             "EdenEast/nightfox.nvim",
             config = function()
-                require "plugins._nightfox"
+                require "tt.plugins._nightfox"
             end,
         }
+
+        -- Improve the default vim.ui interfaces
+        use { "stevearc/dressing.nvim" }
 
         -- Add file type icons to various plugins
         use { "kyazdani42/nvim-web-devicons" }
@@ -41,7 +43,7 @@ return require("packer").startup {
             "akinsho/bufferline.nvim",
             requires = { "kyazdani42/nvim-web-devicons" },
             config = function()
-                require "plugins._bufferline"
+                require "tt.plugins._bufferline"
             end,
         }
 
@@ -50,7 +52,7 @@ return require("packer").startup {
             "hoob3rt/lualine.nvim",
             requires = { "kyazdani42/nvim-web-devicons" },
             config = function()
-                require "themes.evil_lualine"
+                require "tt.themes.evil_lualine"
             end,
         }
 
@@ -60,7 +62,7 @@ return require("packer").startup {
             cmd = "ZenMode",
             keys = "<F1>",
             config = function()
-                require "plugins._zen-mode"
+                require "tt.plugins._zen-mode"
             end,
         }
 
@@ -69,7 +71,7 @@ return require("packer").startup {
             "folke/trouble.nvim",
             requires = "kyazdani42/nvim-web-devicons",
             config = function()
-                require "plugins._trouble"
+                require "tt.plugins._trouble"
             end,
         }
 
@@ -79,21 +81,21 @@ return require("packer").startup {
             "neovim/nvim-lspconfig",
             requires = "williamboman/nvim-lsp-installer",
             config = function()
-                require "plugins.lsp._nvim-lspconfig"
+                require "tt.plugins.lsp._nvim-lspconfig"
             end,
         }
         use {
             "jose-elias-alvarez/null-ls.nvim",
             after = "nvim-lspconfig",
             config = function()
-                require "plugins.lsp._null-ls"
+                require "tt.plugins.lsp._null-ls"
             end,
         }
         use {
             "rmagatti/goto-preview",
             after = "nvim-lspconfig",
             config = function()
-                require "lua.plugins.lsp._goto-preview"
+                require "tt.plugins.lsp._goto-preview"
             end,
         }
         use {
@@ -110,7 +112,7 @@ return require("packer").startup {
             keys = { "<leader>vv", "<leader>vf" },
             cmd = "Vista",
             config = function()
-                require "plugins.lsp._vista"
+                require "tt.plugins.lsp._vista"
             end,
         }
 
@@ -130,7 +132,7 @@ return require("packer").startup {
                 },
             },
             config = function()
-                require "plugins._treesitter"
+                require "tt.plugins._treesitter"
             end,
         }
 
@@ -169,7 +171,7 @@ return require("packer").startup {
                 },
             },
             config = function()
-                require "plugins._nvim-cmp"
+                require "tt.plugins._nvim-cmp"
             end,
         }
 
@@ -178,7 +180,7 @@ return require("packer").startup {
             "windwp/nvim-autopairs",
             after = "nvim-cmp",
             config = function()
-                require "plugins._nvim-autopairs"
+                require "tt.plugins._nvim-autopairs"
             end,
         }
         use { "windwp/nvim-ts-autotag", after = "nvim-treesitter" }
@@ -205,7 +207,7 @@ return require("packer").startup {
                 },
             },
             config = function()
-                require "plugins._telescope"
+                require "tt.plugins._telescope"
             end,
         }
 
@@ -216,7 +218,7 @@ return require("packer").startup {
             keys = { "gc", "gb" },
             requires = { "JoosepAlviste/nvim-ts-context-commentstring", after = "nvim-treesitter" },
             config = function()
-                require "plugins._comment"
+                require "tt.plugins._comment"
             end,
         }
 
@@ -225,7 +227,7 @@ return require("packer").startup {
             "lukas-reineke/indent-blankline.nvim",
             event = "BufReadPre",
             config = function()
-                require "plugins._indent-blankline"
+                require "tt.plugins._indent-blankline"
             end,
         }
         -- Nvim-tree
@@ -234,7 +236,7 @@ return require("packer").startup {
             cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
             keys = { "<leader>nf", "<leader>nt" },
             config = function()
-                require "plugins._nvim-tree"
+                require "tt.plugins._nvim-tree"
             end,
         }
 
@@ -243,7 +245,7 @@ return require("packer").startup {
             "akinsho/toggleterm.nvim",
             event = "BufRead",
             config = function()
-                require "plugins._toggleterm"
+                require "tt.plugins._toggleterm"
             end,
         }
 
@@ -254,7 +256,7 @@ return require("packer").startup {
                 event = "BufRead",
                 requires = { "nvim-lua/plenary.nvim" },
                 config = function()
-                    require "plugins._gitsigns"
+                    require "tt.plugins._gitsigns"
                 end,
             },
             -- More pleasant editing experience on commit messages
@@ -270,7 +272,7 @@ return require("packer").startup {
                 "rhysd/git-messenger.vim",
                 keys = "<leader>gm",
                 config = function()
-                    require "plugins._git-messenger"
+                    require "tt.plugins._git-messenger"
                 end,
             },
         }
@@ -280,7 +282,7 @@ return require("packer").startup {
             "nacro90/numb.nvim",
             event = "BufRead",
             config = function()
-                require "plugins._numb"
+                require "tt.plugins._numb"
             end,
         }
 

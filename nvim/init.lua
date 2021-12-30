@@ -15,8 +15,4 @@
 
 --]]
 
-require "plugins"
-require "settings"
-require "autocommands"
-require "abbreviations"
-require "mappings"
+require "tt"

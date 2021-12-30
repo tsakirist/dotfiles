@@ -90,8 +90,8 @@ require("nvim-tree").setup {
         enable = true,
         auto_open = true, -- open the tree if it was previsouly closed
     },
-    git = {
-        enable = true, -- Enable git integration
+    git = { -- Git integration with icons and colors
+        enable = true, -- Enable the feature
         ignore = true, -- Ignore files base on .gitignore
         timeout = 500, -- Kill the git process after some time if takes too long
     },
@@ -121,11 +121,15 @@ require("nvim-tree").setup {
         width = 45, -- width of the window, can be either columns or string in '%'
         height = 30, -- height of the window, can be either columns or string in '%'
         side = "left", -- the side where the tree should open
+        hide_root_folder = false, -- hide the root folder
         auto_resize = true, -- resize the tree when opening a file
         mappings = {
             custom_only = true, -- disable default keybindings
-            list = nvim_tree_mappings,
+            list = nvim_tree_mappings, -- list with the custom keybindings
         },
+        number = false, -- print line number in front of each line
+        relativenumber = false, -- show line number relative to the line with the cursor
+        signcolumn = "yes", -- show diagnostic sign column
     },
     filters = {
         dotfiles = false, -- hide files and folders starting with a dot '.'
@@ -138,7 +142,7 @@ require("nvim-tree").setup {
 }
 
 -- Nvim-tree mappings
-local utils = require "utils"
+local utils = require "tt.utils"
 
 utils.map("n", "<leader>nt", "<Cmd>NvimTreeToggle<CR>")
 utils.map("n", "<leader>nf", "<Cmd>NvimTreeFindFile<CR>")

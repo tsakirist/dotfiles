@@ -31,7 +31,7 @@ function M.load_autocommands()
             { "BufEnter", "*", "setlocal fo+=t fo+=r fo-=l fo-=o fo+=q" },
         },
         _trim_whitespace = {
-            { "BufWritePre", "*", "lua require('helper').trimTrailingWhiteSpace()" },
+            { "BufWritePre", "*", "lua require('tt.helper').trimTrailingWhiteSpace()" },
         },
         -- Enable format on save only for *.lua files for now
         _format_on_save = {

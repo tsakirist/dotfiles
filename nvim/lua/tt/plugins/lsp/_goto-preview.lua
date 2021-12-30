@@ -14,7 +14,7 @@ require("goto-preview").setup {
 }
 
 -- Setup goto-preview keymappings
-local utils = require "utils"
+local utils = require "tt.utils"
 
 utils.map("n", "gp", "<Cmd>lua require('goto-preview').goto_preview_definition()<CR>")
 utils.map("n", "gP", "<Cmd>lua require('goto-preview').close_all_win()<CR>")

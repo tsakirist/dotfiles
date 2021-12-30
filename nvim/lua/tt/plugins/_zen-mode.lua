@@ -37,6 +37,6 @@ require("zen-mode").setup {
 }
 
 -- Setup zen-mode mappings
-local utils = require "utils"
+local utils = require "tt.utils"
 
 utils.map("n", "<F1>", "<Cmd>ZenMode<CR>")

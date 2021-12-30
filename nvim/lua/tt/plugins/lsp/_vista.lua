@@ -21,7 +21,7 @@ vim.g["vista#renderer#enable_icon"] = 1
 vim.g.vista_echo_cursor_strategy = "floating_win"
 
 -- Setup vista keymappings
-local utils = require "utils"
+local utils = require "tt.utils"
 
 utils.map("n", "<leader>vv", "<Cmd>Vista!!<CR>")
 utils.map("n", "<leader>vf", "<Cmd>Vista finder nvim_lsp<CR>")

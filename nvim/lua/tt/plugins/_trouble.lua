@@ -44,7 +44,7 @@ require("trouble").setup {
 }
 
 -- Setup trouble mappings
-local utils = require "utils"
+local utils = require "tt.utils"
 
 utils.map("n", "<leader>tt", "<Cmd>TroubleToggle<CR>")
 utils.map("n", "<leader>tw", "<Cmd>TroubleToggle workspace_diagnostics<CR>")

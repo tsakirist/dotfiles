@@ -1,5 +1,4 @@
 local setup_diagnostics = function()
-    -- Override settings for diagnostics
     vim.diagnostic.config {
         underline = true,
         update_in_insert = false,
@@ -28,6 +27,24 @@ local setup_hover = function()
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = "rounded",
     })
+end
+
+local setup_highlighting = function(client)
+    if client.resolved_capabilities.document_highlight then
+        vim.cmd [[
+            augroup _lsp_document_highlight
+                autocmd!
+                autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+                autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+            augroup END
+        ]]
+    end
+end
+
+local setup_formatting = function(client)
+    -- Disable default LSP formatting as this will be handled by 'null-ls' LSP
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
 end
 
 local setup_handlers = function()
@@ -61,9 +78,8 @@ end
 
 local on_attach = function(client, bufnr)
     setup_keymappings(client, bufnr)
-    -- Disable default LSP formatting as this will be handled by 'null-ls' LSP
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+    setup_formatting(client)
+    setup_highlighting(client)
 end
 
 -- Make a new object describing the LSP client capabilities
@@ -71,6 +87,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 -- Disable LSP snippets for the time being since I do not want
 -- to have duplicate snippet suggestions between LuaSnip and LSP snippets
+-- TODO: Check that this works for the Lua-based configuration
 capabilities.textDocument.completion.completionItem.snippetSupport = false
 capabilities.textDocument.completion.completionItem.resolveSupport = {
     properties = {

@@ -1,5 +1,6 @@
 local helper = {}
 
+-- TODO: Fix or implement this?
 function helper.zoomToggle()
     vim.fn.ZoomToggle()
 end

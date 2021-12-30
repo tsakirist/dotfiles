@@ -1,4 +1,4 @@
-local utils = require "utils"
+local utils = require "tt.utils"
 
 -- Toggle between folds
 utils.map("n", "<F2>", "&foldlevel ? 'zM' : 'zR'", { expr = true })

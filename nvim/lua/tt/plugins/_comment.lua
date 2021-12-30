@@ -73,7 +73,7 @@ require("Comment").setup {
 }
 
 -- Setup Comment keymappings
-local utils = require "utils"
+local utils = require "tt.utils"
 
 utils.map("n", "<leader><leader>", "gcc", { noremap = false })
 utils.map("v", "<leader><leader>", "gc", { noremap = false })

@@ -8,6 +8,6 @@ vim.g.git_messenger_always_into_popupa = true
 vim.g.git_messenger_floating_win_opts = { border = "shadow" }
 
 -- Set git-messenger mappings
-local utils = require "utils"
+local utils = require "tt.utils"
 
 utils.map("n", "<leader>gm", "<Cmd>GitMessenger<CR>")

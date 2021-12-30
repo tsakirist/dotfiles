@@ -1,5 +1,3 @@
-local utils = require "utils"
-
 local actions = require "telescope.actions"
 local actions_layout = require "telescope.actions.layout"
 local trouble = require "trouble.providers.telescope"
@@ -71,7 +69,47 @@ function M.find_in_nvim_config()
     }
 end
 
+function M.reload_modules()
+    -- Taken from https://ustrajunior.com/posts/reloading-neovim-config-with-telescope/
+
+    -- Telescope will give us something like tt/module.lua,
+    -- so this function converts the selected entry to
+    -- the module name: tt.module
+    local function get_module_name(module)
+        local module_name
+
+        module_name = module:gsub("%.lua", "")
+        module_name = module_name:gsub("%/", ".")
+        module_name = module_name:gsub("%.init", "")
+
+        return module_name
+    end
+
+    local opts = {
+        prompt_title = "Lua modules",
+        cwd = vim.fn.stdpath "config" .. "/lua",
+        attach_mappings = function(_, map)
+            -- Mappings:
+            --  1. <Enter>: Reloads the selected module
+            --  2. <C-o>: Opens the lua module file
+            map("i", "<Enter>", function(_)
+                local entry = require("telescope.actions.state").get_selected_entry()
+                local name = get_module_name(entry.value)
+                _G.Reload(name)
+                _G.Print(name .. " has been reloaded")
+            end)
+            map("i", "<C-o>", actions.select_default)
+            return true
+        end,
+    }
+
+    -- Call the builtin method to list files
+    require("telescope.builtin").find_files(opts)
+end
+
 -- Set up telescope mappings
+local utils = require "tt.utils"
+
 utils.map("n", "<leader>fb", "<Cmd>Telescope buffers<CR>")
 utils.map("n", "<leader>fc", "<Cmd>Telescope commands<CR>")
 utils.map("n", "<leader>ff", "<Cmd>Telescope find_files<CR>")
@@ -92,7 +130,8 @@ utils.map(
     "<Cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = 'vertical'})<CR>"
 )
 utils.map("n", "<leader>fm", "<Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_ivy({}))<CR>")
-utils.map("n", "<leader>fp", "<Cmd>lua require'plugins.telescope'.find_in_plugins()<CR>")
-utils.map("n", "<leader>fv", "<Cmd>lua require'plugins.telescope'.find_in_nvim_config()<CR>")
+utils.map("n", "<leader>fp", "<Cmd>lua require'tt.plugins._telescope'.find_in_plugins()<CR>")
+utils.map("n", "<leader>fv", "<Cmd>lua require'tt.plugins._telescope'.find_in_nvim_config()<CR>")
+utils.map("n", "<leader>mr", "<Cmd>lua require'tt.plugins._telescope'.reload_modules()<CR>")
 
 return M
