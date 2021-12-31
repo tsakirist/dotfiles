@@ -1450,18 +1450,18 @@ if functions#PluginLoaded('telescope.nvim')
 
 lua<<EOF
 local actions = require('telescope.actions')
-local action_state = require('telescope.actions.state')
+local actions_layout = require "telescope.actions.layout"
 local trouble = require('trouble.providers.telescope')
 
 -- Setup Telescope
 require'telescope'.setup {
   defaults = {
-    prompt_prefix = '❯ ',
-    selection_caret = '❯ ',
+    prompt_prefix = "❯ ",
+    selection_caret = "❯ ",
     winblend = 15,
-    layout_strategy = 'horizontal',
+    layout_strategy = "horizontal",
     layout_config = {
-      prompt_position = "top",
+      prompt_position = "bottom",
       horizontal = {
         width = { padding = 0.1 },
         height = { padding = 0.1 },
@@ -1475,29 +1475,39 @@ require'telescope'.setup {
         mirror = false,
       },
     },
-    -- path_display = { shorten = 5},
-    path_display = { smart },
-    sorting_strategy = "ascending",
-    set_env = { ['COLORTERM'] = 'truecolor' },
+    path_display = { shorten = 5 },
+    sorting_strategy = "descending",
+    set_env = { ["COLORTERM"] = "truecolor" },
     mappings = {
       i = {
-        ["<C-q>"] = actions.close,
-        ["<Esc>"] = actions.close,
+        -- Enable <C-w> to delete word under cursor, hoepfully this will be merged upstream by default
+        -- Issue: https://github.com/nvim-telescope/telescope.nvim/issues/1579
+        ["<C-w>"] = function()
+          vim.api.nvim_input "<C-S-w>"
+        end,
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
-        ["<CR>"]  = actions.select_default + actions.center,
+        ["<CR>"] = actions.select_default + actions.center,
         ["<C-c>"] = actions.smart_send_to_qflist + actions.open_qflist,
         ["<C-l>"] = actions.smart_send_to_loclist + actions.open_loclist,
         ["<C-t>"] = trouble.open_with_trouble,
+        ["<C-q>"] = actions.close,
+        ["<M-m>"] = actions_layout.toggle_mirror,
+        ["<M-p>"] = actions_layout.toggle_prompt_position,
+        ["?"] = actions_layout.toggle_preview,
+        -- ["<Esc>"] = actions.close,
       },
       n = {
         ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous,
         ["<C-t>"] = trouble.open_with_trouble,
-      }
-    }
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<M-m>"] = actions_layout.toggle_mirror,
+        ["<M-p>"] = actions_layout.toggle_prompt_position,
+        ["?"] = actions_layout.toggle_preview,
+      },
+    },
   },
-}
+},
 
 -- Load extensions
 require'telescope'.load_extension('fzf')
@@ -1921,16 +1931,34 @@ lua<<EOF
 -- Setup indent-blankline
 require'indent_blankline'.setup {
   -- char_list = { '|', '¦', '┆', '┊' },
-  char = '│',
-  show_first_indent_level = false,
-  stricts_tabs = true,
-  show_trailing_blankline_indent = false,
-  show_end_of_line = true,
-  filetype_exclude = { 'help', 'startify', 'gitcommit', 'vistakind' },
-  buftype_exclude = { 'terminal' },
-  use_treesitter = true,
-  show_current_context = true,
-  context_patterns = { 'class', 'function', 'method' , '^if', '^while', '^for', '^try', 'except', 'argument_list' },
+  char = "│", -- Specifies the character to be used as indent line
+  stricts_tabs = true, -- When on, if there is a single tab in a line, only tabs are used to calculate the indentation level
+  use_treesitter = true, -- Use treesitter to calculate indentation when possible
+  show_first_indent_level = false, -- Displays indentation in the first column
+  show_trailing_blankline_indent = false, -- Displays a trailing indentation guide on blank lines, to match the indentation of surrounding code
+  show_end_of_line = true, --  Displays the end of line character set by listchars
+  show_current_context = true, -- Use treesitter to determine the current context
+  show_current_context_start = true, -- Apply highlighting to the first line of current cnotext, by default will 'underline'
+  show_current_context_start_on_current_line = false, -- Show context_start even when cursor is on the same line
+  buftype_exclude = { "terminal" }, -- Specifies a list of buftype values for which this plugin is not enabled
+  filetype_exclude = { -- Specifies a list of filetype values for which this plugin is not enabled
+    "help",
+    "startify",
+    "gitcommit",
+    "vistakind",
+    "packer",
+  },
+  context_patterns = { -- Specifies a list of lua patterns that are used to match against treesitter
+    "class",
+    "function",
+    "method",
+    "^if",
+    "^while",
+    "^for",
+    "^try",
+    "except",
+    "argument_list",
+  },
 }
 EOF
 
