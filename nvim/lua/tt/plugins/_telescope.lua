@@ -28,7 +28,11 @@ require("telescope").setup {
         set_env = { ["COLORTERM"] = "truecolor" },
         mappings = {
             i = {
-                ["<Esc>"] = actions.close,
+                -- Enable <C-w> to delete word under cursor, hoepfully this will be merged upstream by default
+                -- Issue: https://github.com/nvim-telescope/telescope.nvim/issues/1579
+                ["<C-w>"] = function()
+                    vim.api.nvim_input "<C-S-w>"
+                end,
                 ["<C-j>"] = actions.move_selection_next,
                 ["<C-k>"] = actions.move_selection_previous,
                 ["<CR>"] = actions.select_default + actions.center,
@@ -39,6 +43,7 @@ require("telescope").setup {
                 ["<M-m>"] = actions_layout.toggle_mirror,
                 ["<M-p>"] = actions_layout.toggle_prompt_position,
                 ["?"] = actions_layout.toggle_preview,
+                -- ["<Esc>"] = actions.close,
             },
             n = {
                 ["<C-j>"] = actions.move_selection_next,

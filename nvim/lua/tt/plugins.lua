@@ -24,19 +24,20 @@ return require("packer").startup {
             end,
         }
 
+        -- Startify greeter screen with integrated session-handling
+        use {
+            "mhinz/vim-startify",
+            config = function()
+                require "tt.plugins._startify"
+            end,
+        }
+
         -- Improve the default vim.ui interfaces
         use { "stevearc/dressing.nvim" }
 
         -- Add file type icons to various plugins
         use { "kyazdani42/nvim-web-devicons" }
 
-        use {
-            "goolord/alpha-nvim",
-            requires = { "kyazdani42/nvim-web-devicons" },
-            config = function()
-                require "tt.plugins._alpha"
-            end,
-        }
         -- Color highlighter
         use {
             "norcalli/nvim-colorizer.lua",

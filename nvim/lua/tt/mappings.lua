@@ -19,7 +19,7 @@ utils.map("n", "<leader>bd", "<Cmd>bdelete<CR>")
 utils.map("n", "<leader>bo", "<Cmd>%bd<Bar>e#<CR>")
 
 -- List buffers and prepend :b on the cmd line
-utils.map("n", "<leader>bf", "<Cmd>ls<CR><Cmd>b<Space><CR>")
+utils.map("n", "<leader>bf", ":ls<CR>:b<Space><CR>")
 
 -- Search within buffers and send results in the qflist
 vim.cmd "nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd //gj %<Bar>Trouble quickfix<S-Left><S-Left><S-Left><Right>"
