@@ -1,6 +1,7 @@
 require("indent_blankline").setup {
     -- char_list = { '|', '¦', '┆', '┊' },
     char = "│", -- Specifies the character to be used as indent line
+    disable_with_no_list = true, -- Disables this plugin when `nolist` is set
     stricts_tabs = true, -- When on, if there is a single tab in a line, only tabs are used to calculate the indentation level
     use_treesitter = true, -- Use treesitter to calculate indentation when possible
     show_first_indent_level = false, -- Displays indentation in the first column

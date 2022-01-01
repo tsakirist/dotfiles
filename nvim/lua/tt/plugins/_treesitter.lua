@@ -32,7 +32,7 @@ require("nvim-treesitter.configs").setup {
     },
     indent = {
         enable = true,
-        disable = { "c", "cpp" },
+        disable = { "c", "cpp", "lua" },
     },
     incremental_selection = {
         enable = true,
@@ -43,10 +43,18 @@ require("nvim-treesitter.configs").setup {
             scope_incremental = "si",
         },
     },
+    refactor = {
+        highlight_definitions = {
+            enable = true,
+        },
+        highlight_current_scope = {
+            enable = false,
+        },
+    },
     textobjects = {
         select = {
             enable = true,
-            lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+            lookahead = true,
             keymaps = {
                 ["af"] = "@function.outer",
                 ["if"] = "@function.inner",

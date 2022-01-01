@@ -19,7 +19,7 @@ utils.map("n", "<leader>bd", "<Cmd>bdelete<CR>")
 utils.map("n", "<leader>bo", "<Cmd>%bd<Bar>e#<CR>")
 
 -- List buffers and prepend :b on the cmd line
-utils.map("n", "<leader>bf", ":ls<CR>:b<Space><CR>")
+utils.map("n", "<leader>bf", ":ls<CR>:b<Space>")
 
 -- Search within buffers and send results in the qflist
 vim.cmd "nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd //gj %<Bar>Trouble quickfix<S-Left><S-Left><S-Left><Right>"
@@ -67,7 +67,7 @@ utils.map("i", "<C-q>", "<Esc><Cmd>q<CR>")
 utils.map("v", "<C-q>", "<Esc><Cmd>q<CR>")
 
 -- Keymap to quit all buffers with shift
-utils.map("n", "Q", "<Esc><Cmd>qa<CR>")
+utils.map("n", "<S-q>", "<Esc><Cmd>qa<CR>")
 
 -- Quick movements in Insert mode without having to change to Normal mode
 utils.map("i", "<C-h>", "<C-o>h")

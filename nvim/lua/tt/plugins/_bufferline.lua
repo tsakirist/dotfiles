@@ -24,7 +24,12 @@ require("bufferline").setup {
         max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
         tab_size = 25,
         offsets = { -- apply an offset for sidebar windows
-            { filetype = "NvimTree", text = "File Explorer", highlight = "Directory", text_align = "center" },
+            {
+                filetype = "NvimTree",
+                text = "File Explorer",
+                highlight = "Directory",
+                text_align = "center",
+            },
         },
         diagnostics = false, -- whether or not to show lsp diagnostics
     },
