@@ -93,6 +93,13 @@ return require("packer").startup {
             end,
         }
         use {
+            "williamboman/nvim-lsp-installer",
+            before = "nvim-lspconfig",
+            config = function()
+                require "tt.plugins.lsp._nvim-lsp-installer"
+            end,
+        }
+        use {
             "jose-elias-alvarez/null-ls.nvim",
             after = "nvim-lspconfig",
             config = function()
@@ -151,7 +158,7 @@ return require("packer").startup {
         -- Autocomplete related plugins _and snippets
         use {
             "hrsh7th/nvim-cmp",
-            -- event = "InsertEnter",
+            event = "InsertEnter",
             requires = {
                 {
                     "hrsh7th/cmp-nvim-lsp",
@@ -195,6 +202,8 @@ return require("packer").startup {
                 require "tt.plugins._nvim-autopairs"
             end,
         }
+
+        -- Use treesitter to autoclose and autorename html tags
         use { "windwp/nvim-ts-autotag", after = "nvim-treesitter" }
 
         -- Fuzzy finder FZF, this also installs FZF globally
@@ -204,9 +213,6 @@ return require("packer").startup {
         -- Telescope related plugins
         use {
             "nvim-telescope/telescope.nvim",
-            -- cmd = "Telescope",
-            -- module = "telescope",
-            -- keys = { "<leader>f" },
             requires = {
                 { "nvim-lua/plenary.nvim" },
                 {
@@ -245,8 +251,7 @@ return require("packer").startup {
         -- Nvim-tree
         use {
             "kyazdani42/nvim-tree.lua",
-            cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
-            keys = { "<leader>nf", "<leader>nt" },
+            event = "BufRead",
             config = function()
                 require "tt.plugins._nvim-tree"
             end,
@@ -263,6 +268,7 @@ return require("packer").startup {
 
         -- Git related
         use {
+            -- Git integrations for buffers
             {
                 "lewis6991/gitsigns.nvim",
                 event = "BufRead",

@@ -37,6 +37,7 @@ vim.g.startify_lists = {
 -- Specify the custom header to use
 local datetime = os.date "%A %d %B %Y, %T"
 local version = vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch
+local plugins = #vim.tbl_keys(packer_plugins)
 
 local custom_header = {
     [[                                  __                ]],
@@ -49,6 +50,7 @@ local custom_header = {
     [[   ﯟ Tryfon Tsakiris, tr.tsakiris@gmail.com         ]],
     [[    ]] .. datetime,
     [[    Neovim Version: ]] .. version,
+    [[    Plugins: ]] .. plugins,
 }
 
 vim.g.startify_custom_header = vim.fn["startify#center"](custom_header)
@@ -73,9 +75,11 @@ vim.g.startify_bookmarks = {
     { a = "~/.zsh_aliases" },
 }
 
--- Setup the required function so that Startify can use WebDevIcons
+-- Make Startify use WebDevIcons instead
 vim.cmd [[
     function! StartifyEntryFormat() abort
         return 'v:lua.WebDevIcons(absolute_path) . " " . entry_path'
     endfunction
 ]]
+
+-- vim.cmd [[highlight! link StartifyHeader Statement]]

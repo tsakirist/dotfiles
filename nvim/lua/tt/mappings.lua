@@ -43,9 +43,8 @@ utils.map("v", "<C-j>", ":m '>+1<CR>gv=gv")
 
 -- Duplicate the current line
 -- 't' command is a synonym for copy
-utils.map("n", "<leader>d", ":t.<CR>")
+utils.map({ "n", "v" }, "<leader>d", ":t.<CR>")
 utils.map("i", "<leader>d", "<Esc>:t.<CR>")
-utils.map("v", "<leader>d", ":t.<CR>")
 
 -- Hitting ESC when inside a <Cmd>term to get into normal mode
 utils.map("t", "<Esc>", [[<C-\><C-N>]])
@@ -53,18 +52,15 @@ utils.map("t", "<Esc>", [[<C-\><C-N>]])
 -- Save files with ctrl+s
 -- Use update instead of :write, to only write the file when modified
 utils.map("n", "<C-s>", "<Cmd>update<CR>")
-utils.map("i", "<C-s>", "<Esc><Cmd>update<CR>")
-utils.map("v", "<C-s>", "<Esc><Cmd>update<CR>")
+utils.map({ "i", "v" }, "<C-s>", "<Esc><Cmd>update<CR>")
 
 -- Keymaps to quit current buffer with ctrl+q
 utils.map("n", "<C-q>", "<Cmd>q<CR>")
-utils.map("i", "<C-q>", "<Esc><Cmd>q<CR>")
-utils.map("v", "<C-q>", "<Esc><Cmd>q<CR>")
+utils.map({ "i", "v" }, "<C-q>", "<Esc><Cmd>q<CR>")
 
 -- Keymaps to quit current buffer with ctrl+q
 utils.map("n", "<C-q>", "<Cmd>q<CR>")
-utils.map("i", "<C-q>", "<Esc><Cmd>q<CR>")
-utils.map("v", "<C-q>", "<Esc><Cmd>q<CR>")
+utils.map({ "i", "v" }, "<C-q>", "<Esc><Cmd>q<CR>")
 
 -- Keymap to quit all buffers with shift
 utils.map("n", "<S-q>", "<Esc><Cmd>qa<CR>")
@@ -93,32 +89,22 @@ utils.map("n", "&", "<Cmd>&&<CR>")
 utils.map("x", "&", "<Cmd>&&<CR>")
 
 -- Remind myself to stop using the god damn arrow keys
-utils.map("n", "<Left>", "<Cmd>echoe 'Use h'<CR>")
-utils.map("n", "<Right>", "<Cmd>echoe 'Use l'<CR>")
-utils.map("n", "<Up>", "<Cmd>echoe 'Use k'<CR>")
-utils.map("n", "<Down>", "<Cmd>echoe 'Use j'<CR>")
-utils.map("v", "<Left>", "<Cmd><C-u>echoe 'Use h'<CR>")
-utils.map("v", "<Right>", "<Cmd><C-u>echoe 'Use l'<CR>")
-utils.map("v", "<Up>", "<Cmd><C-u>echoe 'Use k'<CR>")
-utils.map("v", "<Down>", "<Cmd><C-u>echoe 'Use j'<CR>")
+utils.map({ "n", "v" }, "<Left>", "<Cmd>echoe 'Use h'<CR>")
+utils.map({ "n", "v" }, "<Right>", "<Cmd>echoe 'Use l'<CR>")
+utils.map({ "n", "v" }, "<Up>", "<Cmd>echoe 'Use k'<CR>")
+utils.map({ "n", "v" }, "<Down>", "<Cmd>echoe 'Use j'<CR>")
 
 -- Clear highlighting with escape when in normal mode
 -- https://stackoverflow.com/a/1037182/6654329
 utils.map("n", "<Esc>", "<Cmd>noh<return><Esc>")
 utils.map("n", "<Esc>^[", "<Esc>^[")
 
--- Keymaps to open terminal either horiznotally or vertically
-utils.map("n", "<leader>ht", "<Cmd>HT<CR>")
-utils.map("n", "<leader>vt", "<Cmd>VT<CR>")
-
 -- Whole-word search
 vim.cmd [[nnoremap <leader>/ :/\<\><Left><Left>]]
 
 -- Change the default mouse scrolling wheel option
-utils.map("n", "<ScrollWheelUp>", "4<C-y>")
-utils.map("n", "<ScrollWheelDown>", "4<C-e>")
-utils.map("x", "<ScrollWheelUp>", "4<C-y>")
-utils.map("x", "<ScrollWheelDown>", "4<C-e>")
+utils.map({ "n", "x" }, "<ScrollWheelUp>", "4<C-y>")
+utils.map({ "n", "x" }, "<ScrollWheelDown>", "4<C-e>")
 
 -- Set a mark when moving more than 5 lines upwards/downards
 -- this will populate the jumplist enabling us to jump back with Ctrl-O
@@ -131,11 +117,7 @@ utils.map("n", "<leader>o", "o<Esc>kO<Esc>j")
 -- EasyAlign keybindings
 -- 'vipga' starts interactive EasyAlign in visual mode
 -- 'gaip' starts interactive EasyAlign for text/motion object
-utils.map("n", "ga", "<Plug>(EasyAlign)", { noremap = false })
-utils.map("x", "ga", "<Plug>(EasyAlign)", { noremap = false })
-utils.map("n", "<leader>ga", "<Plug>(LiveEasyAlign)", { noremap = false })
-utils.map("x", "<leader>ga", "<Plug>(LiveEasyAlign)", { noremap = false })
+utils.map({ "n", "x" }, "ga", "<Plug>(EasyAlign)", { noremap = false })
+utils.map({ "n", "x" }, "<leader>ga", "<Plug>(LiveEasyAlign)", { noremap = false })
 
--- Alternate between header/source files
--- TODO: move this to lspconfig?
-utils.map("n", "<leader>ko", "<Cmd>ClangdSwitchSourceHeader<CR>")
+utils.map("n", "<leader>z", "<Cmd>lua require'tt.helper'.zoomToggle()<CR>")

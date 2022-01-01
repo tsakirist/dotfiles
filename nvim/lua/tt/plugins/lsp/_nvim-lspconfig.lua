@@ -6,6 +6,7 @@ local setup_diagnostics = function()
         virtual_text = {
             spacing = 4,
         },
+        signs = true,
         float = {
             show_header = true,
             source = "if_many",
@@ -57,7 +58,7 @@ local setup_keymappings = function(_, bufnr)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
     end
 
-    -- Mappings
+    -- LSP related mappings
     local opts = { noremap = true, silent = true }
     buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     buf_set_keymap("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
@@ -74,6 +75,13 @@ local setup_keymappings = function(_, bufnr)
     buf_set_keymap("n", "<leader>lq", "<Cmd>lua vim.diagnostic.setqflist()<CR>", opts)
     buf_set_keymap("n", "<leader>ld", "<Cmd>lua vim.diagnostic.open_float()<CR>", opts)
     buf_set_keymap("n", "<leader>fr", "<Cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    buf_set_keymap("n", "<C-LeftMouse>", "<Cmd>TroubleToggle lsp_references<CR>", opts)
+
+    local ft = vim.bo.filetype
+    if ft == "c" or ft == "cpp" or ft == "h" or ft == "hpp" then
+        -- Alternate between header/source files
+        buf_set_keymap("n", "<leader>ko", "<Cmd>ClangdSwitchSourceHeader<CR>")
+    end
 end
 
 local on_attach = function(client, bufnr)
@@ -125,41 +133,56 @@ local setup_servers = function()
         }
 
         -- Custom LSP server settings
-        -- TODO: Fix this with a table rather than if-else
-        if server.name == "eslint" then
-            -- Disable showDocumentation from eslint code-actions menu.
-            -- The actual value seems to not be working, just setting it to any value disables the option.
-            opts.settings = {
-                codeAction = {
-                    showDocumentation = false,
+        local server_settings = {
+            eslint = {
+                -- Disable showDocumentation from eslint code-actions menu.
+                -- The actual value seems to not be working, just setting it to any value disables the option.
+                settings = {
+                    codeAction = {
+                        showDocumentation = false,
+                    },
                 },
-            }
-        elseif server.name == "sumneko_lua" then
-            opts.settings = {
+            },
+            sumneko_lua = {
                 Lua = {
                     diagnostics = {
                         globals = {
-                            "vim", -- Make the LSP recongize the `vim` as global
+                            "vim",
                         },
                     },
                 },
-            }
-        end
+            },
+        }
+
+        -- Customize the options that are passed to the server
+        opts.settings = server_settings[server.name] or {}
 
         server:setup(opts)
         vim.cmd [[ do User LspAttachBuffers ]]
     end)
 
     -- Define the required LSP servers
-    local required_servers = { "bashls", "clangd", "cmake", "eslint", "pyright", "sumneko_lua", "tsserver", "vimls" }
+    local required_servers = {
+        "bashls",
+        "clangd",
+        "cmake",
+        "eslint",
+        "pyright",
+        "sumneko_lua",
+        "tsserver",
+        "vimls",
+    }
 
     -- Install missing servers
     for _, server_name in pairs(required_servers) do
         local ok, server = lsp_installer.get_server(server_name)
         if ok then
             if not server:is_installed() then
-                print("Installing lsp_sever: " .. server_name)
-                server:install()
+                -- LSP server installation with UI
+                lsp_installer.install(server_name)
+                -- Headless LSP server installation
+                -- print("Installing lsp_sever: " .. server_name)
+                -- server:install()
             end
         end
     end

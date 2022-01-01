@@ -17,6 +17,7 @@ require("indent_blankline").setup {
         "gitcommit",
         "vistakind",
         "packer",
+        "lsp-installer",
     },
     context_patterns = { -- Specifies a list of lua patterns that are used to match against treesitter
         "class",
