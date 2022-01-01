@@ -204,7 +204,18 @@ return require("packer").startup {
         }
 
         -- Use treesitter to autoclose and autorename html tags
-        use { "windwp/nvim-ts-autotag", after = "nvim-treesitter" }
+        use {
+            "windwp/nvim-ts-autotag",
+            after = "nvim-treesitter",
+            ft = {
+                "html",
+                "javascript",
+                "javascriptreact",
+                "typescriptreact",
+                "svelte",
+                "vue",
+            },
+        }
 
         -- Fuzzy finder FZF, this also installs FZF globally
         -- use { "junegunn/fzf", run = "./install --key-bindings --completion --no-update-rc" }
@@ -291,6 +302,14 @@ return require("packer").startup {
                 keys = "<leader>gm",
                 config = function()
                     require "tt.plugins._git-messenger"
+                end,
+            },
+            -- Generate shareable git file permalinks
+            {
+                "ruifm/gitlinker.nvim",
+                requires = "nvim-lua/plenary.nvim",
+                config = function()
+                    require "tt.plugins._gitlinker"
                 end,
             },
         }
