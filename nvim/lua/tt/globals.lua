@@ -4,19 +4,26 @@ function _G.Print(value)
     return value
 end
 
----Reloads the supplied module.
-function _G.Reload(module)
+---Flushes the supplied module from cache.
+function _G.FlushModule(module)
     if pcall(require, "plenary.reload") then
-        require("plenary.reload").reload_module(module)
-        return require(module)
+        return require("plenary.reload").reload_module(module)
     end
 end
 
+---Reloads the supplied module.
+function _G.Reload(module)
+    _G.FlushModule(module)
+    return require(module)
+end
+
 ---Reloads my whole Lua configuration.
----Everything is scoped under namespace "tt" hence, it makes it easy to reload everything.
+---Everything is scoped under namespace "tt".
 function _G.ReloadConfig()
-    print "Reloading lua config..."
-    return _G.Reload "tt"
+    _G.FlushModule "tt"
+    vim.cmd [[runtime lua/tt/init.lua]]
+    vim.cmd [[runtime lua/tt/plugins/*.lua]]
+    print "Reloaded Lua config..."
 end
 
 local utils = require "tt.utils"
