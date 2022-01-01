@@ -26,6 +26,13 @@ function _G.ReloadConfig()
     print "Reloaded Lua config..."
 end
 
+-- Create a wrapper for nvim-web-devicons
+function _G.WebDevIcons(path)
+    local extension = vim.fn.fnamemodify(path, ":e")
+    local filename = vim.fn.fnamemodify(path, ":t")
+    return require("nvim-web-devicons").get_icon(filename, extension, { default = true })
+end
+
 local utils = require "tt.utils"
 
 utils.map("n", "<leader>sc", "<Cmd>lua ReloadConfig()<CR>")

@@ -72,3 +72,10 @@ vim.g.startify_bookmarks = {
     { z = "~/.zshrc" },
     { a = "~/.zsh_aliases" },
 }
+
+-- Setup the required function so that Startify can use WebDevIcons
+vim.cmd [[
+    function! StartifyEntryFormat() abort
+        return 'v:lua.WebDevIcons(absolute_path) . " " . entry_path'
+    endfunction
+]]
