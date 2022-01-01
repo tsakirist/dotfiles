@@ -24,7 +24,6 @@ function M.packer_bootstrap()
     return packer_bootstrap
 end
 
--- Setup packer keymappings
 local utils = require "tt.utils"
 
 utils.map("n", "<leader>pc", "<Cmd>PackerCompile<CR>")

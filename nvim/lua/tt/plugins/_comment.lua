@@ -72,7 +72,6 @@ require("Comment").setup {
     post_hook = nil,
 }
 
--- Setup Comment keymappings
 local utils = require "tt.utils"
 
 utils.map("n", "<leader><leader>", "gcc", { noremap = false })
