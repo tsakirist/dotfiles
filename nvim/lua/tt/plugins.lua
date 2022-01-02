@@ -234,6 +234,12 @@ return require("packer").startup {
                         require("telescope").load_extension "fzf"
                     end,
                 },
+                {
+                    "nvim-telescope/telescope-packer.nvim",
+                    config = function()
+                        require("telescope").load_extension "packer"
+                    end,
+                },
             },
             config = function()
                 require "tt.plugins._telescope"

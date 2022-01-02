@@ -58,18 +58,25 @@ require("telescope").setup {
             },
         },
     },
+    extensions = {
+        fzf = {
+            fuzzy = true, -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true, -- override the file sorter
+            case_mode = "smart_case", -- "ignore_case" or "respect_case" or "smart_case"
+        },
+        packer = {
+            theme = "ivy",
+            layout_config = {
+                height = 0.5,
+            },
+        },
+    },
 }
 
 local M = {}
 
 -- Define custom functions for telescope
-function M.find_in_plugins()
-    require("telescope.builtin").find_files {
-        prompt_title = "Plugins",
-        cwd = vim.fn.stdpath "data" .. "/site/pack/packer/",
-    }
-end
-
 function M.find_in_nvim_config()
     require("telescope.builtin").find_files {
         prompt_title = "Nvim Config",
@@ -126,19 +133,19 @@ utils.map("n", "<leader>fH", "<Cmd>Telescope highlights<CR>")
 utils.map("n", "<leader>fo", "<Cmd>Telescope oldfiles<CR>")
 utils.map("n", "<leader>fO", "<Cmd>Telescope vim_options<CR>")
 utils.map("n", "<leader>fw", "<Cmd>Telescope grep_string<CR>")
-utils.map("n", "<leader>fT", "<Cmd>Telescope tags<CR>")
+utils.map("n", "<leader>fp", "<Cmd>Telescope packer<CR>")
 utils.map("n", "<leader>fs", "<Cmd>Telescope lsp_document_symbols<CR>")
+utils.map("n", "<leader>fT", "<Cmd>Telescope tags<CR>")
 utils.map("n", "<leader>f:", "<Cmd>Telescope command_history<CR>")
 utils.map("n", "<leader>f/", "<Cmd>Telescope search_history<CR>")
-utils.map("n", "<leader>fg", "<Cmd>lua require'telescope.builtin'.live_grep({layout_strategy = 'vertical'})<CR>")
 utils.map("n", "<leader>fh", "<Cmd>lua require'telescope.builtin'.help_tags({layout_strategy = 'vertical'})<CR>")
+utils.map("n", "<leader>fg", "<Cmd>lua require'telescope.builtin'.live_grep({layout_strategy = 'vertical'})<CR>")
 utils.map(
     "n",
     "<leader>fl",
     "<Cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = 'vertical'})<CR>"
 )
 utils.map("n", "<leader>fm", "<Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_ivy({}))<CR>")
-utils.map("n", "<leader>fp", "<Cmd>lua require'tt.plugins._telescope'.find_in_plugins()<CR>")
 utils.map("n", "<leader>fv", "<Cmd>lua require'tt.plugins._telescope'.find_in_nvim_config()<CR>")
 utils.map("n", "<leader>mr", "<Cmd>lua require'tt.plugins._telescope'.reload_modules()<CR>")
 
