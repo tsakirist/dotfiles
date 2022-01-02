@@ -108,8 +108,8 @@ function M.setup()
         "<leader>fm",
         "<Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_ivy({}))<CR>"
     )
-    utils.map("n", "<leader>fv", "<Cmd>lua require'tt.plugins._telescope'.find_in_nvim_config()<CR>")
-    utils.map("n", "<leader>mr", "<Cmd>lua require'tt.plugins._telescope'.reload_modules()<CR>")
+    utils.map("n", "<leader>fv", "<Cmd>lua require'tt.plugins.telescope'.find_in_nvim_config()<CR>")
+    utils.map("n", "<leader>mr", "<Cmd>lua require'tt.plugins.telescope'.reload_modules()<CR>")
 end
 
 -- Define custom functions for telescope

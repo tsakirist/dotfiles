@@ -1,64 +1,66 @@
 local M = {}
 
--- Icons for the pop-up menu
-local cmp_kinds = {
-    Class = "  ",
-    Color = "  ",
-    Constant = "  ",
-    Constructor = "  ",
-    Enum = "了 ",
-    EnumMember = "  ",
-    Field = "  ",
-    File = "  ",
-    Folder = "  ",
-    Function = "ƒ  ",
-    Interface = "  ",
-    Keyword = "  ",
-    Method = "  ",
-    Module = "  ",
-    Property = "  ",
-    Snippet = "﬌  ",
-    Struct = "  ",
-    Reference = "  ",
-    Text = "  ",
-    Unit = "塞 ",
-    Value = "  ",
-    Variable = "  ",
-    Operator = "  ",
-    Event = "  ",
-    TypeParameter = "  ",
-}
+-- Defines which kind source to use for the icons
+local kind_source = "vscode"
 
--- Vscode icons
--- For installation information:
--- https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-add-visual-studio-code-codicons-to-the-menu
--- local vscode_kinds = {
---     Class = "  ",
---     Color = "  ",
---     Constant = "  ",
---     Constructor = "  ",
---     Enum = "  ",
---     EnumMember = "  ",
---     Event = "  ",
---     Field = "  ",
---     File = "  ",
---     Folder = "  ",
---     Function = "  ",
---     Interface = "  ",
---     Keyword = "  ",
---     Method = "  ",
---     Module = "  ",
---     Operator = "  ",
---     Property = "  ",
---     Reference = "  ",
---     Snippet = "  ",
---     Struct = "  ",
---     Text = "  ",
---     TypeParameter = "  ",
---     Unit = "  ",
---     Value = "  ",
---     Variable = "  ",
--- }
+local cmp_kinds = {
+    default = {
+        Class = "  ",
+        Color = "  ",
+        Constant = "  ",
+        Constructor = "  ",
+        Enum = "了 ",
+        EnumMember = "  ",
+        Event = "  ",
+        Field = "  ",
+        File = "  ",
+        Folder = "  ",
+        Function = "ƒ  ",
+        Interface = "  ",
+        Keyword = "  ",
+        Method = "  ",
+        Module = "  ",
+        Operator = "  ",
+        Property = "  ",
+        Reference = "  ",
+        Snippet = "﬌  ",
+        Struct = "  ",
+        Text = "  ",
+        TypeParameter = "  ",
+        Unit = "塞 ",
+        Value = "  ",
+        Variable = "  ",
+    },
+    -- Installation information:
+    -- https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-add-visual-studio-code-codicons-to-the-menu
+    vscode = {
+        Class = "  ",
+        Color = "  ",
+        Constant = "  ",
+        Constructor = "  ",
+        Enum = "  ",
+        EnumMember = "  ",
+        Event = "  ",
+        Field = "  ",
+        File = "  ",
+        Folder = "  ",
+        Function = "  ",
+        Interface = "  ",
+        Keyword = "  ",
+        Method = "  ",
+        Module = "  ",
+        Operator = "  ",
+        Property = "  ",
+        Reference = "  ",
+        Snippet = "﬌ ",
+        Struct = "  ",
+        Text = "  ",
+        TypeParameter = "  ",
+        Unit = "  ",
+        Value = "  ",
+        Variable = "  ",
+    },
+}
 
 -- Setup custom menu entries for the autocompletion
 local cmp_source_names = {
@@ -112,10 +114,11 @@ function M.setup()
         formatting = {
             -- Set the ordering of the fields/items in the pop-up menu
             fields = { "abbr", "kind", "menu" },
+
             -- Set the format function that will be used for the suggestiosn
             format = function(entry, vim_item)
                 -- Add icons for the suggestions
-                vim_item.kind = cmp_kinds[vim_item.kind]
+                vim_item.kind = cmp_kinds[kind_source][vim_item.kind]
 
                 -- Set a name for each source
                 vim_item.menu = cmp_source_names[entry.source.name]
@@ -139,7 +142,7 @@ function M.setup()
             ["<CR>"] = cmp.mapping.confirm { select = true },
             ["<Tab>"] = cmp.mapping(tab, { "i", "s" }),
             ["<S-Tab>"] = cmp.mapping(shift_tab, { "i", "s" }),
-            ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+            ["<C-b>"] = cmp.mapping.scroll_docs(-4),
             ["<C-f>"] = cmp.mapping.scroll_docs(4),
             ["<C-Space>"] = cmp.mapping.complete(),
         },

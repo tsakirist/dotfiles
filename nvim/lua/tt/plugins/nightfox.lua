@@ -1,5 +1,7 @@
 local M = {}
 
+local colors = require("nightfox.colors").init "nordfox"
+
 function M.setup()
     require("nightfox").setup {
         fox = "nordfox", -- Which fox style should be applied
@@ -19,7 +21,14 @@ function M.setup()
             search = false, -- Enable/Disable inverse highlights for search highlights
         },
         colors = {}, -- Override default colors
-        hlgroups = {}, -- Override highlight groups
+        hlgroups = { -- Override highlight groups
+            CmpItemKindFunction = {
+                fg = colors.magenta,
+            },
+            CmpItemKindMethod = {
+                fg = colors.magenta,
+            },
+        },
     }
 
     -- Load the configuration set above and apply the colorscheme
