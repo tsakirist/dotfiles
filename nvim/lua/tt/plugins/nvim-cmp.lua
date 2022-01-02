@@ -1,3 +1,5 @@
+local M = {}
+
 -- Icons for the pop-up menu
 local cmp_kinds = {
     Class = "  ",
@@ -97,67 +99,71 @@ local function shift_tab(fallback)
     end
 end
 
-cmp.setup {
-    completion = {
-        -- The minimum length of a word to complete on
-        keyword_length = 1,
-    },
-    experimental = {
-        ghost_text = true,
-        native_menu = false,
-    },
-    formatting = {
-        -- Set the ordering of the fields/items in the pop-up menu
-        fields = { "abbr", "kind", "menu" },
-        -- Set the format function that will be used for the suggestiosn
-        format = function(entry, vim_item)
-            -- Add icons for the suggestions
-            vim_item.kind = cmp_kinds[vim_item.kind]
+function M.setup()
+    cmp.setup {
+        completion = {
+            -- The minimum length of a word to complete on
+            keyword_length = 1,
+        },
+        experimental = {
+            ghost_text = true,
+            native_menu = false,
+        },
+        formatting = {
+            -- Set the ordering of the fields/items in the pop-up menu
+            fields = { "abbr", "kind", "menu" },
+            -- Set the format function that will be used for the suggestiosn
+            format = function(entry, vim_item)
+                -- Add icons for the suggestions
+                vim_item.kind = cmp_kinds[vim_item.kind]
 
-            -- Set a name for each source
-            vim_item.menu = cmp_source_names[entry.source.name]
+                -- Set a name for each source
+                vim_item.menu = cmp_source_names[entry.source.name]
 
-            -- Do not add duplicate entries if an item with the same word is already present
-            -- Seems to fix, the duplicate entries with the snippets
-            vim_item.dup = 0
+                -- Do not add duplicate entries if an item with the same word is already present
+                -- Seems to fix, the duplicate entries with the snippets
+                vim_item.dup = 0
 
-            return vim_item
-        end,
-    },
-    documentation = {
-        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-    },
-    snippet = {
-        expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-        end,
-    },
-    mapping = {
-        ["<CR>"] = cmp.mapping.confirm { select = true },
-        ["<Tab>"] = cmp.mapping(tab, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(shift_tab, { "i", "s" }),
-        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete(),
-    },
-    sources = {
-        { name = "nvim_lsp" },
-        { name = "nvim_lua" },
-        { name = "luasnip" },
-        { name = "path" },
-        {
-            name = "buffer",
-            keyword_length = 3,
-            options = {
-                -- Get results only from visible buffers rather than from all buffers
-                get_bufnrs = function()
-                    local bufs = {}
-                    for _, win in ipairs(vim.api.nvim_list_wins()) do
-                        bufs[vim.api.nvim_win_get_buf(win)] = true
-                    end
-                    return vim.tbl_keys(bufs)
-                end,
+                return vim_item
+            end,
+        },
+        documentation = {
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        },
+        snippet = {
+            expand = function(args)
+                require("luasnip").lsp_expand(args.body)
+            end,
+        },
+        mapping = {
+            ["<CR>"] = cmp.mapping.confirm { select = true },
+            ["<Tab>"] = cmp.mapping(tab, { "i", "s" }),
+            ["<S-Tab>"] = cmp.mapping(shift_tab, { "i", "s" }),
+            ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+            ["<C-f>"] = cmp.mapping.scroll_docs(4),
+            ["<C-Space>"] = cmp.mapping.complete(),
+        },
+        sources = {
+            { name = "nvim_lsp" },
+            { name = "nvim_lua" },
+            { name = "luasnip" },
+            { name = "path" },
+            {
+                name = "buffer",
+                keyword_length = 3,
+                options = {
+                    -- Get results only from visible buffers rather than from all buffers
+                    get_bufnrs = function()
+                        local bufs = {}
+                        for _, win in ipairs(vim.api.nvim_list_wins()) do
+                            bufs[vim.api.nvim_win_get_buf(win)] = true
+                        end
+                        return vim.tbl_keys(bufs)
+                    end,
+                },
             },
         },
-    },
-}
+    }
+end
+
+return M

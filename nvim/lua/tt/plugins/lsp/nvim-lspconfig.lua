@@ -1,3 +1,5 @@
+local M = {}
+
 local setup_diagnostics = function()
     vim.diagnostic.config {
         underline = true,
@@ -188,6 +190,9 @@ local setup_servers = function()
     end
 end
 
--- Setup everything
-setup_handlers()
-setup_servers()
+function M.setup()
+    setup_handlers()
+    setup_servers()
+end
+
+return M

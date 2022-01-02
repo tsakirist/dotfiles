@@ -34,6 +34,6 @@ function _G.WebDevIcons(path)
 end
 
 local utils = require "tt.utils"
-
 utils.map("n", "<leader>sc", "<Cmd>lua ReloadConfig()<CR>")
+
 vim.cmd "command! ReloadConfig lua ReloadConfig()"

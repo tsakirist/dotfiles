@@ -231,5 +231,14 @@ ins_right {
     right_padding = 0,
 }
 
--- Now don't forget to initialize lualine
-lualine.setup(config)
+local M = {}
+
+function M.config()
+    return config
+end
+
+function M.setup()
+    lualine.setup(config)
+end
+
+return M

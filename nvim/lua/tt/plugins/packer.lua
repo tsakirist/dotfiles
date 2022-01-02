@@ -25,7 +25,6 @@ function M.packer_bootstrap()
 end
 
 local utils = require "tt.utils"
-
 utils.map("n", "<leader>pc", "<Cmd>PackerCompile<CR>")
 utils.map("n", "<leader>pC", "<Cmd>PackerClean<CR>")
 utils.map("n", "<leader>pi", "<Cmd>PackerInstall<CR>")

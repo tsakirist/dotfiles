@@ -74,3 +74,5 @@ function M.load_autocommands()
 end
 
 M.load_autocommands()
+
+return M
