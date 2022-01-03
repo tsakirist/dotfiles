@@ -281,7 +281,30 @@ return require("packer").startup {
                 event = "BufRead",
                 requires = { "nvim-lua/plenary.nvim" },
                 config = function()
-                    require("tt.plugins.gitsigns").setup()
+                    require("tt.plugins.git.gitsigns").setup()
+                end,
+            },
+            -- Better diff view interface and file history
+            {
+                "sindrets/diffview.nvim",
+                config = function()
+                    require("tt.plugins.git.diffview").setup()
+                end,
+            },
+            -- Popup about the commit message under cursor
+            {
+                "rhysd/git-messenger.vim",
+                keys = "<leader>gm",
+                config = function()
+                    require("tt.plugins.git.git-messenger").setup()
+                end,
+            },
+            -- Generate shareable git file permalinks
+            {
+                "ruifm/gitlinker.nvim",
+                requires = "nvim-lua/plenary.nvim",
+                config = function()
+                    require("tt.plugins.git.gitlinker").setup()
                 end,
             },
             -- More pleasant editing experience on commit messages
@@ -290,22 +313,6 @@ return require("packer").startup {
                 ft = "gitcommit",
                 config = function()
                     vim.g.committia_min_window_width = 140
-                end,
-            },
-            -- Popup about the commit message under cursor
-            {
-                "rhysd/git-messenger.vim",
-                keys = "<leader>gm",
-                config = function()
-                    require("tt.plugins.git-messenger").setup()
-                end,
-            },
-            -- Generate shareable git file permalinks
-            {
-                "ruifm/gitlinker.nvim",
-                requires = "nvim-lua/plenary.nvim",
-                config = function()
-                    require("tt.plugins.gitlinker").setup()
                 end,
             },
         }
