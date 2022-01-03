@@ -82,7 +82,7 @@ local setup_keymappings = function(_, bufnr)
     local ft = vim.bo.filetype
     if ft == "c" or ft == "cpp" or ft == "h" or ft == "hpp" then
         -- Alternate between header/source files
-        buf_set_keymap("n", "<leader>ko", "<Cmd>ClangdSwitchSourceHeader<CR>")
+        buf_set_keymap("n", "<leader>ko", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
     end
 end
 
@@ -156,11 +156,16 @@ local setup_servers = function()
             },
         }
 
+        -- As an interim solution force clangd to use the same encoding
+        -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
+        if server.name == "clangd" then
+            opts.capabilities.offsetEncoding = { "utf-16" }
+        end
+
         -- Customize the options that are passed to the server
         opts.settings = server_settings[server.name] or {}
 
         server:setup(opts)
-        vim.cmd [[ do User LspAttachBuffers ]]
     end)
 
     -- Define the required LSP servers
