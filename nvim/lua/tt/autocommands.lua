@@ -30,6 +30,7 @@ function M.load_autocommands()
         _format_options = {
             { "BufEnter", "*", "setlocal fo+=t fo+=r fo-=l fo-=o fo+=q" },
         },
+        -- Remove trailing whitespaces on write
         _trim_whitespace = {
             { "BufWritePre", "*", "lua require('tt.helper').trimTrailingWhiteSpace()" },
         },
@@ -37,15 +38,9 @@ function M.load_autocommands()
         _format_on_save = {
             { "BufWritePre", "*.lua", "lua vim.lsp.buf.formatting_sync({}, 1000)" },
         },
-        _clipboard = {
-            { "VimLeave", "*", "call system('xclip -selection clipboard -i', getreg('+')" },
-        },
-        _git = {
-            { "FileType", "gitcommit", "setlocal spell wrap " },
-        },
-        -- Enable wrapping and spellcheck for markdown
-        _markdown = {
-            { "FileType", "markdown", "setlocal spell wrap" },
+        -- Enable spelling for these filetypes
+        _spell_check = {
+            { "FileType", "text,gitcommit,markdown", "setlocal spell wrap " },
         },
         -- Resize windows when host resizes
         _auto_resize = {
