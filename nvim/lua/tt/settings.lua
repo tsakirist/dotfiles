@@ -51,7 +51,8 @@ opt.cindent = true
 opt.cinoptions = { "g0", ":0", "1", "-s", "(0", "1", "1s" }
 
 -- Set the visual character to be shown for wrapped lines
-opt.showbreak = [[↪\]]
+-- Disabled, this cause I don't want showbreaks in nvim-cmp documentation
+-- opt.showbreak = [[↪\]]
 
 -- This makes searches case insensitive
 opt.ignorecase = true
