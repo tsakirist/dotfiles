@@ -40,7 +40,7 @@ function M.load_autocommands()
         },
         -- Enable spelling for these filetypes
         _spell_check = {
-            { "FileType", "text,gitcommit,markdown", "setlocal spell wrap " },
+            { "FileType", "text,gitcommit,markdown", "setlocal spell wrap" },
         },
         -- Resize windows when host resizes
         _auto_resize = {
