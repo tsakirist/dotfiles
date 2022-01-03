@@ -46,7 +46,7 @@ utils.map("v", "<C-j>", ":m '>+1<CR>gv=gv")
 utils.map({ "n", "v" }, "<leader>d", ":t.<CR>")
 utils.map("i", "<leader>d", "<Esc>:t.<CR>")
 
--- Hitting ESC when inside a <Cmd>term to get into normal mode
+-- Hitting ESC when inside a terminal to get into normal mode
 utils.map("t", "<Esc>", [[<C-\><C-N>]])
 
 -- Save files with ctrl+s
