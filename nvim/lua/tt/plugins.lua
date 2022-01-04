@@ -209,10 +209,6 @@ return require("packer").startup {
             },
         }
 
-        -- Fuzzy finder FZF, this also installs FZF globally
-        -- use { "junegunn/fzf", run = "./install --key-bindings --completion --no-update-rc" }
-        -- use { "junegunn/fzf.vim", after = "fzf" }
-
         -- Telescope fuzzy finding
         use {
             "nvim-telescope/telescope.nvim",

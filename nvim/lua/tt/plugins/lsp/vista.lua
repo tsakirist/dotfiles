@@ -20,9 +20,6 @@ function M.setup()
     -- specifying the executive.
     vim.g.vista_executive_for = { cpp = "nvim_lsp" }
 
-    -- To enable fzf's preview window set g.vista_fzf_preview.
-    vim.g.vista_fzf_preview = { "right:50%" }
-
     -- Enable icons
     vim.g["vista#renderer#enable_icon"] = 1
 
