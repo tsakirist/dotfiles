@@ -1,8 +1,8 @@
 local M = {}
 
-local colors = require("nightfox.colors").init "nordfox"
-
 function M.setup()
+    local colors = require("nightfox.colors").init "nordfox"
+
     require("nightfox").setup {
         fox = "nordfox", -- Which fox style should be applied
         transparent = false, -- Disable setting the background color
