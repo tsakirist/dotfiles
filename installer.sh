@@ -425,8 +425,8 @@ function _java() {
 
 function _kitty() {
     _print i "kity" ": the fast, featureful, GPU based terminal emulator"
-    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
-    sudo ln -sv "$HOME"/.local/kitty.app/bin/kitty /usr/local/bin/
+    curl -sSL https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n > /dev/null
+    sudo ln -svf "$HOME"/.local/kitty.app/bin/kitty /usr/local/bin/
     # Place the kitty.desktop file somewhere it can be found
     cp -v ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
     # Update the path to the kitty icon in the kitty.desktop file
