@@ -43,17 +43,17 @@ function M.setup()
     local plugins = #vim.tbl_keys(packer_plugins)
 
     local custom_header = {
-        [[                                  __                ]],
-        [[     ___     ___    ___   __  __ /\_\    ___ ___    ]],
-        [[    / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
-        [[   /\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
-        [[   \ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
-        [[    \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
+        [[                                 __                 ]],
+        [[    ___     ___    ___   __  __ /\_\    ___ ___     ]],
+        [[   / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\   ]],
+        [[  /\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \  ]],
+        [[  \ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\ ]],
+        [[   \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/ ]],
         [[                                                    ]],
-        [[   ﯟ Tryfon Tsakiris, tr.tsakiris@gmail.com         ]],
-        [[    ]] .. datetime,
-        [[    Neovim Version: ]] .. version,
-        [[    Plugins: ]] .. plugins,
+        [[  ﯟ Tryfon Tsakiris, tr.tsakiris@gmail.com          ]],
+        [[   ]] .. datetime,
+        [[   Neovim Version: ]] .. version,
+        [[   Plugins: ]] .. plugins,
     }
 
     vim.g.startify_custom_header = vim.fn["startify#center"](custom_header)
