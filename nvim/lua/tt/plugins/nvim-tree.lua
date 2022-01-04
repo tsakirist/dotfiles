@@ -12,9 +12,6 @@ function M.setup()
     vim.g.nvim_tree_icon_padding = " " -- used for rendering the space between the icon and the filename.
     vim.g.nvim_tree_respect_buf_cwd = 1 -- will change cwd of nvim-tree to that of new buffer's when opening nvim-tree
     vim.g.nvim_tree_git_hl = 0 -- disable this for better perfomance
-    vim.g.nvim_tree_auto_ignore_ft = { -- do not load nvim-tree for these filetypes
-        "startify",
-    }
     vim.g.nvim_tree_show_icons = { -- disable/enable icons per type, disable git for better perfomance
         git = 0,
         folders = 1,
@@ -86,20 +83,27 @@ function M.setup()
         disable_netrw = false, -- disables netrw
         hijack_netrw = true, -- prevents netrw from automatically opening when opening directories
         open_on_setup = false, -- don't open when running setup
-        ignore_ft_on_setup = {}, -- ignore filetypes when running setup
+        ignore_ft_on_setup = { -- ignore filetypes when running setup
+            "startify",
+            "vista_kind",
+        },
+        auto_close = false, -- do not close neovim when nvim-tree is the last window
+        open_on_tab = true, -- open tree automatically when switching tab or opening new one
         update_to_buf_dir = { -- hijacks new directory buffers when they are opened, opens the tree when typing `vim $DIR` or `vim`
             enable = true,
             auto_open = true, -- open the tree if it was previsouly closed
         },
-        git = { -- Git integration with icons and colors
-            enable = true, -- Enable the feature
-            ignore = true, -- Ignore files base on .gitignore
-            timeout = 500, -- Kill the git process after some time if takes too long
-        },
-        auto_close = false, -- do not close neovim when nvim-tree is the last window
-        open_on_tab = true, -- open tree automatically when switching tab or opening new one
         hijack_cursor = false, -- when moving cursor in the tree, will position the cursor at the start of the file on the current line
         update_cwd = true, -- update the tree cwd when changing nvim's directory (DirChanged event)
+        update_focused_file = { -- update tree to follow the focused file
+            enable = false,
+            update_cwd = false, -- update the root directory of the tree to the one of the folder containing the file
+            ignore_list = {},
+        },
+        system_open = { -- configuration options for the system command, 's' in the tree by default
+            cmd = nil, -- the command to run, nil should work on most cases
+            args = {}, -- the command arguments as a list
+        },
         diagnostics = { -- lsp diagnostics in the signcolumn
             enable = false,
             icons = {
@@ -109,14 +113,10 @@ function M.setup()
                 error = "",
             },
         },
-        update_focused_file = { -- do not update tree to follow the focused file
-            enable = false,
-            update_cwd = false, -- update the root directory of the tree to the one of the folder containing the file
-            ignore_list = {},
-        },
-        system_open = { -- configuration options for the system command, 's' in the tree by default
-            cmd = nil, -- the command to run, nil should work on most cases
-            args = {}, -- the command arguments as a list
+        git = { -- Git integration with icons and colors
+            enable = true, -- Enable the feature
+            ignore = true, -- Ignore files base on .gitignore
+            timeout = 500, -- Kill the git process after some time if takes too long
         },
         view = { -- configuration options for the view
             width = 45, -- width of the window, can be either columns or string in '%'
@@ -124,13 +124,13 @@ function M.setup()
             side = "left", -- the side where the tree should open
             hide_root_folder = false, -- hide the root folder
             auto_resize = true, -- resize the tree when opening a file
+            number = false, -- print line number in front of each line
+            relativenumber = false, -- show line number relative to the line with the cursor
+            signcolumn = "yes", -- show diagnostic sign column
             mappings = {
                 custom_only = true, -- disable default keybindings
                 list = nvim_tree_mappings, -- list with the custom keybindings
             },
-            number = false, -- print line number in front of each line
-            relativenumber = false, -- show line number relative to the line with the cursor
-            signcolumn = "yes", -- show diagnostic sign column
         },
         filters = {
             dotfiles = false, -- hide files and folders starting with a dot '.'

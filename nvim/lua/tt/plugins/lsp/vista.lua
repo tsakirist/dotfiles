@@ -5,6 +5,12 @@ function M.setup()
     -- This could make the display more compact or more spacious. e.g., more compact: ["▸ ", ""]
     vim.g.vista_icon_indent = { "╰─▸ ", "├─▸ " }
 
+    -- Position of sidebar
+    vim.g.vista_sidebar_position = "vertical topleft"
+
+    -- Width of sidebar
+    vim.g.vista_sidebar_width = 45
+
     -- Executive used when opening vista sidebar without specifying it.
     -- See all the avaliable executives via `:echo g.vista#executives`.
     vim.g.vista_default_executive = "nvim_lsp"
