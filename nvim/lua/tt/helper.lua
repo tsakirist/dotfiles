@@ -1,7 +1,7 @@
 local helper = {}
 
 -- Function to zoom-in and zoom-out from a window
-function helper.zoomToggle()
+function helper.zoomToggleSameTab()
     -- Do nothing if this is the only window, i.e. no splits
     if vim.fn.winnr "$" == 1 then
         return nil
@@ -22,6 +22,33 @@ function helper.zoomToggle()
             wincmd |
         ]]
     end
+end
+
+-- Function to zoom-in and zoom-out of the given window in a new tab
+-- that also retains cursor position when zooming-in and zooming-out
+function helper.zoomToggleNewTab()
+    -- Do nothing if this is the only window in the first tab
+    if vim.fn.winnr "$" == 1 and vim.fn.tabpagenr "$" == 1 then
+        return
+    end
+
+    -- Get the last cursor position before opening the new tab
+    local last_cursor = vim.api.nvim_win_get_cursor(0)
+
+    if vim.fn.winnr "$" == 1 then
+        -- Close the tab only if it's opened by this function
+        if pcall(vim.api.nvim_tabpage_get_var, 0, "zoomedTab") then
+            vim.cmd [[ tabclose ]]
+        end
+    else
+        -- Open a new tab with the current file
+        vim.cmd [[ tabnew %:p ]]
+        -- Set a t:_zoomed indicating if we're on a "zoomed" tab
+        vim.api.nvim_tabpage_set_var(0, "zoomedTab", true)
+    end
+
+    -- Restore the cursor position
+    vim.api.nvim_win_set_cursor(0, last_cursor)
 end
 
 -- Function to trim trailing whitespace

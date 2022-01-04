@@ -120,4 +120,5 @@ utils.map("n", "<leader>o", "o<Esc>kO<Esc>j")
 utils.map({ "n", "x" }, "ga", "<Plug>(EasyAlign)", { noremap = false })
 utils.map({ "n", "x" }, "<leader>ga", "<Plug>(LiveEasyAlign)", { noremap = false })
 
-utils.map("n", "<leader>z", "<Cmd>lua require'tt.helper'.zoomToggle()<CR>")
+-- Zoom toggle a buffer in a window in a new tab
+utils.map("n", "<leader>z", "<Cmd>lua require'tt.helper'.zoomToggleNewTab()<CR>")
