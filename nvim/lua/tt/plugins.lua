@@ -47,6 +47,7 @@ return require("packer").startup {
             end,
         }
 
+        -- Bufferline
         use {
             "akinsho/bufferline.nvim",
             requires = { "kyazdani42/nvim-web-devicons" },
@@ -84,51 +85,58 @@ return require("packer").startup {
         }
 
         -- LSP related plugins
-        -- TODO: refactor this with a single require for the dependencies for lspconfig
         use {
-            "neovim/nvim-lspconfig",
-            requires = "williamboman/nvim-lsp-installer",
-            config = function()
-                require("tt.plugins.lsp.nvim-lspconfig").setup()
-            end,
-        }
-        use {
-            "williamboman/nvim-lsp-installer",
-            before = "nvim-lspconfig",
-            config = function()
-                require("tt.plugins.lsp.nvim-lsp-installer").setup()
-            end,
-        }
-        use {
-            "jose-elias-alvarez/null-ls.nvim",
-            after = "nvim-lspconfig",
-            config = function()
-                require("tt.plugins.lsp.null-ls").setup()
-            end,
-        }
-        use {
-            "rmagatti/goto-preview",
-            after = "nvim-lspconfig",
-            config = function()
-                require("tt.plugins.lsp.goto-preview").setup()
-            end,
-        }
-        use {
-            "weilbith/nvim-code-action-menu",
-            keys = { "<leader>ca" },
-            cmd = "CodeActionMenu",
-            config = function()
-                vim.g.code_action_menu_show_details = false
-                vim.g.code_action_menu_show_diff = true
-            end,
-        }
-        use {
-            "liuchengxu/vista.vim",
-            keys = { "<leader>vv", "<leader>vf" },
-            cmd = "Vista",
-            config = function()
-                require("tt.plugins.lsp.vista").setup()
-            end,
+            -- Common configuration for LSP servers
+            {
+                "neovim/nvim-lspconfig",
+                requires = "williamboman/nvim-lsp-installer",
+                config = function()
+                    require("tt.plugins.lsp.nvim-lspconfig").setup()
+                end,
+            },
+            -- Manager/Installer for LSP servers
+            {
+                "williamboman/nvim-lsp-installer",
+                before = "nvim-lspconfig",
+                config = function()
+                    require("tt.plugins.lsp.nvim-lsp-installer").setup()
+                end,
+            },
+            -- General purpose LSP that allows non-LSP sources to hook to native LSP
+            {
+                "jose-elias-alvarez/null-ls.nvim",
+                after = "nvim-lspconfig",
+                config = function()
+                    require("tt.plugins.lsp.null-ls").setup()
+                end,
+            },
+            -- Preview of implementation in floating-window
+            {
+                "rmagatti/goto-preview",
+                after = "nvim-lspconfig",
+                config = function()
+                    require("tt.plugins.lsp.goto-preview").setup()
+                end,
+            },
+            -- Better code-action experience
+            {
+                "weilbith/nvim-code-action-menu",
+                keys = { "<leader>ca" },
+                cmd = "CodeActionMenu",
+                config = function()
+                    vim.g.code_action_menu_show_details = false
+                    vim.g.code_action_menu_show_diff = true
+                end,
+            },
+            -- Tree-like viewer for symbols
+            {
+                "liuchengxu/vista.vim",
+                keys = { "<leader>vv", "<leader>vf" },
+                cmd = "Vista",
+                config = function()
+                    require("tt.plugins.lsp.vista").setup()
+                end,
+            },
         }
 
         -- Treesitter related plugins
@@ -155,31 +163,16 @@ return require("packer").startup {
             end,
         }
 
-        -- Autocomplete related plugins _and snippets
+        -- Autocomplete related plugins and snippets
         use {
             "hrsh7th/nvim-cmp",
             event = "InsertEnter",
             requires = {
-                {
-                    "hrsh7th/cmp-nvim-lsp",
-                    after = "nvim-cmp",
-                },
-                {
-                    "hrsh7th/cmp-nvim-lua",
-                    after = "nvim-cmp",
-                },
-                {
-                    "hrsh7th/cmp-buffer",
-                    after = "nvim-cmp",
-                },
-                {
-                    "hrsh7th/cmp-path",
-                    after = "nvim-cmp",
-                },
-                {
-                    "saadparwaiz1/cmp_luasnip",
-                    after = "nvim-cmp",
-                },
+                { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
+                { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
+                { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
+                { "hrsh7th/cmp-path", after = "nvim-cmp" },
+                { "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" },
                 {
                     "L3MON4D3/LuaSnip",
                     before = "nvim-cmp",
@@ -221,7 +214,7 @@ return require("packer").startup {
         -- use { "junegunn/fzf", run = "./install --key-bindings --completion --no-update-rc" }
         -- use { "junegunn/fzf.vim", after = "fzf" }
 
-        -- Telescope related plugins
+        -- Telescope fuzzy finding
         use {
             "nvim-telescope/telescope.nvim",
             requires = {
@@ -253,7 +246,8 @@ return require("packer").startup {
                 require("tt.plugins.indent-blankline").setup()
             end,
         }
-        -- Nvim-tree
+
+        -- File explorer tree
         use {
             "kyazdani42/nvim-tree.lua",
             event = "BufRead",
@@ -273,7 +267,7 @@ return require("packer").startup {
             end,
         }
 
-        -- Git related
+        -- Git related plugins
         use {
             -- Git integrations for buffers
             {
