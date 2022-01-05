@@ -224,9 +224,22 @@ function _vimrc() {
 
 function _nvim() {
     _print i "neovim"
-    # _check_ppa neovim-ppa/stable
     _check_ppa neovim-ppa/unstable
     _install neovim
+}
+
+function _nvim_nightly() {
+    _print i "neovim nightly"
+    local url="https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage"
+    local download_dir=$(mktemp -d)
+    wget -q -O "$download_dir"/nvim.appimage "$url"
+    pushd "$download_dir" > /dev/null || return
+    [ -f nvim.appimage ] \
+        && chmod u+x nvim.appimage \
+        && echo -ne "    ${green_fg}${tick}${reset} Installed " \
+        && ./nvim.appimage --version | grep --color=always -m 1 NVIM \
+        && sudo mv nvim.appimage /usr/bin/nvim
+    popd > /dev/null || return
 }
 
 # TODO: Remove this?
@@ -571,6 +584,7 @@ pkgs=(
     "    stylua: An opiniated Lua formatter"
     "    luacheck: Lua static analysis tool"
     "    nvim"
+    "    nvim_nightly"
     "    nvimrc"
     "    xprofile"
     "    tmux: terminal multiplexer"
@@ -615,6 +629,7 @@ pkgs_functions=(
     _stylua
     _luacheck
     _nvim
+    _nvim_nightly
     _nvimrc
     _x_profile
     _tmux

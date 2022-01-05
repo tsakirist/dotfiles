@@ -119,6 +119,7 @@ download_nvim() {
     pushd /tmp/ > /dev/null || return
     [ -f nvim.appimage ] \
         && chmod u+x nvim.appimage \
+        && echo -n "Installed " \
         && ./nvim.appimage --version | grep -m 1 NVIM \
         && sudo mv nvim.appimage -v /usr/bin/nvim
     popd > /dev/null || return
