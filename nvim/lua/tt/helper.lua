@@ -1,7 +1,8 @@
-local helper = {}
+local M = {}
 
--- Function to zoom-in and zoom-out from a window
-function helper.zoomToggleSameTab()
+---Function to zoom-in and zoom-out from a window
+---@deprecated in favor of 'zoomToggleNewTab'
+function M.zoomToggleSameTab()
     -- Do nothing if this is the only window, i.e. no splits
     if vim.fn.winnr "$" == 1 then
         return nil
@@ -24,9 +25,9 @@ function helper.zoomToggleSameTab()
     end
 end
 
--- Function to zoom-in and zoom-out of the given window in a new tab
--- that also retains cursor position when zooming-in and zooming-out
-function helper.zoomToggleNewTab()
+---Function to zoom-in and zoom-out of the given window in a new tab
+---that also retains cursor position when zooming-in and zooming-out
+function M.zoomToggleNewTab()
     -- Do nothing if this is the only window in the first tab
     if vim.fn.winnr "$" == 1 and vim.fn.tabpagenr "$" == 1 then
         return
@@ -51,11 +52,11 @@ function helper.zoomToggleNewTab()
     vim.api.nvim_win_set_cursor(0, last_cursor)
 end
 
--- Function to trim trailing whitespace
-function helper.trimTrailingWhiteSpace()
-    local save = vim.fn.winsaveview()
+---Function to trim trailing whitespace
+function M.trimTrailingWhiteSpace()
+    local savedView = vim.fn.winsaveview()
     vim.cmd [[keeppatterns %s/\s\+$//e]]
-    vim.fn.winrestview(save)
+    vim.fn.winrestview(savedView)
 end
 
-return helper
+return M
