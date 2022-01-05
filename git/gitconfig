@@ -7,6 +7,9 @@
   when-deleted = log --diff-filter=D --
   when-modified = log --diff-filter=M --
 
+[pull]
+  ff = only
+
 [pager]
   diff = delta
   log = delta
