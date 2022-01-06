@@ -90,6 +90,7 @@ function M.setup()
     }
 
     local utils = require "tt.utils"
+    utils.map("n", "<leader>T", "<Cmd>Telescope<CR>")
     utils.map("n", "<leader>fb", "<Cmd>Telescope buffers<CR>")
     utils.map("n", "<leader>fc", "<Cmd>Telescope commands<CR>")
     utils.map("n", "<leader>ff", "<Cmd>Telescope find_files<CR>")
