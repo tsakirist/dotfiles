@@ -1,6 +1,11 @@
 local M = {}
 
 function M.setup()
+    -- Do not run setup when in headless mode
+    if #vim.api.nvim_list_uis() == 0 then
+        return
+    end
+
     require("nvim-treesitter.configs").setup {
         ensure_installed = {
             "bash",

@@ -210,18 +210,6 @@ function _oh_my_zsh() {
     _zshrc
 }
 
-function _vim() {
-    _print i "vim"
-    _install vim vim-gnome
-}
-
-function _vimrc() {
-    _check_file nvim/vimrc
-    _print s ".vimrc"
-    ln -sv --backup=numbered "$(pwd)/nvim/vimrc" "$HOME"/.vimrc
-    vim +PlugInstall +qall
-}
-
 function _nvim() {
     _print i "neovim"
     _check_ppa neovim-ppa/unstable
@@ -242,21 +230,21 @@ function _nvim_nightly() {
     popd > /dev/null || return
 }
 
-# TODO: Remove this?
-function _nvim_autoload() {
-    _check_dir nvim/autoload && _check_file nvim/autoload/functions.vim
-    mkdir -v -p "$HOME"/.vim/autoload/
-    ln -sv --backup=numbered "$(pwd)/nvim/autoload/functions.vim" "$HOME"/.vim/autoload/functions.vim
-}
+function _nvim_config() {
+    _print s "neovim configuration"
+    _check_dir nvim
 
-function _nvimrc() {
-    _check_file nvim/vimrc && _check_file nvim/init.vim
-    _print s ".vimrc and init.vim and autoload"
-    ln -sv --backup=numbered "$(pwd)/nvim/vimrc" "$HOME"/.vimrc
-    mkdir -v -p "$HOME"/.config/nvim/
-    ln -sv --backup=numbered "$(pwd)/nvim/init.vim" "$HOME"/.config/nvim/init.vim
-    _nvim_autoload
-    nvim +PlugInstall +qall
+    # Make symbolic links to the whole nvim directory in the target directory
+    cp -as "$(pwd)/nvim/" "$HOME/.config/nvim"
+
+    # Setup configurations and do plugin installation in headless mode
+    # NOTE: This doesn't seem to work in a single-shot, packer complains about plugins
+    # so I'm doing it in two concrete steps, until I find a better solution.
+
+    # Make sure to install packer if needed
+    /usr/bin/nvim --headless -c "lua require('tt.plugins.packer').packer_bootstrap()" -c "quitall"
+    # Install all plugins and generate compiled loader file
+    /usr/bin/nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
 }
 
 function _shellcheck() {
@@ -570,8 +558,8 @@ pkgs=(
     "    stylua: an opiniated Lua formatter"
     "    luacheck: lua static analysis tool"
     "    nvim"
-    "    nvim_nightly"
-    "    nvimrc"
+    "    nvim nightly"
+    "    nvim configuration"
     "    xprofile"
     "    tmux: terminal multiplexer"
     "    tmux configuration"
@@ -615,7 +603,7 @@ pkgs_functions=(
     _luacheck
     _nvim
     _nvim_nightly
-    _nvimrc
+    _nvim_config
     _x_profile
     _tmux
     _tmux_config
@@ -643,7 +631,7 @@ dotfiles_functions=(
     _zsh_config
     _bash_config
     _fzf_config
-    _nvimrc
+    _nvim_config
     _tmux_config
     _kitty_config
     _x_profile

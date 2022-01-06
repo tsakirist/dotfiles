@@ -9,7 +9,7 @@ function M.packer_bootstrap()
     local packer_bootstrap = nil
 
     if fn.empty(fn.glob(install_path)) > 0 then
-        vim.notify(string.format("Packer is not currently installed. Packer will be cloned to '%s'", install_path))
+        vim.notify(string.format("Packer is not currently installed. Packer will be cloned to '%s'\n", install_path))
         packer_bootstrap = fn.system {
             "git",
             "clone",

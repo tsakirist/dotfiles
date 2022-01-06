@@ -151,7 +151,12 @@ return require("packer").startup {
         -- Treesitter related plugins
         use {
             "nvim-treesitter/nvim-treesitter",
-            run = ":TSUpdate",
+            run = function()
+                -- Perform update only when not in headless mode
+                if #vim.api.nvim_list_uis() ~= 0 then
+                    vim.cmd [[ TSUpdate ]]
+                end
+            end,
             requires = {
                 {
                     "nvim-treesitter/nvim-treesitter-textobjects",
