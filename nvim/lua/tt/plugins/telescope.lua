@@ -12,6 +12,7 @@ function M.setup()
 
     require("telescope").setup {
         defaults = {
+            dynamic_preview_title = true, -- Change the preview title dynamically to the filename
             prompt_prefix = "❯ ",
             selection_caret = "❯ ",
             winblend = 15,
@@ -34,6 +35,7 @@ function M.setup()
             path_display = { shorten = 5 },
             sorting_strategy = "descending",
             set_env = { ["COLORTERM"] = "truecolor" },
+            file_ignore_patterns = { "node_modules", ".git" },
             mappings = {
                 i = {
                     -- Enable <C-w> to delete word under cursor, hoepfully this will be merged upstream by default
@@ -64,6 +66,11 @@ function M.setup()
                     ["<M-p>"] = actions_layout.toggle_prompt_position,
                     ["?"] = actions_layout.toggle_preview,
                 },
+            },
+        },
+        pickers = {
+            find_files = {
+                follow = true, -- Follow synbolic links
             },
         },
         extensions = {

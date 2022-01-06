@@ -1,24 +1,24 @@
 local M = {}
 
 function M.setup()
-    vim.g.nvim_tree_quit_on_open = 1 -- closes the tree when you open a file
-    vim.g.nvim_tree_indent_markers = 1 -- this option shows indent markers when folders are open
-    vim.g.nvim_tree_git_hl = 1 -- will enable file highlight for git attributes (can be used without the icons)
-    vim.g.nvim_tree_highlight_opened_files = 1 -- will enable folder and file icon highlight for opened files/directories
-    vim.g.nvim_tree_root_folder_modifier = ":~" -- default. See :help filename-modifiers for more options
-    vim.g.nvim_tree_add_trailing = 1 -- append a trailing slash to folder names
-    vim.g.nvim_tree_group_empty = 1 -- compact folders that only contain a single folder into one node
-    vim.g.nvim_tree_disable_window_picker = 0 -- will disable the window picker
-    vim.g.nvim_tree_icon_padding = " " -- used for rendering the space between the icon and the filename.
-    vim.g.nvim_tree_respect_buf_cwd = 1 -- will change cwd of nvim-tree to that of new buffer's when opening nvim-tree
-    vim.g.nvim_tree_git_hl = 0 -- disable this for better perfomance
-    vim.g.nvim_tree_show_icons = { -- disable/enable icons per type, disable git for better perfomance
+    vim.g.nvim_tree_quit_on_open = 1 -- Closes the tree when you open a file
+    vim.g.nvim_tree_indent_markers = 1 -- This option shows indent markers when folders are open
+    vim.g.nvim_tree_git_hl = 1 -- Will enable file highlight for git attributes (can be used without the icons)
+    vim.g.nvim_tree_highlight_opened_files = 1 -- Will enable folder and file icon highlight for opened files/directories
+    vim.g.nvim_tree_root_folder_modifier = ":~" -- Default. See :help filename-modifiers for more options
+    vim.g.nvim_tree_add_trailing = 1 -- Append a trailing slash to folder names
+    vim.g.nvim_tree_group_empty = 1 -- Compact folders that only contain a single folder into one node
+    vim.g.nvim_tree_disable_window_picker = 0 -- Will disable the window picker
+    vim.g.nvim_tree_icon_padding = " " -- Used for rendering the space between the icon and the filename.
+    vim.g.nvim_tree_respect_buf_cwd = 1 -- Will change cwd of nvim-tree to that of new buffer's when opening nvim-tree
+    vim.g.nvim_tree_git_hl = 0 -- Disable this for better perfomance
+    vim.g.nvim_tree_show_icons = { -- Disable/enable icons per type, disable git for better perfomance
         git = 0,
         folders = 1,
         files = 1,
         folder_arrows = 1,
     }
-    vim.g.nvim_tree_icons = { -- set the desired icons to display
+    vim.g.nvim_tree_icons = { -- Set the desired icons to display
         default = "",
         symlink = "",
         git = {
@@ -80,31 +80,31 @@ function M.setup()
     }
 
     require("nvim-tree").setup {
-        disable_netrw = false, -- disables netrw
-        hijack_netrw = true, -- prevents netrw from automatically opening when opening directories
-        open_on_setup = false, -- don't open when running setup
-        ignore_ft_on_setup = { -- ignore filetypes when running setup
+        disable_netrw = false, -- Disables netrw
+        hijack_netrw = true, -- Prevents netrw from automatically opening when opening directories
+        open_on_setup = false, -- Don't open when running setup
+        ignore_ft_on_setup = { -- Ignore filetypes when running setup
             "startify",
             "vista_kind",
         },
-        auto_close = false, -- do not close neovim when nvim-tree is the last window
-        open_on_tab = true, -- open tree automatically when switching tab or opening new one
-        update_to_buf_dir = { -- hijacks new directory buffers when they are opened, opens the tree when typing `vim $DIR` or `vim`
+        auto_close = false, -- Do not close neovim when nvim-tree is the last window
+        open_on_tab = true, -- Open tree automatically when switching tab or opening new one
+        update_to_buf_dir = { -- Hijacks new directory buffers when they are opened, opens the tree when typing `vim $DIR` or `vim`
             enable = true,
-            auto_open = true, -- open the tree if it was previsouly closed
+            auto_open = true, -- Open the tree if it was previsouly closed
         },
-        hijack_cursor = false, -- when moving cursor in the tree, will position the cursor at the start of the file on the current line
-        update_cwd = true, -- update the tree cwd when changing nvim's directory (DirChanged event)
-        update_focused_file = { -- update tree to follow the focused file
+        hijack_cursor = false, -- When moving cursor in the tree, will position the cursor at the start of the file on the current line
+        update_cwd = true, -- Update the tree cwd when changing nvim's directory (DirChanged event)
+        update_focused_file = { -- Update tree to follow the focused file
             enable = false,
-            update_cwd = false, -- update the root directory of the tree to the one of the folder containing the file
+            update_cwd = false, -- Update the root directory of the tree to the one of the folder containing the file
             ignore_list = {},
         },
-        system_open = { -- configuration options for the system command, 's' in the tree by default
-            cmd = nil, -- the command to run, nil should work on most cases
-            args = {}, -- the command arguments as a list
+        system_open = { -- Configuration options for the system command, 's' in the tree by default
+            cmd = nil, -- The command to run, nil should work on most cases
+            args = {}, -- The command arguments as a list
         },
-        diagnostics = { -- lsp diagnostics in the signcolumn
+        diagnostics = { -- Lsp diagnostics in the signcolumn
             enable = false,
             icons = {
                 hint = "",
@@ -118,23 +118,23 @@ function M.setup()
             ignore = true, -- Ignore files base on .gitignore
             timeout = 500, -- Kill the git process after some time if takes too long
         },
-        view = { -- configuration options for the view
-            width = 45, -- width of the window, can be either columns or string in '%'
-            height = 30, -- height of the window, can be either columns or string in '%'
-            side = "left", -- the side where the tree should open
-            hide_root_folder = false, -- hide the root folder
-            auto_resize = true, -- resize the tree when opening a file
-            number = false, -- print line number in front of each line
-            relativenumber = false, -- show line number relative to the line with the cursor
-            signcolumn = "yes", -- show diagnostic sign column
+        view = { -- Configuration options for the view
+            width = 45, -- Width of the window, can be either columns or string in '%'
+            height = 30, -- Height of the window, can be either columns or string in '%'
+            side = "left", -- The side where the tree should open
+            hide_root_folder = false, -- Hide the root folder
+            auto_resize = true, -- Resize the tree when opening a file
+            number = false, -- Print line number in front of each line
+            relativenumber = false, -- Show line number relative to the line with the cursor
+            signcolumn = "yes", -- Show diagnostic sign column
             mappings = {
-                custom_only = true, -- disable default keybindings
-                list = nvim_tree_mappings, -- list with the custom keybindings
+                custom_only = true, -- Disable default keybindings
+                list = nvim_tree_mappings, -- List with the custom keybindings
             },
         },
         filters = {
-            dotfiles = false, -- hide files and folders starting with a dot '.'
-            custom = { -- do not load and display on these folders
+            dotfiles = false, -- Hide files and folders starting with a dot '.'
+            custom = { -- Do not load and display on these folders
                 ".git",
                 "node_modules",
                 ".cache",

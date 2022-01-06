@@ -122,9 +122,18 @@ return require("packer").startup {
                 "weilbith/nvim-code-action-menu",
                 keys = { "<leader>ca" },
                 cmd = "CodeActionMenu",
+                after = "nvim-lspconfig",
                 config = function()
                     vim.g.code_action_menu_show_details = false
                     vim.g.code_action_menu_show_diff = true
+                end,
+            },
+            -- Function signature in a floating-window
+            {
+                "ray-x/lsp_signature.nvim",
+                after = "nvim-lspconfig",
+                config = function()
+                    require("tt.plugins.lsp.lsp-signature").setup()
                 end,
             },
             -- Tree-like viewer for symbols
@@ -132,6 +141,7 @@ return require("packer").startup {
                 "liuchengxu/vista.vim",
                 keys = { "<leader>vv", "<leader>vf" },
                 cmd = "Vista",
+                after = "nvim-lspconfig",
                 config = function()
                     require("tt.plugins.lsp.vista").setup()
                 end,
