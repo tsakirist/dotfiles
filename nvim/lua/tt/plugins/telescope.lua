@@ -71,6 +71,8 @@ function M.setup()
         pickers = {
             find_files = {
                 follow = true, -- Follow synbolic links
+                hidden = true, -- Show hidden files
+                no_ignore = true, -- Show files that are git-ignored
             },
         },
         extensions = {
