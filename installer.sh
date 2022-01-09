@@ -205,7 +205,7 @@ function _oh_my_zsh() {
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$zsh_custom"/themes/powerlevel10k
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom"/plugins/zsh-autosuggestions
-    git clone --depth=1 https://github.com/zdharma/fast-syntax-highlighting.git \
+    git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting \
         "$zsh_custom"/plugins/fast-syntax-highlighting
     _zshrc
 }
@@ -478,13 +478,19 @@ function _set_wallpaper() {
 
 function _install_fonts_from_dir() {
     local fonts_dir="fonts"
-    local fonts_dest=$HOME/.local/share/fonts/
+    local fonts_dest="$HOME/.local/share/fonts/"
 
     _check_dir $fonts_dir
+
+    # Create directory if necessary
+    [ ! -d "$fonts_dest" ] && mkdir "$fonts_dest"
 
     for font in "$fonts_dir"/*.ttf; do
         cp -v "$font" "$fonts_dest"
     done
+
+    # Force rebuild of fc-cache
+    fc-cache -f
 }
 
 function _install_fonts() {
