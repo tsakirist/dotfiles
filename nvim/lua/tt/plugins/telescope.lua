@@ -6,10 +6,6 @@ local actions_layout = require "telescope.actions.layout"
 local trouble = require "trouble.providers.telescope"
 
 function M.setup()
-    -- Load the extensions
-    require("telescope").load_extension "fzf"
-    require("telescope").load_extension "packer"
-
     require("telescope").setup {
         defaults = {
             dynamic_preview_title = true, -- Change the preview title dynamically to the filename
@@ -84,12 +80,17 @@ function M.setup()
             packer = {
                 theme = "ivy",
                 layout_config = {
-                    height = 0.6,
+                    height = 0.5,
                 },
             },
         },
     }
 
+    -- Load extensions
+    require("telescope").load_extension "fzf"
+    require("telescope").load_extension "packer"
+
+    -- Set keybindings
     local utils = require "tt.utils"
     utils.map("n", "<leader>T", "<Cmd>Telescope<CR>")
     utils.map("n", "<leader>fb", "<Cmd>Telescope buffers<CR>")
