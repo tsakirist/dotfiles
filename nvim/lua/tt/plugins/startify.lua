@@ -8,7 +8,7 @@ function M.setup()
     vim.g.startify_relative_path = 0
 
     -- The number of files to show
-    vim.g.startify_files_number = 6
+    vim.g.startify_files_number = 8
 
     -- Update oldfiles on-the-fly to stay up-to-date
     vim.g.startify_update_oldfiles = 1

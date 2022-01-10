@@ -18,7 +18,12 @@ function M.setup()
             },
             -- Diagnostics
             diagnostics.shellcheck,
-            diagnostics.luacheck,
+            diagnostics.luacheck.with {
+                extra_args = {
+                    "--globals",
+                    "vim",
+                },
+            },
         },
     }
 end

@@ -35,7 +35,7 @@ function M.setup()
             path_display = { shorten = 5 },
             sorting_strategy = "descending",
             set_env = { ["COLORTERM"] = "truecolor" },
-            file_ignore_patterns = { "node_modules", ".git" },
+            file_ignore_patterns = { "node_modules", "%.git" },
             mappings = {
                 i = {
                     -- Enable <C-w> to delete word under cursor, hoepfully this will be merged upstream by default
@@ -56,7 +56,6 @@ function M.setup()
                     ["<M-m>"] = actions_layout.toggle_mirror,
                     ["<M-p>"] = actions_layout.toggle_prompt_position,
                     ["?"] = actions_layout.toggle_preview,
-                    -- ["<Esc>"] = actions.close,
                 },
                 n = {
                     ["<C-j>"] = actions.move_selection_next,
@@ -77,15 +76,15 @@ function M.setup()
         },
         extensions = {
             fzf = {
-                fuzzy = true, -- false will only do exact matching
-                override_generic_sorter = true, -- override the generic sorter
-                override_file_sorter = true, -- override the file sorter
+                fuzzy = true, -- False will only do exact matching
+                override_generic_sorter = true, -- Override the generic sorter
+                override_file_sorter = true, -- Override the file sorter
                 case_mode = "smart_case", -- "ignore_case" or "respect_case" or "smart_case"
             },
             packer = {
                 theme = "ivy",
                 layout_config = {
-                    height = 0.5,
+                    height = 0.6,
                 },
             },
         },

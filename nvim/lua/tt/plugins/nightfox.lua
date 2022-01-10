@@ -10,7 +10,7 @@ function M.setup()
         terminal_colors = true, -- Configure the colors used when opening :terminal
         styles = {
             comments = "italic",
-            functions = "NONE",
+            functions = "bold",
             keywords = "NONE",
             strings = "NONE",
             variables = "NONE",
