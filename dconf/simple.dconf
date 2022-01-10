@@ -1,0 +1,223 @@
+[apps/update-manager]
+first-run=false
+launch-count=2
+launch-time=int64 1641727302
+show-details=false
+window-height=400
+window-width=645
+
+[ca/desrt/dconf-editor]
+saved-pathbar-path='/org/gnome/terminal/legacy/keybindings/'
+saved-view='/org/gnome/terminal/legacy/keybindings/'
+show-warning=false
+window-height=500
+window-is-maximized=false
+window-width=765
+
+[com/ubuntu/update-notifier]
+release-check-time=uint32 1641679686
+
+[desktop/ibus/general]
+preload-engines=['xkb:us::eng']
+version='1.5.22'
+
+[org/gnome/control-center]
+last-panel='keyboard'
+
+[org/gnome/desktop/background]
+picture-uri='file:///home/tsakiris/Documents/dotfiles/wallpapers/1.jpg'
+
+[org/gnome/desktop/input-sources]
+sources=[('xkb', 'us')]
+xkb-options=@as []
+
+[org/gnome/desktop/interface]
+clock-show-weekday=true
+enable-hot-corners=false
+font-name='Ubuntu 11'
+gtk-im-module='gtk-im-context-simple'
+gtk-theme='Yaru-dark'
+show-battery-percentage=false
+
+[org/gnome/desktop/notifications]
+application-children=['update-manager', 'org-gnome-gedit', 'apport-gtk', 'firefox', 'org-gnome-nautilus']
+show-banners=true
+
+[org/gnome/desktop/notifications/application/apport-gtk]
+application-id='apport-gtk.desktop'
+
+[org/gnome/desktop/notifications/application/firefox]
+application-id='firefox.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-gedit]
+application-id='org.gnome.gedit.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-nautilus]
+application-id='org.gnome.Nautilus.desktop'
+
+[org/gnome/desktop/notifications/application/update-manager]
+application-id='update-manager.desktop'
+
+[org/gnome/desktop/privacy]
+disable-microphone=false
+report-technical-problems=true
+
+[org/gnome/desktop/session]
+idle-delay=uint32 900
+
+[org/gnome/desktop/sound]
+allow-volume-above-100-percent=false
+
+[org/gnome/desktop/wm/keybindings]
+begin-resize=['<Alt>r']
+minimize=['<Alt>q']
+panel-main-menu=['<Alt>F1']
+
+[org/gnome/desktop/wm/preferences]
+button-layout=':minimize,maximize,close'
+resize-with-right-button=false
+
+[org/gnome/evolution-data-server]
+migrated=true
+network-monitor-gio-name=''
+
+[org/gnome/font-manager]
+browse-mode='Grid'
+compare-background-color='rgb(255,255,255)'
+compare-foreground-color='rgb(0,0,0)'
+compare-list=@as []
+preview-page=1
+preview-text="\n    The quick brown fox jumps over the lazy dog.\n\n    ABCDEFGHIJKLMNOPQRSTUVWXYZ\n    abcdefghijklmnopqrstuvwxyz\n    1234567890.:,;(*!?')\n\n    "
+selected-category='3'
+selected-font='0:0'
+sidebar-mode='Category'
+window-position=(351, 72)
+window-size=(1184, 776)
+
+[org/gnome/font-manager/font-viewer]
+window-position=(321, 65)
+window-size=(700, 400)
+
+[org/gnome/gedit/plugins]
+active-plugins=['modelines', 'time', 'filebrowser', 'docinfo', 'spell']
+
+[org/gnome/gedit/plugins/filebrowser]
+root='file:///'
+tree-view=true
+virtual-root='file:///home/tsakiris/Documents'
+
+[org/gnome/gedit/preferences/editor]
+auto-indent=true
+background-pattern='none'
+display-right-margin=false
+editor-font='JetBrainsMono Nerd Font Mono Bold Italic 12'
+insert-spaces=true
+scheme='oblivion'
+tabs-size=uint32 4
+use-default-font=true
+wrap-last-split-mode='word'
+
+[org/gnome/gedit/preferences/ui]
+show-tabs-mode='auto'
+
+[org/gnome/gedit/state/window]
+bottom-panel-size=140
+side-panel-active-page='GeditWindowDocumentsPanel'
+side-panel-size=200
+size=(900, 700)
+state=43908
+
+[org/gnome/mutter]
+center-new-windows=true
+overlay-key='Super_L'
+
+[org/gnome/nautilus/preferences]
+default-folder-viewer='icon-view'
+search-filter-time-type='last_modified'
+search-view='list-view'
+
+[org/gnome/nautilus/window-state]
+initial-size=(890, 550)
+maximized=false
+sidebar-width=189
+
+[org/gnome/settings-daemon/plugins/media-keys]
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0]
+binding='<Alt>t'
+command='kitty'
+name='Launch Kitty'
+
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-timeout=3600
+sleep-inactive-ac-type='nothing'
+
+[org/gnome/settings-daemon/plugins/xsettings]
+hinting='slight'
+
+[org/gnome/shell]
+command-history=['y', 'restart']
+disabled-extensions=['windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'window-list@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com', 'native-window-placement@gnome-shell-extensions.gcampax.github.com']
+enabled-extensions=['ubuntu-dock@ubuntu.com', 'arc-menu@linxgem33.com', 'openweather-extension@jenslody.de']
+favorite-apps=['org.gnome.Nautilus.desktop', 'firefox.desktop', 'brave-browser.desktop', 'org.gnome.tweaks.desktop', 'gnome-control-center.desktop', 'kitty.desktop', 'code.desktop']
+
+[org/gnome/shell/extensions/arc-menu]
+button-icon-padding=8
+custom-menu-button-icon-size=20.0
+disable-tooltips=false
+dtp-dtd-state=[false, false]
+enable-custom-shortcuts=false
+enable-menu-button-arrow=true
+menu-button-active-color='rgb(238,238,236)'
+menu-button-appearance='Icon'
+menu-button-icon='Diamond_Square'
+pinned-app-list=['Firefox Web Browser', 'firefox', 'firefox.desktop', 'Brave Web Browser', 'brave-browser', 'brave-browser.desktop', 'Terminal', 'utilities-terminal', 'org.gnome.Terminal.desktop', 'Arc Menu Settings', '/usr/share/gnome-shell/extensions/arc-menu@linxgem33.com/media/icons/arc-menu-symbolic.svg', 'gnome-extensions prefs arc-menu@linxgem33.com']
+position-in-panel='Left'
+reload-theme=false
+
+[org/gnome/shell/extensions/dash-to-dock]
+click-action='minimize'
+dash-max-icon-size=38
+dock-fixed=true
+dock-position='LEFT'
+multi-monitor=false
+
+[org/gnome/shell/extensions/openweather]
+actual-city=0
+city='39.6639818,20.8522784>Ιωάννινα, Δήμος Ιωαννιτών, Περιφερειακή Ενότητα Ιωαννίνων, Περιφέρεια Ηπείρου, Αποκεντρωμένη Διοίκηση Ηπείρου - Δυτικής Μακεδονίας, 45333, Ελλάς >-1'
+days-forecast=2
+decimal-places=1
+geolocation-provider='openstreetmaps'
+position-in-panel='center'
+pressure-unit='inHg'
+show-comment-in-forecast=true
+show-text-in-panel=true
+translate-condition=true
+unit='fahrenheit'
+use-default-owm-key=true
+use-symbolic-icons=true
+weather-provider='openweathermap'
+wind-direction=true
+wind-speed-unit='mph'
+
+[org/gnome/system/location]
+enabled=false
+
+[org/gtk/settings/color-chooser]
+custom-colors=[(0.83921568627450982, 0.83921568627450982, 0.83921568627450982, 1.0)]
+selected-color=(true, 0.93333333333333335, 0.93333333333333335, 0.92549019607843142, 1.0)
+
+[org/gtk/settings/file-chooser]
+date-format='regular'
+location-mode='path-bar'
+show-hidden=false
+show-size-column=true
+show-type-column=true
+sidebar-width=161
+sort-column='name'
+sort-directories-first=true
+sort-order='ascending'
+type-format='category'
+window-position=(342, 27)
+window-size=(1203, 902)

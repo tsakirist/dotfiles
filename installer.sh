@@ -333,12 +333,20 @@ function _xclip() {
     _install xclip
 }
 
+function _dconf_simple() {
+    _check_file	dconf/simple.dconf
+    _print s "dconf simple settings"
+    dconf load / < dconf/simple.dconf
+}
+
+# TODO: Remove?
 function _dconf_settings() {
     _check_file dconf/settings.dconf
     _print s "dconf settings"
     dconf load / < dconf/settings.dconf
 }
 
+# TODO: Remove?
 function _dconf_settings_w_themes() {
     _check_file dconf/settings_with_themes.dconf
     _print s "dconf settings with themes"
@@ -346,7 +354,7 @@ function _dconf_settings_w_themes() {
 }
 
 function _dconf() {
-    _dconf_settings_w_themes
+    _dconf_simple
 }
 
 function _preload() {
@@ -393,42 +401,9 @@ function _gnome_tweaks() {
     _install gnome-tweaks
 }
 
-function _arcmenu() {
-    _print i "Arc-Menu extension"
-    # Install prerequisites
-    _install gnome-menus gettext libgettextpo-dev
-    git clone --depth=1 https://gitlab.com/LinxGem33/Arc-Menu.git /tmp/Arc-Menu
-    pushd /tmp/Arc-Menu || return
-    make install
-    popd || return
-}
-
 function _gnome_shell_extensions() {
     _print i "gnome-shell-extensions"
-    _install gnome-shell-extensions gnome-shell-extension-weather gnome-shell-extension-dashtodock
-    _arcmenu
-}
-
-function _arc_theme() {
-    _print i "Arc-theme"
-    _install arc-theme
-}
-
-function _papirus_folders() {
-    _print i "Papirus folders script"
-    _check_ppa papirus/papirus
-    _install papirus-folders
-    sudo papirus-folders -C deeporange > /dev/null
-}
-
-function _papirus_icons() {
-    _print i "Papirus icons"
-    _check_ppa papirus/papirus
-    _install papirus-icon-theme
-}
-
-function _papirus() {
-    _papirus_icons && _papirus_folders
+    _install gnome-shell-extensions gnome-shell-extension-dashtodock gnome-shell-extension-arc-menu
 }
 
 function _java() {
@@ -585,10 +560,10 @@ pkgs=(
     "    fd: improved version of find"
     "    bat: a cat clone with syntax highlighting"
     "    rg: ripgrep recursive search for a pattern in files"
-    "    shfmt: Shell formatter"
-    "    shellcheck: Shell static analysis tool"
-    "    stylua: An opiniated Lua formatter"
-    "    luacheck: Lua static analysis tool"
+    "    shfmt: shell formatter"
+    "    shellcheck: shell static analysis tool"
+    "    stylua: an opiniated Lua formatter"
+    "    luacheck: lua static analysis tool"
     "    nvim"
     "    nvim_nightly"
     "    nvimrc"
@@ -612,8 +587,6 @@ pkgs=(
     "    vmswappiness"
     "    set wallpaper"
     "    install fonts"
-    "    arc-theme"
-    "    papirus icons and folder changer script"
 )
 
 pkgs_functions=(
@@ -657,8 +630,6 @@ pkgs_functions=(
     _vm_swappiness
     _set_wallpaper
     _install_fonts
-    _arc_theme
-    _papirus
 )
 
 dotfiles_functions=(
