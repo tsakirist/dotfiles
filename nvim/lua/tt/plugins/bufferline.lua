@@ -42,6 +42,11 @@ function M.setup()
             },
             diagnostics = false, -- Set to "nvim_lsp" for enabling LSP diagnostics
         },
+        highlights = {
+            buffer_selected = {
+                gui = "bold",
+            },
+        },
     }
 end
 
