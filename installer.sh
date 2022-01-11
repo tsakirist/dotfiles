@@ -3,7 +3,7 @@
 # This script provides an easy way to install my preferred packages along with my configurations.
 # Author: Tsakiris Tryfon
 
-# --------------------------------------------- Disable Shellcheck rules------------------------------------------------
+# --------------------------------------------- Disable Shellcheck rules -----------------------------------------------
 # shellcheck disable=SC2155
 # SC2155: Declare and assign separately to avoid masking return values.
 
