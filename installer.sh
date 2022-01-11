@@ -235,7 +235,7 @@ function _nvim_config() {
     _check_dir nvim
 
     # Make symbolic links to the whole nvim directory in the target directory
-    cp -as "$(pwd)/nvim/" "$HOME/.config/nvim"
+    cp -as "$(pwd)/nvim/" "$HOME/.config"
 
     # Setup configurations and do plugin installation in headless mode
     # NOTE: This doesn't seem to work in a single-shot, packer complains about plugins
