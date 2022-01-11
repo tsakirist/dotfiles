@@ -24,6 +24,12 @@ return require("packer").startup {
             end,
         }
 
+        -- Improve the default vim.ui interfaces
+        use { "stevearc/dressing.nvim" }
+
+        -- Add file type icons to various plugins
+        use { "kyazdani42/nvim-web-devicons" }
+
         -- Startify greeter screen with integrated session-handling
         use {
             "mhinz/vim-startify",
@@ -31,12 +37,6 @@ return require("packer").startup {
                 require("tt.plugins.startify").setup()
             end,
         }
-
-        -- Improve the default vim.ui interfaces
-        use { "stevearc/dressing.nvim" }
-
-        -- Add file type icons to various plugins
-        use { "kyazdani42/nvim-web-devicons" }
 
         -- Color highlighter
         use {
@@ -49,18 +49,31 @@ return require("packer").startup {
         -- Bufferline
         use {
             "akinsho/bufferline.nvim",
+            event = "BufRead",
             requires = { "kyazdani42/nvim-web-devicons" },
             config = function()
                 require("tt.plugins.bufferline").setup()
             end,
         }
 
+        -- Statusline component that shows the context of the cursor position
+        use {
+            "SmiteshP/nvim-gps",
+            event = "BufRead",
+            requires = "nvim-treesitter/nvim-treesitter",
+            after = "lualine.nvim",
+            config = function()
+                require("tt.plugins.nvim-gps").setup()
+            end,
+        }
+
         -- Statusline
         use {
             "hoob3rt/lualine.nvim",
+            event = "BufRead",
             requires = { "kyazdani42/nvim-web-devicons" },
             config = function()
-                require("tt.themes.evil_lualine").setup()
+                require("tt.themes.lualine").setup()
             end,
         }
 
@@ -85,20 +98,20 @@ return require("packer").startup {
 
         -- LSP related plugins
         use {
+            -- Installer for LSP servers
+            {
+                "williamboman/nvim-lsp-installer",
+                config = function()
+                    require("tt.plugins.lsp.nvim-lsp-installer").setup()
+                end,
+            },
             -- Common configuration for LSP servers
             {
                 "neovim/nvim-lspconfig",
                 requires = "williamboman/nvim-lsp-installer",
+                after = "nvim-lsp-installer",
                 config = function()
                     require("tt.plugins.lsp.nvim-lspconfig").setup()
-                end,
-            },
-            -- Manager/Installer for LSP servers
-            {
-                "williamboman/nvim-lsp-installer",
-                before = "nvim-lspconfig",
-                config = function()
-                    require("tt.plugins.lsp.nvim-lsp-installer").setup()
                 end,
             },
             -- General purpose LSP that allows non-LSP sources to hook to native LSP
@@ -181,6 +194,7 @@ return require("packer").startup {
         use {
             "hrsh7th/nvim-cmp",
             event = "InsertEnter",
+            after = "LuaSnip",
             requires = {
                 { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
                 { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
@@ -189,7 +203,6 @@ return require("packer").startup {
                 { "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" },
                 {
                     "L3MON4D3/LuaSnip",
-                    before = "nvim-cmp",
                     requires = "tsakirist/friendly-snippets",
                     config = function()
                         require("luasnip.loaders.from_vscode").lazy_load()

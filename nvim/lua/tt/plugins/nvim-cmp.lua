@@ -169,4 +169,9 @@ function M.setup()
     }
 end
 
+-- Returns the cmp_kinds used by nvim-cmp
+function M.get_cmp_kinds()
+    return cmp_kinds[kind_source]
+end
+
 return M
