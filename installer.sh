@@ -406,6 +406,11 @@ function _gnome_shell_extensions() {
     _install gnome-shell-extensions gnome-shell-extension-dashtodock gnome-shell-extension-arc-menu
 }
 
+function _gnome_sushi() {
+    _print i "gnome-sushi" ": file previewer"
+    _install gnome-sushi
+}
+
 function _java() {
     _print i "java and javac"
     _install default-jre default-jdk
@@ -578,6 +583,7 @@ pkgs=(
     "    cmake"
     "    gnome-tweaks"
     "    gnome-shell-extensions"
+    "    gnome-sushi"
     "    gitconfig"
     "    git delta"
     "    java and javac"
@@ -621,6 +627,7 @@ pkgs_functions=(
     _cmake
     _gnome_tweaks
     _gnome_shell_extensions
+    _gnome_sushi
     _git_config
     _git_delta
     _java
