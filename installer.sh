@@ -210,6 +210,17 @@ function _oh_my_zsh() {
     _zshrc
 }
 
+function _build_essential() {
+    _print i "build-essential"
+    _install build-essential
+}
+
+function _node() {
+    _print i "node"
+    curl -sL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+    _install nodejs
+}
+
 function _nvim() {
     _print i "neovim"
     _check_ppa neovim-ppa/unstable
@@ -541,6 +552,7 @@ function _validate_root() {
 
 pkgs=(
     "    dconf settings"
+    "    build-essential"
     "    zsh"
     "    zshrc, zsh_aliases, zsh_functions"
     "    oh-my-zsh"
@@ -560,6 +572,7 @@ pkgs=(
     "    nvim"
     "    nvim nightly"
     "    nvim configuration"
+    "    node"
     "    xprofile"
     "    tmux: terminal multiplexer"
     "    tmux configuration"
@@ -585,6 +598,7 @@ pkgs=(
 
 pkgs_functions=(
     _show_dconf_menu
+    _build_essential
     _zsh
     _zsh_config
     _oh_my_zsh
@@ -604,6 +618,7 @@ pkgs_functions=(
     _nvim
     _nvim_nightly
     _nvim_config
+    _node
     _x_profile
     _tmux
     _tmux_config
