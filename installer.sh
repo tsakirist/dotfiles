@@ -241,16 +241,25 @@ function _nvim_nightly() {
     popd > /dev/null || return
 }
 
+function _check_nvim_config_requirements() {
+    echo -e "    ${bullet} Checking requirements ..."
+    if ! command -v make > /dev/null 2>&1; then
+        _build_essential
+    fi
+    if ! command -v node > /dev/null 2>&1; then
+        _node
+    fi
+}
+
 function _nvim_config() {
     _print s "neovim configuration"
     _check_dir nvim
 
-    # Make symbolic links to the whole nvim directory in the target directory
-    cp -as "$(pwd)/nvim/" "$HOME/.config"
+    _check_nvim_config_requirements
 
-    # Setup configurations and do plugin installation in headless mode
-    # NOTE: This doesn't seem to work in a single-shot, packer complains about plugins
-    # so I'm doing it in two concrete steps, until I find a better solution.
+    # Make symbolic links to the whole nvim directory in the target directory
+    # This will force copy the soft-links, thus re-writing the existing ones
+    cp -asf "$(pwd)/nvim/" "$HOME/.config"
 
     # Make sure to install packer if needed
     /usr/bin/nvim --headless -c "lua require('tt.plugins.packer').packer_bootstrap()" -c "quitall"
