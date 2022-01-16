@@ -1700,6 +1700,11 @@ require'goto-preview'.setup {
   debug = false,            -- Print debug information
   post_open_hook = nil,     -- A function taking two arguments, a buffer and a window to be ran as a hook.
   default_mappings = false, -- Bind default mappings
+  focus_on_open = true,     -- Focus the floating window when opening it
+  dismiss_on_move = false,  -- Dismiss the foloating window when moving the cursor
+  resizing_mappings = true, -- Binds arrow keys to resizing the floating window
+  force_close = true,       -- Force close the last window of a buffer eve with unwritten changes. See :h nvim_win_close
+  bufhidden = "wipe",       -- This option specifies what happens when a buffer is no longer displayed in a window. See :h bufhidden
 }
 
 local opts = { noremap = true, silent = true }
@@ -1751,6 +1756,7 @@ null_ls.setup {
     null_ls.builtins.diagnostics.shellcheck.with({
       diagnostics_format = "SC#{c}: #{m} (#{s})"
     })
+    null_ls.builtins.diagnostics.luacheck,
   }
 }
 EOF
@@ -1846,10 +1852,10 @@ local setup_servers = function()
       -- This option is required because of the newly introduced `single-file-mode`
       -- that doesn't work as expected atleast for me for non-git lua projects.
       -- Respective commit: https://github.com/neovim/nvim-lspconfig/commit/0d1ce78d231773046320caa45fe1a18dfa366761
-      opts.root_dir = function(fname)
-        local util = require "lspconfig/util"
-        return util.root_pattern ".git"(fname) or util.path.dirname(fname)
-      end
+      -- opts.root_dir = function(fname)
+      --   local util = require "lspconfig/util"
+      --   return util.root_pattern ".git"(fname) or util.path.dirname(fname)
+      -- end
       opts.settings = {
         Lua = {
           diagnostics = {

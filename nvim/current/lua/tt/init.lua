@@ -1,0 +1,6 @@
+require "tt.plugins"
+require "tt.globals"
+require "tt.settings"
+require "tt.autocommands"
+require "tt.abbreviations"
+require "tt.mappings"

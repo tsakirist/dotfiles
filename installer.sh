@@ -3,7 +3,7 @@
 # This script provides an easy way to install my preferred packages along with my configurations.
 # Author: Tsakiris Tryfon
 
-# --------------------------------------------- Disable Shellcheck rules------------------------------------------------
+# --------------------------------------------- Disable Shellcheck rules -----------------------------------------------
 # shellcheck disable=SC2155
 # SC2155: Declare and assign separately to avoid masking return values.
 
@@ -210,16 +210,15 @@ function _oh_my_zsh() {
     _zshrc
 }
 
-function _vim() {
-    _print i "vim"
-    _install vim vim-gnome
+function _build_essential() {
+    _print i "build-essential"
+    _install build-essential
 }
 
-function _vimrc() {
-    _check_file nvim/vimrc
-    _print s ".vimrc"
-    ln -sv --backup=numbered "$(pwd)/nvim/vimrc" "$HOME"/.vimrc
-    vim +PlugInstall +qall
+function _node() {
+    _print i "node"
+    curl -sL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+    _install nodejs
 }
 
 function _nvim() {
@@ -242,21 +241,30 @@ function _nvim_nightly() {
     popd > /dev/null || return
 }
 
-# TODO: Remove this?
-function _nvim_autoload() {
-    _check_dir nvim/autoload && _check_file nvim/autoload/functions.vim
-    mkdir -v -p "$HOME"/.vim/autoload/
-    ln -sv --backup=numbered "$(pwd)/nvim/autoload/functions.vim" "$HOME"/.vim/autoload/functions.vim
+function _check_nvim_config_requirements() {
+    echo -e "    ${bullet} Checking requirements ..."
+    if ! command -v make > /dev/null 2>&1; then
+        _build_essential
+    fi
+    if ! command -v node > /dev/null 2>&1; then
+        _node
+    fi
 }
 
-function _nvimrc() {
-    _check_file nvim/vimrc && _check_file nvim/init.vim
-    _print s ".vimrc and init.vim and autoload"
-    ln -sv --backup=numbered "$(pwd)/nvim/vimrc" "$HOME"/.vimrc
-    mkdir -v -p "$HOME"/.config/nvim/
-    ln -sv --backup=numbered "$(pwd)/nvim/init.vim" "$HOME"/.config/nvim/init.vim
-    _nvim_autoload
-    nvim +PlugInstall +qall
+function _nvim_config() {
+    _print s "neovim configuration"
+    _check_dir nvim/current
+
+    _check_nvim_config_requirements
+
+    # Make symbolic links to the whole nvim directory in the target directory
+    # This will force copy the soft-links, thus re-writing the existing ones
+    cp -asf "$(pwd)/nvim/current" "$HOME/.config/nvim"
+
+    # Make sure to install packer if needed
+    /usr/bin/nvim --headless -c "lua require('tt.plugins.packer').packer_bootstrap()" -c "quitall"
+    # Install all plugins and generate compiled loader file
+    /usr/bin/nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
 }
 
 function _shellcheck() {
@@ -553,6 +561,7 @@ function _validate_root() {
 
 pkgs=(
     "    dconf settings"
+    "    build-essential"
     "    zsh"
     "    zshrc, zsh_aliases, zsh_functions"
     "    oh-my-zsh"
@@ -570,8 +579,9 @@ pkgs=(
     "    stylua: an opiniated Lua formatter"
     "    luacheck: lua static analysis tool"
     "    nvim"
-    "    nvim_nightly"
-    "    nvimrc"
+    "    nvim nightly"
+    "    nvim configuration"
+    "    node"
     "    xprofile"
     "    tmux: terminal multiplexer"
     "    tmux configuration"
@@ -597,6 +607,7 @@ pkgs=(
 
 pkgs_functions=(
     _show_dconf_menu
+    _build_essential
     _zsh
     _zsh_config
     _oh_my_zsh
@@ -615,7 +626,8 @@ pkgs_functions=(
     _luacheck
     _nvim
     _nvim_nightly
-    _nvimrc
+    _nvim_config
+    _node
     _x_profile
     _tmux
     _tmux_config
@@ -643,7 +655,7 @@ dotfiles_functions=(
     _zsh_config
     _bash_config
     _fzf_config
-    _nvimrc
+    _nvim_config
     _tmux_config
     _kitty_config
     _x_profile
