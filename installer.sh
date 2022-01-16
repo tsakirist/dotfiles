@@ -253,13 +253,13 @@ function _check_nvim_config_requirements() {
 
 function _nvim_config() {
     _print s "neovim configuration"
-    _check_dir nvim
+    _check_dir nvim/current
 
     _check_nvim_config_requirements
 
     # Make symbolic links to the whole nvim directory in the target directory
     # This will force copy the soft-links, thus re-writing the existing ones
-    cp -asf "$(pwd)/nvim/" "$HOME/.config"
+    cp -asf "$(pwd)/nvim/current" "$HOME/.config/nvim"
 
     # Make sure to install packer if needed
     /usr/bin/nvim --headless -c "lua require('tt.plugins.packer').packer_bootstrap()" -c "quitall"
