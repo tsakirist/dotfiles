@@ -29,7 +29,6 @@ alias showkernels='dpkg --list | grep linux-image'
 alias openports='lsof -i -n -P'
 alias sc='echo "Sourcing ~/.zshrc ..." && source ~/.zshrc'
 alias update='sudo apt update && sudo apt upgrade'
-alias update_nvim="nvim +PlugUpdate +PlugUpgrade +qa"
 alias update_all='update -y && update_nvim'
 
 # This is for neofetch
@@ -55,23 +54,14 @@ alias cp='cp -v'
 # This is to log out
 alias logout='gnome-session-quit'
 
-# These are for cmake, in order to build and clean the produced files
-alias cbuild='cmake -H. -Bbuild && make -C build'
-alias cclean='[ -d build ] && make clean -C build && rm -rI build'
-
-# This is to change launcher position @ Ubuntu 16.04
-alias lpos='gsettings set com.canonical.Unity.Launcher launcher-position'
-
-# Make vi & vim commands to open nvim with -p option that opens multiple files in seperate tabs
+# Neovim is everywhere
 alias vi='nvim'
 alias vim='nvim'
 alias vv='nvim ~/.vimrc'
-alias vz='nvim ~/.zshrc'
 
 alias nv='nvim'
 alias nvi='nvim'
 alias nvv='nvim ~/.vimrc'
-alias nvz='nvim ~/.zshrc'
 
 # Shorten the name to just gotop
 alias gotop='gotop-cjbassi -c monokai'
