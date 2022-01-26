@@ -38,6 +38,7 @@ function M.setup()
         numhl = true, -- Highlights just the number part of the number column
         linehl = false, -- Highlights the whole line
         word_diff = false, -- Highlights just the part of the line that has changed
+        show_deleted = false, -- Show deleted hunks with virtual text
         watch_gitdir = { -- Add a watcher for the .git directory to detect changes
             interval = 1000, -- Interval to wait before polling gitdir in (ms)
             follow_files = true, -- Follow files e.g. git mv
@@ -64,43 +65,39 @@ function M.setup()
             row = 0,
             col = 1,
         },
-        keymaps = {
-            noremap = true,
-            buffer = true,
+        -- Setup keymappings
+        on_attach = function(bufnr)
+            local function map(mode, lhs, rhs, opts)
+                opts = opts or {}
+                opts.buffer = bufnr
+                vim.keymap.set(mode, lhs, rhs, opts)
+            end
 
             -- Move between hunks
-            ["n <leader>gj"] = {
-                expr = true,
-                "&diff ? ']c' : '<Cmd>Gitsigns next_hunk<CR>'",
-            },
-            ["n <leader>gk"] = {
-                expr = true,
-                "&diff ? '[c' : '<Cmd>Gitsigns prev_hunk<CR>'",
-            },
+            map("n", "<leader>gj", "&diff ? ']c' : '<Cmd>Gitsigns next_hunk<CR>'", { expr = true })
+            map("n", "<leader>gk", "&diff ? '[c' : '<Cmd>Gitsigns prev_hunk<CR>'", { expr = true })
 
             -- Hunk specific
-            ["n <leader>hs"] = "<Cmd>Gitsigns stage_hunk<CR>",
-            ["v <leader>hs"] = ":Gitsigns stage_hunk<CR>",
-            ["n <leader>hu"] = "<Cmd>Gitsigns undo_stage_hunk<CR>",
-            ["n <leader>hr"] = "<Cmd>Gitsigns reset_hunk<CR>",
-            ["v <leader>hr"] = ":Gitsigns reset_hunk<CR>",
-            ["n <leader>hR"] = "<Cmd>Gitsigns reset_buffer<CR>",
-            ["n <leader>hp"] = "<Cmd>Gitsigns preview_hunk<CR>",
-            ["n <leader>hb"] = "<Cmd>Gitsigns blame_line{full=true}<CR>",
-            ["n <leader>hS"] = "<Cmd>Gitsigns stage_buffer<CR>",
-            ["n <leader>hU"] = "<Cmd>Gitsigns reset_buffer_index<CR>",
+            map({ "n", "v" }, "<leader>hs", "<Cmd>Gitsigns stage_hunk<CR>")
+            map({ "n", "v" }, "<leader>hr", "<Cmd>Gitsigns reset_hunk<CR>")
+            map("n", "<leader>hu", "<Cmd>Gitsigns undo_stage_hunk<CR>")
+            map("n", "<leader>hp", "<Cmd>Gitsigns preview_hunk<CR>")
+            map("n", "<leader>hb", "<Cmd>Gitsigns blame_line{full=true}<CR>")
+            map("n", "<leader>hR", "<Cmd>Gitsigns reset_buffer<CR>")
+            map("n", "<leader>hS", "<Cmd>Gitsigns stage_buffer<CR>")
+            map("n", "<leader>hU", "<Cmd>Gitsigns reset_buffer_index<CR>")
 
             -- Toggling options
-            ["n <leader>gb"] = "<Cmd>Gitsigns toggle_current_line_blame<CR>",
-            ["n <leader>gh"] = "<Cmd>Gitsigns toggle_linehl<CR>",
-            ["n <leader>gn"] = "<Cmd>Gitsigns toggle_numhl<CR>",
-            ["n <leader>gs"] = "<Cmd>Gitsigns toggle_signs<CR>",
-            ["n <leader>gw"] = "<Cmd>Gitsigns toggle_word_diff<CR>",
+            map("n", "<leader>gb", "<Cmd>Gitsigns toggle_current_line_blame<CR>")
+            map("n", "<leader>gh", "<Cmd>Gitsigns toggle_linehl<CR>")
+            map("n", "<leader>gn", "<Cmd>Gitsigns toggle_numhl<CR>")
+            map("n", "<leader>gs", "<Cmd>Gitsigns toggle_signs<CR>")
+            map("n", "<leader>gw", "<Cmd>Gitsigns toggle_word_diff<CR>")
+            map("n", "<leader>gd", "<Cmd>Gitsigns toggle_deleted<CR>")
 
             -- Text objects
-            ["o ih"] = ":<C-U>Gitsigns select_hunk()<CR>",
-            ["x ih"] = ":<C-U>Gitsigns select_hunk()<CR>",
-        },
+            map({ "o", "x" }, "h", ":<C-U>Gitsigns select_hunk()<CR>")
+        end,
     }
 end
 
