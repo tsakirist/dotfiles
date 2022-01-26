@@ -68,9 +68,10 @@ function _check_command() {
 }
 
 # Function that takes as argument the author/repo and installs the latest deb
+# TODO: Fix this function somehow to take arguments for grep? or  some extra pattern
 function _install_latest_deb() {
     local repo="https://api.github.com/repos/$1/releases/latest"
-    local url=$(curl -s "$repo" | grep "browser_download_url" | grep -v "musl" | grep "amd64" | cut -d '"' -f 4)
+    local url=$(curl -s "$repo" | grep "browser_download_url" | grep -v "musl" | grep "amd64" | grep "deb" | cut -d '"' -f 4)
     local filename=$(basename "$url")
     wget -qO /tmp/"$filename" "$url" && sudo dpkg -i /tmp/"$filename" > /dev/null
 }
@@ -519,6 +520,11 @@ function _rg() {
     _install_latest_deb BurntSushi/ripgrep
 }
 
+function _glow() {
+    _print i "glow" ": markdown renderer for the terminal"
+    _install_latest_deb charmbracelet/glow
+}
+
 function _lazygit() {
     _print i "lazygit" ": a terminal UI utility for git commands"
     _check_ppa lazygit-team/release
@@ -572,8 +578,9 @@ pkgs=(
     "    fzf: fuzzy finder"
     "    fzf configuration"
     "    fd: improved version of find"
-    "    bat: a cat clone with syntax highlighting"
     "    rg: ripgrep recursive search for a pattern in files"
+    "    bat: a cat clone with syntax highlighting"
+    "    glow: markdown renderer for the terminal"
     "    shfmt: shell formatter"
     "    shellcheck: shell static analysis tool"
     "    stylua: an opiniated Lua formatter"
@@ -618,8 +625,9 @@ pkgs_functions=(
     _fzf
     _fzf_config
     _fd
-    _bat
     _rg
+    _bat
+    _glow
     _shfmt
     _shellcheck
     _stylua
