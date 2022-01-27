@@ -196,8 +196,14 @@ function _zsh_functions() {
     ln -sv --backup=numbered "$(pwd)/zsh/zsh_functions" "$HOME"/.zsh_functions
 }
 
+function _zsh_p10k() {
+    _check_file zsh/p10k.zsh
+    _print s ".p10k.zsh"
+    cp -v zsh/p10k.zsh ~/.p10k.zsh
+}
+
 function _zsh_config() {
-    _zshrc && _zsh_aliases && _zsh_functions
+    _zshrc && _zsh_aliases && _zsh_functions && _zsh_p10k
 }
 
 function _oh_my_zsh() {
@@ -569,7 +575,7 @@ pkgs=(
     "    dconf settings"
     "    build-essential"
     "    zsh"
-    "    zshrc, zsh_aliases, zsh_functions"
+    "    zshrc, zsh_aliases, zsh_functions, zsh_p10k"
     "    oh-my-zsh"
     "    bashrc, bash_aliases, bash_functions"
     "    kitty: the fast, featureful, GPU based terminal emulator"
