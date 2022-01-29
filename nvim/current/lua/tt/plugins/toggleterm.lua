@@ -61,15 +61,12 @@ function M.custom_terminal_toggle(terminal_id)
     if M.custom_terminals[terminal_id] == nil then
         return
     end
-
     M.custom_terminals[terminal_id]:toggle()
 end
 
 function M.add_custom_terminals()
     ---@format { "command", "keymap", "direction", "float_opts" }
-    local executables = {
-        { "lazygit", "<leader>lg", "float" },
-    }
+    local executables = {}
 
     for i, executable in pairs(executables) do
         local opts = {

@@ -62,7 +62,7 @@ function _check_dir() {
 
 function _check_command() {
     if ! command -v "$1" > /dev/null 2>&1; then
-        echo -ne "${thunder} Installing required package ${bold}${red_fg}${1}${reset} ..."
+        echo -e "${black_bg}${thunder} Installing required package ${bold}${red_fg}${1}${reset} ..."
         _install "$1"
     fi
 }
@@ -207,12 +207,14 @@ function _zsh_config() {
 }
 
 function _oh_my_zsh() {
+    _print i "oh-my-zsh" ": framework for managing zsh configuration"
+    # Do not try to install, if the directory already exists
+    [ -d "$HOME/.oh-my-zsh" ] && return
     local zsh_custom=$HOME/.oh-my-zsh/custom
-    _print i "oh-my-zsh"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$zsh_custom"/themes/powerlevel10k
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom"/plugins/zsh-autosuggestions
-    git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting \
+    git clone --quiet --depth=1 https://github.com/romkatv/powerlevel10k.git "$zsh_custom"/themes/powerlevel10k
+    git clone --quiet --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom"/plugins/zsh-autosuggestions
+    git clone --quiet --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting \
         "$zsh_custom"/plugins/fast-syntax-highlighting
     _zshrc
 }
@@ -223,19 +225,13 @@ function _build_essential() {
 }
 
 function _node() {
-    _print i "node"
-    curl -sL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+    _print i "node" ": asyncrhonous event-driven JavaScript runtime"
+    curl -sSL https://deb.nodesource.com/setup_current.x | sudo -E bash - > /dev/null 2>&1
     _install nodejs
 }
 
-function _nvim() {
-    _print i "neovim"
-    _check_ppa neovim-ppa/unstable
-    _install neovim
-}
-
 function _nvim_nightly() {
-    _print i "neovim nightly"
+    _print i "neovim nightly" ": a superior vim fork focused on extensiblity and usability"
     local url="https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage"
     local download_dir=$(mktemp -d)
     wget -q -O "$download_dir"/nvim.appimage "$url"
@@ -262,6 +258,7 @@ function _nvim_config() {
     _print s "neovim configuration"
     _check_dir nvim/current
 
+    # Check nvim requirements
     _check_nvim_config_requirements
 
     # Make symbolic links to the whole nvim directory in the target directory
@@ -270,8 +267,12 @@ function _nvim_config() {
 
     # Make sure to install packer if needed
     /usr/bin/nvim --headless -c "lua require('tt.plugins.packer').packer_bootstrap()" -c "quitall"
+
     # Install all plugins and generate compiled loader file
     /usr/bin/nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
+
+    # Output a newline after Packer:Complete message from NVIM
+    echo
 }
 
 function _shellcheck() {
@@ -323,7 +324,7 @@ function _tmux_config() {
 }
 
 function _vscode() {
-    _print i "Visual Studio Code"
+    _print i "visual studio code"
     wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add - > /dev/null 2>&1
     sudo sh -c "echo 'deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main' > \
                 /etc/apt/sources.list.d/vscode.list"
@@ -331,7 +332,7 @@ function _vscode() {
 }
 
 function _google_chrome() {
-    _print i "Google Chrome"
+    _print i "google chrome"
     wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google_chrome.deb
     sudo dpkg -i /tmp/google_chrome.deb > /dev/null
     # Remove google chrome keyring pop-up
@@ -339,37 +340,19 @@ function _google_chrome() {
 }
 
 function _neofetch() {
-    _print i "neofetch"
+    _print i "neofetch" ": a command-line system information tool"
     _install neofetch
 }
 
 function _xclip() {
-    _print i "xclip"
+    _print i "xclip" ": command line interface to X selections (clipboard)"
     _install xclip
 }
 
-function _dconf_simple() {
-    _check_file	dconf/simple.dconf
-    _print s "dconf simple settings"
-    dconf load / < dconf/simple.dconf
-}
-
-# TODO: Remove?
-function _dconf_settings() {
+function _dconf() {
     _check_file dconf/settings.dconf
     _print s "dconf settings"
     dconf load / < dconf/settings.dconf
-}
-
-# TODO: Remove?
-function _dconf_settings_w_themes() {
-    _check_file dconf/settings_with_themes.dconf
-    _print s "dconf settings with themes"
-    dconf load / < dconf/settings_with_themes.dconf
-}
-
-function _dconf() {
-    _dconf_simple
 }
 
 function _preload() {
@@ -383,7 +366,7 @@ function _cmake() {
 }
 
 function _tree() {
-    _print i "tree"
+    _print i "tree" ": list contents of directories in a tree-like format"
     _install tree
 }
 
@@ -445,14 +428,16 @@ function _kitty() {
 function _kitty_config() {
     _check_file kitty/kitty.conf
     _print s "kitty.conf"
-    ln -sv --backup=numbered "$(pwd)/kitty/kitty.conf" "$HOME"/.config/kitty/kitty.conf
+    local destination="$HOME/.config/kitty"
+    [ ! -d "$destination" ] && mkdir -p "$destination"
+    ln -sv --backup=numbered "$(pwd)/kitty/kitty.conf" "$destination/kitty.conf"
 }
 
 function _kitty_themes() {
     _print i "kitty-themes"
     local themes_path="$HOME/.config/kitty/kitty-themes"
     [ ! -d "$themes_path" ] \
-        && git clone --depth=1 https://github.com/dexpota/kitty-themes.git ~/.config/kitty/kitty-themes
+        && git clone --quiet --depth=1 https://github.com/dexpota/kitty-themes.git ~/.config/kitty/kitty-themes
 }
 
 function _x_profile() {
@@ -478,7 +463,7 @@ function _install_fonts_from_dir() {
     _check_dir $fonts_dir
 
     # Create directory if necessary
-    [ ! -d "$fonts_dest" ] && mkdir "$fonts_dest"
+    [ ! -d "$fonts_dest" ] && mkdir -p "$fonts_dest"
 
     for font in "$fonts_dir"/*.ttf; do
         cp -v "$font" "$fonts_dest"
@@ -500,13 +485,13 @@ function _fzf_config() {
 }
 
 function _fzf() {
-    _print i "fzf" ": Fuzzy finder"
+    _print i "fzf" ": a command line fuzzy finder"
     if [ -d "$HOME"/.fzf ]; then
         pushd "$HOME"/.fzf || return \
             && git pull origin \
             && popd || return
     else
-        git clone --depth=1 https://github.com/junegunn/fzf.git "$HOME"/.fzf
+        git clone --quiet --depth=1 https://github.com/junegunn/fzf.git "$HOME"/.fzf
     fi
     "$HOME"/.fzf/install --key-bindings --completion --no-update-rc
 }
@@ -531,12 +516,6 @@ function _glow() {
     _install_latest_deb charmbracelet/glow
 }
 
-function _lazygit() {
-    _print i "lazygit" ": a terminal UI utility for git commands"
-    _check_ppa lazygit-team/release
-    _install lazygit
-}
-
 function _vm_swappiness() {
     local value=10
     local file="/etc/sysctl.conf"
@@ -546,7 +525,7 @@ function _vm_swappiness() {
     else
         echo "vm.swappiness=${value}" | sudo tee -a $file > /dev/null 2>&1
     fi
-    sudo sysctl -q --system
+    sudo sysctl -q -p
     echo "Swappiness value:" "$(cat /proc/sys/vm/swappiness)"
 }
 
@@ -567,6 +546,19 @@ function _validate_root() {
     # This function will validate user's timestamp without running any commnad
     # It will prompt for password and keep it in cache, which is 15 mins by default
     sudo -v
+}
+
+function _disable_automatic_apt_updates() {
+    _print s "non automatic updates for apt"
+    local file="/etc/apt/apt.conf.d/20auto-upgrades"
+    local contents=$(cat << EOF
+APT::Periodic::Update-Package-Lists "0";
+APT::Periodic::Download-Upgradeable-Packages "0";
+APT::Periodic::AutocleanInterval "0";
+APT::Periodic::Unattended-Upgrade "1";
+EOF
+)
+    echo "$contents" | sudo tee "$file" > /dev/null 2>&1
 }
 
 # ------------------------------------------------------ Packages ------------------------------------------------------
@@ -591,17 +583,15 @@ pkgs=(
     "    shellcheck: shell static analysis tool"
     "    stylua: an opiniated Lua formatter"
     "    luacheck: lua static analysis tool"
-    "    nvim"
-    "    nvim nightly"
+    "    nvim nightly: a superior vim fork focused on extensiblity and usability"
     "    nvim configuration"
-    "    node"
+    "    node: asyncrhonous event-driven JavaScript runtime"
     "    xprofile"
     "    tmux: terminal multiplexer"
     "    tmux configuration"
     "    xclip"
     "    neofetch"
     "    htop + gotop + ncdu: monitoring tools"
-    "    lazygit: a terminal UI for git commands"
     "    tree"
     "    cmake"
     "    gnome-tweaks"
@@ -616,10 +606,11 @@ pkgs=(
     "    vmswappiness"
     "    set wallpaper"
     "    install fonts"
+    "    disable automatic apt updates"
 )
 
 pkgs_functions=(
-    _show_dconf_menu
+    _dconf
     _build_essential
     _zsh
     _zsh_config
@@ -638,7 +629,6 @@ pkgs_functions=(
     _shellcheck
     _stylua
     _luacheck
-    _nvim
     _nvim_nightly
     _nvim_config
     _node
@@ -648,7 +638,6 @@ pkgs_functions=(
     _xclip
     _neofetch
     _monitoring_tools
-    _lazygit
     _tree
     _cmake
     _gnome_tweaks
@@ -663,6 +652,7 @@ pkgs_functions=(
     _vm_swappiness
     _set_wallpaper
     _install_fonts
+   _disable_automatic_apt_updates
 )
 
 dotfiles_functions=(
@@ -707,18 +697,6 @@ function _show_selective_menu() {
         --menu "\nSelect the packages and the configurations that you want to install/set." ${SIZE} $((ROWS - 10)) \
         "${menu_options[@]}" \
         3>&1 1>&2 2>&3)
-}
-
-function _show_dconf_menu() {
-    local opt=$(whiptail --title "dconf settings" --menu "\nWhich dconf settings would you like to apply?" \
-        ${SIZE} 3 \
-        "1" "    dconf general settings without themes" \
-        "2" "    dconf general settings with themes" \
-        3>&1 1>&2 2>&3)
-    case $opt in
-        1) _dconf_settings ;;
-        2) _dconf_settings_w_themes ;;
-    esac
 }
 
 # ----------------------------------------------------- Installers -----------------------------------------------------

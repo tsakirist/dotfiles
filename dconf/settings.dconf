@@ -1,658 +1,224 @@
-[com/canonical/indicator/power]
-show-time=false
-show-percentage=true
+[apps/update-manager]
+first-run=false
+launch-count=2
+launch-time=int64 1641727302
+show-details=false
+window-height=400
+window-width=645
 
-[com/canonical/indicator/datetime]
-show-date=true
-show-day=true
-time-format='24-hour'
-show-year=true
-
-[com/canonical/indicator/messages]
-applications=['thunderbird.desktop']
-
-[com/canonical/indicator/keyboard]
-migrated=true
-
-[com/canonical/unity/launcher]
-favorites=['application://org.gnome.Nautilus.desktop', 'application://google-chrome.desktop', 'application://firefox.desktop', 'application://libreoffice-writer.desktop', 'application://org.gnome.Software.desktop', 'application://unity-control-center.desktop', 'application://thunderbird.desktop', 'unity://running-apps', 'application://sublime_text.desktop', 'application://code.desktop', 'application://org.gnome.Terminal.desktop', 'unity://expo-icon', 'unity://devices']
-
-[com/canonical/unity]
-minimize-count=100
-integrated-menus=true
-always-show-menus=true
-form-factor='Desktop'
-
-[com/canonical/unity/devices]
-blacklist=@as []
-
-[com/canonical/unity/interface]
-text-scale-factor=1.0
-
-[com/gexperts/Tilix/profiles/2b7c4080-0ddd-46c5-8f23-563fd3ba789d]
-dim-transparency-percent=0
-foreground-color='#EFEFEF'
-visible-name='tsakiris'
-login-shell=true
-palette=['#000000', '#CC0000', '#4D9A05', '#C3A000', '#3464A3', '#754F7B', '#05979A', '#D3D6CF', '#545652', '#EF2828', '#89E234', '#FBE84F', '#729ECF', '#AC7EA8', '#34E2E2', '#EDEDEB']
-bold-is-bright=true
-badge-color='#AC7EA8'
-badge-color-set=true
-default-size-columns=140
-default-size-rows=34
-cursor-shape='block'
-cursor-colors-set=false
-highlight-colors-set=false
-use-system-font=false
-bold-color-set=false
-font='Hack Nerd Font 11.5'
-use-theme-colors=false
-background-color='#303030'
-background-transparency-percent=9
-badge-text=''
-
-[com/gexperts/Tilix]
-quake-specific-monitor=0
-prompt-on-close=false
-tab-position='top'
-use-overlay-scrollbar=true
-sidebar-on-right=true
-auto-hide-mouse=true
-terminal-title-style='none'
-theme-variant='dark'
-session-name='${title}'
-control-scroll-zoom=true
-quake-hide-headerbar=false
-enable-wide-handle=false
-use-tabs=false
-warn-vte-config-issue=false
-terminal-title-show-when-single=false
-window-style='borderless'
-
-[com/gexperts/Tilix/keybindings]
-app-new-session='<Primary><Shift>t'
-app-new-window='<Primary><Shift>n'
-app-preferences='<Alt>p'
-win-view-sidebar='F12'
-terminal-reset-and-clear='<Primary><Shift>l'
+[ca/desrt/dconf-editor]
+saved-pathbar-path='/org/gnome/terminal/legacy/keybindings/'
+saved-view='/org/gnome/terminal/legacy/keybindings/'
+show-warning=false
+window-height=500
+window-is-maximized=false
+window-width=765
 
 [com/ubuntu/update-notifier]
-regular-auto-launch-interval=7
-release-check-time=uint32 1574592899
-no-show-notifications=true
+release-check-time=uint32 1641679686
 
-[com/ubuntu/user-interface]
-scale-factor={'LVDS': 8}
-
-[com/ubuntu/user-interface/desktop]
-scaling-factor=uint32 1
-
-[org/gnome/settings-daemon/plugins/power]
-sleep-inactive-ac-timeout=1800
-sleep-inactive-battery-timeout=300
-
-[org/gnome/settings-daemon/plugins/color]
-night-light-enabled=false
-
-[org/gnome/settings-daemon/plugins/media-keys]
-custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
-terminal='<Primary><Alt>t'
-home='<Super>e'
-
-[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0]
-binding='<Alt>t'
-command='tilix'
-name='Launch Tilix'
-
-[org/gnome/settings-daemon/plugins/xsettings]
-overrides={'Gtk/ShellShowsAppMenu': <1>}
-hinting='slight'
-
-[org/gnome/settings-daemon/peripherals/keyboard]
-numlock-state='on'
-
-[org/gnome/shell]
-app-picker-view=uint32 1
-command-history=['subl']
-enabled-extensions=['ubuntu-appindicators@ubuntu.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'openweather-extension@jenslody.de', 'dash-to-dock@micxgx.gmail.com']
-enable-hot-corners=false
-favorite-apps=['org.gnome.Nautilus.desktop', 'google-chrome.desktop', 'firefox.desktop', 'libreoffice-writer.desktop', 'org.gnome.Software.desktop', 'gnome-control-center.desktop', 'thunderbird.desktop', 'sublime_text.desktop', 'code.desktop', 'com.gexperts.Tilix.desktop', 'org.gnome.Terminal.desktop']
-
-[org/gnome/shell/extensions/user-theme]
-name='Flat-Remix-Darkest'
-
-[org/gnome/shell/extensions/dash-to-dock]
-middle-click-action='launch'
-animate-show-apps=true
-shift-click-action='launch'
-shift-middle-click-action='minimize'
-extend-height=false
-dock-fixed=false
-force-straight-corner=false
-click-action='cycle-windows'
-intellihide-mode='FOCUS_APPLICATION_WINDOWS'
-show-apps-at-top=true
-preferred-monitor=0
-multi-monitor=false
-custom-background-color=false
-apply-custom-theme=false
-dock-position='BOTTOM'
-custom-theme-shrink=true
-background-opacity=0.65000000000000002
-height-fraction=0.90000000000000002
-dash-max-icon-size=38
-background-color='#ef2929'
-running-indicator-style='SQUARES'
-icon-size-fixed=false
-transparency-mode='FIXED'
-
-[org/gnome/shell/extensions/openweather]
-weather-provider='openweathermap'
-menu-alignment=75.0
-days-forecast=2
-unit='celsius'
-geolocation-provider='openstreetmaps'
-actual-city=0
-use-default-owm-key=true
-show-text-in-panel=true
-show-comment-in-panel=true
-use-symbolic-icons=true
-position-in-panel='right'
-wind-speed-unit='kph'
-translate-condition=true
-city='40.5122349,21.6785518>Ptolemaida, Kozani>-1'
-wind-direction=true
-use-text-on-buttons=false
-pressure-unit='Pa'
-show-comment-in-forecast=false
-decimal-places=1
-
-[org/gnome/gedit/preferences/ui]
-show-tabs-mode='auto'
-side-panel-visible=true
-
-[org/gnome/gedit/plugins/filebrowser]
-virtual-root='file:///home/tsakiris'
-tree-view=true
-root='file:///'
-
-[org/gnome/gedit/plugins]
-active-plugins=['spell', 'filebrowser', 'modelines', 'docinfo', 'time']
-
-[org/gnome/gedit/state/window]
-size=(900, 692)
-state=87168
-bottom-panel-size=140
-side-panel-size=200
-side-panel-active-page='GeditWindowDocumentsPanel'
-
-[org/gnome/calculator]
-target-currency=''
-show-zeroes=false
-source-currency=''
-show-thousands=false
-button-mode='advanced'
-target-units='radian'
-word-size=64
-window-position=(150, 147)
-number-format='automatic'
-angle-units='degrees'
-base=10
-source-units='degree'
-accuracy=9
-
-[org/gnome/nautilus/preferences]
-search-view='list-view'
-default-folder-viewer='icon-view'
-search-filter-time-type='last_modified'
-
-[org/gnome/nautilus/window-state]
-sidebar-width=201
-geometry='890x502+393+183'
-maximized=false
-
-[org/gnome/nautilus/desktop]
-trash-icon-visible=true
-
-[org/gnome/power-manager]
-info-history-type='charge'
-info-stats-type='discharge-accuracy'
-info-last-device='wakeups'
-info-page-number=3
-
-[org/gnome/evince/default]
-window-ratio=(3.2748538011695905, 1.3223880597014925)
-
-[org/gnome/file-roller/listing]
-sort-method='name'
-name-column-width=250
-sort-type='ascending'
-list-mode='as-folder'
-show-path=false
-
-[org/gnome/file-roller/dialogs/extract]
-skip-newer=false
-recreate-folders=true
-
-[org/gnome/file-roller/ui]
-sidebar-width=200
-window-height=480
-window-width=600
-
-[org/gnome/evolution-data-server]
-network-monitor-gio-name=''
-migrated=true
-
-[org/gnome/calendar]
-window-position=(0, 34)
-active-view='month'
-window-maximized=true
-window-size=(1366, 693)
-
-[org/gnome/deja-dup]
-backend='local'
-prompt-check='disabled'
-
-[org/gnome/deja-dup/goa]
-type='google'
-
-[org/gnome/deja-dup/local]
-folder='/home/tsakiris/deja-dup'
-
-[org/gnome/deja-dup/file]
-path='/home/tsakiris/deja-dup'
-migrated=true
-
-[org/gnome/desktop/interface]
-clock-show-date=true
-gtk-im-module='gtk-im-context-simple'
-clock-show-seconds=false
-enable-animations=true
-show-battery-percentage=true
-toolkit-accessibility=false
-
-[org/gnome/desktop/notifications]
-application-children=['org-gnome-tweaks', 'org-gnome-nautilus', 'org-gnome-terminal', 'apport-gtk', 'google-chrome', 'update-manager', 'gnome-control-center', 'code', 'sublime-text', 'com-gexperts-tilix']
-
-[org/gnome/desktop/notifications/application/org-gnome-tweaks]
-application-id='org.gnome.tweaks.desktop'
-
-[org/gnome/desktop/notifications/application/org-gnome-nautilus]
-application-id='org.gnome.Nautilus.desktop'
-
-[org/gnome/desktop/notifications/application/google-chrome]
-application-id='google-chrome.desktop'
-
-[org/gnome/desktop/notifications/application/gnome-control-center]
-application-id='gnome-control-center.desktop'
-
-[org/gnome/desktop/notifications/application/com-gexperts-tilix]
-application-id='com.gexperts.Tilix.desktop'
-
-[org/gnome/desktop/notifications/application/sublime-text]
-application-id='sublime_text.desktop'
-
-[org/gnome/desktop/notifications/application/org-gnome-terminal]
-application-id='org.gnome.Terminal.desktop'
-
-[org/gnome/desktop/notifications/application/org-gnome-software]
-application-id='org.gnome.Software.desktop'
-
-[org/gnome/desktop/notifications/application/update-manager]
-application-id='update-manager.desktop'
-
-[org/gnome/desktop/notifications/application/software-properties-gtk]
-application-id='software-properties-gtk.desktop'
-
-[org/gnome/desktop/notifications/application/apport-gtk]
-application-id='apport-gtk.desktop'
-
-[org/gnome/desktop/notifications/application/code]
-application-id='code.desktop'
-
-[org/gnome/desktop/app-folders]
-folder-children=['Utilities', 'Sundry']
-
-[org/gnome/desktop/app-folders/folders/Utilities]
-translate=true
-categories=['X-GNOME-Utilities']
-apps=['org.gnome.baobab.desktop', 'deja-dup-preferences.desktop', 'eog.desktop', 'evince.desktop', 'org.gnome.FileRoller.desktop', 'gnome-calculator.desktop', 'gnome-dictionary.desktop', 'org.gnome.Characters.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.font-viewer.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Screenshot.desktop', 'gnome-system-log.desktop', 'gnome-system-monitor.desktop', 'gnome-tweak-tool.desktop', 'gucharmap.desktop', 'seahorse.desktop', 'vinagre.desktop', 'yelp.desktop']
-name='X-GNOME-Utilities.directory'
-
-[org/gnome/desktop/app-folders/folders/Sundry]
-translate=true
-categories=['X-GNOME-Sundry']
-apps=['alacarte.desktop', 'authconfig.desktop', 'ca.desrt.dconf-editor.desktop', 'fedora-release-notes.desktop', 'firewall-config.desktop', 'flash-player-properties.desktop', 'gconf-editor.desktop', 'gnome-abrt.desktop', 'gnome-power-statistics.desktop', 'ibus-setup-anthy.desktop', 'ibus-setup.desktop', 'ibus-setup-hangul.desktop', 'ibus-setup-libbopomofo.desktop', 'ibus-setup-libpinyin.desktop', 'ibus-setup-m17n.desktop', 'ibus-setup-typing-booster.desktop', 'im-chooser.desktop', 'itweb-settings.desktop', 'jhbuild.desktop', 'javaws.desktop', 'java-1.7.0-openjdk-jconsole.desktop', 'java-1.7.0-openjdk-policytool.desktop', 'log4j-chainsaw.desktop', 'log4j-logfactor5.desktop', 'nm-connection-editor.desktop', 'orca.desktop', 'setroubleshoot.desktop', 'system-config-date.desktop', 'system-config-firewall.desktop', 'system-config-keyboard.desktop', 'system-config-language.desktop', 'system-config-printer.desktop', 'system-config-users.desktop', 'vino-preferences.desktop']
-name='X-GNOME-Sundry.directory'
-
-[org/gnome/desktop/app-folders/folders/YaST]
-translate=true
-categories=['X-SuSE-YaST']
-name='suse-yast.directory'
-
-[org/gnome/desktop/screensaver]
-lock-delay=uint32 0
-
-[org/gnome/desktop/peripherals/touchpad]
-natural-scroll=true
-speed=-0.093525179856115082
-edge-scrolling-enabled=false
-two-finger-scrolling-enabled=true
-
-[org/gnome/desktop/calendar]
-show-weekdate=false
-
-[org/gnome/desktop/search-providers]
-sort-order=['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']
-
-[org/gnome/desktop/wm/preferences]
-mouse-button-modifier='<Super>'
-button-layout=':appmenu,minimize,maximize,close'
-visual-bell=true
-visual-bell-type='frame-flash'
-
-[org/gnome/desktop/wm/keybindings]
-move-to-workspace-left=['<Shift><Control><Alt>Left']
-switch-to-workspace-left=['<Control><Alt>Left']
-begin-move=['<Alt>F7']
-maximize-horizontally=['disabled']
-switch-to-workspace-10=['disabled']
-switch-to-workspace-11=['disabled']
-switch-to-workspace-12=['disabled']
-switch-to-workspace-1=['<Super>Home']
-switch-to-workspace-2=['disabled']
-switch-to-workspace-3=['disabled']
-switch-to-workspace-4=['disabled']
-switch-to-workspace-5=['disabled']
-show-desktop=['<Control><Super>d']
-switch-to-workspace-7=['disabled']
-switch-to-workspace-8=['disabled']
-switch-to-workspace-9=['disabled']
-raise=['disabled']
-maximize=['<Control><Super>Up']
-switch-to-workspace-6=['disabled']
-begin-resize=['<Alt>r']
-panel-main-menu=['<Alt>F1']
-unmaximize=['<Control><Super>Down']
-switch-to-workspace-right=['<Control><Alt>Right']
-switch-to-workspace-down=['<Control><Alt>Down']
-move-to-workspace-down=['<Shift><Control><Alt>Down']
-toggle-maximized=['<Control><Alt>KP_5']
-switch-applications=['<Super>Tab']
-minimize=['<Alt>q']
-toggle-shaded=['<Control><Alt>s']
-switch-applications-backward=['<Shift><Super>Tab']
-switch-windows-backward=['<Shift><Alt>Tab']
-lower=['disabled']
-activate-window-menu=['<Alt>space']
-maximize-vertically=['disabled']
-move-to-workspace-up=['<Shift><Control><Alt>Up']
-move-to-workspace-right=['<Shift><Control><Alt>Right']
-switch-to-workspace-up=['<Control><Alt>Up']
-close=['<Alt>F4']
-switch-windows=['<Alt>Tab']
-
-[org/gnome/desktop/session]
-idle-delay=uint32 900
-
-[org/gnome/desktop/a11y]
-always-show-universal-access-status=false
-
-[org/gnome/desktop/a11y/applications]
-screen-keyboard-enabled=false
-
-[org/gnome/desktop/a11y/keyboard]
-mousekeys-enable=false
-
-[org/gnome/desktop/datetime]
-automatic-timezone=true
-
-[org/gnome/desktop/background]
-picture-uri='file:///usr/share/backgrounds/warty-final-ubuntu.png'
-color-shading-type='solid'
-primary-color='#2c001e'
-picture-options='zoom'
-secondary-color='#2c001e'
-
-[org/gnome/desktop/input-sources]
-xkb-options=['grp:alt_shift_toggle']
-current=uint32 0
-mru-sources=[('xkb', 'us'), ('xkb', 'gr')]
-sources=[('xkb', 'us'), ('xkb', 'gr')]
+[desktop/ibus/general]
+preload-engines=['xkb:us::eng']
+version='1.5.22'
 
 [org/gnome/control-center]
 last-panel='keyboard'
 
-[org/gnome/eog/view]
-background-color='rgb(0,0,0)'
-use-background-color=true
+[org/gnome/desktop/background]
+picture-uri='file:///home/tsakiris/Documents/dotfiles/wallpapers/1.jpg'
 
-[org/gnome/rhythmbox/library/source]
-show-browser=true
+[org/gnome/desktop/input-sources]
+sources=[('xkb', 'us')]
+xkb-options=@as []
 
-[org/gnome/rhythmbox/plugins/audioscrobbler/Last.fm]
-scrobbling-enabled=true
+[org/gnome/desktop/interface]
+clock-show-weekday=true
+enable-hot-corners=false
+font-name='Ubuntu 11'
+gtk-im-module='gtk-im-context-simple'
+gtk-theme='Yaru-dark'
+show-battery-percentage=false
 
-[org/gnome/rhythmbox/plugins/audioscrobbler/Libre.fm]
-scrobbling-enabled=true
+[org/gnome/desktop/notifications]
+application-children=['update-manager', 'org-gnome-gedit', 'apport-gtk', 'firefox', 'org-gnome-nautilus']
+show-banners=true
 
-[org/gnome/rhythmbox/plugins/iradio]
-initial-stations-loaded=true
+[org/gnome/desktop/notifications/application/apport-gtk]
+application-id='apport-gtk.desktop'
 
-[org/gnome/rhythmbox/plugins/iradio/source]
-show-browser=true
+[org/gnome/desktop/notifications/application/firefox]
+application-id='firefox.desktop'
 
-[org/gnome/rhythmbox/plugins]
-active-plugins=['mtpdevice', 'audioscrobbler', 'iradio', 'notification', 'android', 'daap', 'rb', 'alternative-toolbar', 'power-manager', 'ipod', 'mpris', 'generic-player', 'audiocd', 'dbus-media-server', 'mmkeys', 'artsearch']
-seen-plugins=['mtpdevice', 'audioscrobbler', 'fmradio', 'notification', 'daap', 'rb', 'rbzeitgeist', 'alternative-toolbar', 'replaygain', 'soundcloud', 'lyrics', 'magnatune', 'webremote', 'grilo', 'ipod', 'mpris', 'im-status', 'rblirc', 'dbus-media-server', 'pythonconsole', 'artsearch', 'sendto']
+[org/gnome/desktop/notifications/application/org-gnome-gedit]
+application-id='org.gnome.gedit.desktop'
 
-[org/gnome/rhythmbox/plugins/alternative_toolbar]
-show-source-toolbar=false
+[org/gnome/desktop/notifications/application/org-gnome-nautilus]
+application-id='org.gnome.Nautilus.desktop'
 
-[org/gnome/rhythmbox/podcast/source]
-show-browser=true
+[org/gnome/desktop/notifications/application/update-manager]
+application-id='update-manager.desktop'
 
-[org/gnome/rhythmbox]
-position=(-1, -1)
-statusbar-visible=false
+[org/gnome/desktop/privacy]
+disable-microphone=false
+report-technical-problems=true
 
-[org/gnome/rhythmbox/rhythmdb]
-locations=['file:///home/tsakiris/Music']
+[org/gnome/desktop/session]
+idle-delay=uint32 900
 
-[org/gnome/software]
-check-timestamp=int64 1574593499
-install-timestamp=int64 1554384255
+[org/gnome/desktop/sound]
+allow-volume-above-100-percent=false
+
+[org/gnome/desktop/wm/keybindings]
+begin-resize=['<Alt>r']
+minimize=['<Alt>q']
+panel-main-menu=['<Alt>F1']
+
+[org/gnome/desktop/wm/preferences]
+button-layout=':minimize,maximize,close'
+resize-with-right-button=false
+
+[org/gnome/evolution-data-server]
+migrated=true
+network-monitor-gio-name=''
+
+[org/gnome/font-manager]
+browse-mode='Grid'
+compare-background-color='rgb(255,255,255)'
+compare-foreground-color='rgb(0,0,0)'
+compare-list=@as []
+preview-page=1
+preview-text="\n    The quick brown fox jumps over the lazy dog.\n\n    ABCDEFGHIJKLMNOPQRSTUVWXYZ\n    abcdefghijklmnopqrstuvwxyz\n    1234567890.:,;(*!?')\n\n    "
+selected-category='3'
+selected-font='0:0'
+sidebar-mode='Category'
+window-position=(351, 72)
+window-size=(1184, 776)
+
+[org/gnome/font-manager/font-viewer]
+window-position=(321, 65)
+window-size=(700, 400)
+
+[org/gnome/gedit/plugins]
+active-plugins=['modelines', 'time', 'filebrowser', 'docinfo', 'spell']
+
+[org/gnome/gedit/plugins/filebrowser]
+root='file:///'
+tree-view=true
+virtual-root='file:///home/tsakiris/Documents'
+
+[org/gnome/gedit/preferences/editor]
+auto-indent=true
+background-pattern='none'
+display-right-margin=false
+editor-font='JetBrainsMono Nerd Font Mono Bold Italic 12'
+insert-spaces=true
+scheme='oblivion'
+tabs-size=uint32 4
+use-default-font=true
+wrap-last-split-mode='word'
+
+[org/gnome/gedit/preferences/ui]
+show-tabs-mode='auto'
+
+[org/gnome/gedit/state/window]
+bottom-panel-size=140
+side-panel-active-page='GeditWindowDocumentsPanel'
+side-panel-size=200
+size=(900, 700)
+state=43908
 
 [org/gnome/mutter]
 center-new-windows=true
+overlay-key='Super_L'
 
-[org/gnome/terminal/legacy/keybindings]
-reset-and-clear='<Primary><Shift>k'
+[org/gnome/nautilus/preferences]
+default-folder-viewer='icon-view'
+search-filter-time-type='last_modified'
+search-view='list-view'
 
-[org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
-default-size-columns=140
-background-transparency-percent=20
-use-theme-transparency=false
-default-size-rows=35
-use-system-font=false
-use-transparent-background=true
-font='Hack Nerd Font 11'
+[org/gnome/nautilus/window-state]
+initial-size=(890, 550)
+maximized=false
+sidebar-width=189
 
-[org/gnome/terminal/legacy]
-schema-version=uint32 3
+[org/gnome/settings-daemon/plugins/media-keys]
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
+home=['<Super>e']
 
-[org/gtk/settings/file-chooser]
-sort-column='name'
-sidebar-width=196
-window-position=(402, 167)
-show-size-column=true
-show-hidden=false
-window-size=(876, 578)
-sort-directories-first=true
-date-format='regular'
-sort-order='ascending'
-location-mode='path-bar'
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0]
+binding='<Alt>t'
+command='kitty'
+name='Launch Kitty'
+
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-timeout=3600
+sleep-inactive-ac-type='nothing'
+
+[org/gnome/settings-daemon/plugins/xsettings]
+hinting='slight'
+
+[org/gnome/shell]
+command-history=['y', 'restart']
+disabled-extensions=['windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'window-list@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com', 'native-window-placement@gnome-shell-extensions.gcampax.github.com']
+enabled-extensions=['ubuntu-dock@ubuntu.com', 'arc-menu@linxgem33.com', 'openweather-extension@jenslody.de']
+favorite-apps=['org.gnome.Nautilus.desktop', 'firefox.desktop', 'brave-browser.desktop', 'org.gnome.tweaks.desktop', 'gnome-control-center.desktop', 'kitty.desktop', 'code.desktop']
+
+[org/gnome/shell/extensions/arc-menu]
+button-icon-padding=8
+custom-menu-button-icon-size=20.0
+disable-tooltips=false
+dtp-dtd-state=[false, false]
+enable-custom-shortcuts=false
+enable-menu-button-arrow=true
+menu-button-active-color='rgb(238,238,236)'
+menu-button-appearance='Icon'
+menu-button-icon='Diamond_Square'
+pinned-app-list=['Firefox Web Browser', 'firefox', 'firefox.desktop', 'Brave Web Browser', 'brave-browser', 'brave-browser.desktop', 'Terminal', 'utilities-terminal', 'org.gnome.Terminal.desktop', 'Arc Menu Settings', '/usr/share/gnome-shell/extensions/arc-menu@linxgem33.com/media/icons/arc-menu-symbolic.svg', 'gnome-extensions prefs arc-menu@linxgem33.com']
+position-in-panel='Left'
+reload-theme=false
+
+[org/gnome/shell/extensions/dash-to-dock]
+click-action='minimize'
+dash-max-icon-size=38
+dock-fixed=true
+dock-position='LEFT'
+multi-monitor=false
+
+[org/gnome/shell/extensions/openweather]
+actual-city=0
+city='39.6639818,20.8522784>Ιωάννινα, Δήμος Ιωαννιτών, Περιφερειακή Ενότητα Ιωαννίνων, Περιφέρεια Ηπείρου, Αποκεντρωμένη Διοίκηση Ηπείρου - Δυτικής Μακεδονίας, 45333, Ελλάς >-1'
+days-forecast=2
+decimal-places=1
+geolocation-provider='openstreetmaps'
+position-in-panel='center'
+pressure-unit='inHg'
+show-comment-in-forecast=true
+show-text-in-panel=true
+translate-condition=true
+unit='fahrenheit'
+use-default-owm-key=true
+use-symbolic-icons=true
+weather-provider='openweathermap'
+wind-direction=true
+wind-speed-unit='mph'
+
+[org/gnome/system/location]
+enabled=false
 
 [org/gtk/settings/color-chooser]
-selected-color=(true, 0.54117647058823526, 0.88627450980392153, 0.20392156862745098, 1.0)
+custom-colors=[(0.83921568627450982, 0.83921568627450982, 0.83921568627450982, 1.0)]
+selected-color=(true, 0.93333333333333335, 0.93333333333333335, 0.92549019607843142, 1.0)
 
-[org/compiz]
-existing-profiles=['Default', 'unity']
-current-profile='Default'
-
-[org/compiz/profiles/unity-lowgfx/plugins/scale]
-skip-animation=true
-
-[org/compiz/profiles/unity-lowgfx/plugins/ezoom]
-speed=100.0
-
-[org/compiz/profiles/unity-lowgfx/plugins/showdesktop]
-skip-animation=true
-
-[org/compiz/profiles/unity-lowgfx/plugins/unityshell]
-shadow-x-offset=1
-icon-size=40
-menus-discovery-fadeout=0
-menus-discovery-fadein=0
-menus-fadeout=0
-menus-fadein=0
-dash-blur-experimental=0
-active-shadow-radius=3
-autohide-animation=1
-override-decoration-theme=true
-inactive-shadow-radius=2
-launcher-hide-mode=0
-shadow-y-offset=1
-
-[org/compiz/profiles/unity-lowgfx/plugins/wall]
-slide-duration=0.0
-
-[org/compiz/profiles/unity-lowgfx/plugins/opengl]
-texture-filter=0
-
-[org/compiz/profiles/unity-lowgfx/plugins/grid]
-animation-duration=0
-draw-stretched-window=false
-
-[org/compiz/profiles/unity-lowgfx/plugins/move]
-increase-border-contrast=true
-mode=2
-lazy-positioning=true
-
-[org/compiz/profiles/unity-lowgfx/plugins/expo]
-expo-animation=3
-
-[org/compiz/profiles/unity-lowgfx/plugins/core]
-hsize=1
-vsize=1
-active-plugins=['core', 'composite', 'opengl', 'compiztoolbox', 'vpswitch', 'snap', 'mousepoll', 'resize', 'place', 'move', 'wall', 'grid', 'regex', 'imgpng', 'session', 'animation', 'fade', 'workarounds', 'scale', 'expo', 'ezoom', 'switcher']
-
-[org/compiz/profiles/unity-lowgfx/plugins/fade]
-fade-mode=1
-fade-time=1
-
-[org/compiz/profiles/unity-lowgfx/plugins/resize]
-increase-border-contrast=true
-mode=2
-
-[org/compiz/profiles/Default]
-plugins-with-set-keys=['core', 'mousepoll', 'wall', 'move', 'switcher', 'session', 'decor', 'scale', 'opengl', 'animation', 'ezoom', 'fade', 'snap', 'expo', 'composite', 'grid', 'resize', 'vpswitch', 'place', 'workarounds']
-
-[org/compiz/profiles/Default/plugins/place]
-workarounds=false
-mode=1
-multioutput-mode=3
-
-[org/compiz/profiles/unity]
-plugins-with-set-keys=['animation', 'opengl', 'composite', 'matecompat', 'fade', 'unitymtgrabhandles', 'move', 'resize', 'scale', 'commands', 'vpswitch', 'workarounds', 'place', 'unityshell', 'expo', 'snap', 'session', 'ezoom', 'decor', 'mousepoll', 'grid', 'staticswitcher', 'gnomecompat', 'core', 'switcher', 'wall']
-
-[org/compiz/profiles/unity/plugins/ezoom]
-zoom-box-fill-color='#2f2f2f4f'
-zoom-box-outline-color='#2f2f4f9f'
-
-[org/compiz/profiles/unity/plugins/wall]
-thumb-highlight-gradient-shadow-color='#dfdfdfff'
-arrow-base-color='#e6e6e6d9'
-arrow-shadow-color='#dcdcdcd9'
-
-[org/compiz/profiles/unity/plugins/unityshell]
-icon-size=40
-launcher-hide-mode=0
-num-launchers=0
-inactive-shadow-color='#000000a5'
-
-[org/compiz/profiles/unity/plugins/animation]
-unminimize-effects=['animation:Random']
-minimize-effects=['animation:Random']
-close-matches=['((type=Normal | Unknown) | name=sun-awt-X11-XFramePeer | name=sun-awt-X11-XDialogPeer) & !(role=toolTipTip | role=qtooltip_label) & !(type=Normal & override_redirect=1) & !(name=gnome-screensaver) & !(name=gnome-screenshot)', '((type=Menu | PopupMenu | DropdownMenu | Combo | Dialog | ModalDialog | Normal) & !(class=\\.exe$))', '(type=Tooltip | Notification | Utility) & !(name=compiz) & !(title=notify-osd)']
-open-matches=['((type=Normal | Unknown) | name=sun-awt-X11-XFramePeer | name=sun-awt-X11-XDialogPeer) & !(role=toolTipTip | role=qtooltip_label) & !(type=Normal & override_redirect=1) & !(name=gnome-screensaver)', '((type=Menu | PopupMenu | DropdownMenu | Combo | Dialog | ModalDialog | Normal) & !(class=\\.exe$))', '(type=Tooltip | Notification | Utility) & !(name=compiz) & !(title=notify-osd)']
-minimize-random-effects=@as []
-minimize-durations=[220]
-
-[org/compiz/profiles/unity/plugins/switcher]
-background-color='#333333d9'
-
-[org/compiz/profiles/unity/plugins/place]
-mode=1
-
-[org/compiz/profiles/unity/plugins/decor]
-active-shadow-color='#00000080'
-inactive-shadow-color='#000000ff'
-
-[org/compiz/profiles/unity/plugins/gnomecompat]
-main-menu-key='Disabled'
-run-key='Disabled'
-
-[org/compiz/profiles/unity/plugins/staticswitcher]
-background-color='#333333d9'
-
-[org/compiz/profiles/unity/plugins/expo]
-ground-color1='#b3b3b3cc'
-ground-color2='#b3b3b300'
-x-offset=56
-
-[org/compiz/profiles/unity/plugins/core]
-hsize=1
-vsize=1
-active-plugins=['core', 'composite', 'opengl', 'move', 'resize', 'commands', 'regex', 'compiztoolbox', 'vpswitch', 'place', 'copytex', 'snap', 'session', 'mousepoll', 'imgpng', 'grid', 'wall', 'animation', 'fade', 'unitymtgrabhandles', 'scale', 'workarounds', 'expo', 'ezoom', 'unityshell']
-
-[org/compiz/integrated]
-run-command-1=['disabled']
-run-command-10=['disabled']
-run-command-11=['disabled']
-run-command-12=['disabled']
-run-command-2=['disabled']
-run-command-3=['disabled']
-run-command-4=['disabled']
-run-command-5=['disabled']
-run-command-6=['disabled']
-run-command-7=['disabled']
-run-command-8=['disabled']
-run-command-9=['disabled']
-show-hud=['Super_L']
-
-[apps/update-manager]
-show-details=true
-first-run=false
-check-new-release-ignore='bionic'
-window-height=400
-launch-time=int64 1574594407
-launch-count=22
-window-width=645
-
-[apps/indicator-session]
-show-real-name-on-panel=false
-
-[apps/seahorse/listing]
-keyrings-selected=['secret-service://login', 'secret-service:///org/freedesktop/secrets/collection/login']
-
-[ca/desrt/dconf-editor]
-saved-view='/com/gexperts/Tilix/'
-show-warning=false
-window-height=600
-window-width=800
-window-is-maximized=false
-
-[desktop/ibus/general]
-preload-engines=['xkb:us::eng']
-version='1.5.11'
+[org/gtk/settings/file-chooser]
+date-format='regular'
+location-mode='path-bar'
+show-hidden=false
+show-size-column=true
+show-type-column=true
+sidebar-width=161
+sort-column='name'
+sort-directories-first=true
+sort-order='ascending'
+type-format='category'
+window-position=(342, 27)
+window-size=(1203, 902)
