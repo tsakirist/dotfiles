@@ -9,9 +9,9 @@ function M.setup()
     require("telescope").setup {
         defaults = {
             dynamic_preview_title = true, -- Change the preview title dynamically to the filename
-            prompt_prefix = "❯ ",
+            prompt_prefix = "  ",
             selection_caret = "❯ ",
-            winblend = 15,
+            winblend = 0,
             layout_strategy = "horizontal",
             layout_config = {
                 prompt_position = "bottom",
@@ -34,11 +34,6 @@ function M.setup()
             file_ignore_patterns = { "node_modules", "%.git" },
             mappings = {
                 i = {
-                    -- Enable <C-w> to delete word under cursor, hoepfully this will be merged upstream by default
-                    -- Issue: https://github.com/nvim-telescope/telescope.nvim/issues/1579
-                    ["<C-w>"] = function()
-                        vim.api.nvim_input "<C-S-w>"
-                    end,
                     ["<C-j>"] = actions.move_selection_next,
                     ["<C-k>"] = actions.move_selection_previous,
                     ["<CR>"] = actions.select_default + actions.center,
@@ -64,7 +59,7 @@ function M.setup()
             find_files = {
                 follow = true, -- Follow synbolic links
                 hidden = true, -- Show hidden files
-                no_ignore = true, -- Show files that are git-ignored
+                no_ignore = true, -- Show files that are ignored by git
             },
         },
         extensions = {

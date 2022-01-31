@@ -2,6 +2,13 @@ local M = {}
 
 function M.setup()
     local colors = require("nightfox.colors").init "nordfox"
+    local util = require "nightfox.util"
+
+    -- My custom color
+    local custom_colors = {
+        bg = util.brighten(colors.bg, 0.05),
+        fg = util.brighten(colors.bg, 0.50),
+    }
 
     require("nightfox").setup {
         fox = "nordfox", -- Which fox style should be applied
@@ -20,8 +27,50 @@ function M.setup()
             visual = false, -- Enable/Disable inverse highlighting for visual selection
             search = false, -- Enable/Disable inverse highlights for search highlights
         },
-        colors = {}, -- Override default colors
+        colors = { -- Override default colors
+        },
         hlgroups = { -- Override highlight groups
+            TelescopeBorder = {
+                fg = colors.bg_alt,
+                bg = colors.bg_alt,
+            },
+            TelescopeMatching = {
+                fg = colors.magenta,
+            },
+            TelescopePromptBorder = {
+                fg = custom_colors.bg,
+                bg = custom_colors.bg,
+            },
+            TelescopePromptNormal = {
+                fg = custom_colors.fg,
+                bg = custom_colors.bg,
+            },
+            TelescopePromptPrefix = {
+                fg = colors.magenta,
+                bg = custom_colors.bg,
+            },
+            TelescopePromptTitle = {
+                fg = colors.bg,
+                bg = colors.magenta,
+            },
+            TelescopePreviewTitle = {
+                fg = colors.bg,
+                bg = colors.cyan,
+            },
+            TelescopePreviewNormal = {
+                bg = colors.bg_alt,
+            },
+            TelescopeResultsTitle = {
+                fg = colors.bg,
+                bg = colors.magenta,
+            },
+            TelescopeResultsNormal = {
+                bg = colors.bg_alt,
+            },
+            TelescopeSelectionCaret = {
+                fg = colors.cyan,
+                bg = colors.bg_alt,
+            },
             CmpItemKindFunction = {
                 fg = colors.magenta,
             },
