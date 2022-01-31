@@ -171,17 +171,11 @@ return require("packer").startup {
                 end
             end,
             requires = {
-                {
-                    "nvim-treesitter/nvim-treesitter-textobjects",
-                    after = "nvim-treesitter",
-                },
+                { "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" },
+                { "nvim-treesitter/nvim-treesitter-refactor", after = "nvim-treesitter" },
                 {
                     "nvim-treesitter/playground",
                     cmd = "TSPlaygroundToggle",
-                    after = "nvim-treesitter",
-                },
-                {
-                    "nvim-treesitter/nvim-treesitter-refactor",
                     after = "nvim-treesitter",
                 },
             },
@@ -235,6 +229,19 @@ return require("packer").startup {
                 "svelte",
                 "vue",
             },
+        }
+
+        -- Documentation/annotation generator using Treesitter
+        use {
+            "danymat/neogen",
+            event = "BufRead",
+            requires = "nvim-treesitter/nvim-treesitter",
+            config = function()
+                require("neogen").setup {
+                    enable = true,
+                }
+                vim.keymap.set("n", "<leader>ng", "<Cmd>lua require('neogen').generate()<CR>")
+            end,
         }
 
         -- Telescope fuzzy finding

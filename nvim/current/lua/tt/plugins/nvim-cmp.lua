@@ -73,6 +73,7 @@ local cmp_source_names = {
 
 local cmp = require "cmp"
 local luasnip = require "luasnip"
+local neogen = require "neogen"
 
 -- Functions for mapping <Tab> and <S-Tab> for nvim-cmp
 local function tab(fallback)
@@ -84,6 +85,8 @@ local function tab(fallback)
         cmp.select_next_item()
     elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
+    elseif neogen.jumpable() then
+        neogen.jump_next()
     elseif has_words_before() then
         cmp.complete()
     else
@@ -96,6 +99,8 @@ local function shift_tab(fallback)
         cmp.select_prev_item()
     elseif luasnip.jumpable(-1) then
         luasnip.jump(-1)
+    elseif neogen.jumpable(-1) then
+        neogen.jump_prev()
     else
         fallback()
     end
