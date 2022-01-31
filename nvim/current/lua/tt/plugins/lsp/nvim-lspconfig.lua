@@ -95,6 +95,12 @@ end
 -- Make a new object describing the LSP client capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
+-- Add additional capabilities supported by nvim-cmp
+local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if status_ok then
+    capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+end
+
 -- Disable LSP snippets for the time being since I do not want
 -- to have duplicate snippet suggestions between LuaSnip and LSP snippets
 -- TODO: Check that this works for the Lua-based configuration
@@ -106,12 +112,6 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
         "additionalTextEdits",
     },
 }
-
--- Add additional capabilities supported by nvim-cmp
-local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if status_ok then
-    capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
-end
 
 -- Function to install and setup LSP servers automatically
 local setup_servers = function()
