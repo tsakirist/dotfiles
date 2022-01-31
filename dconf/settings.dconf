@@ -1,31 +1,34 @@
 [apps/update-manager]
 first-run=false
-launch-count=2
-launch-time=int64 1641727302
+launch-count=3
+launch-time=int64 1643448069
 show-details=false
 window-height=400
 window-width=645
 
 [ca/desrt/dconf-editor]
-saved-pathbar-path='/org/gnome/terminal/legacy/keybindings/'
+saved-pathbar-path='/org/gnome/terminal/legacy/keybindings/close-window'
 saved-view='/org/gnome/terminal/legacy/keybindings/'
 show-warning=false
-window-height=500
+window-height=547
 window-is-maximized=false
-window-width=765
+window-width=848
 
 [com/ubuntu/update-notifier]
-release-check-time=uint32 1641679686
+release-check-time=uint32 1643319519
 
 [desktop/ibus/general]
 preload-engines=['xkb:us::eng']
 version='1.5.22'
 
 [org/gnome/control-center]
-last-panel='keyboard'
+last-panel='background'
 
 [org/gnome/desktop/background]
 picture-uri='file:///home/tsakiris/Documents/dotfiles/wallpapers/1.jpg'
+
+[org/gnome/desktop/calendar]
+show-weekdate=false
 
 [org/gnome/desktop/input-sources]
 sources=[('xkb', 'us')]
@@ -180,9 +183,10 @@ reload-theme=false
 [org/gnome/shell/extensions/dash-to-dock]
 click-action='minimize'
 dash-max-icon-size=38
-dock-fixed=true
+dock-fixed=false
 dock-position='LEFT'
 multi-monitor=false
+preferred-monitor=0
 
 [org/gnome/shell/extensions/openweather]
 actual-city=0
