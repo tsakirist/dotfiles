@@ -199,23 +199,29 @@ function _zsh_functions() {
 function _zsh_p10k() {
     _check_file zsh/p10k.zsh
     _print s ".p10k.zsh"
-    cp -v zsh/p10k.zsh ~/.p10k.zsh
+    cp -v --backup=numbered zsh/p10k.zsh ~/.p10k.zsh
+}
+
+function _zsh_forgit() {
+    _check_file zsh/forgit.zsh
+    _print s ".forgit.zsh"
+    cp -v --backup=numbered zsh/forgit.zsh ~/.forgit.zsh
 }
 
 function _zsh_config() {
-    _zshrc && _zsh_aliases && _zsh_functions && _zsh_p10k
+    _zshrc && _zsh_aliases && _zsh_functions && _zsh_p10k && _zsh_forgit
 }
 
 function _oh_my_zsh() {
     _print i "oh-my-zsh" ": framework for managing zsh configuration"
     # Do not try to install, if the directory already exists
     [ -d "$HOME/.oh-my-zsh" ] && return
-    local zsh_custom=$HOME/.oh-my-zsh/custom
+    local zsh_custom="$HOME/.oh-my-zsh/custom"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     git clone --quiet --depth=1 https://github.com/romkatv/powerlevel10k.git "$zsh_custom"/themes/powerlevel10k
     git clone --quiet --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom"/plugins/zsh-autosuggestions
-    git clone --quiet --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting \
-        "$zsh_custom"/plugins/fast-syntax-highlighting
+    git clone --quiet --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting "$zsh_custom"/plugins/fast-syntax-highlighting
+    git clone --quiet --depth=1 https://github.com/wfxr/forgit.git "$zsh_custom"/plugins/forgit
     _zshrc
 }
 
@@ -551,13 +557,14 @@ function _validate_root() {
 function _disable_automatic_apt_updates() {
     _print s "non automatic updates for apt"
     local file="/etc/apt/apt.conf.d/20auto-upgrades"
-    local contents=$(cat << EOF
+    local contents=$(
+        cat << EOF
 APT::Periodic::Update-Package-Lists "0";
 APT::Periodic::Download-Upgradeable-Packages "0";
 APT::Periodic::AutocleanInterval "0";
 APT::Periodic::Unattended-Upgrade "1";
 EOF
-)
+    )
     echo "$contents" | sudo tee "$file" > /dev/null 2>&1
 }
 
@@ -567,7 +574,7 @@ pkgs=(
     "    dconf settings"
     "    build-essential"
     "    zsh"
-    "    zshrc, zsh_aliases, zsh_functions, zsh_p10k"
+    "    zshrc, zsh_aliases, zsh_functions, zsh_p10k, zsh_forgit"
     "    oh-my-zsh"
     "    bashrc, bash_aliases, bash_functions"
     "    kitty: the fast, featureful, GPU based terminal emulator"
@@ -652,7 +659,7 @@ pkgs_functions=(
     _vm_swappiness
     _set_wallpaper
     _install_fonts
-   _disable_automatic_apt_updates
+    _disable_automatic_apt_updates
 )
 
 dotfiles_functions=(
