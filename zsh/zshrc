@@ -95,12 +95,9 @@ setopt HIST_SAVE_NO_DUPS
 setopt SHARE_HISTORY
 unsetopt histverify
 
-# Make nvim default editor
+# Make nvim my default editor
 export VISUAL=nvim
 export EDITOR="$VISUAL"
-
-# Right enter might not work in some cases so we have to bind it to the enter
-bindkey -s "^[OM" "^M"
 
 # Add autocompletion for kitty
 autoload -Uz compinit
@@ -124,3 +121,8 @@ kitty + complete setup zsh | source /dev/stdin
 
 # Source my fzf configurations
 [ -f ~/.fzf.config ] && . ~/.fzf.config
+
+# Setup custom keybinds
+# '^M' or '\n' play the role of <Enter> so that the command can run automatically
+bindkey -s '' 'foc\n'
+bindkey -s '' 'frg\n'
