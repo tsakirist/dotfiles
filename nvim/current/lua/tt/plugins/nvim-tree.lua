@@ -1,7 +1,6 @@
 local M = {}
 
 function M.setup()
-    vim.g.nvim_tree_quit_on_open = 1 -- Closes the tree when you open a file
     vim.g.nvim_tree_indent_markers = 1 -- This option shows indent markers when folders are open
     vim.g.nvim_tree_git_hl = 1 -- Will enable file highlight for git attributes (can be used without the icons)
     vim.g.nvim_tree_highlight_opened_files = 1 -- Will enable folder and file icon highlight for opened files/directories
@@ -43,40 +42,39 @@ function M.setup()
     }
 
     -- Custom mappings
-    local tree_cb = require("nvim-tree.config").nvim_tree_callback
     local nvim_tree_mappings = {
-        { key = { "<CR>", "o", "<2-LeftMouse>" }, cb = tree_cb "edit" },
-        { key = { "<C-]>", "+" }, cb = tree_cb "cd" },
-        { key = "<C-v>", cb = tree_cb "vsplit" },
-        { key = "<C-x>", cb = tree_cb "split" },
-        { key = "<C-t>", cb = tree_cb "tabnew" },
-        { key = "<", cb = tree_cb "prev_sibling" },
-        { key = ">", cb = tree_cb "next_sibling" },
-        { key = "P", cb = tree_cb "parent_node" },
-        { key = "<BS>", cb = tree_cb "close_node" },
-        { key = "<S-CR>", cb = tree_cb "close_node" },
-        { key = "<Tab>", cb = tree_cb "preview" },
-        { key = "K", cb = tree_cb "first_sibling" },
-        { key = "J", cb = tree_cb "last_sibling" },
-        { key = "I", cb = tree_cb "toggle_ignored" },
-        { key = "H", cb = tree_cb "toggle_dotfiles" },
-        { key = "R", cb = tree_cb "refresh" },
-        { key = "a", cb = tree_cb "create" },
-        { key = "d", cb = tree_cb "remove" },
-        { key = "r", cb = tree_cb "rename" },
-        { key = "<C-r>", cb = tree_cb "full_rename" },
-        { key = "x", cb = tree_cb "cut" },
-        { key = "c", cb = tree_cb "copy" },
-        { key = "p", cb = tree_cb "paste" },
-        { key = "y", cb = tree_cb "copy_name" },
-        { key = "Y", cb = tree_cb "copy_path" },
-        { key = "gy", cb = tree_cb "copy_absolute_path" },
-        { key = "[c", cb = tree_cb "prev_git_item" },
-        { key = "]c", cb = tree_cb "next_git_item" },
-        { key = "-", cb = tree_cb "dir_up" },
-        { key = "s", cb = tree_cb "system_open" },
-        { key = "q", cb = tree_cb "close" },
-        { key = "g?", cb = tree_cb "toggle_help" },
+        { key = { "<CR>", "o", "<2-LeftMouse>" }, action = "edit" },
+        { key = { "O" }, action = "edit_no_picker" },
+        { key = "-", action = "dir_up" },
+        { key = "+", action = "cd" },
+        { key = "<C-v>", action = "vsplit" },
+        { key = "<C-x>", action = "split" },
+        { key = "<C-t>", action = "tabnew" },
+        { key = "<", action = "prev_sibling" },
+        { key = ">", action = "next_sibling" },
+        { key = "P", action = "parent_node" },
+        { key = "<BS>", action = "close_node" },
+        { key = "<Tab>", action = "preview" },
+        { key = "K", action = "first_sibling" },
+        { key = "J", action = "last_sibling" },
+        { key = "I", action = "toggle_ignored" },
+        { key = "H", action = "toggle_dotfiles" },
+        { key = "R", action = "refresh" },
+        { key = "a", action = "create" },
+        { key = "d", action = "remove" },
+        { key = "r", action = "rename" },
+        { key = "<C-r>", action = "full_rename" },
+        { key = "x", action = "cut" },
+        { key = "c", action = "copy" },
+        { key = "p", action = "paste" },
+        { key = "y", action = "copy_name" },
+        { key = "Y", action = "copy_path" },
+        { key = "gy", action = "copy_absolute_path" },
+        { key = "[c", action = "prev_git_item" },
+        { key = "]c", action = "next_git_item" },
+        { key = "s", action = "system_open" },
+        { key = "q", action = "close" },
+        { key = "g?", action = "toggle_help" },
     }
 
     require("nvim-tree").setup {
@@ -104,6 +102,19 @@ function M.setup()
             cmd = nil, -- The command to run, nil should work on most cases
             args = {}, -- The command arguments as a list
         },
+        filters = { -- Filtering options
+            dotfiles = false, -- Hide files and folders starting with a dot '.'
+            custom = { -- Do not load and display on these folders
+                ".git",
+                "node_modules",
+                ".cache",
+            },
+        },
+        git = { -- Git integration with icons and colors
+            enable = true, -- Enable the feature
+            ignore = true, -- Ignore files base on .gitignore
+            timeout = 500, -- Kill the git process after some time if takes too long
+        },
         diagnostics = { -- Lsp diagnostics in the signcolumn
             enable = false,
             icons = {
@@ -112,11 +123,6 @@ function M.setup()
                 warning = "",
                 error = "",
             },
-        },
-        git = { -- Git integration with icons and colors
-            enable = true, -- Enable the feature
-            ignore = true, -- Ignore files base on .gitignore
-            timeout = 500, -- Kill the git process after some time if takes too long
         },
         view = { -- Configuration options for the view
             width = 45, -- Width of the window, can be either columns or string in '%'
@@ -132,12 +138,12 @@ function M.setup()
                 list = nvim_tree_mappings, -- List with the custom keybindings
             },
         },
-        filters = {
-            dotfiles = false, -- Hide files and folders starting with a dot '.'
-            custom = { -- Do not load and display on these folders
-                ".git",
-                "node_modules",
-                ".cache",
+        actions = { -- Configuration for various actions
+            change_dir = {
+                global = false, -- Use :cd instead of :lcd when changing directories
+            },
+            open_file = {
+                quit_on_open = true, -- Closes the tree when openining a file
             },
         },
     }
