@@ -316,18 +316,18 @@ forgit::ignore::clean() {
 
 # Setup my own custom forgit aliases
 forgit_add=fadd
-forgit_checkout_branch=fcb
-forgit_checkout_commit=fcc
-forgit_checkout_file=fcf
-forgit_cherry_pick=fcp
+forgit_checkout_branch=fcheckoutb
+forgit_checkout_commit=fcheckoutc
+forgit_checkout_file=fcheckoutf
+forgit_cherry_pick=fcherrypick
 forgit_clean=fclean
 forgit_diff=fdiff
-forgit_fixup=ffu
-forgit_ignore=fgi
+forgit_fixup=ffixup
+forgit_ignore=fgitignore
 forgit_log=flog
-forgit_rebase=frb
-forgit_reset_head=frh
-forgit_stash_show=fss
+forgit_rebase=frebase
+forgit_reset_head=fresethard
+forgit_stash_show=fstash
 
 # Forgit custom copy command
 FORGIT_COPY_CMD='xclip -selection clipboard'
