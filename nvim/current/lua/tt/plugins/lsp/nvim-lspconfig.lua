@@ -101,9 +101,7 @@ if status_ok then
     capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 end
 
--- Disable LSP snippets for the time being since I do not want
--- to have duplicate snippet suggestions between LuaSnip and LSP snippets
--- TODO: Check that this works for the Lua-based configuration
+-- Disable LSP snippets since LuaSnip should be responsible for that
 capabilities.textDocument.completion.completionItem.snippetSupport = false
 capabilities.textDocument.completion.completionItem.resolveSupport = {
     properties = {

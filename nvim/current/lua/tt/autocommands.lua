@@ -34,9 +34,9 @@ function M.load_autocommands()
         _trim_whitespace = {
             { "BufWritePre", "*", "lua require('tt.helper').trimTrailingWhiteSpace()" },
         },
-        -- Enable format on save only for *.lua files for now
+        -- Enable format on save
         _format_on_save = {
-            { "BufWritePre", "*.lua", "lua vim.lsp.buf.formatting_sync({}, 1000)" },
+            { "BufWritePre", "*.lua,*.tsx,*.ts,*.sh", "lua vim.lsp.buf.formatting_sync({}, 1000)" },
         },
         -- Enable spelling for these filetypes
         _spell_check = {
