@@ -85,7 +85,7 @@ function M.setup()
     endfunction
 ]]
 
-    -- vim.cmd [[highlight! link StartifyHeader Statement]]
+    vim.cmd [[highlight! link StartifyHeader Statement]]
 end
 
 return M
