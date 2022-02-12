@@ -46,17 +46,6 @@ return require("packer").startup {
             end,
         }
 
-        -- A better more adventurous wildmenu
-        use {
-            "gelguy/wilder.nvim",
-            run = ":UpdateRemotePlugins",
-            event = "CmdLineEnter",
-            requires = { "romgrk/fzy-lua-native", after = "wilder.nvim" },
-            config = function()
-                require("tt.plugins.wilder").setup()
-            end,
-        }
-
         -- Bufferline
         use {
             "akinsho/bufferline.nvim",
