@@ -578,6 +578,8 @@ pkgs=(
     "    zshrc, zsh_aliases, zsh_functions, zsh_p10k, zsh_forgit"
     "    oh-my-zsh"
     "    bashrc, bash_aliases, bash_functions"
+    "    nvim nightly"
+    "    nvim configuration"
     "    kitty: the fast, featureful, GPU based terminal emulator"
     "    kitty configuration"
     "    kitty themes"
@@ -591,8 +593,6 @@ pkgs=(
     "    shellcheck: shell static analysis tool"
     "    stylua: an opiniated Lua formatter"
     "    luacheck: lua static analysis tool"
-    "    nvim nightly: a superior vim fork focused on extensiblity and usability"
-    "    nvim configuration"
     "    node: asyncrhonous event-driven JavaScript runtime"
     "    xprofile"
     "    tmux: terminal multiplexer"
@@ -624,6 +624,8 @@ pkgs_functions=(
     _zsh_config
     _oh_my_zsh
     _bash_config
+    _nvim_nightly
+    _nvim_config
     _kitty
     _kitty_config
     _kitty_themes
@@ -637,8 +639,6 @@ pkgs_functions=(
     _shellcheck
     _stylua
     _luacheck
-    _nvim_nightly
-    _nvim_config
     _node
     _x_profile
     _tmux
