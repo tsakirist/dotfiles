@@ -178,6 +178,7 @@ return require("packer").startup {
                     cmd = "TSPlaygroundToggle",
                     after = "nvim-treesitter",
                 },
+                { "RRethy/nvim-treesitter-endwise", after = "nvim-treesitter" },
             },
             config = function()
                 require("tt.plugins.treesitter").setup()

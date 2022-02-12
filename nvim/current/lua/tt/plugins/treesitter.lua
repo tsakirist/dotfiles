@@ -33,6 +33,9 @@ function M.setup()
             enable = true,
             enable_autocmd = false,
         },
+        endwise = {
+            enable = true,
+        },
         highlight = {
             enable = true,
             custom_captures = {},
@@ -54,6 +57,7 @@ function M.setup()
         refactor = {
             highlight_definitions = {
                 enable = true,
+                clear_on_cursor_move = false,
             },
             highlight_current_scope = {
                 enable = false,
