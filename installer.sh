@@ -67,8 +67,30 @@ function _check_command() {
     fi
 }
 
+function _print_cmd_version() {
+    "$1" --version | grep -Po "(\d+\.)?(\d+\.)(\d+)?( ?\(\w+\))?"
+}
+
+# Installs latest deb and also prints the current and new installed version
+# Takes two arguments:
+#   - The repository URL as a first argument
+#   - An optional name for the executable command that might differ and can't be deduced from the URL
+function _install_latest_deb_with_version() {
+    local repo="$1"
+    local cmd
+    if [ "$#" -eq 1 ]; then
+        cmd=$(echo "$repo" | cut -d/ -f2)
+    elif [ "$#" -eq 2 ]; then
+        cmd="$2"
+    fi
+    if command -v "$cmd" > /dev/null 2>&1; then
+        echo -e "    ${bullet} Old version: ${red_fg}$(_print_cmd_version "$cmd")${reset}"
+    fi
+    _install_latest_deb "$repo"
+    echo -e "    ${bullet} New version: ${red_fg}$(_print_cmd_version "$cmd")${reset}"
+}
+
 # Function that takes as argument the author/repo and installs the latest deb
-# TODO: Fix this function somehow to take arguments for grep? or  some extra pattern
 function _install_latest_deb() {
     local repo="https://api.github.com/repos/$1/releases/latest"
     local url=$(curl -s "$repo" | grep "browser_download_url" | grep -v "musl" | grep "amd64" | grep "deb" | cut -d '"' -f 4)
@@ -143,11 +165,6 @@ function _git_config() {
     _check_file git/gitconfig
     _print s ".gitconfig"
     ln -sv --backup=numbered "$(pwd)/git/gitconfig" "$HOME"/.gitconfig
-}
-
-function _git_delta() {
-    _print i "delta" " a better viewer for git and diff output"
-    _install_latest_deb dandavison/delta
 }
 
 function _bashrc() {
@@ -455,17 +472,11 @@ function _set_wallpaper() {
 function _install_fonts_from_dir() {
     local fonts_dir="fonts"
     local fonts_dest="$HOME/.local/share/fonts/"
-
     _check_dir $fonts_dir
-
-    # Create directory if necessary
     [ ! -d "$fonts_dest" ] && mkdir -p "$fonts_dest"
-
     for font in "$fonts_dir"/*.ttf; do
         cp -v "$font" "$fonts_dest"
     done
-
-    # Force rebuild of fc-cache
     fc-cache -f
 }
 
@@ -494,22 +505,27 @@ function _fzf() {
 
 function _fd() {
     _print i "fd" ": an improved version of find"
-    _install_latest_deb sharkdp/fd
+    _install_latest_deb_with_version sharkdp/fd
 }
 
 function _bat() {
     _print i "bat" ": a clone of cat with syntax highlighting"
-    _install_latest_deb sharkdp/bat
+    _install_latest_deb_with_version sharkdp/bat
 }
 
 function _rg() {
     _print i "rg" ": ripgrep recursive search for a pattern in files"
-    _install_latest_deb BurntSushi/ripgrep
+    _install_latest_deb_with_version BurntSushi/ripgrep rg
 }
 
 function _glow() {
     _print i "glow" ": markdown renderer for the terminal"
-    _install_latest_deb charmbracelet/glow
+    _install_latest_deb_with_version charmbracelet/glow
+}
+
+function _delta() {
+    _print i "delta" " a better viewer for git and diff output"
+    _install_latest_deb_with_version dandavison/delta
 }
 
 function _vm_swappiness() {
@@ -572,11 +588,13 @@ pkgs=(
     "    kitty: the fast, featureful, GPU based terminal emulator"
     "    kitty configuration"
     "    kitty themes"
+    "    gitconfig"
     "    fzf: fuzzy finder"
     "    fzf configuration"
     "    fd: improved version of find"
     "    rg: ripgrep recursive search for a pattern in files"
     "    bat: a cat clone with syntax highlighting"
+    "    delta: a better viewer for git and diff output"
     "    glow: markdown renderer for the terminal"
     "    shfmt: shell formatter"
     "    shellcheck: shell static analysis tool"
@@ -592,8 +610,6 @@ pkgs=(
     "    gnome-tweaks"
     "    gnome-shell-extensions"
     "    gnome-sushi"
-    "    gitconfig"
-    "    git delta"
     "    java and javac"
     "    vscode"
     "    google chrome"
@@ -616,11 +632,13 @@ pkgs_functions=(
     _kitty
     _kitty_config
     _kitty_themes
+    _git_config
     _fzf
     _fzf_config
     _fd
     _rg
     _bat
+    _delta
     _glow
     _shfmt
     _shellcheck
@@ -636,8 +654,6 @@ pkgs_functions=(
     _gnome_tweaks
     _gnome_shell_extensions
     _gnome_sushi
-    _git_config
-    _git_delta
     _java
     _vscode
     _google_chrome
@@ -653,7 +669,6 @@ dotfiles_functions=(
     _bash_config
     _fzf_config
     _nvim_config
-    _tmux_config
     _kitty_config
     _x_profile
 )
