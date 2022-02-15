@@ -100,11 +100,6 @@ function M.setup()
     }
 end
 
-local utils = require "tt.utils"
-utils.map("n", "<leader>gv", "<Cmd>DiffviewOpen<CR>")
-utils.map("n", "<leader>gc", "<Cmd>DiffviewClose<CR>")
-utils.map("n", "<leader>gf", "<Cmd>DiffviewFileHistory<CR>")
-
 vim.cmd [[
     cnoreabbrev dvo DiffviewOpen
     cnoreabbrev dvc DiffviewClose
