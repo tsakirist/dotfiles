@@ -318,17 +318,6 @@ function _stylua() {
     [ -f "$file" ] && chmod u+x "$file" && sudo mv "$file" /usr/local/bin
 }
 
-function _tmux() {
-    _print i "tmux"
-    _install tmux
-}
-
-function _tmux_config() {
-    _check_file tmux/tmux.conf
-    _print s ".tmux.conf"
-    ln -sv --backup=numbered "$(pwd)/tmux/tmux.conf" "$HOME"/.tmux.conf
-}
-
 function _vscode() {
     _print i "visual studio code"
     wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add - > /dev/null 2>&1
@@ -595,8 +584,6 @@ pkgs=(
     "    luacheck: lua static analysis tool"
     "    node: asyncrhonous event-driven JavaScript runtime"
     "    xprofile"
-    "    tmux: terminal multiplexer"
-    "    tmux configuration"
     "    xclip"
     "    neofetch"
     "    htop + gotop + ncdu: monitoring tools"
@@ -641,8 +628,6 @@ pkgs_functions=(
     _luacheck
     _node
     _x_profile
-    _tmux
-    _tmux_config
     _xclip
     _neofetch
     _monitoring_tools
