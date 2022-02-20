@@ -353,6 +353,9 @@ return require("packer").startup {
             end,
         }
 
+        -- Editor config support
+        use { "gpanders/editorconfig.nvim" }
+
         -- Switch between single-line and multiline forms of code
         use { "AndrewRadev/splitjoin.vim", keys = { "gS", "gJ" } }
 
