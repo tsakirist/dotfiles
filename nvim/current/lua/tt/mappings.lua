@@ -122,3 +122,12 @@ utils.map({ "n", "x" }, "<leader>ga", "<Plug>(LiveEasyAlign)")
 
 -- Zoom toggle a buffer in a window in a new tab
 utils.map("n", "<leader>z", "<Cmd>lua require'tt.helper'.zoomToggleNewTab()<CR>")
+
+-- Copy the current file name to the clipboard
+utils.map("n", "<leader>cf", function()
+    local filename = vim.fn.expand "%:t"
+    if filename ~= "" then
+        vim.fn.setreg("+", filename)
+        vim.notify(("Copied %s to system clipboard!"):format(filename))
+    end
+end)
