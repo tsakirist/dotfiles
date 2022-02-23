@@ -1,7 +1,6 @@
 local M = {}
 
 local actions = require "telescope.actions"
-local actions_state = require "telescope.actions.state"
 local actions_layout = require "telescope.actions.layout"
 local trouble = require "trouble.providers.telescope"
 
@@ -125,7 +124,6 @@ function M.setup()
         "<Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_ivy({}))<CR>"
     )
     utils.map("n", "<leader>fv", "<Cmd>lua require'tt.plugins.telescope'.find_in_nvim_config()<CR>")
-    utils.map("n", "<leader>mr", "<Cmd>lua require'tt.plugins.telescope'.reload_modules()<CR>")
 end
 
 -- Define custom functions for telescope
@@ -134,45 +132,6 @@ function M.find_in_nvim_config()
         prompt_title = "Nvim Config",
         cwd = vim.fn.stdpath "config",
     }
-end
-
--- Picker that allows to reload a Lua module
-function M.reload_modules()
-    -- Taken from https://ustrajunior.com/posts/reloading-neovim-config-with-telescope/
-
-    -- Telescope will give us something like tt/module.lua,
-    -- so this function converts the selected entry to
-    -- the module name: tt.module
-    local function get_module_name(module)
-        local module_name
-
-        module_name = module:gsub("%.lua", "")
-        module_name = module_name:gsub("%/", ".")
-        module_name = module_name:gsub("%.init", "")
-
-        return module_name
-    end
-
-    local opts = {
-        prompt_title = "Lua modules",
-        cwd = vim.fn.stdpath "config" .. "/lua",
-        attach_mappings = function(_, map)
-            -- Mappings:
-            --  1. <Enter>: Reloads the selected module
-            --  2. <C-o>: Opens the lua module file
-            map("i", "<Enter>", function(_)
-                local entry = actions_state.get_selected_entry()
-                local name = get_module_name(entry.value)
-                _G.Reload(name)
-                _G.Print(name .. " has been reloaded")
-            end)
-            map("i", "<C-o>", actions.select_default)
-            return true
-        end,
-    }
-
-    -- Call the builtin method to list files
-    require("telescope.builtin").find_files(opts)
 end
 
 return M
