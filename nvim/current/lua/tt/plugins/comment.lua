@@ -76,8 +76,8 @@ function M.setup()
     }
 
     local utils = require "tt.utils"
-    utils.map("n", "<leader><leader>", "gcc", { noremap = false })
-    utils.map("v", "<leader><leader>", "gc", { noremap = false })
+    utils.map("n", "<leader><leader>", "gcc", { remap = true })
+    utils.map("v", "<leader><leader>", "gc", { remap = true })
     utils.map("i", "<leader><leader>", "<C-o><Cmd>lua require'Comment'.toggle()<CR>")
 end
 
