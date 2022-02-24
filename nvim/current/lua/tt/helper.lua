@@ -39,12 +39,12 @@ function M.zoomToggleNewTab()
     if vim.fn.winnr "$" == 1 then
         -- Close the tab only if it's opened by this function
         if pcall(vim.api.nvim_tabpage_get_var, 0, "zoomedTab") then
-            vim.cmd [[ tabclose ]]
+            vim.cmd [[tabclose]]
         end
     else
         -- Open a new tab with the current file
-        vim.cmd [[ tabnew %:p ]]
-        -- Set a t:_zoomed indicating if we're on a "zoomed" tab
+        vim.cmd [[tabnew %:p]]
+        -- Set a tab local variable indicating that we're in a "zoomed" tab
         vim.api.nvim_tabpage_set_var(0, "zoomedTab", true)
     end
 
