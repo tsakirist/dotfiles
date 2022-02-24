@@ -444,7 +444,7 @@ function _kitty_config() {
     local destination="$HOME/.config/kitty"
     [ ! -d "$destination" ] && mkdir -p "$destination"
     ln -sv --backup=numbered "$(pwd)/kitty/kitty.conf" "$destination/kitty.conf"
-    cp -v kitty/kitty.png "$destination/"
+    cp -v kitty/*.png "$destination/"
 }
 
 function _kitty_themes() {
@@ -461,7 +461,7 @@ function _x_profile() {
 }
 
 function _set_wallpaper() {
-    local wlp="wallpapers/1.jpg"
+    local wlp="wallpapers/abstract_cube.jpg"
     _check_file "$wlp"
     local path="$(readlink -e $wlp)"
     local uri="'file://$path'"
