@@ -122,6 +122,18 @@ return require("packer").startup {
                     require("tt.plugins.lsp.null-ls").setup()
                 end,
             },
+            -- LSP progress indicator
+            {
+                "j-hui/fidget.nvim",
+                after = "nvim-lspconfig",
+                config = function()
+                    require("fidget").setup {
+                        text = {
+                            spinner = "dots",
+                        },
+                    }
+                end,
+            },
             -- Preview of implementation in floating-window
             {
                 "rmagatti/goto-preview",
@@ -388,6 +400,17 @@ return require("packer").startup {
 
         -- Measure the startup-time of neovim
         use { "dstein64/vim-startuptime", cmd = "StartupTime" }
+
+        -- Neorg, organize notes
+        use {
+            "nvim-neorg/neorg",
+            after = "nvim-treesitter",
+            cmd = "NeorgStart",
+            ft = "norg",
+            config = function()
+                require("tt.plugins.neorg").setup()
+            end,
+        }
 
         -- Automatically set up configuration after cloning packer
         if packer_bootstrap then
