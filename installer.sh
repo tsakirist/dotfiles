@@ -281,12 +281,17 @@ function _nvim_config() {
     _print s "neovim configuration"
     _check_dir nvim/current
 
+    local nvim_config_path="$HOME/.config/nvim"
+
     # Check nvim requirements
     _check_nvim_config_requirements
 
+    # Create the neovim config folder if it's not there
+    [ ! -d "$nvim_config_path" ] && mkdir -p "$nvim_config_path"
+
     # Make symbolic links to the whole nvim directory in the target directory
     # This will force copy the soft-links, thus re-writing the existing ones
-    cp -asf "$(pwd)/nvim/current" "$HOME/.config/nvim"
+    cp -arsf "$(pwd)/nvim/current/." "$nvim_config_path"
 
     # Make sure to install packer if needed
     /usr/bin/nvim --headless -c "lua require('tt.plugins.packer').packer_bootstrap()" -c "quitall"
@@ -294,7 +299,7 @@ function _nvim_config() {
     # Install all plugins and generate compiled loader file
     /usr/bin/nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
 
-    # Output a newline after Packer:Complete message from NVIM
+    # Output a newline after Packer:Complete message
     echo
 }
 
