@@ -105,7 +105,7 @@ gmrebase() {
     git checkout -
     echo ""
     echo -e "${RED}==> Rebasing master onto $(git rev-parse --abbrev-ref HEAD)...${NC}"
-    git rebase master $(git rev-parse --abbrev-ref HEAD)
+    git rebase master "$(git rev-parse --abbrev-ref HEAD)"
     echo ""
 }
 

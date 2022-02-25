@@ -66,9 +66,6 @@ alias nvv='nvim ~/.vimrc'
 # Shorten the name to just gotop
 alias gotop='gotop-cjbassi -c monokai'
 
-# Alias for lazygit
-alias lg='lazygit'
-
 # Restart the network service
 alias network_restart='sudo systemctl restart NetworkManager.service'
 alias network_restart2='sudo service network-manager restart'
@@ -81,3 +78,9 @@ alias icat='kitty +kitten icat'
 
 # Git aliases
 alias gc-='git checkout -'
+
+# Set nvim as the pager for man pages
+function nvim_man {
+    $EDITOR "+Man $1|only"
+}
+alias man=nvim_man
