@@ -2,15 +2,72 @@
 
 ## Description
 
-This repository holds all the necessary files needed to install my configurations and settings on a new Linux based distribution.
+This repository holds all the necessary files needed to install my configurations and settings on a new Linux based
+distribution.
 
 There are currently two branches:
 
-* **master** : Ubuntu  -- Debian based with Gnome desktop enviroment
-* **manjaro**: Manjaro -- Arch based with Gnome desktop enviroment
+* **master** : Ubuntu  -- Debian based with Gnome desktop environment
+* **manjaro**: Manjaro -- Arch based with Gnome desktop environment (@deprecated)
 
 ### Instructions
 
 * Clone the repository and enter the directory
 * Give executable rights to the installer if needed with `chmod +x installer.sh`
-* Start the installer with `./installer.sh`
+* Start the installer `./installer.sh`
+
+## Neovim
+
+The configuration files will be installed to the default configuration directory of **neovim**, located at:
+`${HOME}/.config/nvim`
+
+### Directory Structure
+
+```
+.
+├── lua
+│   └── tt
+│       ├── plugins
+│       │   ├── git
+│       │   │   ├── diffview.lua
+│       │   │   ├── gitlinker.lua
+│       │   │   ├── git-messenger.lua
+│       │   │   └── gitsigns.lua
+│       │   ├── lsp
+│       │   │   ├── goto-preview.lua
+│       │   │   ├── lsp-signature.lua
+│       │   │   ├── null-ls.lua
+│       │   │   ├── nvim-lspconfig.lua
+│       │   │   ├── nvim-lsp-installer.lua
+│       │   │   └── vista.lua
+│       │   ├── bufferline.lua
+│       │   ├── comment.lua
+│       │   ├── indent-blankline.lua
+│       │   ├── neorg.lua
+│       │   ├── nightfox.lua
+│       │   ├── numb.lua
+│       │   ├── nvim-autopairs.lua
+│       │   ├── nvim-cmp.lua
+│       │   ├── nvim-gps.lua
+│       │   ├── nvim-tree.lua
+│       │   ├── packer.lua
+│       │   ├── startify.lua
+│       │   ├── telescope.lua
+│       │   ├── toggleterm.lua
+│       │   ├── treesitter.lua
+│       │   ├── trouble.lua
+│       │   └── zen-mode.lua
+│       ├── themes
+│       │   ├── evil_lualine.lua
+│       │   └── lualine.lua
+│       ├── abbreviations.lua
+│       ├── autocommands.lua
+│       ├── globals.lua
+│       ├── helper.lua
+│       ├── init.lua
+│       ├── mappings.lua
+│       ├── plugins.lua
+│       ├── settings.lua
+│       └── utils.lua
+└── init.lua
+```
