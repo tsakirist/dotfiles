@@ -59,4 +59,15 @@ function M.trimTrailingWhiteSpace()
     vim.fn.winrestview(savedView)
 end
 
+---Function to copy the filename according to the supplied modifier
+---to the system's clipboard.
+---@param modifier string: the modifier to use for the filename
+function M.filename_to_clipboard(modifier)
+    local filename = vim.fn.expand("%:" .. modifier)
+    if filename ~= "" then
+        vim.fn.setreg("+", filename)
+        vim.notify(("Copied %s to system clipboard!"):format(filename))
+    end
+end
+
 return M
