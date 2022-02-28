@@ -175,7 +175,6 @@ local setup_servers = function()
         "pyright",
         "sumneko_lua",
         "tsserver",
-        "vimls",
     }
 
     -- Install missing servers
@@ -183,11 +182,14 @@ local setup_servers = function()
         local ok, server = lsp_installer.get_server(server_name)
         if ok then
             if not server:is_installed() then
-                -- LSP server installation with UI
-                lsp_installer.install(server_name)
-                -- Headless LSP server installation
-                -- print("Installing lsp_sever: " .. server_name)
-                -- server:install()
+                if _G.HeadlessMode() then
+                    -- LSP server installation without UI
+                    vim.notify("Installing lsp_sever: " .. server_name)
+                    server:install()
+                else
+                    -- LSP server installation with UI
+                    lsp_installer.install(server_name)
+                end
             end
         end
     end

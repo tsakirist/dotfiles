@@ -177,8 +177,8 @@ return require("packer").startup {
         use {
             "nvim-treesitter/nvim-treesitter",
             run = function()
-                -- Perform update only when not in headless mode
-                if #vim.api.nvim_list_uis() ~= 0 then
+                -- Perform update only when we're not in headless mode
+                if not _G.HeadlessMode() then
                     vim.cmd [[TSUpdate]]
                 end
             end,

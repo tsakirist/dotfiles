@@ -33,7 +33,7 @@ end
 
 function M.setup()
     -- Do not run setup when in headless mode
-    if #vim.api.nvim_list_uis() == 0 then
+    if _G.HeadlessMode() then
         return
     end
 

@@ -17,9 +17,15 @@ function _G.Reload(module)
     return require(module)
 end
 
--- Create a wrapper for nvim-web-devicons
+---Create a wrapper for nvim-web-devicons.
 function _G.WebDevIcons(path)
     local extension = vim.fn.fnamemodify(path, ":e")
     local filename = vim.fn.fnamemodify(path, ":t")
     return require("nvim-web-devicons").get_icon(filename, extension, { default = true })
+end
+
+---Returns whether or not neovim is running in headless mode.
+---@return boolean
+function _G.HeadlessMode()
+    return #vim.api.nvim_list_uis() == 0
 end
