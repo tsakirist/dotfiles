@@ -7,10 +7,12 @@ local trouble = require "trouble.providers.telescope"
 function M.setup()
     require("telescope").setup {
         defaults = {
-            dynamic_preview_title = true, -- Change the preview title dynamically to the filename
-            prompt_prefix = "  ",
+            dynamic_preview_title = true,
             selection_caret = "❯ ",
+            prompt_prefix = "  ",
             winblend = 0,
+            wrap_results = true,
+            initial_mode = "insert",
             layout_strategy = "horizontal",
             layout_config = {
                 prompt_position = "bottom",
