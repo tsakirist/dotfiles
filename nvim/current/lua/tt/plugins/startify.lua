@@ -1,5 +1,14 @@
 local M = {}
 
+---Directory where session files will be stored.
+local sessions_path = vim.fn.stdpath "data" .. "/sessions/"
+
+---Expose the session_path to other modules.
+---@return string sessions_path the directory where Startify stores saved sessions.
+function M.get_sessions_path()
+    return sessions_path
+end
+
 function M.setup()
     -- Do not show <empty> and <quit>
     vim.g.startify_enable_special = 0
@@ -14,7 +23,7 @@ function M.setup()
     vim.g.startify_update_oldfiles = 1
 
     -- Specify where to store sessions
-    vim.g.startify_session_dir = vim.fn.stdpath "data" .. "/sessions/"
+    vim.g.startify_session_dir = M.get_sessions_path()
 
     -- Automatically update sessions
     vim.startify_session_persistence = 1
@@ -65,7 +74,7 @@ function M.setup()
         { w = { "  Find Word", ":Telescope live_grep" } },
         { r = { "  Recent Files", ":Telescope oldfiles" } },
         { h = { "  Help", ":Telescope help_tags" } },
-        -- { s = { "  Sessions", ":Telescope sessions<CR>" } },
+        { s = { "  Sessions", ":lua require'tt.plugins.telescope'.find_sessions()" } },
     }
 
     local config_path = vim.fn.stdpath "config"
@@ -80,10 +89,10 @@ function M.setup()
 
     -- Make Startify use WebDevIcons instead
     vim.cmd [[
-    function! StartifyEntryFormat() abort
-        return 'v:lua.WebDevIcons(absolute_path) . " " . entry_path'
-    endfunction
-]]
+        function! StartifyEntryFormat() abort
+            return 'v:lua.WebDevIcons(absolute_path) . " " . entry_path'
+        endfunction
+    ]]
 
     vim.cmd [[highlight! link StartifyHeader Statement]]
 end

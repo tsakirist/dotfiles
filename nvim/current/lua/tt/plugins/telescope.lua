@@ -2,6 +2,11 @@ local M = {}
 
 local actions = require "telescope.actions"
 local actions_layout = require "telescope.actions.layout"
+local actions_state = require "telescope.actions.state"
+local config = require("telescope.config").values
+local finders = require "telescope.finders"
+local make_entry = require "telescope.make_entry"
+local pickers = require "telescope.pickers"
 local trouble = require "trouble.providers.telescope"
 
 function M.setup()
@@ -11,7 +16,7 @@ function M.setup()
             selection_caret = "❯ ",
             prompt_prefix = "  ",
             winblend = 0,
-            wrap_results = true,
+            wrap_results = false,
             initial_mode = "insert",
             layout_strategy = "horizontal",
             layout_config = {
@@ -96,7 +101,7 @@ function M.setup()
     require("telescope").load_extension "zf-native"
     require("telescope").load_extension "packer"
 
-    -- Set keybindings
+    -- Set custom keybindings
     local utils = require "tt.utils"
     utils.map("n", "<leader>T", "<Cmd>Telescope<CR>")
     utils.map("n", "<leader>fb", "<Cmd>Telescope buffers<CR>")
@@ -126,14 +131,76 @@ function M.setup()
         "<Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_ivy({}))<CR>"
     )
     utils.map("n", "<leader>fv", "<Cmd>lua require'tt.plugins.telescope'.find_in_nvim_config()<CR>")
+    utils.map("n", "<leader>fS", "<Cmd>lua require'tt.plugins.telescope'.find_sessions()<CR>")
 end
 
--- Define custom functions for telescope
+---Define custom functions for telescope.
 function M.find_in_nvim_config()
     require("telescope.builtin").find_files {
         prompt_title = "Nvim Config",
         cwd = vim.fn.stdpath "config",
     }
+end
+
+---Defines a custom picker for selection sessions made with Startify session maanagement.
+---TODO: Convert it to telescope extension, add a telescope folder.
+function M.find_sessions(opts)
+    ---Optional options that can be passed to the picker and finder.
+    opts = opts or {}
+
+    ---Gets the current session name from the picker, using regex.
+    ---@return string filename
+    local function get_session_name()
+        local selection = actions_state.get_selected_entry().value
+        local filename = selection:match "([^/]+)$"
+        return filename
+    end
+
+    ---Calls `SLoad` on the selected session.
+    ---@param prompt_bufnr number
+    local function load_session(prompt_bufnr)
+        local filename = get_session_name()
+        actions.close(prompt_bufnr)
+        vim.cmd("SLoad " .. filename)
+    end
+
+    ---Calls 'SDelete' on the selected session.
+    local function delete_session()
+        local filename = get_session_name()
+        vim.cmd("SDelete " .. filename)
+    end
+
+    ---Path where Startify stores saved sessions.
+    local sessions_path = require("tt.plugins.startify").get_sessions_path()
+
+    ---The find command to use for finding the sesions.
+    local find_command = vim.tbl_flatten {
+        "fd",
+        ".",
+        "--type",
+        "f",
+        sessions_path,
+    }
+
+    ---Use as the cwd, the sessions_path directory, so that the maker can make
+    ---use of it, when populating the session entries.
+    opts.cwd = sessions_path
+
+    ---Use the appropriate entry_maker for the results.
+    opts.entry_maker = opts.entry_maker or make_entry.gen_from_file(opts)
+
+    ---Picker that will allow us to select a session to load or delete.
+    pickers.new(opts, {
+        prompt_title = "Session",
+        results_title = sessions_path,
+        finder = finders.new_oneshot_job(find_command, opts),
+        attach_mappings = function(_, map)
+            actions.select_default:replace(load_session)
+            map("n", "d", delete_session)
+            return true
+        end,
+        sorter = config.file_sorter(opts),
+    }):find()
 end
 
 return M
