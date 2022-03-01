@@ -7,7 +7,6 @@ function M.setup()
     vim.g.nvim_tree_root_folder_modifier = ":~" -- Default. See :help filename-modifiers for more options
     vim.g.nvim_tree_add_trailing = 1 -- Append a trailing slash to folder names
     vim.g.nvim_tree_group_empty = 1 -- Compact folders that only contain a single folder into one node
-    vim.g.nvim_tree_disable_window_picker = 0 -- Will disable the window picker
     vim.g.nvim_tree_icon_padding = " " -- Used for rendering the space between the icon and the filename.
     vim.g.nvim_tree_respect_buf_cwd = 1 -- Will change cwd of nvim-tree to that of new buffer's when opening nvim-tree
     vim.g.nvim_tree_git_hl = 0 -- Disable this for better perfomance
@@ -129,7 +128,6 @@ function M.setup()
             height = 30, -- Height of the window, can be either columns or string in '%'
             side = "left", -- The side where the tree should open
             hide_root_folder = false, -- Hide the root folder
-            auto_resize = true, -- Resize the tree when opening a file
             number = false, -- Print line number in front of each line
             relativenumber = false, -- Show line number relative to the line with the cursor
             signcolumn = "yes", -- Show diagnostic sign column
@@ -140,10 +138,15 @@ function M.setup()
         },
         actions = { -- Configuration for various actions
             change_dir = {
+                enable = true, -- Change the working directoryt when changing directories in the tree
                 global = false, -- Use :cd instead of :lcd when changing directories
             },
             open_file = {
                 quit_on_open = true, -- Closes the tree when openining a file
+                resize_window = true, -- Resizes the tree when opening a file
+                window_picker = {
+                    enable = true, -- Files will not open in window from where tree was last opened
+                },
             },
         },
     }
