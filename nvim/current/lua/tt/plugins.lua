@@ -398,9 +398,6 @@ return require("packer").startup {
             },
         }
 
-        -- Measure the startup-time of neovim
-        use { "dstein64/vim-startuptime", cmd = "StartupTime" }
-
         -- Neorg, organize notes
         use {
             "nvim-neorg/neorg",
@@ -411,6 +408,20 @@ return require("packer").startup {
                 require("tt.plugins.neorg").setup()
             end,
         }
+
+        -- Markdown extension, mainly used for conceallevel
+        use {
+            "preservim/vim-markdown",
+            config = function()
+                vim.g.vim_markdown_conceal = 1
+                vim.g.vim_markdown_conceal_code_blocks = 1
+                vim.g.vim_markdown_no_default_key_mappings = 1
+                vim.g.vim_markdown_folding_disabled = 1
+            end,
+        }
+
+        -- Measure the startup-time of neovim
+        use { "dstein64/vim-startuptime", cmd = "StartupTime" }
 
         -- Automatically set up configuration after cloning packer
         if packer_bootstrap then

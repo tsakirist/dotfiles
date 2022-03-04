@@ -77,6 +77,12 @@ opt.wrap = true
 -- This is considered a hard-wrap, one can use linebreak to soft-wrap the lines w/o inserting EOL
 opt.textwidth = 120
 
+-- Text with conceal syntax will be hidden
+opt.conceallevel = 2
+
+-- Concealed text will be hidden in "nc" modes, normal and command
+opt.concealcursor = "nc"
+
 -- Set default encoding
 opt.encoding = "UTF-8"
 
