@@ -7,6 +7,7 @@ local config = require("telescope.config").values
 local finders = require "telescope.finders"
 local make_entry = require "telescope.make_entry"
 local pickers = require "telescope.pickers"
+local themes = require "telescope.themes"
 local trouble = require "trouble.providers.telescope"
 
 function M.setup()
@@ -182,11 +183,14 @@ function M.find_sessions(opts)
         sessions_path,
     }
 
+    ---The theme to use for the finder.
+    opts = themes.get_dropdown()
+
     ---Use as the cwd, the sessions_path directory, so that the maker can make
     ---use of it, when populating the session entries.
     opts.cwd = sessions_path
 
-    ---Use the appropriate entry_maker for the results.
+    ---Use the appropriate entry_maker for the results
     opts.entry_maker = opts.entry_maker or make_entry.gen_from_file(opts)
 
     ---Picker that will allow us to select a session to load or delete.
@@ -194,12 +198,12 @@ function M.find_sessions(opts)
         prompt_title = "Session",
         results_title = sessions_path,
         finder = finders.new_oneshot_job(find_command, opts),
+        sorter = config.file_sorter(opts),
         attach_mappings = function(_, map)
             actions.select_default:replace(load_session)
             map("n", "d", delete_session)
             return true
         end,
-        sorter = config.file_sorter(opts),
     }):find()
 end
 
