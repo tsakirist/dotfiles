@@ -24,6 +24,26 @@ local setup_diagnostics = function()
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
+
+    -- Diagnostics helper flag, enabled by default
+    M.diagnostics_enabled = true
+
+    --- Function that toggles diagnostics in all buffers
+    local function toggle_diagnostics()
+        if M.diagnostics_enabled then
+            vim.diagnostic.disable()
+            vim.notify "Diagnostics disabled"
+        else
+            vim.diagnostic.enable()
+            vim.notify "Diagnostics enabled"
+        end
+        M.diagnostics_enabled = not M.diagnostics_enabled
+    end
+
+    -- Add a command to toggle the diagnostics
+    vim.api.nvim_add_user_command("ToggleDiagnostics", toggle_diagnostics, {
+        desc = "Toggles diagnostics on and off, for all buffers",
+    })
 end
 
 local setup_hover = function()
