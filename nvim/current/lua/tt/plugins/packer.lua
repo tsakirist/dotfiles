@@ -1,7 +1,7 @@
 local M = {}
 
----Bootstraps packer.
----This will download/clone packer.nvim in case it doesn't exist.
+--- Bootstraps packer.
+--- This will download/clone packer.nvim in case it doesn't exist.
 ---@returns a value indicating succesful installation/bootstrapping.
 function M.packer_bootstrap()
     local fn = vim.fn

@@ -1,6 +1,6 @@
 local M = {}
 
----Adds extra Treesitter parsers configurations.
+--- Adds extra Treesitter parsers configurations.
 function M.add_extra_parsers()
     -- These are extra optional parsers used by `neorg` plugin
     local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()

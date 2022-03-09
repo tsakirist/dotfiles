@@ -1,6 +1,6 @@
 local M = {}
 
----Creates a new mapping
+--- Creates a new mapping
 ---@param mode string|table: can be for example 'n', 'i', 'v' or { 'n', 'i', 'v' }
 ---@param lhs string: the left hand side
 ---@param rhs string|function: the right hand side

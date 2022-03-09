@@ -1,12 +1,12 @@
 local M = {}
 
----Create autocommand groups according to the passed definitions
+--- Create autocommand groups according to the passed definitions
 ---@param definitions table:
----The table should have a key which corresponds to the name of the group
----and each definition should have:
----    1. Event
----    2. Pattern
----    3. Command
+--- The table should have a key which corresponds to the name of the group
+--- and each definition should have:
+---  1. Event
+---  2. Pattern
+---  3. Command
 function M.create_augroups(definitions)
     for augroup_name, definition in pairs(definitions) do
         vim.cmd("augroup" .. augroup_name)

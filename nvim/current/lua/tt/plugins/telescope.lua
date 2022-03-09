@@ -135,7 +135,7 @@ function M.setup()
     utils.map("n", "<leader>fS", "<Cmd>lua require'tt.plugins.telescope'.find_sessions()<CR>")
 end
 
----Define custom functions for telescope.
+--- Defines custom picker for searching in neovim config.
 function M.find_in_nvim_config()
     require("telescope.builtin").find_files {
         prompt_title = "Nvim Config",
@@ -143,13 +143,13 @@ function M.find_in_nvim_config()
     }
 end
 
----Defines a custom picker for selection sessions made with Startify session maanagement.
----TODO: Convert it to telescope extension, add a telescope folder.
+--- Defines a custom picker for selection sessions made with Startify session maanagement.
+--- TODO: Convert it to telescope extension, add a telescope folder.
 function M.find_sessions(opts)
-    ---Optional options that can be passed to the picker and finder.
+    --- Optional options that can be passed to the picker and finder.
     opts = opts or {}
 
-    ---Gets the current session name from the picker, using regex.
+    --- Gets the current session name from the picker, using regex.
     ---@return string filename
     local function get_session_name()
         local selection = actions_state.get_selected_entry().value
@@ -157,7 +157,7 @@ function M.find_sessions(opts)
         return filename
     end
 
-    ---Calls `SLoad` on the selected session.
+    --- Calls `SLoad` on the selected session.
     ---@param prompt_bufnr number
     local function load_session(prompt_bufnr)
         local filename = get_session_name()
@@ -165,16 +165,16 @@ function M.find_sessions(opts)
         vim.cmd("SLoad " .. filename)
     end
 
-    ---Calls 'SDelete' on the selected session.
+    --- Calls 'SDelete' on the selected session.
     local function delete_session()
         local filename = get_session_name()
         vim.cmd("SDelete " .. filename)
     end
 
-    ---Path where Startify stores saved sessions.
+    --- Path where Startify stores saved sessions.
     local sessions_path = require("tt.plugins.startify").get_sessions_path()
 
-    ---The find command to use for finding the sesions.
+    --- The find command to use for finding the sesions.
     local find_command = vim.tbl_flatten {
         "fd",
         ".",
@@ -183,17 +183,17 @@ function M.find_sessions(opts)
         sessions_path,
     }
 
-    ---The theme to use for the finder.
+    --- The theme to use for the finder.
     opts = themes.get_dropdown()
 
-    ---Use as the cwd, the sessions_path directory, so that the maker can make
-    ---use of it, when populating the session entries.
+    --- Use as the cwd, the sessions_path directory, so that the maker can make
+    --- use of it, when populating the session entries.
     opts.cwd = sessions_path
 
-    ---Use the appropriate entry_maker for the results
+    --- Use the appropriate entry_maker for the results
     opts.entry_maker = opts.entry_maker or make_entry.gen_from_file(opts)
 
-    ---Picker that will allow us to select a session to load or delete.
+    --- Picker that will allow us to select a session to load or delete.
     pickers.new(opts, {
         prompt_title = "Session",
         results_title = sessions_path,

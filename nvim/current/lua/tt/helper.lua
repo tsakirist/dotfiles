@@ -1,6 +1,6 @@
 local M = {}
 
----Function to zoom-in and zoom-out from a window.
+--- Function to zoom-in and zoom-out from a window.
 ---@deprecated in favor of 'zoomToggleNewTab'
 function M.zoomToggleSameTab()
     -- Do nothing if this is the only window, i.e. no splits
@@ -25,8 +25,8 @@ function M.zoomToggleSameTab()
     end
 end
 
----Function to zoom-in and zoom-out of the given window in a new tab
----that also retains cursor position when zooming-in and zooming-out.
+--- Function to zoom-in and zoom-out of the given window in a new tab
+--- that also retains cursor position when zooming-in and zooming-out.
 function M.zoomToggleNewTab()
     -- Do nothing if this is the only window in the first tab
     if vim.fn.winnr "$" == 1 and vim.fn.tabpagenr "$" == 1 then
@@ -52,16 +52,16 @@ function M.zoomToggleNewTab()
     vim.api.nvim_win_set_cursor(0, last_cursor)
 end
 
----Function to trim trailing whitespace.
+--- Function to trim trailing whitespace.
 function M.trimTrailingWhiteSpace()
     local savedView = vim.fn.winsaveview()
     vim.cmd [[keeppatterns %s/\s\+$//e]]
     vim.fn.winrestview(savedView)
 end
 
----Function to copy the filename according to the supplied modifier
----to the system's clipboard.
----@param modifier string: the modifier to use for the filename
+--- Function to copy the filename according to the supplied modifier
+--- to the system's clipboard.
+---@param modifier string: The modifier to use for the filename
 function M.filename_to_clipboard(modifier)
     local filename = vim.fn.expand("%:" .. modifier)
     if filename ~= "" then
