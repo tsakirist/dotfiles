@@ -32,6 +32,10 @@ vim.cmd "nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd //gj %<Bar>Trouble qui
 -- vib=:      select the surrounding text inside '()' and indent it visually
 utils.map("n", "<leader>bp", "f)%cSbbj:s/,/,\r/g<CR>Jvib=<CR>")
 
+-- Move to the next and previous item in the quickfixlist
+utils.map("n", "]c", "<Cmd>cnext<CR>")
+utils.map("n", "[c", "<Cmd>cprevious<CR>")
+
 -- Use space to toggle fold
 utils.map("n", "<Space>", "za")
 
