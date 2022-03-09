@@ -38,8 +38,10 @@ opt.shiftwidth = 4
 -- Use the indentation level of the previous line when pressing enter
 opt.autoindent = true
 
--- Enable automatic C/C++ program indenting with the following options:
--- NOTE: These options will only apply when `cindent` is on, happens automatically for C-like files
+-- Enable automatic C/C++ program indenting
+opt.cindent = true
+
+-- Use the following C/C++ indenting options:
 -- gN: sets the indentation of scope declarations like public, private, protected
 -- :N: sets the indentation for case labels inside switch statements
 -- lN: align with a case label instead of the statement after it in the same line
@@ -47,8 +49,7 @@ opt.autoindent = true
 -- (N: sets the indentation when in unclosed parentheses to line up vertically
 -- wN: when in unclosed parentheses line up with the first character rather than the first non-white character
 -- WN: sets the indentation when in unclosed parentheses of the following line N characters relative to the outer context
-opt.cindent = true
-opt.cinoptions = { "g0", ":0", "1", "-s", "(0", "1", "1s" }
+opt.cinoptions = { "g0", ":0", "l1", "N-s", "(0", "w1", "W1s" }
 
 -- Set the visual character to be shown for wrapped lines
 -- Disabled, this cause I don't want showbreaks in nvim-cmp documentation
