@@ -234,7 +234,7 @@ function _oh_my_zsh() {
     # Do not try to install, if the directory already exists
     [ -d "$HOME/.oh-my-zsh" ] && return
     local zsh_custom="$HOME/.oh-my-zsh/custom"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended > /dev/null 2>&1
     git clone --quiet --depth=1 https://github.com/romkatv/powerlevel10k.git "$zsh_custom"/themes/powerlevel10k
     git clone --quiet --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom"/plugins/zsh-autosuggestions
     git clone --quiet --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting "$zsh_custom"/plugins/fast-syntax-highlighting
@@ -500,7 +500,7 @@ function _fzf() {
     _print i "fzf" ": a command line fuzzy finder"
     if [ -d "$HOME"/.fzf ]; then
         pushd "$HOME"/.fzf || return \
-            && git pull origin \
+            && git pull --quiet origin \
             && popd || return
     else
         git clone --quiet --depth=1 https://github.com/junegunn/fzf.git "$HOME"/.fzf

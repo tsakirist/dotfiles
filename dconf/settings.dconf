@@ -25,7 +25,7 @@ version='1.5.22'
 last-panel='background'
 
 [org/gnome/desktop/background]
-picture-uri='file:///home/tsakiris/Documents/dotfiles/wallpapers/1.jpg'
+picture-uri='file:///home/tsakiris/Documents/dotfiles/wallpapers/abstract_cube.jpg'
 
 [org/gnome/desktop/calendar]
 show-weekdate=false
