@@ -573,7 +573,7 @@ function _disable_automatic_apt_updates() {
 APT::Periodic::Update-Package-Lists "0";
 APT::Periodic::Download-Upgradeable-Packages "0";
 APT::Periodic::AutocleanInterval "0";
-APT::Periodic::Unattended-Upgrade "1";
+APT::Periodic::Unattended-Upgrade "0";
 EOF
     )
     echo "$contents" | sudo tee "$file" > /dev/null 2>&1
