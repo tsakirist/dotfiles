@@ -19,6 +19,7 @@ return require("packer").startup {
         use { "ful1e5/onedark.nvim" }
         use {
             "EdenEast/nightfox.nvim",
+            tag = "v1.0.0",
             config = function()
                 require("tt.plugins.nightfox").setup()
             end,
