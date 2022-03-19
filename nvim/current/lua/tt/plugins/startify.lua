@@ -71,7 +71,7 @@ function M.setup()
     vim.g.startify_commands = {
         { e = { "  New file", ":enew" } },
         { f = { "  Find Files", ":Telescope find_files" } },
-        { w = { "  Find Word", ":Telescope live_grep" } },
+        { g = { "  Grep Word", ":Telescope live_grep" } },
         { r = { "  Recent Files", ":Telescope oldfiles" } },
         { h = { "  Help", ":Telescope help_tags" } },
         { s = { "  Sessions", ":lua require'tt.plugins.telescope'.find_sessions()" } },
