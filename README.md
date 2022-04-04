@@ -23,17 +23,17 @@ The configuration files will be installed to the default configuration directory
 
 ### Directory Structure
 
-```
+```bash
 .
-├── lua
-│   └── tt
-│       ├── plugins
-│       │   ├── git
+├── lua/
+│   └── tt/
+│       ├── plugins/
+│       │   ├── git/
 │       │   │   ├── diffview.lua
 │       │   │   ├── gitlinker.lua
 │       │   │   ├── git-messenger.lua
 │       │   │   └── gitsigns.lua
-│       │   ├── lsp
+│       │   ├── lsp/
 │       │   │   ├── goto-preview.lua
 │       │   │   ├── lsp-signature.lua
 │       │   │   ├── null-ls.lua
@@ -44,12 +44,12 @@ The configuration files will be installed to the default configuration directory
 │       │   ├── comment.lua
 │       │   ├── indent-blankline.lua
 │       │   ├── neorg.lua
+│       │   ├── neo-tree.lua
 │       │   ├── nightfox.lua
 │       │   ├── numb.lua
 │       │   ├── nvim-autopairs.lua
 │       │   ├── nvim-cmp.lua
 │       │   ├── nvim-gps.lua
-│       │   ├── nvim-tree.lua
 │       │   ├── packer.lua
 │       │   ├── startify.lua
 │       │   ├── telescope.lua
@@ -57,7 +57,7 @@ The configuration files will be installed to the default configuration directory
 │       │   ├── treesitter.lua
 │       │   ├── trouble.lua
 │       │   └── zen-mode.lua
-│       ├── themes
+│       ├── themes/
 │       │   ├── evil_lualine.lua
 │       │   └── lualine.lua
 │       ├── abbreviations.lua

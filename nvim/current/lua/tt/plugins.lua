@@ -294,10 +294,15 @@ return require("packer").startup {
 
         -- File explorer tree
         use {
-            "kyazdani42/nvim-tree.lua",
-            event = "BufRead",
+            "nvim-neo-tree/neo-tree.nvim",
+            branch = "v2.x",
+            requires = {
+                "nvim-lua/plenary.nvim",
+                "kyazdani42/nvim-web-devicons",
+                "MunifTanjim/nui.nvim",
+            },
             config = function()
-                require("tt.plugins.nvim-tree").setup()
+                require("tt.plugins.neo-tree").setup()
             end,
         }
 
