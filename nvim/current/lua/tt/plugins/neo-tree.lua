@@ -5,7 +5,7 @@ function M.setup()
     vim.g.neo_tree_remove_legacy_commands = 1
 
     require("neo-tree").setup {
-        close_if_last_window = false,
+        close_if_last_window = true,
         popup_border_style = "rounded",
         enable_git_status = false,
         enable_diagnostics = true,
@@ -91,8 +91,8 @@ function M.setup()
                 },
             },
             follow_current_file = false, -- This will find and focus the file in the active buffer every time
-            hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
             use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
+            hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
             window = {
                 mappings = {
                     ["<bs>"] = "navigate_up",
@@ -100,7 +100,7 @@ function M.setup()
                     ["H"] = "toggle_hidden",
                     ["/"] = "fuzzy_finder",
                     ["f"] = "filter_on_submit",
-                    ["<c-x>"] = "clear_filter",
+                    ["<M-w>"] = "clear_filter",
                 },
             },
         },
