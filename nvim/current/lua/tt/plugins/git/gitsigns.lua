@@ -51,6 +51,7 @@ function M.setup()
             delay = 1000, -- Delay before line blame is shown
             ignore_whitespace = false, -- Ignore whitespaces
         },
+        current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>", -- Line blame formatter
         current_line_blame_formatter_opts = { -- Options for line-blame formatter
             relative_time = false,
         },
@@ -96,7 +97,7 @@ function M.setup()
             map("n", "<leader>gd", "<Cmd>Gitsigns toggle_deleted<CR>")
 
             -- Text objects
-            map({ "o", "x" }, "h", ":<C-U>Gitsigns select_hunk()<CR>")
+            map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
         end,
     }
 end
