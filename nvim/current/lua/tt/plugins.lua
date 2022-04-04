@@ -251,10 +251,7 @@ return require("packer").startup {
             event = "BufRead",
             requires = "nvim-treesitter/nvim-treesitter",
             config = function()
-                require("neogen").setup {
-                    enable = true,
-                }
-                vim.keymap.set("n", "<leader>ng", "<Cmd>lua require('neogen').generate()<CR>")
+                require("tt.plugins.neogen").setup()
             end,
         }
 

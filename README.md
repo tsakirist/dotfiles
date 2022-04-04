@@ -43,6 +43,7 @@ The configuration files will be installed to the default configuration directory
 │       │   ├── bufferline.lua
 │       │   ├── comment.lua
 │       │   ├── indent-blankline.lua
+│       │   ├── neogen.lua
 │       │   ├── neorg.lua
 │       │   ├── neo-tree.lua
 │       │   ├── nightfox.lua
