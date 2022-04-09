@@ -401,17 +401,6 @@ return require("packer").startup {
             },
         }
 
-        -- Neorg, organize notes
-        use {
-            "nvim-neorg/neorg",
-            after = "nvim-treesitter",
-            cmd = "NeorgStart",
-            ft = "norg",
-            config = function()
-                require("tt.plugins.neorg").setup()
-            end,
-        }
-
         -- Markdown extension, mainly used for conceallevel
         use {
             "preservim/vim-markdown",

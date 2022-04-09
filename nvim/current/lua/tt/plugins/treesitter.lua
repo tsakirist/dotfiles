@@ -1,44 +1,10 @@
 local M = {}
 
---- Adds extra Treesitter parsers configurations.
-function M.add_extra_parsers()
-    -- These are extra optional parsers used by `neorg` plugin
-    local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
-
-    local extra_parser_configs = {
-        neorg = {
-            norg_meta = {
-                install_info = {
-                    url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
-                    files = { "src/parser.c" },
-                    branch = "main",
-                },
-            },
-            norg_table = {
-                install_info = {
-                    url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
-                    files = { "src/parser.c" },
-                    branch = "main",
-                },
-            },
-        },
-    }
-
-    for _, extra_parser_config in pairs(extra_parser_configs) do
-        for parser_name, parser_install_info in pairs(extra_parser_config) do
-            parser_configs[parser_name] = parser_install_info
-        end
-    end
-end
-
 function M.setup()
     -- Do not run setup when in headless mode
     if _G.HeadlessMode() then
         return
     end
-
-    -- Add extra treesitter parsers
-    M.add_extra_parsers()
 
     require("nvim-treesitter.configs").setup {
         ensure_installed = {
