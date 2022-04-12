@@ -41,7 +41,7 @@ local setup_diagnostics = function()
     end
 
     -- Add a command to toggle the diagnostics
-    vim.api.nvim_add_user_command("ToggleDiagnostics", toggle_diagnostics, {
+    vim.api.nvim_create_user_command("ToggleDiagnostics", toggle_diagnostics, {
         desc = "Toggles diagnostics on and off, for all buffers",
     })
 end
