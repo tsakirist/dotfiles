@@ -64,6 +64,10 @@ function M.load_autocommands()
         _packer = {
             { "BufWritePost", "plugins.lua", "source <afile> | PackerCompile" },
         },
+        -- Close man page inside neovim with 'q', to mimic the default behavior, since the default keybind don't work
+        _manpager = {
+            { "FileType", "man", "nnoremap <silent> <buffer> q :quit<CR>" },
+        },
     }
     M.create_augroups(definitions)
 end
