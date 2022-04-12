@@ -53,6 +53,10 @@ function M.setup()
         window = {
             position = "left",
             width = 40,
+            mapping_options = {
+                noremap = true,
+                nowait = true,
+            },
             mappings = {
                 ["<2-LeftMouse>"] = "open",
                 ["<cr>"] = "open",
