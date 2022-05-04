@@ -53,7 +53,7 @@ local setup_hover = function()
 end
 
 local setup_highlighting = function(client)
-    if client.resolved_capabilities.document_highlight then
+    if client.server_capabilities.documentHighlightProvider then
         vim.cmd [[
             augroup _lsp_document_highlight
                 autocmd! * <buffer>
@@ -66,8 +66,8 @@ end
 
 local setup_formatting = function(client)
     -- Disable default LSP formatting as this will be handled by 'null-ls' LSP
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
 end
 
 local setup_handlers = function()
