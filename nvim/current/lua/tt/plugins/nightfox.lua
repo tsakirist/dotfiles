@@ -4,7 +4,7 @@ function M.setup()
     local colors = require("nightfox.colors").init "nordfox"
     local util = require "nightfox.util"
 
-    -- My custom color
+    -- My custom colors
     local custom_colors = {
         bg = util.brighten(colors.bg, 0.05),
         fg = util.brighten(colors.bg, 0.50),
@@ -76,6 +76,10 @@ function M.setup()
             },
             CmpItemKindMethod = {
                 fg = colors.magenta,
+            },
+            CmpWindowBorder = {
+                fg = colors.bg,
+                bg = colors.bg_alt,
             },
         },
     }

@@ -9,47 +9,6 @@ function M.setup()
         popup_border_style = "rounded",
         enable_git_status = false,
         enable_diagnostics = true,
-        default_component_configs = {
-            indent = {
-                indent_size = 2,
-                padding = 1,
-                with_markers = true,
-                indent_marker = "│",
-                last_indent_marker = "└",
-                highlight = "NeoTreeIndentMarker",
-                with_expanders = nil, -- if true and file nesting is enabled, will enable expanders
-                expander_collapsed = "",
-                expander_highlight = "NeoTreeExpander",
-                expander_expanded = "",
-            },
-            icon = {
-                folder_closed = "",
-                folder_open = "",
-                folder_empty = "ﰊ",
-                default = "*",
-            },
-            modified = {
-                symbol = "[+]",
-                highlight = "NeoTreeModified",
-            },
-            name = {
-                trailing_slash = false,
-                use_git_status_colors = true,
-            },
-            git_status = {
-                symbols = {
-                    added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
-                    modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
-                    deleted = "✖", -- this can only be used in the git_status source
-                    renamed = "", -- this can only be used in the git_status source
-                    untracked = "",
-                    ignored = "",
-                    unstaged = "",
-                    staged = "",
-                    conflict = "",
-                },
-            },
-        },
         window = {
             position = "left",
             width = 40,
@@ -58,11 +17,11 @@ function M.setup()
                 nowait = true,
             },
             mappings = {
-                ["<2-LeftMouse>"] = "open",
+                ["<2-leftmouse>"] = "open",
                 ["<cr>"] = "open",
                 ["o"] = "open",
-                ["<C-x>"] = "open_split",
-                ["<C-v>"] = "open_vsplit",
+                ["<c-x>"] = "open_split",
+                ["<c-v>"] = "open_vsplit",
                 ["t"] = "open_tabnew",
                 ["a"] = "add",
                 ["d"] = "delete",
@@ -73,30 +32,84 @@ function M.setup()
                 ["c"] = "copy",
                 ["m"] = "move",
                 ["q"] = "close_window",
+                ["s"] = "none",
+                ["w"] = "none",
+                ["S"] = "none",
                 ["A"] = "add_directory",
                 ["C"] = "close_node",
                 ["R"] = "refresh",
             },
         },
+        default_component_configs = {
+            container = {
+                enable_character_fade = true,
+            },
+            indent = {
+                indent_size = 2,
+                padding = 1,
+                with_markers = true,
+                indent_marker = "│",
+                last_indent_marker = "└",
+                highlight = "NeoTreeIndentMarker",
+                with_expanders = nil, -- If true and file nesting is enabled, will enable expanders
+                expander_collapsed = "",
+                expander_expanded = "",
+                expander_highlight = "NeoTreeExpander",
+            },
+            icon = {
+                folder_closed = "",
+                folder_open = "",
+                folder_empty = "ﰊ",
+                default = "*",
+                highlight = "NeoTreeFileIcon",
+            },
+            modified = {
+                symbol = "[+]",
+                highlight = "NeoTreeModified",
+            },
+            name = {
+                trailing_slash = false,
+                use_git_status_colors = true,
+                highlight = "NeoTreeFileName",
+            },
+            git_status = {
+                symbols = {
+                    added = "",
+                    modified = "",
+                    deleted = "✖",
+                    renamed = "",
+                    untracked = "",
+                    ignored = "",
+                    unstaged = "",
+                    staged = "",
+                    conflict = "",
+                },
+            },
+        },
         nesting_rules = {},
         filesystem = {
             filtered_items = {
-                visible = false, -- when true, they will just be displayed differently than normal items
+                visible = false, -- When true, they will just be displayed differently than normal items
                 hide_dotfiles = true,
                 hide_gitignored = true,
+                hide_hidden = true, -- only works on Windows for hidden files/directories
                 hide_by_name = {
                     ".DS_Store",
                     "thumbs.db",
                     "node_modules",
                 },
-                never_show = { -- remains hidden even if visible is toggled to true
+                hide_by_pattern = { -- Uses glob style patterns
+                    --"*.meta"
+                },
+                never_show = { -- Remains hidden even if visible is toggled to true
                     --".DS_Store",
                     --"thumbs.db"
                 },
             },
-            follow_current_file = false, -- This will find and focus the file in the active buffer every time
+            follow_current_file = true, -- This will find and focus the file in the active buffer every time
+            group_empty_dirs = false, -- When true, empty folders will be grouped together
             use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
-            hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
+            hijack_netrw_behavior = "open_default",
             window = {
                 mappings = {
                     ["<bs>"] = "navigate_up",
@@ -104,7 +117,7 @@ function M.setup()
                     ["H"] = "toggle_hidden",
                     ["/"] = "fuzzy_finder",
                     ["f"] = "filter_on_submit",
-                    ["<M-w>"] = "clear_filter",
+                    ["<M-l>"] = "clear_filter",
                 },
             },
         },

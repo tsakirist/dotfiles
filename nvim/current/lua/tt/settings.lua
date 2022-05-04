@@ -124,8 +124,10 @@ opt.updatetime = 300
 -- Keep windows equal in size after split, close etc
 opt.equalalways = true
 
+-- NOTE: This is set to 0 to overcome the limitation of kitty in conjuction with neovim,
+-- which displays icons in autocomplete pop-up with different sizes.
 -- Set transparency for the popup window
-opt.pumblend = 15
+opt.pumblend = 0
 
 -- Set pop-up menu height
 opt.pumheight = 12

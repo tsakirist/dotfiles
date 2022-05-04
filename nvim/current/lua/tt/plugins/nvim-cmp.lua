@@ -71,6 +71,12 @@ local cmp_source_names = {
     buffer = "[Buffer]",
 }
 
+-- Setup custom options for the pop-up windows
+local cmp_window_opts = {
+    border = "rounded",
+    winhighlight = "Normal:NormalFloat,FloatBorder:CmpWindowBorder,CursorLine:Visual,Search:None",
+}
+
 local cmp = require "cmp"
 local luasnip = require "luasnip"
 local neogen = require "neogen"
@@ -135,15 +141,19 @@ function M.setup()
                 return vim_item
             end,
         },
-        documentation = {
-            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-        },
         snippet = {
             expand = function(args)
                 require("luasnip").lsp_expand(args.body)
             end,
         },
-        mapping = {
+        window = {
+            completion = cmp.config.window.bordered(cmp_window_opts),
+            documentation = cmp.config.window.bordered(cmp_window_opts),
+            -- documentation = {
+            --     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+            -- },
+        },
+        mapping = cmp.mapping.preset.insert {
             ["<CR>"] = cmp.mapping.confirm { select = true },
             ["<Tab>"] = cmp.mapping(tab, { "i", "s" }),
             ["<S-Tab>"] = cmp.mapping(shift_tab, { "i", "s" }),

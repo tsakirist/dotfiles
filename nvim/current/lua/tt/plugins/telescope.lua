@@ -70,24 +70,24 @@ function M.setup()
             },
         },
         extensions = {
-            ["zf-native"] = {
-                file = {
-                    enable = true, -- Override default telescope file sorter
-                    highlight_results = true, -- Highlight matching text in results
-                    match_filename = true, -- Enable zf filename match priority
-                },
-                generic = {
-                    enable = true, -- Override default telescope generic item sorter
-                    highlight_results = true, -- Highlight matching text in results
-                    match_filename = false, -- Disable zf filename match priority
-                },
-            },
-            -- fzf = {
-            --     fuzzy = true, -- False will only do exact matching
-            --     override_generic_sorter = true, -- Override the generic sorter
-            --     override_file_sorter = true, -- Override the file sorter
-            --     case_mode = "smart_case", -- "ignore_case" or "respect_case" or "smart_case"
+            -- ["zf-native"] = {
+            --     file = {
+            --         enable = true, -- Override default telescope file sorter
+            --         highlight_results = true, -- Highlight matching text in results
+            --         match_filename = true, -- Enable zf filename match priority
+            --     },
+            --     generic = {
+            --         enable = true, -- Override default telescope generic item sorter
+            --         highlight_results = true, -- Highlight matching text in results
+            --         match_filename = false, -- Disable zf filename match priority
+            --     },
             -- },
+            fzf = {
+                fuzzy = true, -- False will only do exact matching
+                override_generic_sorter = true, -- Override the generic sorter
+                override_file_sorter = true, -- Override the file sorter
+                case_mode = "smart_case", -- "ignore_case" or "respect_case" or "smart_case"
+            },
             packer = {
                 theme = "ivy",
                 layout_config = {
@@ -98,8 +98,8 @@ function M.setup()
     }
 
     -- Load extensions
-    -- require("telescope").load_extension "fzf"
-    require("telescope").load_extension "zf-native"
+    -- require("telescope").load_extension "zf-native"
+    require("telescope").load_extension "fzf"
     require("telescope").load_extension "packer"
 
     -- Set custom keybindings

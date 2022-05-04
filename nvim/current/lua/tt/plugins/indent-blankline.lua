@@ -21,6 +21,7 @@ function M.setup()
             "vistakind",
             "packer",
             "lsp-installer",
+            "neo-tree-popup",
         },
         context_patterns = { -- Specifies a list of lua patterns that are used to match against treesitter
             "class",
