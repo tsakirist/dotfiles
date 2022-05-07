@@ -17,10 +17,11 @@ function M.setup()
         terminal_colors = true, -- Configure the colors used when opening :terminal
         styles = {
             comments = "italic",
-            functions = "bold",
+            diagnostics = "underline",
+            functions = "italic",
             keywords = "NONE",
             strings = "NONE",
-            variables = "NONE",
+            variables = "bold",
         },
         inverse = {
             match_paren = false, -- Enable/Disable inverse highlighting for match parens
@@ -78,7 +79,7 @@ function M.setup()
                 fg = colors.magenta,
             },
             CmpWindowBorder = {
-                fg = colors.bg,
+                fg = colors.bg_alt,
                 bg = colors.bg_alt,
             },
         },

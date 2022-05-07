@@ -124,7 +124,7 @@ function M.setup()
         },
         formatting = {
             -- Set the ordering of the fields/items in the pop-up menu
-            fields = { "abbr", "kind", "menu" },
+            fields = { "kind", "abbr", "menu" },
 
             -- Set the format function that will be used for the suggestiosn
             format = function(entry, vim_item)
@@ -149,9 +149,6 @@ function M.setup()
         window = {
             completion = cmp.config.window.bordered(cmp_window_opts),
             documentation = cmp.config.window.bordered(cmp_window_opts),
-            -- documentation = {
-            --     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-            -- },
         },
         mapping = cmp.mapping.preset.insert {
             ["<CR>"] = cmp.mapping.confirm { select = true },
