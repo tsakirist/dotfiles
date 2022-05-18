@@ -96,7 +96,7 @@ local setup_keymappings = function(_, bufnr)
     buf_set_keymap("n", "<leader>ll", "<Cmd>lua vim.diagnostic.setloclist()<CR>", opts)
     buf_set_keymap("n", "<leader>lq", "<Cmd>lua vim.diagnostic.setqflist()<CR>", opts)
     buf_set_keymap("n", "<leader>ld", "<Cmd>lua vim.diagnostic.open_float()<CR>", opts)
-    buf_set_keymap("n", "<leader>fr", "<Cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    buf_set_keymap("n", "<leader>fr", "<Cmd>lua vim.lsp.buf.format{ async = true }<CR>", opts)
     buf_set_keymap("n", "<C-LeftMouse>", "<Cmd>TroubleToggle lsp_references<CR>", opts)
 
     local ft = vim.bo.filetype

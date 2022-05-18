@@ -36,7 +36,7 @@ function M.load_autocommands()
         },
         -- Enable format on save
         _format_on_save = {
-            { "BufWritePre", "*.lua,*.tsx,*.ts,*.sh", "lua vim.lsp.buf.formatting_sync({}, 1000)" },
+            { "BufWritePre", "*.lua,*.tsx,*.ts,*.sh", "lua vim.lsp.buf.format()" },
         },
         -- Enable spelling for these filetypes
         _spell_check = {
