@@ -249,7 +249,7 @@ function _build_essential() {
 
 function _node() {
     _print i "node" ": asyncrhonous event-driven JavaScript runtime"
-    curl -sSL https://deb.nodesource.com/setup_current.x | sudo -E bash - > /dev/null 2>&1
+    curl -sSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - > /dev/null 2>&1
     _install nodejs
 }
 
@@ -340,22 +340,6 @@ function _stylua() {
     [ -f "$file" ] && chmod u+x "$file" && sudo mv "$file" /usr/local/bin
 }
 
-function _vscode() {
-    _print i "visual studio code"
-    wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add - > /dev/null 2>&1
-    sudo sh -c "echo 'deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main' > \
-                /etc/apt/sources.list.d/vscode.list"
-    sudo apt-get -qq update && _install code
-}
-
-function _google_chrome() {
-    _print i "google chrome"
-    wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google_chrome.deb
-    sudo dpkg -i /tmp/google_chrome.deb > /dev/null
-    # Remove google chrome keyring pop-up
-    sudo sed -i '/^Exec=/s/$/ --password-store=basic %U/' "/usr/share/applications/google-chrome.desktop"
-}
-
 function _neofetch() {
     _print i "neofetch" ": a command-line system information tool"
     _install neofetch
@@ -424,11 +408,6 @@ function _gnome_shell_extensions() {
 function _gnome_sushi() {
     _print i "gnome-sushi" ": file previewer"
     _install gnome-sushi
-}
-
-function _java() {
-    _print i "java and javac"
-    _install default-jre default-jdk
 }
 
 function _kitty() {
@@ -617,9 +596,6 @@ pkgs=(
     "    gnome-tweaks"
     "    gnome-shell-extensions"
     "    gnome-sushi"
-    "    java and javac"
-    "    vscode"
-    "    google chrome"
     "    preload"
     "    vmswappiness"
     "    set wallpaper"
@@ -661,9 +637,6 @@ pkgs_functions=(
     _gnome_tweaks
     _gnome_shell_extensions
     _gnome_sushi
-    _java
-    _vscode
-    _google_chrome
     _preload
     _vm_swappiness
     _set_wallpaper
