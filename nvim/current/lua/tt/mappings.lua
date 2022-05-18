@@ -19,10 +19,15 @@ utils.map("n", "<leader>bd", "<Cmd>bdelete<CR>")
 utils.map("n", "<leader>bo", "<Cmd>%bd<Bar>e#<CR>")
 
 -- List buffers and prepend :b on the cmd line
-utils.map("n", "<leader>bf", ":ls<CR>:b<Space>")
+utils.map("n", "<leader>bf", ":ls<CR>:b<Space>", { silent = false })
 
 -- Search within buffers and send results in the qflist
-vim.cmd "nnoremap <leader>bs :cex []<Bar>bufdo vimgrepadd //gj %<Bar>Trouble quickfix<S-Left><S-Left><S-Left><Right>"
+utils.map(
+    "n",
+    "<leader>bs",
+    ":cex []<Bar>bufdo vimgrepadd //gj %<Bar>Trouble quickfix<S-Left><S-Left><S-Left><Right>",
+    { silent = false }
+)
 
 -- Split comma separated arguments of function from one-line-all to one-line-each
 -- f)%:       finds the starting '(' of the function signature

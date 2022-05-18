@@ -1,7 +1,7 @@
 --- Prints the supplied value.
 ---@param value any: The value to be printed.
 function _G.Print(value)
-    print(vim.inspect(value))
+    vim.pretty_print(value)
 end
 
 --- Flushes the supplied module from cache.
