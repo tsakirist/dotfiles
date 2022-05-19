@@ -14,6 +14,14 @@ return require("packer").startup {
             end,
         }
 
+        -- Fancy notifications to replace vim.notify
+        use {
+            "rcarriga/nvim-notify",
+            config = function()
+                vim.notify = require "notify"
+            end,
+        }
+
         -- Colorschemes
         use { "doums/darcula" }
         use { "ful1e5/onedark.nvim" }
