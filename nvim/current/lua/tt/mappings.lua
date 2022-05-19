@@ -4,7 +4,7 @@ local utils = require "tt.utils"
 utils.map("n", "<F2>", "&foldlevel ? 'zM' : 'zR'", { expr = true })
 
 -- Typing %% on the command line will expand to active buffer's path
-vim.cmd "cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'"
+utils.map("c", "%%", "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { silent = false, expr = true })
 
 -- Change buffers quickly
 utils.map("n", "]b", "<Cmd>bnext<CR>")
