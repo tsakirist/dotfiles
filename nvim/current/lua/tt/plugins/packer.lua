@@ -24,12 +24,21 @@ function M.packer_bootstrap()
     return packer_bootstrap
 end
 
+--- Creates and saves a snapshot before initiating a packer-sync procedure.
+function M.packer_sync()
+    vim.notify("Syncing packer...", vim.log.levels.INFO, { title = "Packer Sync" })
+    vim.notify "Creating packer snapshot..."
+    local snapshot_time = os.date "%a-%d-%b-%Y-%TZ"
+    vim.cmd("PackerSnapshot " .. snapshot_time)
+    vim.cmd "PackerSync"
+end
+
 local utils = require "tt.utils"
 utils.map("n", "<leader>pc", "<Cmd>PackerCompile<CR>")
 utils.map("n", "<leader>pC", "<Cmd>PackerClean<CR>")
 utils.map("n", "<leader>pi", "<Cmd>PackerInstall<CR>")
 utils.map("n", "<leader>ps", "<Cmd>PackerStatus<CR>")
-utils.map("n", "<leader>pS", "<Cmd>PackerSync<CR>")
+utils.map("n", "<leader>pS", M.packer_sync)
 utils.map("n", "<leader>pu", "<Cmd>PackerUpdate<CR>")
 
 return M

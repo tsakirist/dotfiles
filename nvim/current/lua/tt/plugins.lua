@@ -426,5 +426,6 @@ return require("packer").startup {
                 return require("packer.util").float { border = "rounded" }
             end,
         },
+        snapshot_path = require("packer.util").join_paths(vim.fn.stdpath "cache", "packer.nvim", "snapshots"),
     },
 }
