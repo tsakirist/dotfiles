@@ -68,20 +68,16 @@ function M.setup()
                 hidden = true, -- Show hidden files
                 no_ignore = true, -- Show files that are ignored by git
             },
+            live_grep = {
+                -- Replace whitespace with wildcards to imitate an AND operator for search terms
+                on_input_filter_cb = function(prompt)
+                    return {
+                        prompt = prompt:gsub("%s", ".*"),
+                    }
+                end,
+            },
         },
         extensions = {
-            -- ["zf-native"] = {
-            --     file = {
-            --         enable = true, -- Override default telescope file sorter
-            --         highlight_results = true, -- Highlight matching text in results
-            --         match_filename = true, -- Enable zf filename match priority
-            --     },
-            --     generic = {
-            --         enable = true, -- Override default telescope generic item sorter
-            --         highlight_results = true, -- Highlight matching text in results
-            --         match_filename = false, -- Disable zf filename match priority
-            --     },
-            -- },
             fzf = {
                 fuzzy = true, -- False will only do exact matching
                 override_generic_sorter = true, -- Override the generic sorter
@@ -98,7 +94,6 @@ function M.setup()
     }
 
     -- Load extensions
-    -- require("telescope").load_extension "zf-native"
     require("telescope").load_extension "fzf"
     require("telescope").load_extension "packer"
 
