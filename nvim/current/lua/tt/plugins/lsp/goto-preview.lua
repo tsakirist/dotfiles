@@ -21,7 +21,7 @@ function M.setup()
         default_mappings = false, -- Bind default mappings
         focus_on_open = true, -- Focus the floating window when opening it
         dismiss_on_move = false, -- Dismiss the floating window when moving the cursor
-        resizing_mappings = true, -- Binds arrow keys to resizing the floating window
+        resizing_mappings = false, -- Binds arrow keys to resizing the floating window
         force_close = true, -- Force close the last window of a buffer eve with unwritten changes. See :h nvim_win_close
         bufhidden = "wipe", -- Specifies what happens when a buffer is no longer displayed in a window. See :h bufhidden
     }
