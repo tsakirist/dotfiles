@@ -18,7 +18,7 @@ local setup_diagnostics = function()
         },
     }
 
-    -- Set custom signs for diagnostics
+    --- Set custom signs for diagnostics
     local lsp_signs = { Error = "", Hint = "", Info = "", Warn = "" }
     for type, icon in pairs(lsp_signs) do
         local hl = "DiagnosticSign" .. type
@@ -80,7 +80,7 @@ local setup_keymappings = function(_, bufnr)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
     end
 
-    -- LSP related mappings
+    -- LSP keymaps
     local opts = { noremap = true, silent = true }
     buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     buf_set_keymap("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
@@ -90,7 +90,6 @@ local setup_keymappings = function(_, bufnr)
     buf_set_keymap("n", "<leader>ca", "<Cmd>CodeActionMenu<CR>", opts)
     buf_set_keymap("n", "[d", "<Cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
     buf_set_keymap("n", "]d", "<Cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-    buf_set_keymap("n", "dp", "<Cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
     buf_set_keymap("n", "dp", "<Cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
     buf_set_keymap("n", "dn", "<Cmd>lua vim.diagnostic.goto_next()<CR>", opts)
     buf_set_keymap("n", "<leader>ll", "<Cmd>lua vim.diagnostic.setloclist()<CR>", opts)
@@ -112,16 +111,16 @@ local on_attach = function(client, bufnr)
     setup_highlighting(client)
 end
 
--- Make a new object describing the LSP client capabilities
+--- Make a new object describing the LSP client capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
--- Add additional capabilities supported by nvim-cmp
+--- Add additional capabilities supported by nvim-cmp
 local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if status_ok then
     capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 end
 
--- Disable LSP snippets since LuaSnip should be responsible for that
+--- Disable LSP snippets since LuaSnip should be responsible for that
 capabilities.textDocument.completion.completionItem.snippetSupport = false
 capabilities.textDocument.completion.completionItem.resolveSupport = {
     properties = {
@@ -131,8 +130,74 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
     },
 }
 
--- Function to install and setup LSP servers automatically
 local setup_servers = function()
+    ---@diagnostic disable-next-line: redundant-parameter
+    require("nvim-lsp-installer").setup {
+        -- Automatically detect which servers to install (based on which servers are set up via lspconfig)
+        automatic_installation = true,
+        ui = {
+            icons = {
+                server_installed = "✓",
+                server_pending = "➜",
+                server_uninstalled = "✗",
+            },
+        },
+    }
+
+    -- Define the required LSP servers
+    local required_servers = {
+        "bashls",
+        "clangd",
+        "cmake",
+        "eslint",
+        "pyright",
+        "sumneko_lua",
+        "tsserver",
+    }
+
+    -- Common server options
+    local server_opts = {
+        on_attach = on_attach,
+        capabilities = capabilities,
+    }
+
+    -- Custom LSP server settings
+    local server_settings = {
+        eslint = {
+            -- Disable showDocumentation from eslint code-actions menu.
+            settings = {
+                codeAction = {
+                    showDocumentation = false,
+                },
+            },
+        },
+        sumneko_lua = {
+            Lua = {
+                diagnostics = {
+                    globals = {
+                        "vim",
+                    },
+                },
+            },
+        },
+    }
+
+    local lsp_config = require "lspconfig"
+
+    for _, server in ipairs(required_servers) do
+        -- As an interim solution force clangd to use the same encoding
+        -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
+        if server == "clangd" then
+            server_opts.capabilities.offsetEncoding = { "utf-16" }
+        end
+        server_opts.settings = server_settings[server] or {}
+        lsp_config[server].setup(server_opts)
+    end
+end
+
+--- Function to install and setup LSP servers automatically
+---@deprecated This is the old way of setting up servers via lsp-installer
+local setup_servers_deprecated = function()
     -- Nvim-lsp-installer configuration
     local lsp_installer = require "nvim-lsp-installer"
 
