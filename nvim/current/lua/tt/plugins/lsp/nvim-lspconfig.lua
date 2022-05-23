@@ -52,6 +52,22 @@ local setup_hover = function()
     })
 end
 
+--- Jump directly to the first definition every time
+local setup_definition = function()
+    vim.lsp.handlers["textDocument/definition"] = function(_, result, ctx)
+        if not result or vim.tbl_isempty(result) then
+            vim.notify("Could not find definition for symbol.", vim.log.levels.INFO, { title = "LSP" })
+            return
+        end
+        local client = vim.lsp.get_client_by_id(ctx.client_id)
+        if vim.tbl_islist(result) and #result > 1 then
+            vim.lsp.util.jump_to_location(result[1], client.offset_encoding)
+        else
+            vim.lsp.util.jump_to_location(result, client.offset_encoding)
+        end
+    end
+end
+
 local setup_highlighting = function(client)
     if client.server_capabilities.documentHighlightProvider then
         vim.cmd [[
@@ -73,6 +89,7 @@ end
 local setup_handlers = function()
     setup_diagnostics()
     setup_hover()
+    setup_definition()
 end
 
 local setup_keymappings = function(_, bufnr)
