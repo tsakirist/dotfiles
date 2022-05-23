@@ -56,7 +56,7 @@ end
 local setup_definition = function()
     vim.lsp.handlers["textDocument/definition"] = function(_, result, ctx)
         if not result or vim.tbl_isempty(result) then
-            vim.notify("Could not find definition for symbol.", vim.log.levels.INFO, { title = "LSP" })
+            vim.notify("Could not find definition for symbol", vim.log.levels.WARN, { title = "LSP" })
             return
         end
         local client = vim.lsp.get_client_by_id(ctx.client_id)
