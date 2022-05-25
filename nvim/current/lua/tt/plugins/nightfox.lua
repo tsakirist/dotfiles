@@ -82,6 +82,26 @@ function M.setup()
                 fg = colors.bg_alt,
                 bg = colors.bg_alt,
             },
+            GpsItemKindFunction = {
+                fg = colors.magenta,
+                bg = colors.bg_alt,
+            },
+            GpsItemKindMethod = {
+                fg = colors.magenta,
+                bg = colors.bg_alt,
+            },
+            GpsItemKindProperty = {
+                fg = colors.blue,
+                bg = colors.bg_alt,
+            },
+            GpsItemKindClass = {
+                fg = colors.yellow,
+                bg = colors.bg_alt,
+            },
+            GpsItemKindKeyword = {
+                fg = colors.green,
+                bg = colors.bg_alt,
+            },
         },
     }
 

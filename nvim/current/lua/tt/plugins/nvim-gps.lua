@@ -5,11 +5,11 @@ function M.setup()
         disable_icons = false, -- Setting it to true will disable all icons
 
         icons = {
-            ["class-name"] = " ", -- Classes and class-like objects
-            ["function-name"] = " ", -- Functions
-            ["method-name"] = " ", -- Methods (functions inside class-like objects)
-            ["container-name"] = " ", -- Containers (example: lua tables)
-            ["tag-name"] = "炙", -- Tags (example: html tags)
+            ["class-name"] = "%#GpsItemKindClass#" .. " " .. "%*", -- Classes and class-like objects
+            ["function-name"] = "%#GpsItemKindFunction#" .. " " .. "%*", -- Functions
+            ["method-name"] = "%#GpsItemKindMethod#" .. " " .. "%*", -- Methods (functions inside class-like objects)
+            ["container-name"] = "%#GpsItemKindProperty#" .. " " .. "%*", -- Containers (example: lua tables)
+            ["tag-name"] = "%#GpsItemKindKeyword#" .. "炙" .. "%*", -- Tags (example: html tags)
         },
 
         -- Configuration per language basis
