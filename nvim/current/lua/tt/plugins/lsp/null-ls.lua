@@ -7,7 +7,6 @@ function M.setup()
 
     null_ls.setup {
         sources = {
-            -- Formatting
             formatting.prettierd,
             formatting.stylua,
             formatting.clang_format.with {
@@ -16,8 +15,6 @@ function M.setup()
             formatting.shfmt.with {
                 extra_args = { "-i", "4", "-bn", "-ci", "-sr" },
             },
-            -- Diagnostics
-            diagnostics.shellcheck,
             diagnostics.luacheck.with {
                 extra_args = {
                     "--globals",
