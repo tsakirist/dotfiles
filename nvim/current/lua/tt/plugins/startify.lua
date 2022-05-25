@@ -6,7 +6,11 @@ local sessions_path = vim.fn.stdpath "data" .. "/sessions/"
 --- Create the `sessions` directory if it doesn't exists.
 if vim.fn.isdirectory(sessions_path) == 0 then
     vim.fn.mkdir(sessions_path, "p")
-    vim.notify(string.format("Created sessions directory: '%s'", sessions_path))
+    vim.notify(
+        string.format("Created sessions directory: '%s'", sessions_path),
+        vim.log.levels.INFO,
+        { title = "Startify" }
+    )
 end
 
 --- Expose the session_path to other modules.
