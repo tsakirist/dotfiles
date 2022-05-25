@@ -302,4 +302,8 @@ function M.setup()
     setup_servers()
 end
 
+local utils = require "tt.utils"
+utils.map("n", "<leader>li", "<Cmd>LspInfo<CR>")
+utils.map("n", "<leader>lI", "<Cmd>LspInstallInfo<CR>")
+
 return M
