@@ -4,8 +4,8 @@ function M.setup()
     -- Module that shows the current cursor context
     local gps = require "nvim-gps"
 
-    -- Get the colors of the theme
-    local colors = require("nightfox.colors").load "nordfox"
+    -- Get the colors that are used by the theme
+    local colors = require("tt.plugins.nightfox").colors()
 
     require("lualine").setup {
         options = {

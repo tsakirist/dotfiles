@@ -1,7 +1,13 @@
 local M = {}
 
+---Returns the colors that are used by the current theme.
+---@return table: The color table used by the theme.
+function M.colors()
+    return require("nightfox.colors").load "nordfox"
+end
+
 function M.setup()
-    local colors = require("nightfox.colors").init "nordfox"
+    local colors = M.colors()
     local util = require "nightfox.util"
 
     -- My custom colors
