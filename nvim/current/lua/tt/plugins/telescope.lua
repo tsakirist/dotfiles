@@ -96,6 +96,7 @@ function M.setup()
     -- Load extensions
     require("telescope").load_extension "fzf"
     require("telescope").load_extension "packer"
+    require("telescope").load_extension "notify"
 
     -- Set custom keybindings
     local utils = require "tt.utils"

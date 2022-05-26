@@ -28,33 +28,29 @@ local setup_diagnostics = function()
     --- Status of diagnostics
     M.diagnostics_enabled = true
 
-    --- Diagnostics notify window handle, used to close previous notifications
-    M.diagnostics_window_handle = nil
+    --- The record of the last displayed notification
+    local diagnostics_notification = nil
 
     --- Function that toggles diagnostics in all buffers
     local function toggle_diagnostics()
         local diagnostics_title = "Diagnostics"
-
-        --- Handler for the on_open event of notifications.
-        ---@param win_handle number: The handle of the window that represents the notification.
-        local function on_open(win_handle)
-            if M.diagnostics_window_handle then
-                vim.api.nvim_win_close(M.diagnostics_window_handle, true)
-            end
-            M.diagnostics_window_handle = win_handle
-        end
-
         if M.diagnostics_enabled then
             vim.diagnostic.disable()
-            vim.notify("Diagnostics disabled!", vim.log.levels.INFO, {
+            diagnostics_notification = vim.notify("Diagnostics disabled!", vim.log.levels.INFO, {
                 title = diagnostics_title,
-                on_open = on_open,
+                replace = diagnostics_notification,
+                on_close = function()
+                    diagnostics_notification = nil
+                end,
             })
         else
             vim.diagnostic.enable()
-            vim.notify("Diagnostics enabled!", vim.log.levels.INFO, {
+            diagnostics_notification = vim.notify("Diagnostics enabled!", vim.log.levels.INFO, {
                 title = diagnostics_title,
-                on_open = on_open,
+                replace = diagnostics_notification,
+                on_close = function()
+                    diagnostics_notification = nil
+                end,
             })
         end
         M.diagnostics_enabled = not M.diagnostics_enabled

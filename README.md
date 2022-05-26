@@ -24,50 +24,51 @@ The configuration files will be installed to the default configuration directory
 ### Directory Structure
 
 ```bash
-.
+./
 ├── lua/
-│   └── tt/
-│       ├── plugins/
-│       │   ├── git/
-│       │   │   ├── diffview.lua
-│       │   │   ├── gitlinker.lua
-│       │   │   ├── git-messenger.lua
-│       │   │   └── gitsigns.lua
-│       │   ├── lsp/
-│       │   │   ├── goto-preview.lua
-│       │   │   ├── lsp-signature.lua
-│       │   │   ├── null-ls.lua
-│       │   │   ├── nvim-lspconfig.lua
-│       │   │   ├── nvim-lsp-installer.lua
-│       │   │   └── vista.lua
-│       │   ├── bufferline.lua
-│       │   ├── comment.lua
-│       │   ├── indent-blankline.lua
-│       │   ├── neogen.lua
-│       │   ├── neo-tree.lua
-│       │   ├── nightfox.lua
-│       │   ├── numb.lua
-│       │   ├── nvim-autopairs.lua
-│       │   ├── nvim-cmp.lua
-│       │   ├── nvim-gps.lua
-│       │   ├── packer.lua
-│       │   ├── startify.lua
-│       │   ├── telescope.lua
-│       │   ├── toggleterm.lua
-│       │   ├── treesitter.lua
-│       │   ├── trouble.lua
-│       │   └── zen-mode.lua
-│       ├── themes/
-│       │   ├── evil_lualine.lua
-│       │   └── lualine.lua
-│       ├── abbreviations.lua
-│       ├── autocommands.lua
-│       ├── globals.lua
-│       ├── helper.lua
-│       ├── init.lua
-│       ├── mappings.lua
-│       ├── plugins.lua
-│       ├── settings.lua
-│       └── utils.lua
+│   └── tt/
+│       ├── plugins/
+│       │   ├── git/
+│       │   │   ├── diffview.lua
+│       │   │   ├── gitlinker.lua
+│       │   │   ├── git-messenger.lua
+│       │   │   └── gitsigns.lua
+│       │   ├── lsp/
+│       │   │   ├── goto-preview.lua
+│       │   │   ├── lsp-signature.lua
+│       │   │   ├── null-ls.lua
+│       │   │   ├── nvim-lspconfig.lua
+│       │   │   ├── nvim-lsp-installer.lua
+│       │   │   └── vista.lua
+│       │   ├── bufferline.lua
+│       │   ├── comment.lua
+│       │   ├── indent-blankline.lua
+│       │   ├── neogen.lua
+│       │   ├── neo-tree.lua
+│       │   ├── nightfox.lua
+│       │   ├── notify.lua
+│       │   ├── numb.lua
+│       │   ├── nvim-autopairs.lua
+│       │   ├── nvim-cmp.lua
+│       │   ├── nvim-gps.lua
+│       │   ├── packer.lua
+│       │   ├── startify.lua
+│       │   ├── telescope.lua
+│       │   ├── toggleterm.lua
+│       │   ├── treesitter.lua
+│       │   ├── trouble.lua
+│       │   └── zen-mode.lua
+│       ├── themes/
+│       │   ├── evil_lualine.lua
+│       │   └── lualine.lua
+│       ├── abbreviations.lua
+│       ├── autocommands.lua
+│       ├── globals.lua
+│       ├── helper.lua
+│       ├── init.lua
+│       ├── mappings.lua
+│       ├── plugins.lua
+│       ├── settings.lua
+│       └── utils.lua
 └── init.lua
 ```
