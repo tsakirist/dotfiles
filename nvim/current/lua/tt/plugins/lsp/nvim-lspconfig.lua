@@ -68,6 +68,33 @@ local setup_hover = function()
     })
 end
 
+local setup_definition = function()
+    -- Make LSP handler for definitions to jump directly to the first available result
+    vim.lsp.handlers["textDocument/definition"] = function(err, result, ctx, _)
+        local title = "LSP definition"
+        if err then
+            vim.notify(err.message, vim.log.levels.ERROR, { title = title })
+            return
+        end
+        if not result then
+            vim.notify("Location not found", vim.log.levels.INFO, { title = title })
+            return
+        end
+        local client_encoding = vim.lsp.get_client_by_id(ctx.client_id).offset_encoding
+        if vim.tbl_islist(result) and result[1] then
+            vim.lsp.util.jump_to_location(result[1], client_encoding)
+        else
+            vim.lsp.util.jump_to_location(result, client_encoding)
+        end
+    end
+end
+
+local setup_handlers = function()
+    setup_diagnostics()
+    setup_hover()
+    setup_definition()
+end
+
 local setup_highlighting = function(client)
     if client.server_capabilities.documentHighlightProvider then
         vim.cmd [[
@@ -84,11 +111,6 @@ local setup_formatting = function(client)
     -- Disable default LSP formatting as this will be handled by 'null-ls' LSP
     client.server_capabilities.documentFormattingProvider = false
     client.server_capabilities.documentRangeFormattingProvider = false
-end
-
-local setup_handlers = function()
-    setup_diagnostics()
-    setup_hover()
 end
 
 local setup_keymappings = function(_, bufnr)
