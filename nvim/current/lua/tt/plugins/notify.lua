@@ -17,8 +17,11 @@ function M.setup()
             WARN = "",
         },
         on_open = function(win)
-            -- Disable window focus by user actions in notifications
-            vim.api.nvim_win_set_config(win, { focusable = false })
+            -- Set custom options for the notification windows
+            vim.api.nvim_win_set_config(win, {
+                focusable = false,
+                zindex = 200,
+            })
         end,
     }
 
