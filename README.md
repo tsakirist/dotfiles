@@ -57,6 +57,7 @@ The configuration files will be installed to the default configuration directory
 │       │   ├── toggleterm.lua
 │       │   ├── treesitter.lua
 │       │   ├── trouble.lua
+│       │   ├── venn.lua
 │       │   └── zen-mode.lua
 │       ├── themes/
 │       │   ├── evil_lualine.lua

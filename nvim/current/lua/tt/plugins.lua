@@ -419,6 +419,14 @@ return require("packer").startup {
             end,
         }
 
+        -- Draw ASCII diagrams
+        use {
+            "jbyuki/venn.nvim",
+            config = function()
+                require("tt.plugins.venn").setup()
+            end,
+        }
+
         -- Measure the startup-time of neovim
         use { "dstein64/vim-startuptime", cmd = "StartupTime" }
 
