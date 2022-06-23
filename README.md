@@ -53,6 +53,7 @@ The configuration files will be installed to the default configuration directory
 │       │   ├── nvim-gps.lua
 │       │   ├── packer.lua
 │       │   ├── startify.lua
+│       │   ├── syntax-tree-surfer.lua
 │       │   ├── telescope.lua
 │       │   ├── toggleterm.lua
 │       │   ├── treesitter.lua

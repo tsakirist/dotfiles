@@ -206,6 +206,16 @@ return require("packer").startup {
             end,
         }
 
+        -- Surf easily through the document and move elemetns
+        use {
+            "ziontee113/syntax-tree-surfer",
+            event = "BufRead",
+            requires = "nvim-treesitter",
+            config = function()
+                require("tt.plugins.syntax-tree-surfer").setup()
+            end,
+        }
+
         -- Autocomplete related plugins and snippets
         use {
             "hrsh7th/nvim-cmp",
