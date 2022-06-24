@@ -116,8 +116,8 @@ function M.setup()
                 mappings = {
                     ["."] = "set_root",
                     ["H"] = "toggle_hidden",
-                    ["/"] = "fuzzy_finder",
                     ["f"] = "filter_on_submit",
+                    ["/"] = "none", -- "fuzzy_finder"
                     ["<M-l>"] = "clear_filter",
                 },
             },
