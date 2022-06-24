@@ -68,6 +68,10 @@ function M.load_autocommands()
         _faster_quit = {
             { "FileType", "help,man,lspinfo", "nnoremap <silent> <buffer> q :quit<CR>" },
         },
+        --- Disables conceallevel and concealcursor on the following filetypes
+        _disable_conceal = {
+            { "FileType", "json", "setlocal conceallevel=0 concealcursor=" },
+        },
     }
     M.create_augroups(definitions)
 end
