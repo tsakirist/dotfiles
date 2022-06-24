@@ -432,8 +432,21 @@ return require("packer").startup {
         -- Draw ASCII diagrams
         use {
             "jbyuki/venn.nvim",
+            event = "BufRead",
             config = function()
                 require("tt.plugins.venn").setup()
+            end,
+        }
+
+        -- Easily view/open URLs from a variety of contexts (bufer, packer, ...)
+        use {
+            "axieax/urlview.nvim",
+            cmd = "UrlView",
+            keys = "<leader>u",
+            requires = "nvim-telescope/telescope.nvim",
+            config = function()
+                local utils = require "tt.utils"
+                utils.map("n", "<leader>uv", "<Cmd>UrlView packer<CR>")
             end,
         }
 
