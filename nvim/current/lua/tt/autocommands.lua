@@ -68,9 +68,13 @@ function M.load_autocommands()
         _faster_quit = {
             { "FileType", "help,man,lspinfo", "nnoremap <silent> <buffer> q :quit<CR>" },
         },
-        --- Disables conceallevel and concealcursor on the following filetypes
+        --- Disables conceallevel and concealcursor for the following filetypes
         _disable_conceal = {
             { "FileType", "json", "setlocal conceallevel=0 concealcursor=" },
+        },
+        --- Automatic enter insert mode for the following filetypes
+        _automatic_insert_mode = {
+            { "FileType", "gitcommit", "startinsert" },
         },
     }
     M.create_augroups(definitions)
