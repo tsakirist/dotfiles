@@ -78,6 +78,7 @@ alias icat='kitty +kitten icat'
 
 # Git aliases
 alias gc-='git checkout -'
+alias gsl='git stash list'
 
 # Set nvim as the pager for man pages
 function nvim_man {
