@@ -1,7 +1,7 @@
 local M = {}
 
 -- Defines which kind source to use for the icons
-local kind_source = "vscode"
+local kind_source = _G.IsWSL() and "default" or "vscode"
 
 -- TODO: Refactor this to a separate file, making icons easier to use in more places
 local cmp_kinds = {

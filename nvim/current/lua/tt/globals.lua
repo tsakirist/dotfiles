@@ -35,3 +35,10 @@ end
 function _G.HeadlessMode()
     return #vim.api.nvim_list_uis() == 0
 end
+
+--- Returns whether or not neovim runs inside WSL.
+---@return boolean
+function _G.IsWSL()
+    local output = vim.fn.systemlist "uname -r"
+    return not not string.find(output[1] or "", "WSL")
+end
