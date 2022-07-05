@@ -135,3 +135,7 @@ utils.map("n", "<leader>z", "<Cmd>lua require'tt.helper'.zoomToggleNewTab()<CR>"
 -- Copy the current filename and the absolute path of the file to the clipboard
 utils.map("n", "<leader>ct", "<Cmd>lua require'tt.helper'.filename_to_clipboard 't'<CR>")
 utils.map("n", "<leader>cp", "<Cmd>lua require'tt.helper'.filename_to_clipboard 'p'<CR>")
+
+-- Make `n|N` to also center the screen
+utils.map("n", "n", "nzzzv")
+utils.map("n", "N", "Nzzzv")
