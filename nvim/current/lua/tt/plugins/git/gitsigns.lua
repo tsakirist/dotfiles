@@ -74,18 +74,24 @@ function M.setup()
                 vim.keymap.set(mode, lhs, rhs, opts)
             end
 
+            local function visual_operation(operator)
+                return function()
+                    return require("gitsigns")[operator] { vim.fn.line "v", vim.fn.line "." }
+                end
+            end
+
             -- Move between hunks
             map("n", "<leader>gj", "&diff ? ']c' : '<Cmd>Gitsigns next_hunk<CR>'", { expr = true })
             map("n", "<leader>gk", "&diff ? '[c' : '<Cmd>Gitsigns prev_hunk<CR>'", { expr = true })
 
             -- Hunk specific
-            map({ "n", "v" }, "<leader>hs", "<Cmd>Gitsigns stage_hunk<CR>")
-            map({ "n", "v" }, "<leader>hr", "<Cmd>Gitsigns reset_hunk<CR>")
+            map("n", "<leader>hs", "<Cmd>Gitsigns stage_hunk<CR>")
+            map("n", "<leader>hr", "<Cmd>Gitsigns reset_hunk<CR>")
             map("n", "<leader>hu", "<Cmd>Gitsigns undo_stage_hunk<CR>")
             map("n", "<leader>hp", "<Cmd>Gitsigns preview_hunk<CR>")
             map("n", "<leader>hb", "<Cmd>Gitsigns blame_line{full=true}<CR>")
-            map("n", "<leader>hR", "<Cmd>Gitsigns reset_buffer<CR>")
             map("n", "<leader>hS", "<Cmd>Gitsigns stage_buffer<CR>")
+            map("n", "<leader>hR", "<Cmd>Gitsigns reset_buffer<CR>")
             map("n", "<leader>hU", "<Cmd>Gitsigns reset_buffer_index<CR>")
 
             -- Toggling options
@@ -98,6 +104,17 @@ function M.setup()
 
             -- Text objects
             map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+
+            -- Stage/unstage/reset visually selected hunks
+            map("v", "<leader>hs", visual_operation "stage_hunk", {
+                desc = "Gitsigns stage selected hunk(s)",
+            })
+            map("v", "<leader>hu", visual_operation "undo_stage_hunk", {
+                desc = "Gitsigns undo stage selected hunk(s)",
+            })
+            map("v", "<leader>hr", visual_operation "reset_hunk", {
+                desc = "Gitsigns reset selected hunk(s)",
+            })
         end,
     }
 end
