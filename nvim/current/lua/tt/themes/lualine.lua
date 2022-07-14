@@ -3,6 +3,7 @@ local M = {}
 function M.setup()
     -- Module that shows the current cursor context
     local gps = require "nvim-gps"
+    local icons = require "tt.icons"
 
     -- Get the colors that are used by the theme
     local colors = require("tt.plugins.nightfox").colors()
@@ -11,8 +12,14 @@ function M.setup()
         options = {
             icons_enabled = true,
             theme = "nightfox",
-            component_separators = { left = "", right = "" },
-            section_separators = { left = "", right = "" },
+            component_separators = {
+                left = icons.misc.RightUnfilledArrow,
+                right = icons.misc.LeftUnfilledArrow,
+            },
+            section_separators = {
+                left = icons.misc.RightFilledArrow,
+                right = icons.misc.LeftFilledArrow,
+            },
             disabled_filetypes = {},
             always_divide_middle = true,
             globalstatus = true,
@@ -22,8 +29,8 @@ function M.setup()
                 {
                     "mode",
                     padding = 1,
-                    separator = { right = " " },
-                    icon = "",
+                    separator = { right = icons.misc.VerticalShadowedBox },
+                    icon = icons.misc.Owl,
                 },
             },
             lualine_b = {
@@ -31,7 +38,12 @@ function M.setup()
                 "diff",
                 {
                     "diagnostics",
-                    symbols = { error = "", hint = "", info = "", warn = "" },
+                    symbols = {
+                        error = icons.diagnostics.Error,
+                        hint = icons.diagnostics.Hint,
+                        info = icons.diagnostics.Info,
+                        warn = icons.diagnostics.Warn,
+                    },
                 },
             },
             lualine_c = {

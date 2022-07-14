@@ -61,6 +61,8 @@ function M.setup()
     local version = vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch
     local plugins = #vim.tbl_keys(packer_plugins)
 
+    local icons = require "tt.icons"
+
     local custom_header = {
         [[                                 __                 ]],
         [[    ___     ___    ___   __  __ /\_\    ___ ___     ]],
@@ -69,22 +71,22 @@ function M.setup()
         [[  \ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\ ]],
         [[   \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/ ]],
         [[                                                    ]],
-        [[  ﯟ Tryfon Tsakiris, tr.tsakiris@gmail.com          ]],
-        [[   ]] .. datetime,
-        [[   Neovim Version: ]] .. version,
-        [[   Plugins: ]] .. plugins,
+        " " .. icons.misc.Bullets .. " Tryfon Tsakiris, tr.tsakiris@gmail.com",
+        " " .. icons.misc.Calendar .. " " .. datetime,
+        " " .. icons.misc.Branch .. " Neovim Version: " .. version,
+        " " .. icons.misc.Plug .. " Plugins: " .. plugins,
     }
 
     vim.g.startify_custom_header = vim.fn["startify#center"](custom_header)
 
     --- Add custom commands
     vim.g.startify_commands = {
-        { e = { "  New file", ":enew" } },
-        { f = { "  Find Files", ":Telescope find_files" } },
-        { g = { "  Grep Word", ":Telescope live_grep" } },
-        { r = { "  Recent Files", ":Telescope oldfiles" } },
-        { h = { "  Help", ":Telescope help_tags" } },
-        { s = { "  Sessions", ":lua require'tt.plugins.telescope'.find_sessions()" } },
+        { e = { icons.document.Document .. " New file", ":enew" } },
+        { f = { icons.document.DocumentSearch .. " Find Files", ":Telescope find_files" } },
+        { g = { icons.document.DocumentWord .. " Grep Word", ":Telescope live_grep" } },
+        { r = { icons.document.DoubleDocument .. " Recent Files", ":Telescope oldfiles" } },
+        { h = { icons.misc.Bulb .. " Help", ":Telescope help_tags" } },
+        { s = { icons.misc.Storage .. " Sessions", ":lua require'tt.plugins.telescope'.find_sessions()" } },
     }
 
     local config_path = vim.fn.stdpath "config"

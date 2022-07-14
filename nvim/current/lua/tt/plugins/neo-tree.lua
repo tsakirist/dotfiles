@@ -1,6 +1,8 @@
 local M = {}
 
 function M.setup()
+    local icons = require "tt.icons"
+
     -- Remove deprecated commands
     vim.g.neo_tree_remove_legacy_commands = 1
 
@@ -59,10 +61,10 @@ function M.setup()
                 expander_highlight = "NeoTreeExpander",
             },
             icon = {
-                folder_closed = "",
-                folder_open = "",
-                folder_empty = "ﰊ",
-                default = "*",
+                folder_closed = icons.document.FolderClosed,
+                folder_open = icons.document.FolderOpen,
+                folder_empty = icons.document.FolderEmpty,
+                default = icons.misc.Star,
                 highlight = "NeoTreeFileIcon",
             },
             modified = {
@@ -75,17 +77,7 @@ function M.setup()
                 highlight = "NeoTreeFileName",
             },
             git_status = {
-                symbols = {
-                    added = "",
-                    modified = "",
-                    deleted = "✖",
-                    renamed = "",
-                    untracked = "",
-                    ignored = "",
-                    unstaged = "",
-                    staged = "",
-                    conflict = "",
-                },
+                symbols = {},
             },
         },
         nesting_rules = {},

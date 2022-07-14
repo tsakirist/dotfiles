@@ -67,6 +67,7 @@ The configuration files will be installed to the default configuration directory
 │       ├── autocommands.lua
 │       ├── globals.lua
 │       ├── helper.lua
+│       ├── icons.lua
 │       ├── init.lua
 │       ├── mappings.lua
 │       ├── plugins.lua
