@@ -42,6 +42,7 @@ The configuration files will be installed to the default configuration directory
 │       │   │   └── vista.lua
 │       │   ├── bufferline.lua
 │       │   ├── comment.lua
+│       │   ├── git-conflict.lua
 │       │   ├── indent-blankline.lua
 │       │   ├── neogen.lua
 │       │   ├── neo-tree.lua

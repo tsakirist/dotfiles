@@ -374,6 +374,13 @@ return require("packer").startup {
                     vim.g.committia_edit_window_width = 90
                 end,
             },
+            -- Visualize and fix merge conflicts
+            {
+                "akinsho/git-conflict.nvim",
+                config = function()
+                    require("tt.plugins.git-conflict").setup()
+                end,
+            },
         }
 
         -- Peak lines easily with :<number>
