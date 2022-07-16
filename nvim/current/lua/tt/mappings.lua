@@ -72,7 +72,7 @@ utils.map("n", "<C-q>", "<Cmd>q<CR>")
 utils.map({ "i", "v" }, "<C-q>", "<Esc><Cmd>q<CR>")
 
 -- Keymap to quit all buffers with shift
-utils.map("n", "<S-q>", "<Esc><Cmd>qa<CR>")
+utils.map("n", "Q", "<Esc><Cmd>qa!<CR>")
 
 -- Quick movements in Insert mode without having to change to Normal mode
 utils.map("i", "<C-h>", "<C-o>h")
