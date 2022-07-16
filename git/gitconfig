@@ -55,3 +55,6 @@
 [user]
   name = Tsakiris Tryfon
   email = tr.tsakiris@gmail.com
+
+[init]
+  defaultBranch = main
