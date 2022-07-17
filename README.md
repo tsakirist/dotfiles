@@ -52,6 +52,7 @@ The configuration files will be installed to the default configuration directory
 │       │   ├── nvim-autopairs.lua
 │       │   ├── nvim-cmp.lua
 │       │   ├── nvim-gps.lua
+│       │   ├── nvim-surround.lua
 │       │   ├── packer.lua
 │       │   ├── startify.lua
 │       │   ├── syntax-tree-surfer.lua

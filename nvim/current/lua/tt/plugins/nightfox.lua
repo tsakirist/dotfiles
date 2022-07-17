@@ -108,6 +108,9 @@ function M.setup()
                 fg = colors.green,
                 bg = colors.bg_alt,
             },
+            NvimSurroundHighlightTextObject = {
+                fg = colors.yellow,
+            },
         },
     }
 

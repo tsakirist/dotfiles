@@ -399,7 +399,13 @@ return require("packer").startup {
         use { "AndrewRadev/splitjoin.vim", keys = { "gS", "gJ" } }
 
         -- Surround mappings for enclosed text
-        use { "tpope/vim-surround", event = "BufRead" }
+        use {
+            "kylechui/nvim-surround",
+            event = "BufRead",
+            config = function()
+                require("tt.plugins.nvim-surround").setup()
+            end,
+        }
 
         -- Text alignment done easiliy
         use { "junegunn/vim-easy-align", keys = { "<Plug>(EasyAlign)", "<Plug>(LiveEasyAlign)" } }
