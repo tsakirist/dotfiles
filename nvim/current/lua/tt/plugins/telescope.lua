@@ -5,6 +5,7 @@ local actions_layout = require "telescope.actions.layout"
 local actions_state = require "telescope.actions.state"
 local config = require("telescope.config").values
 local finders = require "telescope.finders"
+local lga_actions = require "telescope-live-grep-args.actions"
 local make_entry = require "telescope.make_entry"
 local pickers = require "telescope.pickers"
 local themes = require "telescope.themes"
@@ -38,7 +39,7 @@ function M.setup()
             path_display = { shorten = 5 },
             sorting_strategy = "descending",
             set_env = { ["COLORTERM"] = "truecolor" },
-            file_ignore_patterns = { "node_modules", "%.git" },
+            file_ignore_patterns = { "node_modules", "%.git", "%.cache" },
             mappings = {
                 i = {
                     ["<C-j>"] = actions.move_selection_next,
@@ -68,14 +69,14 @@ function M.setup()
                 hidden = true, -- Show hidden files
                 no_ignore = true, -- Show files that are ignored by git
             },
-            live_grep = {
-                -- Replace whitespace with wildcards to imitate an AND operator for search terms
-                on_input_filter_cb = function(prompt)
-                    return {
-                        prompt = prompt:gsub("%s", ".*"),
-                    }
-                end,
-            },
+            -- live_grep = {
+            --     -- Replace whitespace with wildcards to imitate an AND operator for search terms
+            --     on_input_filter_cb = function(prompt)
+            --         return {
+            --             prompt = prompt:gsub("%s", ".*"),
+            --         }
+            --     end,
+            -- },
         },
         extensions = {
             fzf = {
@@ -90,6 +91,18 @@ function M.setup()
                     height = 0.5,
                 },
             },
+            live_grep_args = {
+                auto_quoting = true,
+                mappings = {
+                    i = {
+                        -- This is required to overwirte the default mapping, which forces <C-k> keymapping
+                        ["<C-k>"] = actions.move_selection_previous,
+                        ["<C-l>"] = lga_actions.quote_prompt(),
+                        ["<C-l>g"] = lga_actions.quote_prompt { postfix = " --iglob " },
+                        ["<C-l>t"] = lga_actions.quote_prompt { postfix = " -t" },
+                    },
+                },
+            },
         },
     }
 
@@ -97,6 +110,7 @@ function M.setup()
     require("telescope").load_extension "fzf"
     require("telescope").load_extension "packer"
     require("telescope").load_extension "notify"
+    require("telescope").load_extension "live_grep_args"
 
     -- Set custom keybindings
     local utils = require "tt.utils"
@@ -118,7 +132,7 @@ function M.setup()
     utils.map("n", "<leader>f:", "<Cmd>Telescope command_history<CR>")
     utils.map("n", "<leader>f/", "<Cmd>Telescope search_history<CR>")
     utils.map("n", "<leader>fh", "<Cmd>lua require'telescope.builtin'.help_tags({layout_strategy = 'vertical'})<CR>")
-    utils.map("n", "<leader>fg", "<Cmd>lua require'telescope.builtin'.live_grep({layout_strategy = 'vertical'})<CR>")
+    utils.map("n", "<leader>fg", "<Cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
     utils.map(
         "n",
         "<leader>fl",

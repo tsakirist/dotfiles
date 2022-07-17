@@ -280,6 +280,7 @@ return require("packer").startup {
                 { "nvim-lua/plenary.nvim" },
                 { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
                 { "nvim-telescope/telescope-packer.nvim" },
+                { "nvim-telescope/telescope-live-grep-args.nvim" },
             },
             config = function()
                 require("tt.plugins.telescope").setup()
