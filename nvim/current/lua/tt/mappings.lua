@@ -9,8 +9,6 @@ utils.map("c", "%%", "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { silent 
 -- Change buffers quickly
 utils.map("n", "]b", "<Cmd>bnext<CR>")
 utils.map("n", "[b", "<Cmd>bprevious<CR>")
-utils.map("n", "<Tab>", "<Cmd>bnext<CR>")
-utils.map("n", "<S-Tab>", "<Cmd>bprevious<CR>")
 
 -- Close the current buffer
 utils.map("n", "<leader>bd", "<Cmd>bdelete<CR>")

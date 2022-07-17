@@ -463,6 +463,17 @@ return require("packer").startup {
             end,
         }
 
+        -- Popup window for cycling buffers
+        use {
+            "ghillb/cybu.nvim",
+            config = function()
+                require("cybu").setup()
+                local utils = require "tt.utils"
+                utils.map("n", "<S-Tab>", "<Plug>(CybuLastusedPrev)")
+                utils.map("n", "<Tab>", "<Plug>(CybuLastusedNext)")
+            end,
+        }
+
         -- Measure the startup-time of neovim
         use { "dstein64/vim-startuptime", cmd = "StartupTime" }
 
