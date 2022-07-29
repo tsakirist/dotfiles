@@ -33,14 +33,9 @@ function M.setup()
 
     local utils = require "tt.utils"
     utils.map(
-        "n",
+        { "n", "v" },
         "<leader>go",
         "<Cmd>lua require'gitlinker'.get_buf_range_url('n', { action_callback = require'gitlinker.actions'.open_in_browser})<CR>"
-    )
-    utils.map(
-        "v",
-        "<leader>go",
-        "<Cmd>lua require'gitlinker'.get_buf_range_url('v', { action_callback = require'gitlinker.actions'.open_in_browser})<CR>"
     )
     utils.map(
         "n",
