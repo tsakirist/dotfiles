@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-    require("lsp_signature").on_attach {
+    require("lsp_signature").setup {
         bind = true, -- Mandatory, for border config to register
         doc_lines = 10, -- Number of doc lines to show
         handler_opts = { -- Options for floating window
@@ -21,6 +21,7 @@ function M.setup()
         always_trigger = false, -- Sometimes showing signature on a new line or in  the middle of parameter can be confusing
         auto_close_after = nil, -- Autoclose signature float win after x sec, disabled if nil
         toggle_key = "<M-x>", -- Toggle signature on or off in insert mode
+        select_signature_key = "<M-n>", -- Cycle to next signature, e.g. '<M-n>' function overloading
     }
 end
 
