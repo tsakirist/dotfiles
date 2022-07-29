@@ -111,6 +111,12 @@ function M.setup()
             NvimSurroundHighlightTextObject = {
                 fg = colors.yellow,
             },
+            FidgetTitle = {
+                fg = colors.cyan,
+            },
+            FidgetTask = {
+                fg = colors.magenta,
+            },
         },
     }
 
