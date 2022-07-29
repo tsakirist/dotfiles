@@ -10,7 +10,7 @@ function M.zoomToggleSameTab()
 
     if vim.t.zoomed then
         -- Restore the window to its original dimensions
-        vim.cmd [[execute t:zoom_restore_cmd]]
+        vim.cmd.execute "t:zoom_restore_cmd"
         vim.t.zoomed = false
     else
         vim.t.zoomed = true
@@ -18,10 +18,8 @@ function M.zoomToggleSameTab()
         -- restore the current window sizes
         vim.t.zoom_restore_cmd = vim.fn.winrestcmd()
         -- Maximize the current window
-        vim.cmd [[
-            wincmd _
-            wincmd |
-        ]]
+        vim.cmd.wincmd "_"
+        vim.cmd.wincmd "|"
     end
 end
 
@@ -39,11 +37,11 @@ function M.zoomToggleNewTab()
     if vim.fn.winnr "$" == 1 then
         -- Close the tab only if it's opened by this function
         if pcall(vim.api.nvim_tabpage_get_var, 0, "zoomedTab") then
-            vim.cmd [[tabclose]]
+            vim.cmd.tabclose()
         end
     else
         -- Open a new tab with the current file
-        vim.cmd [[tabnew %:p]]
+        vim.cmd.tabnew "%:p"
         -- Set a tab local variable indicating that we're in a "zoomed" tab
         vim.api.nvim_tabpage_set_var(0, "zoomedTab", true)
     end

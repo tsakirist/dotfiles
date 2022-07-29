@@ -101,15 +101,21 @@ local setup_handlers = function()
     setup_definition()
 end
 
-local setup_highlighting = function(client)
+local setup_highlighting = function(client, bufnr)
     if client.server_capabilities.documentHighlightProvider then
-        vim.cmd [[
-            augroup _lsp_document_highlight
-                autocmd! * <buffer>
-                autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-                autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-            augroup END
-        ]]
+        local lsp_highlight_augroup = vim.api.nvim_create_augroup("_lsp_document_highlight", {
+            clear = true,
+        })
+        vim.api.nvim_create_autocmd("CursorHold", {
+            buffer = bufnr,
+            command = "lua vim.lsp.buf.document_highlight()",
+            group = lsp_highlight_augroup,
+        })
+        vim.api.nvim_create_autocmd("CursorMoved", {
+            buffer = bufnr,
+            command = "lua vim.lsp.buf.clear_references()",
+            group = lsp_highlight_augroup,
+        })
     end
 end
 
@@ -153,7 +159,7 @@ end
 local on_attach = function(client, bufnr)
     setup_keymappings(client, bufnr)
     setup_formatting(client)
-    setup_highlighting(client)
+    setup_highlighting(client, bufnr)
 end
 
 --- Make a new object describing the LSP client capabilities

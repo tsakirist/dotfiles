@@ -10,7 +10,7 @@ function M.setup()
         local title = "Venn"
         if vim.b.venn_enabled == nil then
             vim.b.venn_enabled = true
-            vim.cmd [[setlocal virtualedit=all]]
+            vim.cmd.setlocal "virtualedit=all"
 
             utils.map("n", "J", "<C-v>j:VBox<CR>", { buffer = true })
             utils.map("n", "K", "<C-v>k:VBox<CR>", { buffer = true })
@@ -19,8 +19,8 @@ function M.setup()
             utils.map("v", "B", ":VBox<CR>", { buffer = true })
         else
             vim.b.venn_enabled = nil
-            vim.cmd [[setlocal virtualedit=]]
-            vim.cmd [[mapclear <buffer>]]
+            vim.cmd.setlocal "virtualedit="
+            vim.cmd.mapclear "<buffer>"
         end
 
         venn_notification = vim.notify(

@@ -22,7 +22,7 @@ function M.packer_bootstrap()
             "https://github.com/wbthomason/packer.nvim",
             install_path,
         }
-        vim.cmd [[packadd packer.nvim]]
+        vim.cmd.packadd "packer.nvim"
     end
 
     return packer_bootstrap
@@ -34,8 +34,8 @@ function M.packer_sync()
     vim.notify("Syncing packer...", vim.log.levels.INFO, { title = title })
     vim.notify("Creating packer snapshot...", vim.log.levels.INFO, { title = title })
     local snapshot_time = os.date "%a-%d-%b-%Y-%TZ"
-    vim.cmd("PackerSnapshot " .. snapshot_time)
-    vim.cmd "PackerSync"
+    vim.cmd.PackerSnapshot(snapshot_time)
+    vim.cmd.PackerSync()
 end
 
 local utils = require "tt.utils"

@@ -107,7 +107,7 @@ utils.map("n", "<Esc>", "<Cmd>noh<return><Esc>")
 utils.map("n", "<Esc>^[", "<Esc>^[")
 
 -- Whole-word search
-vim.cmd [[nnoremap <leader>/ :/\<\><Left><Left>]]
+utils.map("n", "<leader>/", ":/\\<\\><Left><Left>", { silent = false })
 
 -- Change the default mouse scrolling wheel option
 utils.map({ "n", "x" }, "<ScrollWheelUp>", "4<C-y>")

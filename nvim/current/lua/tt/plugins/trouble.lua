@@ -16,7 +16,7 @@ function M.setup()
             cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
             refresh = "r", -- manually refresh
             jump = { "<cr>", "<tab>", "o" }, -- jump to the diagnostic or open / close folds
-            jump_close = { "oc", "go" }, -- jump to the diagnostic and close the list
+            jump_close = { "go" }, -- jump to the diagnostic and close the list
             open_split = { "<c-x>" }, -- open buffer in new split
             open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
             open_tab = { "<c-t>" }, -- open buffer in new tab

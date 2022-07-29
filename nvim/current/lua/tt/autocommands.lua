@@ -9,14 +9,14 @@ local M = {}
 ---  3. Command
 function M.create_augroups(definitions)
     for augroup_name, definition in pairs(definitions) do
-        vim.cmd("augroup" .. augroup_name)
-        vim.cmd "autocmd!"
+        vim.cmd.augroup(augroup_name)
+        vim.cmd.autocmd { bang = true }
         for _, def in pairs(definition) do
             local command = table.concat(vim.tbl_flatten { "autocmd", def }, " ")
             vim.cmd(command)
         end
     end
-    vim.cmd "augroup END"
+    vim.cmd.augroup "END"
 end
 
 function M.load_autocommands()

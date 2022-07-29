@@ -121,11 +121,9 @@ function M.setup()
         },
     }
 
-    vim.cmd [[
-    cnoreabbrev dvo DiffviewOpen
-    cnoreabbrev dvc DiffviewClose
-    cnoreabbrev dvf DiffviewFileHistory
-]]
+    vim.cmd.cnoreabbrev "dvo DiffviewOpen"
+    vim.cmd.cnoreabbrev "dvc DiffviewClose"
+    vim.cmd.cnoreabbrev "dvf DiffviewFileHistory"
 end
 
 return M

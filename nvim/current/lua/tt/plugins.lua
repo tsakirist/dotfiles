@@ -204,7 +204,7 @@ return require("packer").startup {
             run = function()
                 -- Perform update only when we're not in headless mode
                 if not _G.HeadlessMode() then
-                    vim.cmd [[TSUpdate]]
+                    vim.cmd.TSUpdate()
                 end
             end,
             requires = {
