@@ -1,13 +1,13 @@
 local M = {}
 
 local setup_diagnostics = function()
+    local asd
     vim.diagnostic.config {
         underline = true,
         update_in_insert = false,
         severity_sort = true,
-        virtual_text = {
-            spacing = 4,
-        },
+        virtual_text = false,
+        virtual_lines = true,
         signs = true,
         float = {
             show_header = true,

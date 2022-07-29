@@ -170,6 +170,22 @@ return require("packer").startup {
                     require("tt.plugins.lsp.lsp-signature").setup()
                 end,
             },
+            -- Render LSP diagnostics using virtual lines
+            {
+                "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+                after = "nvim-lspconfig",
+                config = function()
+                    require("lsp_lines").setup()
+                    local utils = require "tt.utils"
+                    utils.map("n", "<leader>lt", function()
+                        local virtual_lines_enabled = not vim.diagnostic.config().virtual_lines
+                        vim.diagnostic.config {
+                            virtual_lines = virtual_lines_enabled,
+                            virtual_text = not virtual_lines_enabled,
+                        }
+                    end)
+                end,
+            },
             -- Tree-like viewer for symbols
             {
                 "liuchengxu/vista.vim",
