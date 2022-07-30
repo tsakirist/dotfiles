@@ -117,6 +117,9 @@ function M.setup()
             FidgetTask = {
                 fg = colors.magenta,
             },
+            CybuCurrentSelection = {
+                fg = colors.magenta,
+            },
         },
     }
 

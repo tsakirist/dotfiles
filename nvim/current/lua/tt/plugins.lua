@@ -412,9 +412,6 @@ return require("packer").startup {
         -- Editor config support
         use { "gpanders/editorconfig.nvim" }
 
-        -- Switch between single-line and multiline forms of code
-        use { "AndrewRadev/splitjoin.vim", keys = { "gS", "gJ" } }
-
         -- Surround mappings for enclosed text
         use {
             "kylechui/nvim-surround",
@@ -425,7 +422,14 @@ return require("packer").startup {
         }
 
         -- Text alignment done easiliy
-        use { "junegunn/vim-easy-align", keys = { "<Plug>(EasyAlign)", "<Plug>(LiveEasyAlign)" } }
+        use {
+            "junegunn/vim-easy-align",
+            event = "BufRead",
+            keys = {
+                "<Plug>(EasyAlign)",
+                "<Plug>(LiveEasyAlign)",
+            },
+        }
 
         -- Easiliy resize windows
         use { "sedm0784/vim-resize-mode", event = "BufRead" }
@@ -484,10 +488,7 @@ return require("packer").startup {
         use {
             "ghillb/cybu.nvim",
             config = function()
-                require("cybu").setup()
-                local utils = require "tt.utils"
-                utils.map("n", "<S-Tab>", "<Plug>(CybuLastusedPrev)")
-                utils.map("n", "<Tab>", "<Plug>(CybuLastusedNext)")
+                require("tt.plugins.cybu").setup()
             end,
         }
 
