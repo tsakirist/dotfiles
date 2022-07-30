@@ -62,14 +62,11 @@ utils.map("n", "<C-s>", "<Cmd>update<CR>")
 utils.map({ "i", "v" }, "<C-s>", "<Esc><Cmd>update<CR>")
 
 -- Keymaps to quit current buffer with ctrl+q
-utils.map("n", "<C-q>", "<Cmd>q<CR>")
-utils.map({ "i", "v" }, "<C-q>", "<Esc><Cmd>q<CR>")
+utils.map({ "n", "i", "v" }, "<C-q>", function()
+    require("tt.helper").smart_quit()
+end, { desc = { "Quit current buffer" } })
 
--- Keymaps to quit current buffer with ctrl+q
-utils.map("n", "<C-q>", "<Cmd>q<CR>")
-utils.map({ "i", "v" }, "<C-q>", "<Esc><Cmd>q<CR>")
-
--- Keymap to quit all buffers with shift
+-- Keymap to quit all buffers
 utils.map("n", "Q", "<Esc><Cmd>qa!<CR>")
 
 -- Quick movements in Insert mode without having to change to Normal mode
