@@ -114,6 +114,9 @@ opt.foldopen = opt.foldopen + "jump"
 -- Enable mouse support
 opt.mouse = "a"
 
+-- Disable right click pop-up menu
+opt.mousemodel = "extend"
+
 -- Enable modeline to allow file secific settings
 -- e.g. vim: set sw=2:
 opt.modeline = true
