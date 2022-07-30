@@ -44,6 +44,7 @@ The configuration files will be installed to the default configuration directory
 │       │   ├── comment.lua
 │       │   ├── cybu.lua
 │       │   ├── git-conflict.lua
+│       │   ├── hydra.lua
 │       │   ├── indent-blankline.lua
 │       │   ├── neogen.lua
 │       │   ├── neo-tree.lua
@@ -61,7 +62,6 @@ The configuration files will be installed to the default configuration directory
 │       │   ├── toggleterm.lua
 │       │   ├── treesitter.lua
 │       │   ├── trouble.lua
-│       │   ├── venn.lua
 │       │   └── zen-mode.lua
 │       ├── themes/
 │       │   ├── evil_lualine.lua

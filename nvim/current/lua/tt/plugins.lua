@@ -467,9 +467,6 @@ return require("packer").startup {
         use {
             "jbyuki/venn.nvim",
             event = "BufRead",
-            config = function()
-                require("tt.plugins.venn").setup()
-            end,
         }
 
         -- Easily view/open URLs from a variety of contexts (bufer, packer, ...)
@@ -489,6 +486,16 @@ return require("packer").startup {
             "ghillb/cybu.nvim",
             config = function()
                 require("tt.plugins.cybu").setup()
+            end,
+        }
+
+        -- Create custom submodes and menus
+        use {
+            "anuvyklack/hydra.nvim",
+            event = "BufRead",
+            after = "gitsigns.nvim",
+            config = function()
+                require("tt.plugins.hydra").setup()
             end,
         }
 
