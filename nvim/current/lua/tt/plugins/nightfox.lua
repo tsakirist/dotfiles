@@ -3,128 +3,143 @@ local M = {}
 ---Returns the colors that are used by the current theme.
 ---@return table: The color table used by the theme.
 function M.colors()
-    return require("nightfox.colors").load "nordfox"
+    return require("nightfox.palette").load "nordfox"
 end
 
 function M.setup()
+    local Color = require "nightfox.lib.color"
     local colors = M.colors()
-    local util = require "nightfox.util"
 
-    -- My custom colors
     local custom_colors = {
-        bg = util.brighten(colors.bg, 0.05),
-        fg = util.brighten(colors.bg, 0.50),
+        bg = Color.from_hex(colors.bg1):brighten(0.05),
+        fg = Color.from_hex(colors.bg1):brighten(0.50),
     }
 
     require("nightfox").setup {
-        fox = "nordfox", -- Which fox style should be applied
-        transparent = false, -- Disable setting the background color
-        alt_nc = false, -- Non current window bg to alt color see `hl-NormalNC`
-        terminal_colors = true, -- Configure the colors used when opening :terminal
-        styles = {
-            comments = "italic",
-            diagnostics = "underline",
-            functions = "italic",
-            keywords = "NONE",
-            strings = "NONE",
-            variables = "bold",
+        options = {
+            compile_path = vim.fn.stdpath "cache" .. "/nightfox", -- Compile path directory
+            compile_file_suffix = "_compiled", -- The suffix compiled file will have
+            dim_inactive = false, -- Dim inactive windows
+            terminal_colors = true, -- Configure the colors used when opening :terminal
+            transparent = false, -- Disable setting the background color
+            styles = {
+                comments = "italic",
+                conditionals = "NONE",
+                constants = "bold",
+                functions = "bold,italic",
+                keywords = "NONE",
+                numbers = "NONE",
+                operators = "NONE",
+                strings = "NONE",
+                types = "NONE",
+                variables = "bold",
+            },
+            inverse = {
+                match_paren = false, -- Enable/Disable inverse highlighting for match parens
+                visual = false, -- Enable/Disable inverse highlighting for visual selection
+                search = false, -- Enable/Disable inverse highlighting for search
+            },
         },
-        inverse = {
-            match_paren = false, -- Enable/Disable inverse highlighting for match parens
-            visual = false, -- Enable/Disable inverse highlighting for visual selection
-            search = false, -- Enable/Disable inverse highlights for search highlights
+        specs = {
+            nordfox = {
+                git = {
+                    changed = colors.blue.base,
+                },
+                syntax = {
+                    builtin0 = colors.magenta.bright,
+                },
+            },
         },
-        colors = { -- Override default colors
-        },
-        hlgroups = { -- Override highlight groups
-            TelescopeBorder = {
-                fg = colors.bg_alt,
-                bg = colors.bg_alt,
-            },
-            TelescopeMatching = {
-                fg = colors.magenta,
-            },
-            TelescopePromptBorder = {
-                fg = custom_colors.bg,
-                bg = custom_colors.bg,
-            },
-            TelescopePromptNormal = {
-                fg = custom_colors.fg,
-                bg = custom_colors.bg,
-            },
-            TelescopePromptPrefix = {
-                fg = colors.magenta,
-                bg = custom_colors.bg,
-            },
-            TelescopePromptTitle = {
-                fg = colors.bg,
-                bg = colors.magenta,
-            },
-            TelescopePreviewTitle = {
-                fg = colors.bg,
-                bg = colors.cyan,
-            },
-            TelescopePreviewNormal = {
-                bg = colors.bg_alt,
-            },
-            TelescopeResultsTitle = {
-                fg = colors.bg,
-                bg = colors.magenta,
-            },
-            TelescopeResultsNormal = {
-                bg = colors.bg_alt,
-            },
-            TelescopeSelectionCaret = {
-                fg = colors.cyan,
-                bg = colors.bg_alt,
-            },
-            CmpItemKindFunction = {
-                fg = colors.magenta,
-            },
-            CmpItemKindMethod = {
-                fg = colors.magenta,
-            },
-            CmpWindowBorder = {
-                fg = colors.bg_alt,
-                bg = colors.bg_alt,
-            },
-            GpsItemKindFunction = {
-                fg = colors.magenta,
-                bg = colors.bg_alt,
-            },
-            GpsItemKindMethod = {
-                fg = colors.magenta,
-                bg = colors.bg_alt,
-            },
-            GpsItemKindProperty = {
-                fg = colors.blue,
-                bg = colors.bg_alt,
-            },
-            GpsItemKindClass = {
-                fg = colors.yellow,
-                bg = colors.bg_alt,
-            },
-            GpsItemKindKeyword = {
-                fg = colors.green,
-                bg = colors.bg_alt,
-            },
-            NvimSurroundHighlightTextObject = {
-                fg = colors.yellow,
-            },
-            FidgetTitle = {
-                fg = colors.cyan,
-            },
-            FidgetTask = {
-                fg = colors.magenta,
-            },
-            CybuCurrentSelection = {
-                fg = colors.magenta,
+        groups = {
+            nordfox = {
+                TelescopeBorder = {
+                    fg = colors.bg0,
+                    bg = colors.bg0,
+                },
+                TelescopeMatching = {
+                    fg = colors.magenta,
+                },
+                TelescopePromptBorder = {
+                    fg = custom_colors.bg1,
+                    bg = custom_colors.bg1,
+                },
+                TelescopePromptNormal = {
+                    fg = custom_colors.fg1,
+                    bg = custom_colors.bg1,
+                },
+                TelescopePromptPrefix = {
+                    fg = colors.magenta,
+                    bg = custom_colors.bg1,
+                },
+                TelescopePromptTitle = {
+                    fg = colors.bg1,
+                    bg = colors.magenta,
+                },
+                TelescopePreviewTitle = {
+                    fg = colors.bg1,
+                    bg = colors.cyan,
+                },
+                TelescopePreviewNormal = {
+                    bg = colors.bg0,
+                },
+                TelescopeResultsTitle = {
+                    fg = colors.bg1,
+                    bg = colors.magenta,
+                },
+                TelescopeResultsNormal = {
+                    bg = colors.bg0,
+                },
+                TelescopeSelectionCaret = {
+                    fg = colors.cyan,
+                    bg = colors.bg0,
+                },
+                CmpItemKindFunction = {
+                    fg = colors.magenta,
+                },
+                CmpItemKindMethod = {
+                    fg = colors.magenta,
+                },
+                CmpWindowBorder = {
+                    fg = colors.bg0,
+                    bg = colors.bg0,
+                },
+                GpsItemKindFunction = {
+                    fg = colors.magenta,
+                    bg = colors.bg0,
+                },
+                GpsItemKindMethod = {
+                    fg = colors.magenta,
+                    bg = colors.bg0,
+                },
+                GpsItemKindProperty = {
+                    fg = colors.blue,
+                    bg = colors.bg0,
+                },
+                GpsItemKindClass = {
+                    fg = colors.yellow,
+                    bg = colors.bg0,
+                },
+                GpsItemKindKeyword = {
+                    fg = colors.green,
+                    bg = colors.bg0,
+                },
+                NvimSurroundHighlightTextObject = {
+                    fg = colors.yellow,
+                },
+                FidgetTitle = {
+                    fg = colors.cyan,
+                },
+                FidgetTask = {
+                    fg = colors.magenta,
+                },
+                CybuCurrentSelection = {
+                    fg = colors.magenta,
+                },
             },
         },
     }
 
-    -- Load the configuration set above and apply the colorscheme
-    require("nightfox").load()
+    vim.cmd.colorscheme "nordfox"
 end
 
 return M

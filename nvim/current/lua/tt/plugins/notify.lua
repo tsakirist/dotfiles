@@ -26,10 +26,10 @@ function M.setup()
     }
 
     --- Set custom highlight groups for notifications
-    local colors = require("tt.plugins.nightfox").colors()
-    vim.api.nvim_set_hl(0, "NotifyINFOBorder", { fg = colors.blue })
-    vim.api.nvim_set_hl(0, "NotifyINFOIcon", { fg = colors.blue })
-    vim.api.nvim_set_hl(0, "NotifyINFOTitle", { fg = colors.blue })
+    -- local colors = require("tt.plugins.nightfox").colors()
+    -- vim.api.nvim_set_hl(0, "NotifyINFOBorder", { fg = colors.blue.base })
+    -- vim.api.nvim_set_hl(0, "NotifyINFOIcon", { fg = colors.blue.base })
+    -- vim.api.nvim_set_hl(0, "NotifyINFOTitle", { fg = colors.blue.base })
 
     --- Set nvim-notify as the default handler for notifications
     vim.notify = require "notify"
