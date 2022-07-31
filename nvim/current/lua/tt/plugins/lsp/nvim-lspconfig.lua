@@ -1,7 +1,6 @@
 local M = {}
 
 local setup_diagnostics = function()
-    local asd
     vim.diagnostic.config {
         underline = true,
         update_in_insert = false,
@@ -182,19 +181,6 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 
 local setup_servers = function()
-    ---@diagnostic disable-next-line: redundant-parameter
-    require("nvim-lsp-installer").setup {
-        -- Automatically detect which servers to install (based on which servers are set up via lspconfig)
-        automatic_installation = true,
-        ui = {
-            icons = {
-                server_installed = "✓",
-                server_pending = "➜",
-                server_uninstalled = "✗",
-            },
-        },
-    }
-
     -- Define the required LSP servers
     local required_servers = {
         "bashls",
@@ -243,91 +229,6 @@ local setup_servers = function()
         end
         server_opts.settings = server_settings[server] or {}
         lsp_config[server].setup(server_opts)
-    end
-end
-
---- Function to install and setup LSP servers automatically
----@deprecated This is the old way of setting up servers via lsp-installer
-local setup_servers_deprecated = function()
-    -- Nvim-lsp-installer configuration
-    local lsp_installer = require "nvim-lsp-installer"
-
-    lsp_installer.settings {
-        ui = {
-            icons = {
-                server_installed = "✓",
-                server_pending = "➜",
-                server_uninstalled = "✗",
-            },
-        },
-    }
-
-    lsp_installer.on_server_ready(function(server)
-        local opts = {
-            on_attach = on_attach,
-            capabilities = capabilities,
-        }
-
-        -- Custom LSP server settings
-        local server_settings = {
-            eslint = {
-                -- Disable showDocumentation from eslint code-actions menu.
-                -- The actual value seems to not be working, just setting it to any value disables the option.
-                settings = {
-                    codeAction = {
-                        showDocumentation = false,
-                    },
-                },
-            },
-            sumneko_lua = {
-                Lua = {
-                    diagnostics = {
-                        globals = {
-                            "vim",
-                        },
-                    },
-                },
-            },
-        }
-
-        -- As an interim solution force clangd to use the same encoding
-        -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
-        if server.name == "clangd" then
-            opts.capabilities.offsetEncoding = { "utf-16" }
-        end
-
-        -- Customize the options that are passed to the server
-        opts.settings = server_settings[server.name] or {}
-
-        server:setup(opts)
-    end)
-
-    -- Define the required LSP servers
-    local required_servers = {
-        "bashls",
-        "clangd",
-        "cmake",
-        "eslint",
-        "pyright",
-        "sumneko_lua",
-        "tsserver",
-    }
-
-    -- Install missing servers
-    for _, server_name in pairs(required_servers) do
-        local ok, server = lsp_installer.get_server(server_name)
-        if ok then
-            if not server:is_installed() then
-                if _G.HeadlessMode() then
-                    -- LSP server installation without UI
-                    vim.notify("Installing lsp_sever: " .. server_name)
-                    server:install()
-                else
-                    -- LSP server installation with UI
-                    lsp_installer.install(server_name)
-                end
-            end
-        end
     end
 end
 

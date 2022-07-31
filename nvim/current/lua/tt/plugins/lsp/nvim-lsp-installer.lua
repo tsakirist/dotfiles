@@ -1,15 +1,15 @@
 local M = {}
 
 function M.setup()
-    require("nvim-lsp-installer").settings {
+    require("nvim-lsp-installer").setup {
         ui = {
             icons = {
                 -- The list icon to use for installed servers
-                server_installed = "",
+                server_installed = "✓",
                 -- The list icon to use for servers that are pending installation
-                server_pending = "",
+                server_pending = "➜",
                 -- The list icon to use for servers that are not installed
-                server_uninstalled = "",
+                server_uninstalled = "✗",
             },
             keymaps = {
                 -- Keymap to expand a server in the UI
@@ -24,6 +24,9 @@ function M.setup()
                 uninstall_server = "d",
             },
         },
+
+        -- Automatically detect which servers to install (based on which servers are set up via lspconfig)
+        automatic_installation = true,
 
         -- The directory in which to install all servers
         install_root_dir = vim.fn.stdpath "data" .. "/lsp_servers",
@@ -40,7 +43,7 @@ function M.setup()
 
         -- Limit for the maximum amount of servers to be installed at the same time. Once this limit is reached, any further
         -- servers that are requested to be installed will be put in a queue
-        max_concurrent_installers = 4,
+        max_concurrent_installers = 8,
     }
 end
 
