@@ -67,19 +67,19 @@ local diagnostics = {
 }
 
 local misc = {
-    Arrow = "➜",
     ArrowClosed = "",
     ArrowOpen = "",
+    ArrowRight = "➜",
     BigCircle = " ",
     BigUnfilledCircle = " ",
     Branch = "",
     Bulb = "",
     Bullets = "ﯟ",
     Calendar = "",
-    Check = "✓",
+    CheckMark = "✓",
     ChevronRight = ">",
     Circle = " ",
-    Close = "✗",
+    XMark = "✗",
     LeftFilledArrow = "",
     LeftUnfilledArrow = "",
     Owl = "",

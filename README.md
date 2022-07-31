@@ -36,9 +36,9 @@ The configuration files will be installed to the default configuration directory
 │       │   ├── lsp/
 │       │   │   ├── goto-preview.lua
 │       │   │   ├── lsp-signature.lua
+│       │   │   ├── mason.lua
 │       │   │   ├── null-ls.lua
 │       │   │   ├── nvim-lspconfig.lua
-│       │   │   ├── nvim-lsp-installer.lua
 │       │   │   └── vista.lua
 │       │   ├── bufferline.lua
 │       │   ├── comment.lua

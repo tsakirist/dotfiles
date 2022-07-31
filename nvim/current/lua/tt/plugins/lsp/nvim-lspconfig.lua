@@ -1,6 +1,6 @@
 local M = {}
 
-local setup_diagnostics = function()
+local function setup_diagnostics()
     vim.diagnostic.config {
         underline = true,
         update_in_insert = false,
@@ -67,13 +67,13 @@ local setup_diagnostics = function()
     })
 end
 
-local setup_hover = function()
+local function setup_hover()
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = "rounded",
     })
 end
 
-local setup_definition = function()
+local function setup_definition()
     -- Make LSP handler for definitions to jump directly to the first available result
     vim.lsp.handlers["textDocument/definition"] = function(err, result, ctx, _)
         local title = "LSP definition"
@@ -94,13 +94,13 @@ local setup_definition = function()
     end
 end
 
-local setup_handlers = function()
+local function setup_handlers()
     setup_diagnostics()
     setup_hover()
     setup_definition()
 end
 
-local setup_highlighting = function(client, bufnr)
+local function setup_highlighting(client, bufnr)
     if client.server_capabilities.documentHighlightProvider then
         local lsp_highlight_augroup = vim.api.nvim_create_augroup("_lsp_document_highlight", {
             clear = true,
@@ -118,13 +118,13 @@ local setup_highlighting = function(client, bufnr)
     end
 end
 
-local setup_formatting = function(client)
+local function setup_formatting(client)
     -- Disable default LSP formatting as this will be handled by 'null-ls' LSP
     client.server_capabilities.documentFormattingProvider = false
     client.server_capabilities.documentRangeFormattingProvider = false
 end
 
-local setup_keymappings = function(_, bufnr)
+local function setup_keymappings(_, bufnr)
     local function buf_set_keymap(...)
         vim.api.nvim_buf_set_keymap(bufnr, ...)
     end
@@ -155,7 +155,7 @@ local setup_keymappings = function(_, bufnr)
     end
 end
 
-local on_attach = function(client, bufnr)
+local function on_attach(client, bufnr)
     setup_keymappings(client, bufnr)
     setup_formatting(client)
     setup_highlighting(client, bufnr)
@@ -180,7 +180,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
     },
 }
 
-local setup_servers = function()
+local function setup_servers()
     -- Define the required LSP servers
     local required_servers = {
         "bashls",
@@ -215,6 +215,15 @@ local setup_servers = function()
                         "vim",
                     },
                 },
+                hint = {
+                    enable = true,
+                    arrayIndex = "Enable", -- "Enable", "Auto", "Disable"
+                    await = true,
+                    paramName = "All", -- "All", "Literal", "Disable"
+                    paramType = true,
+                    semicolon = "All", -- "All", "SameLine", "Disable"
+                    setType = true,
+                },
             },
         },
     }
@@ -232,13 +241,20 @@ local setup_servers = function()
     end
 end
 
+local function setup_mason_lspconfig()
+    require("mason-lspconfig").setup {
+        -- Automatic instllation of servers that are configured via lspconfig
+        automatic_installation = true,
+    }
+end
+
 function M.setup()
+    setup_mason_lspconfig()
     setup_handlers()
     setup_servers()
 end
 
 local utils = require "tt.utils"
 utils.map("n", "<leader>li", "<Cmd>LspInfo<CR>")
-utils.map("n", "<leader>lI", "<Cmd>LspInstallInfo<CR>")
 
 return M
