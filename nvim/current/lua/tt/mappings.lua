@@ -16,8 +16,10 @@ utils.map("n", "<leader>bd", "<Cmd>bdelete<CR>")
 -- Close all buffers except the current one
 utils.map("n", "<leader>bo", "<Cmd>%bd<Bar>e#<CR>")
 
--- List buffers and prepend :b on the cmd line
+-- List buffers and open them either on the same window or another
 utils.map("n", "<leader>bf", ":ls<CR>:b<Space>", { silent = false })
+utils.map("n", "<leader>sb", ":ls<CR>:sb<Space>", { silent = false })
+utils.map("n", "<leader>vb", ":ls<CR>:vert sb<Space>", { silent = false })
 
 -- Search within buffers and send results in the qflist
 utils.map(
