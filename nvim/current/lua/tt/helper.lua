@@ -23,16 +23,12 @@ function M.zoomToggleSameTab()
     end
 end
 
---- Function to zoom-in and zoom-out of the given window in a new tab
---- that also retains cursor position when zooming-in and zooming-out.
-function M.zoomToggleNewTab()
+--- Function to zoom-in and zoom-out of the given window in a new tab.
+local function zoomToggleNewTab()
     -- Do nothing if this is the only window in the first tab
     if vim.fn.winnr "$" == 1 and vim.fn.tabpagenr "$" == 1 then
         return
     end
-
-    -- Get the last cursor position before opening the new tab
-    local last_cursor = vim.api.nvim_win_get_cursor(0)
 
     if vim.fn.winnr "$" == 1 then
         -- Close the tab only if it's opened by this function
@@ -45,9 +41,12 @@ function M.zoomToggleNewTab()
         -- Set a tab local variable indicating that we're in a "zoomed" tab
         vim.api.nvim_tabpage_set_var(0, "zoomedTab", true)
     end
+end
 
-    -- Restore the cursor position
-    vim.api.nvim_win_set_cursor(0, last_cursor)
+--- Function to zoom-in and zoom-out of the given window in a new tab,
+--- whilst also preserving the cursor position.
+function M.zoomToggleNewTab()
+    M.preserve_cursor_position(zoomToggleNewTab)
 end
 
 --- Function to trim trailing whitespace.
@@ -60,14 +59,14 @@ end
 --- Function to copy the filename according to the supplied modifier
 --- to the system's clipboard.
 ---@param modifier string: The modifier to use for the filename
-function M.filename_to_clipboard(modifier)
+function M.copy_filename_to_clipboard(modifier)
     local filename = vim.fn.expand("%:" .. modifier)
     if filename ~= "" then
         vim.fn.setreg("+", filename)
         vim.notify(
             ("Copied %s to system clipboard!"):format(filename),
             vim.log.levels.INFO,
-            { title = "Filename to clipboard" }
+            { title = "Copy filename to clipboard" }
         )
     end
 end
@@ -86,6 +85,23 @@ function M.smart_quit()
     else
         vim.cmd.quit { bang = true }
     end
+end
+
+--- Preserves cursor position upon invocation of the supplied cmd.
+---@param arg string|function: The command|function to execute.
+function M.preserve_cursor_position(arg)
+    local arg_type = type(arg)
+    assert(
+        arg_type == "string" or arg_type == "function",
+        string.format("Argument must be either a 'string' or a 'function', you supplied '%s'.", arg_type)
+    )
+    local last_cursor_pos = vim.api.nvim_win_get_cursor(0)
+    if type(arg) == "function" then
+        arg()
+    elseif type(arg) == "string" then
+        vim.cmd(arg)
+    end
+    vim.api.nvim_win_set_cursor(0, last_cursor_pos)
 end
 
 return M

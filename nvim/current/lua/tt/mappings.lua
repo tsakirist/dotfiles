@@ -13,8 +13,11 @@ utils.map("n", "[b", "<Cmd>bprevious<CR>")
 -- Close the current buffer
 utils.map("n", "<leader>bd", "<Cmd>bdelete<CR>")
 
--- Close all buffers except the current one
-utils.map("n", "<leader>bo", "<Cmd>%bd<Bar>e#<CR>")
+-- Close all buffers except the current one and also keep cursor position intact
+utils.map("n", "<leader>bo", function()
+    local cmd = "%bd|e#|bd#"
+    require("tt.helper").preserve_cursor_position(cmd)
+end, { desc = "Keep only the current buffer open" })
 
 -- List buffers and open them either on the same window or another
 utils.map("n", "<leader>bf", ":ls<CR>:b<Space>", { silent = false })
@@ -126,13 +129,25 @@ utils.map("n", "<leader>o", "o<Esc>kO<Esc>j")
 utils.map({ "n", "x" }, "ga", "<Plug>(EasyAlign)")
 utils.map({ "n", "x" }, "<leader>ga", "<Plug>(LiveEasyAlign)")
 
--- Zoom toggle a buffer in a window in a new tab
-utils.map("n", "<leader>z", "<Cmd>lua require'tt.helper'.zoomToggleNewTab()<CR>")
-
--- Copy the current filename and the absolute path of the file to the clipboard
-utils.map("n", "<leader>ct", "<Cmd>lua require'tt.helper'.filename_to_clipboard 't'<CR>")
-utils.map("n", "<leader>cp", "<Cmd>lua require'tt.helper'.filename_to_clipboard 'p'<CR>")
+-- Zoom toggle a buffer in a new tab
+utils.map("n", "<leader>z", function()
+    require("tt.helper").zoomToggleNewTab()
+end, { desc = "Zoom toggle a buffer in a new tab" })
 
 -- Make `n|N` to also center the screen
 utils.map("n", "n", "nzzzv")
 utils.map("n", "N", "Nzzzv")
+
+-- Copy the absolute filename to the clipboard
+utils.map("n", "<leader>cp", function()
+    require("tt.helper").copy_filename_to_clipboard "p"
+end, { desc = "Copy absoulte path of file to clipboard" })
+
+-- Copy the filename after applying the filename-modifer from ui.input
+utils.map("n", "<leader>cP", function()
+    vim.ui.input({ prompt = "Enter filename modifier: ", default = "p" }, function(input)
+        if input then
+            require("tt.helper").copy_filename_to_clipboard(input)
+        end
+    end)
+end, { desc = "Copy current filename according to the supplied modifier" })
