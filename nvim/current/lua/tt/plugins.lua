@@ -34,7 +34,27 @@ return require("packer").startup {
         }
 
         -- Improve the default vim.ui interfaces
-        use { "stevearc/dressing.nvim" }
+        use {
+            "stevearc/dressing.nvim",
+            event = "BufReadPre",
+            config = function()
+                require("dressing").setup {
+                    input = {
+                        -- Make ui.input centered by default
+                        relative = "editor",
+                        -- Override ui.input when renaming to be relative to cursor
+                        get_config = function(opts)
+                            local is_renaming = opts.prompt == "New Name: "
+                            if is_renaming then
+                                return {
+                                    relative = "cursor",
+                                }
+                            end
+                        end,
+                    },
+                }
+            end,
+        }
 
         -- Add file type icons to various plugins
         use { "kyazdani42/nvim-web-devicons" }
