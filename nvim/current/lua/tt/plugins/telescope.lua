@@ -156,11 +156,7 @@ function M.find_in_nvim_config()
 end
 
 --- Defines a custom picker for selection sessions made with Startify session maanagement.
---- TODO: Convert it to telescope extension, add a telescope folder.
 function M.find_sessions(opts)
-    --- Optional options that can be passed to the picker and finder.
-    opts = opts or {}
-
     --- Gets the current session name from the picker, using regex.
     ---@return string filename
     local function get_session_name()
@@ -180,7 +176,7 @@ function M.find_sessions(opts)
     --- Calls 'SDelete' on the selected session.
     local function delete_session()
         local filename = get_session_name()
-        vim.cmd.SDelete(filename)
+        vim.cmd.SDelete { filename, bang = true }
     end
 
     --- Path where Startify stores saved sessions.
@@ -195,14 +191,17 @@ function M.find_sessions(opts)
         sessions_path,
     }
 
+    --- Optional options that can be passed to the picker and finder.
+    opts = opts or {}
+
     --- The theme to use for the finder.
     opts = themes.get_dropdown()
 
-    --- Use as the cwd, the sessions_path directory, so that the maker can make
-    --- use of it, when populating the session entries.
+    --- Use as the cwd the sessions_path directory, so that the maker can make
+    --- use of it when populating the session entries.
     opts.cwd = sessions_path
 
-    --- Use the appropriate entry_maker for the results
+    --- Use the appropriate entry_maker for the results.
     opts.entry_maker = opts.entry_maker or make_entry.gen_from_file(opts)
 
     --- Picker that will allow us to select a session to load or delete.
@@ -211,9 +210,14 @@ function M.find_sessions(opts)
         results_title = sessions_path,
         finder = finders.new_oneshot_job(find_command, opts),
         sorter = config.file_sorter(opts),
-        attach_mappings = function(_, map)
+        attach_mappings = function(prompt_bufnr, map)
             actions.select_default:replace(load_session)
-            map("n", "d", delete_session)
+            map("n", "d", function()
+                delete_session()
+                --- Refresh the UI after session deletion.
+                local current_picker = actions_state.get_current_picker(prompt_bufnr)
+                current_picker:refresh(finders.new_oneshot_job(find_command, opts))
+            end)
             return true
         end,
     }):find()
