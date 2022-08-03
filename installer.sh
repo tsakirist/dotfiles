@@ -222,7 +222,7 @@ function _zsh_p10k() {
 function _zsh_forgit() {
     _check_file zsh/forgit.zsh
     _print s ".forgit.zsh"
-    cp -v --backup=numbered zsh/forgit.zsh ~/.forgit.zsh
+    ln -sv --backup=numbered "$(pwd)/zsh/forgit.zsh" "$HOME"/.forgit.zsh
 }
 
 function _zsh_config() {
