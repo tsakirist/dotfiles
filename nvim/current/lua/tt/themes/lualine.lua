@@ -11,7 +11,7 @@ function M.setup()
     require("lualine").setup {
         options = {
             icons_enabled = true,
-            theme = "nightfox",
+            theme = "nordfox",
             component_separators = {
                 left = icons.misc.RightUnfilledArrow,
                 right = icons.misc.LeftUnfilledArrow,
