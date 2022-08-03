@@ -427,9 +427,6 @@ return require("packer").startup {
             end,
         }
 
-        -- Editor config support
-        use { "gpanders/editorconfig.nvim" }
-
         -- Surround mappings for enclosed text
         use {
             "kylechui/nvim-surround",
@@ -437,54 +434,6 @@ return require("packer").startup {
             config = function()
                 require("tt.plugins.nvim-surround").setup()
             end,
-        }
-
-        -- Text alignment done easiliy
-        use {
-            "junegunn/vim-easy-align",
-            event = "BufRead",
-            keys = {
-                "<Plug>(EasyAlign)",
-                "<Plug>(LiveEasyAlign)",
-            },
-        }
-
-        -- Easiliy resize windows
-        use { "sedm0784/vim-resize-mode", event = "BufRead" }
-
-        -- Vim wrapper for UNIX shell commands
-        use {
-            "tpope/vim-eunuch",
-            cmd = {
-                "Cfind",
-                "Chmod",
-                "Clocate",
-                "Delete",
-                "Lfind",
-                "Llocate",
-                "Mkdir",
-                "Move",
-                "Rename",
-                "SudoEdit",
-                "SudoWrite",
-            },
-        }
-
-        -- Markdown extension, mainly used for conceallevel
-        use {
-            "preservim/vim-markdown",
-            config = function()
-                vim.g.vim_markdown_conceal = 1
-                vim.g.vim_markdown_conceal_code_blocks = 1
-                vim.g.vim_markdown_no_default_key_mappings = 1
-                vim.g.vim_markdown_folding_disabled = 1
-            end,
-        }
-
-        -- Draw ASCII diagrams
-        use {
-            "jbyuki/venn.nvim",
-            event = "BufRead",
         }
 
         -- Easily view/open URLs from a variety of contexts (bufer, packer, ...)
@@ -516,6 +465,54 @@ return require("packer").startup {
                 require("tt.plugins.hydra").setup()
             end,
         }
+
+        -- Text alignment done easiliy
+        use {
+            "junegunn/vim-easy-align",
+            event = "BufRead",
+            keys = {
+                "<Plug>(EasyAlign)",
+                "<Plug>(LiveEasyAlign)",
+            },
+        }
+
+        -- Vim wrapper for UNIX shell commands
+        use {
+            "tpope/vim-eunuch",
+            cmd = {
+                "Cfind",
+                "Chmod",
+                "Clocate",
+                "Delete",
+                "Lfind",
+                "Llocate",
+                "Mkdir",
+                "Move",
+                "Rename",
+                "SudoEdit",
+                "SudoWrite",
+            },
+        }
+
+        -- Markdown extension, mainly used for conceallevel
+        use {
+            "preservim/vim-markdown",
+            config = function()
+                vim.g.vim_markdown_conceal = 1
+                vim.g.vim_markdown_conceal_code_blocks = 1
+                vim.g.vim_markdown_no_default_key_mappings = 1
+                vim.g.vim_markdown_folding_disabled = 1
+            end,
+        }
+
+        -- Editor config support
+        use { "gpanders/editorconfig.nvim" }
+
+        -- Easiliy resize windows
+        use { "sedm0784/vim-resize-mode", event = "BufRead" }
+
+        -- Draw ASCII diagrams
+        use { "jbyuki/venn.nvim", event = "BufRead" }
 
         -- Measure the startup-time of neovim
         use { "dstein64/vim-startuptime", cmd = "StartupTime" }
