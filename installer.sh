@@ -67,6 +67,10 @@ function _check_command() {
     fi
 }
 
+function _create_dir_if_not_exists() {
+    [ ! -d "$1" ] && mkdir -p "$1"
+}
+
 function _print_cmd_version() {
     "$1" --version | grep -Po "(\d+\.)?(\d+\.)(\d+)?( ?\(\w+\))?"
 }
@@ -287,7 +291,7 @@ function _nvim_config() {
     _check_nvim_config_requirements
 
     # Create the neovim config folder if it's not there
-    [ ! -d "$nvim_config_path" ] && mkdir -p "$nvim_config_path"
+    _create_dir_if_not_exists "$nvim_config_path"
 
     # Make symbolic links to the whole nvim directory in the target directory
     # This will force copy the soft-links, thus re-writing the existing ones
@@ -410,6 +414,14 @@ function _gnome_sushi() {
     _install gnome-sushi
 }
 
+function _bat_config() {
+    _check_file bat/config
+    _print s "bat config"
+    local destination="$HOME/.config/bat"
+    _create_dir_if_not_exists "$destination"
+    ln -sv --backup=numbered "$(pwd)/bat/config" "$destination/config"
+}
+
 function _kitty() {
     _print i "kity" ": the fast, featureful, GPU based terminal emulator"
     curl -sSL https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n > /dev/null 2>&1
@@ -428,7 +440,7 @@ function _kitty_config() {
     _check_file kitty/kitty.png
     _print s "kitty.conf"
     local destination="$HOME/.config/kitty"
-    [ ! -d "$destination" ] && mkdir -p "$destination"
+    _create_dir_if_not_exists "$destination"
     ln -sv --backup=numbered "$(pwd)/kitty/kitty.conf" "$destination/kitty.conf"
     cp -v kitty/*.png "$destination/"
 }
@@ -457,11 +469,10 @@ function _set_wallpaper() {
 
 function _install_fonts_from_dir() {
     local fonts_dir="fonts"
-    local fonts_dest="$HOME/.local/share/fonts/"
-    _check_dir $fonts_dir
-    [ ! -d "$fonts_dest" ] && mkdir -p "$fonts_dest"
+    local fonts_destination="$HOME/.local/share/fonts/"
+    _create_dir_if_not_exists "$fonts_destination"
     for font in "$fonts_dir"/*.ttf; do
-        cp -v "$font" "$fonts_dest"
+        cp -v "$font" "$fonts_destination"
     done
     fc-cache -f
 }
@@ -574,7 +585,8 @@ pkgs=(
     "    kitty: the fast, featureful, GPU based terminal emulator"
     "    kitty configuration"
     "    kitty themes"
-    "    gitconfig"
+    "    git config"
+    "    bat config"
     "    fzf: fuzzy finder"
     "    fzf configuration"
     "    fd: improved version of find"
@@ -616,6 +628,7 @@ pkgs_functions=(
     _kitty_config
     _kitty_themes
     _git_config
+    _bat_config
     _fzf
     _fzf_config
     _fd
