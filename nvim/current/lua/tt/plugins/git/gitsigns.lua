@@ -68,6 +68,8 @@ function M.setup()
         },
         -- Setup keymappings
         on_attach = function(bufnr)
+            local gitsigns = package.loaded.gitsigns
+
             local function map(mode, lhs, rhs, opts)
                 opts = opts or {}
                 opts.buffer = bufnr
@@ -81,31 +83,53 @@ function M.setup()
             end
 
             -- Move between hunks
-            map("n", "<leader>gj", "&diff ? ']c' : '<Cmd>Gitsigns next_hunk<CR>'", { expr = true })
-            map("n", "<leader>gk", "&diff ? '[c' : '<Cmd>Gitsigns prev_hunk<CR>'", { expr = true })
+            map("n", "<leader>gj", function()
+                if vim.wo.diff then
+                    return "]c"
+                end
+                vim.schedule(function()
+                    gitsigns.next_hunk()
+                end)
+                return "<Ignore>"
+            end, { expr = true, desc = "Next hunk" })
+
+            map("n", "<leader>gk", function()
+                if vim.wo.diff then
+                    return "[c"
+                end
+                vim.schedule(function()
+                    gitsigns.prev_hunk()
+                end)
+                return "<Ignore>"
+            end, { expr = true, desc = "Previous hunk" })
 
             -- Hunk specific
-            map("n", "<leader>hs", "<Cmd>Gitsigns stage_hunk<CR>")
-            map("n", "<leader>hr", "<Cmd>Gitsigns reset_hunk<CR>")
-            map("n", "<leader>hu", "<Cmd>Gitsigns undo_stage_hunk<CR>")
-            map("n", "<leader>hp", "<Cmd>Gitsigns preview_hunk<CR>")
-            map("n", "<leader>hb", "<Cmd>Gitsigns blame_line{full=true}<CR>")
-            map("n", "<leader>hS", "<Cmd>Gitsigns stage_buffer<CR>")
-            map("n", "<leader>hR", "<Cmd>Gitsigns reset_buffer<CR>")
-            map("n", "<leader>hU", "<Cmd>Gitsigns reset_buffer_index<CR>")
+            map("n", "<leader>hs", gitsigns.stage_hunk)
+            map("n", "<leader>hr", gitsigns.reset_hunk)
+            map("n", "<leader>hu", gitsigns.undo_stage_hunk)
+            map("n", "<leader>hp", gitsigns.preview_hunk)
+            map("n", "<leader>hb", gitsigns.blame_line)
+
+            -- Buffer specific
+            map("n", "<leader>hS", gitsigns.stage_buffer)
+            map("n", "<leader>hR", gitsigns.reset_buffer)
+            map("n", "<leader>hU", gitsigns.reset_buffer_index)
+            map("n", ",leader>hD", function()
+                gitsigns.diffthis "~"
+            end)
 
             -- Toggling options
-            map("n", "<leader>gb", "<Cmd>Gitsigns toggle_current_line_blame<CR>")
-            map("n", "<leader>gh", "<Cmd>Gitsigns toggle_linehl<CR>")
-            map("n", "<leader>gn", "<Cmd>Gitsigns toggle_numhl<CR>")
-            map("n", "<leader>gs", "<Cmd>Gitsigns toggle_signs<CR>")
-            map("n", "<leader>gw", "<Cmd>Gitsigns toggle_word_diff<CR>")
-            map("n", "<leader>gd", "<Cmd>Gitsigns toggle_deleted<CR>")
+            map("n", "<leader>gb", gitsigns.toggle_current_line_blame)
+            map("n", "<leader>gh", gitsigns.toggle_linehl)
+            map("n", "<leader>gn", gitsigns.toggle_numhl)
+            map("n", "<leader>gs", gitsigns.toggle_signs)
+            map("n", "<leader>gw", gitsigns.toggle_word_diff)
+            map("n", "<leader>gd", gitsigns.toggle_deleted)
 
             -- Text objects
             map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
 
-            -- Stage/unstage/reset visually selected hunks
+            -- Stage/unstage/reset visually selected partial hunks
             map("v", "<leader>hs", visual_operation "stage_hunk", {
                 desc = "Gitsigns stage selected hunk(s)",
             })
