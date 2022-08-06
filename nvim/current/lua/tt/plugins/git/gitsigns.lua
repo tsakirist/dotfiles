@@ -114,9 +114,9 @@ function M.setup()
             map("n", "<leader>hS", gitsigns.stage_buffer)
             map("n", "<leader>hR", gitsigns.reset_buffer)
             map("n", "<leader>hU", gitsigns.reset_buffer_index)
-            map("n", ",leader>hD", function()
+            map("n", "<leader>hD", function()
                 gitsigns.diffthis "~"
-            end)
+            end, { desc = "Perform a vimdiff on the given file" })
 
             -- Toggling options
             map("n", "<leader>gb", gitsigns.toggle_current_line_blame)
