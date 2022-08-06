@@ -1,12 +1,9 @@
 local M = {}
 
----Returns the colors that are used by the current theme.
----@return table: The color table used by the theme.
-function M.colors()
-    return require("nightfox.palette").load "nordfox"
-end
-
 function M.setup()
+    --- Set the currently used theme in the Module
+    M.theme = "nordfox"
+
     local Color = require "nightfox.lib.color"
     local colors = M.colors()
 
@@ -139,7 +136,13 @@ function M.setup()
         },
     }
 
-    vim.cmd.colorscheme "nordfox"
+    vim.cmd.colorscheme(M.theme)
+end
+
+--- Returns the colors that are used by the current theme.
+---@return table: The color table used by the theme.
+function M.colors()
+    return require("nightfox.palette").load(M.theme)
 end
 
 return M
