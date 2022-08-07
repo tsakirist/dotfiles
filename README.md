@@ -1,14 +1,9 @@
-# dotfiles
+![dotfiles](https://user-images.githubusercontent.com/20475201/183306351-3612ab8c-a179-423e-89d6-36c145aea9cf.png)
 
-## Description
+<h2 align="center">Description</h2>
 
 This repository holds all the necessary files needed to install my configurations and settings on a new Linux based
 distribution.
-
-There are currently two branches:
-
-* **master** : Ubuntu  -- Debian based with Gnome desktop environment
-* **manjaro**: Manjaro -- Arch based with Gnome desktop environment (@deprecated)
 
 ### Instructions
 
@@ -16,12 +11,15 @@ There are currently two branches:
 * Give executable rights to the installer if needed with `chmod +x installer.sh`
 * Start the installer `./installer.sh`
 
-## Neovim
+<h2 align="center">Neovim</h2>
+
+![Neovim setup](https://user-images.githubusercontent.com/20475201/183304528-10251a43-183a-4181-a08d-cf9d311f2ac8.png)
+![Neovim telescope](https://user-images.githubusercontent.com/20475201/183304535-d2516144-4abe-4920-84fe-e3039c295291.png)
 
 The configuration files will be installed to the default configuration directory of **neovim**, located at:
 `${HOME}/.config/nvim`
 
-### Directory Structure
+<h3 align="center">Directory Structure</h3>
 
 ```bash
 ./
@@ -78,3 +76,12 @@ The configuration files will be installed to the default configuration directory
 │       └── utils.lua
 └── init.lua
 ```
+
+<h2 align="center">Installer</h2>
+
+The installer is a text-based user-interface (TUI) made with [`whiptail`](https://linux.die.net/man/1/whiptail) in bash.
+It allows for easy installation of the commonly used packages/binaries that I use in my setup.
+
+| Intro screen | Selective installation |
+|:-----------------------:|:--------------------------------:|
+| ![Installer intro screen](https://user-images.githubusercontent.com/20475201/183304609-1e02a470-c541-4d6c-97ff-f5f99b64327d.png) | ![Installer selective installation](https://user-images.githubusercontent.com/20475201/183304610-a45c9482-c59b-4513-89fe-ce51ddc0c6f7.png) |
