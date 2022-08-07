@@ -298,10 +298,10 @@ function _nvim_config() {
     cp -arsf "$(pwd)/nvim/current/." "$nvim_config_path"
 
     # Make sure to install packer if needed
-    /usr/bin/nvim --headless -c "lua require('tt.plugins.packer').packer_bootstrap()" -c "quitall"
+    /usr/bin/env nvim --headless -c "lua require('tt.plugins.packer').packer_bootstrap()" -c "quitall"
 
     # Install all plugins and generate compiled loader file
-    /usr/bin/nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
+    /usr/bin/env nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
 
     # Output a newline after Packer:Complete message
     echo
