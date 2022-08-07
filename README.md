@@ -1,4 +1,4 @@
-![dotfiles](https://user-images.githubusercontent.com/20475201/183306351-3612ab8c-a179-423e-89d6-36c145aea9cf.png)
+![dotfiles](https://user-images.githubusercontent.com/20475201/183306482-caa3360c-d357-4525-b429-a468fb932502.png)
 
 <h2 align="center">Description</h2>
 
@@ -82,6 +82,6 @@ The configuration files will be installed to the default configuration directory
 The installer is a text-based user-interface (TUI) made with [`whiptail`](https://linux.die.net/man/1/whiptail) in bash.
 It allows for easy installation of the commonly used packages/binaries that I use in my setup.
 
-| Intro screen | Selective installation |
+| | |
 |:-----------------------:|:--------------------------------:|
 | ![Installer intro screen](https://user-images.githubusercontent.com/20475201/183304609-1e02a470-c541-4d6c-97ff-f5f99b64327d.png) | ![Installer selective installation](https://user-images.githubusercontent.com/20475201/183304610-a45c9482-c59b-4513-89fe-ce51ddc0c6f7.png) |
