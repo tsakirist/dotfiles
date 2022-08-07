@@ -39,6 +39,7 @@ return require("packer").startup {
             config = function()
                 require("dressing").setup {
                     input = {
+                        winhighlight = "NormalFloat:DressingInput,FloatBorder:DressingBorder",
                         -- Make ui.input centered by default
                         relative = "editor",
                         -- Override ui.input when renaming to be relative to cursor

@@ -4,13 +4,7 @@ function M.setup()
     --- Set the currently used theme in the Module
     M.theme = "nordfox"
 
-    local Color = require "nightfox.lib.color"
     local colors = M.colors()
-
-    local custom_colors = {
-        bg = Color.from_hex(colors.bg1):brighten(0.05),
-        fg = Color.from_hex(colors.bg1):brighten(0.50),
-    }
 
     require("nightfox").setup {
         options = {
@@ -49,47 +43,6 @@ function M.setup()
         },
         groups = {
             nordfox = {
-                TelescopeBorder = {
-                    fg = colors.bg0,
-                    bg = colors.bg0,
-                },
-                TelescopeMatching = {
-                    fg = colors.magenta,
-                },
-                TelescopePromptBorder = {
-                    fg = custom_colors.bg1,
-                    bg = custom_colors.bg1,
-                },
-                TelescopePromptNormal = {
-                    fg = custom_colors.fg1,
-                    bg = custom_colors.bg1,
-                },
-                TelescopePromptPrefix = {
-                    fg = colors.magenta,
-                    bg = custom_colors.bg1,
-                },
-                TelescopePromptTitle = {
-                    fg = colors.bg1,
-                    bg = colors.magenta,
-                },
-                TelescopePreviewTitle = {
-                    fg = colors.bg1,
-                    bg = colors.cyan,
-                },
-                TelescopePreviewNormal = {
-                    bg = colors.bg0,
-                },
-                TelescopeResultsTitle = {
-                    fg = colors.bg1,
-                    bg = colors.magenta,
-                },
-                TelescopeResultsNormal = {
-                    bg = colors.bg0,
-                },
-                TelescopeSelectionCaret = {
-                    fg = colors.cyan,
-                    bg = colors.bg0,
-                },
                 CmpItemKindFunction = {
                     fg = colors.magenta,
                 },
@@ -100,8 +53,33 @@ function M.setup()
                     fg = colors.bg0,
                     bg = colors.bg0,
                 },
+                CybuCurrentSelection = {
+                    fg = colors.magenta,
+                },
+                DressingBorder = {
+                    fg = colors.blue,
+                    bg = colors.bg1,
+                },
+                DressingInput = {
+                    fg = colors.magenta,
+                    bg = colors.bg1,
+                },
+                FidgetTask = {
+                    fg = colors.magenta,
+                },
+                FidgetTitle = {
+                    fg = colors.cyan,
+                },
+                GpsItemKindClass = {
+                    fg = colors.yellow,
+                    bg = colors.bg0,
+                },
                 GpsItemKindFunction = {
                     fg = colors.magenta,
+                    bg = colors.bg0,
+                },
+                GpsItemKindKeyword = {
+                    fg = colors.green,
                     bg = colors.bg0,
                 },
                 GpsItemKindMethod = {
@@ -112,25 +90,49 @@ function M.setup()
                     fg = colors.blue,
                     bg = colors.bg0,
                 },
-                GpsItemKindClass = {
-                    fg = colors.yellow,
-                    bg = colors.bg0,
-                },
-                GpsItemKindKeyword = {
-                    fg = colors.green,
-                    bg = colors.bg0,
-                },
                 NvimSurroundHighlightTextObject = {
                     fg = colors.yellow,
                 },
-                FidgetTitle = {
+                TelescopeBorder = {
+                    fg = colors.bg0,
+                    bg = colors.bg0,
+                },
+                TelescopeMatching = {
+                    fg = colors.magenta,
+                },
+                TelescopePreviewNormal = {
+                    bg = colors.bg0,
+                },
+                TelescopePreviewTitle = {
+                    fg = colors.bg1,
+                    bg = colors.cyan,
+                },
+                TelescopePromptBorder = {
+                    fg = colors.bg0,
+                    bg = colors.bg0,
+                },
+                TelescopePromptNormal = {
+                    fg = colors.fg1,
+                    bg = colors.bg1,
+                },
+                TelescopePromptPrefix = {
+                    fg = colors.magenta,
+                    bg = colors.bg1,
+                },
+                TelescopePromptTitle = {
+                    fg = colors.bg1,
+                    bg = colors.magenta,
+                },
+                TelescopeResultsNormal = {
+                    bg = colors.bg0,
+                },
+                TelescopeResultsTitle = {
+                    fg = colors.bg1,
+                    bg = colors.magenta,
+                },
+                TelescopeSelectionCaret = {
                     fg = colors.cyan,
-                },
-                FidgetTask = {
-                    fg = colors.magenta,
-                },
-                CybuCurrentSelection = {
-                    fg = colors.magenta,
+                    bg = colors.bg0,
                 },
             },
         },
