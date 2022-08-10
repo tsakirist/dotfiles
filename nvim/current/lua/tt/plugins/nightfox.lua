@@ -8,10 +8,11 @@ function M.setup()
     local spec = M.spec()
 
     local Color = require "nightfox.lib.color"
+    local utils = require "tt.utils"
 
     require("nightfox").setup {
         options = {
-            compile_path = vim.fn.stdpath "cache" .. "/nightfox", -- Compile path directory
+            compile_path = utils.join_paths(vim.fn.stdpath "cache", "nightfox"), -- Compile path directory
             compile_file_suffix = "_compiled", -- The suffix compiled file will have
             dim_inactive = false, -- Dim inactive windows
             terminal_colors = true, -- Configure the colors used when opening :terminal

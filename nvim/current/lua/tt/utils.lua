@@ -13,4 +13,20 @@ function M.map(mode, lhs, rhs, opts)
     vim.keymap.set(mode, lhs, rhs, options)
 end
 
+--- Returns the appropriate file separator according to the current OS.
+---@return string: The appropriate file separator.
+function M.file_separator()
+    if jit and jit.os == "Windows" then
+        return "\\"
+    end
+    return "/"
+end
+
+--- Joins the passed arguments with the appropriate file separator.
+---@vararg any: The paths to join.
+---@return string: The final joined path.
+function M.join_paths(...)
+    return table.concat({ ... }, M.file_separator())
+end
+
 return M

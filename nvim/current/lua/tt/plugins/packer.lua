@@ -4,17 +4,17 @@ local M = {}
 --- This will download/clone packer.nvim in case it doesn't exist.
 ---@returns a value indicating succesful installation/bootstrapping.
 function M.packer_bootstrap()
-    local fn = vim.fn
-    local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
+    local utils = require "tt.utils"
+    local install_path = utils.join_paths(vim.fn.stdpath "data", "site", "pack", "packer", "start", "packer.nvim")
     local packer_bootstrap = nil
 
-    if fn.empty(fn.glob(install_path)) > 0 then
+    if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
         vim.notify(
             string.format("Packer is not currently installed. Packer will be cloned to '%s'\n", install_path),
             vim.log.levels.INFO,
             { title = "Packer bootstrap" }
         )
-        packer_bootstrap = fn.system {
+        packer_bootstrap = vim.fn.system {
             "git",
             "clone",
             "--depth",
