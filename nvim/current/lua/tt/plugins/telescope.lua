@@ -47,7 +47,8 @@ function M.setup()
                     ["<CR>"] = actions.select_default + actions.center,
                     ["<C-c>"] = actions.smart_send_to_qflist + actions.open_qflist,
                     ["<C-l>"] = actions.smart_send_to_loclist + actions.open_loclist,
-                    ["<C-t>"] = trouble.open_with_trouble,
+                    ["<C-r>"] = trouble.open_with_trouble,
+                    ["<C-t>"] = actions.select_tab,
                     ["<C-q>"] = actions.close,
                     ["<M-m>"] = actions_layout.toggle_mirror,
                     ["<M-p>"] = actions_layout.toggle_prompt_position,
@@ -55,7 +56,8 @@ function M.setup()
                 },
                 n = {
                     ["<C-j>"] = actions.move_selection_next,
-                    ["<C-t>"] = trouble.open_with_trouble,
+                    ["<C-r>"] = trouble.open_with_trouble,
+                    ["<C-t>"] = actions.select_tab,
                     ["<C-k>"] = actions.move_selection_previous,
                     ["<M-m>"] = actions_layout.toggle_mirror,
                     ["<M-p>"] = actions_layout.toggle_prompt_position,
@@ -69,14 +71,6 @@ function M.setup()
                 hidden = true, -- Show hidden files
                 no_ignore = true, -- Show files that are ignored by git
             },
-            -- live_grep = {
-            --     -- Replace whitespace with wildcards to imitate an AND operator for search terms
-            --     on_input_filter_cb = function(prompt)
-            --         return {
-            --             prompt = prompt:gsub("%s", ".*"),
-            --         }
-            --     end,
-            -- },
         },
         extensions = {
             fzf = {
