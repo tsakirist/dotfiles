@@ -53,7 +53,7 @@ function M.setup()
         pre_hook = function(ctx)
             local U = require "Comment.utils"
 
-            -- Detemine whether to use linewise or blockwise commentstring
+            --- Detemine whether to use linewise or blockwise commentstring
             local type = ctx.ctype == U.ctype.line and "__default" or "__multiline"
 
             -- Determine the location where to calculate commentstring from
@@ -78,7 +78,6 @@ function M.setup()
     local utils = require "tt.utils"
     utils.map("n", "<leader><leader>", "gcc", { remap = true })
     utils.map("v", "<leader><leader>", "gc", { remap = true })
-    utils.map("i", "<leader><leader>", "<C-o><Cmd>lua require'Comment'.toggle()<CR>")
 end
 
 return M
