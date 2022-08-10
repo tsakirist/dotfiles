@@ -5,6 +5,9 @@ function M.setup()
     M.theme = "nordfox"
 
     local colors = M.colors()
+    local spec = M.spec()
+
+    local Color = require "nightfox.lib.color"
 
     require("nightfox").setup {
         options = {
@@ -38,6 +41,12 @@ function M.setup()
                 },
                 syntax = {
                     builtin0 = colors.magenta.bright,
+                },
+                diag = {
+                    hint = colors.cyan.base,
+                },
+                diag_bg = {
+                    hint = Color(spec.bg1):blend(Color(colors.cyan.base), 0.2):to_css(),
                 },
             },
         },
@@ -90,6 +99,10 @@ function M.setup()
                     fg = colors.blue,
                     bg = colors.bg0,
                 },
+                MatchParen = {
+                    fg = colors.orange,
+                    style = "bold,italic",
+                },
                 NvimSurroundHighlightTextObject = {
                     fg = colors.yellow,
                 },
@@ -141,10 +154,16 @@ function M.setup()
     vim.cmd.colorscheme(M.theme)
 end
 
---- Returns the colors that are used by the current theme.
+--- Returns the colors that are used by the currently active theme.
 ---@return table: The color table used by the theme.
 function M.colors()
     return require("nightfox.palette").load(M.theme)
+end
+
+--- Returns the specs that are used by the currently active theme.
+---@return table: The specs table used by the theme.
+function M.spec()
+    return require("nightfox.spec").load(M.theme)
 end
 
 return M
