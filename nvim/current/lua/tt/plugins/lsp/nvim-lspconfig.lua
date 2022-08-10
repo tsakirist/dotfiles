@@ -5,8 +5,8 @@ local function setup_diagnostics()
         underline = true,
         update_in_insert = false,
         severity_sort = true,
-        virtual_text = false,
-        virtual_lines = true,
+        virtual_text = true,
+        virtual_lines = false,
         signs = true,
         float = {
             show_header = true,
@@ -213,6 +213,7 @@ local function setup_servers()
                 diagnostics = {
                     globals = {
                         "vim",
+                        "jit",
                     },
                 },
                 hint = {
