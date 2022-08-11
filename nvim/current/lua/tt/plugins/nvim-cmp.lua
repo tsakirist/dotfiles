@@ -98,25 +98,13 @@ function M.setup()
             ["<C-y>"] = cmp.mapping.scroll_docs(-4),
             ["<C-Space>"] = cmp.mapping.complete(),
         },
+        preselect = cmp.PreselectMode.Item,
         sources = {
             { name = "nvim_lsp" },
             { name = "nvim_lua" },
             { name = "luasnip" },
             { name = "path" },
-            {
-                name = "buffer",
-                keyword_length = 3,
-                options = {
-                    -- Get results only from visible buffers rather than from all buffers
-                    get_bufnrs = function()
-                        local bufs = {}
-                        for _, win in ipairs(vim.api.nvim_list_wins()) do
-                            bufs[vim.api.nvim_win_get_buf(win)] = true
-                        end
-                        return vim.tbl_keys(bufs)
-                    end,
-                },
-            },
+            { name = "buffer" },
         },
     }
 end
