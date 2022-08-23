@@ -18,9 +18,8 @@ function M.setup()
             "help",
             "startify",
             "gitcommit",
-            "vistakind",
             "packer",
-            "mason.nvim",
+            "mason",
             "neo-tree-popup",
         },
         context_patterns = { -- Specifies a list of lua patterns that are used to match against treesitter

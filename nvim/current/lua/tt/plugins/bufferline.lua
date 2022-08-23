@@ -6,7 +6,9 @@ function M.setup()
             numbers = function(opts)
                 return string.format("%s", opts.id)
             end,
-            indicator_icon = "▎",
+            indicator = {
+                icon = "▎",
+            },
             buffer_close_icon = "",
             modified_icon = "●",
             close_icon = "",
@@ -44,7 +46,7 @@ function M.setup()
         },
         highlights = {
             buffer_selected = {
-                gui = "bold",
+                bold = true,
             },
         },
     }
