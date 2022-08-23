@@ -79,6 +79,7 @@ return require("packer").startup {
         -- Bufferline
         use {
             "akinsho/bufferline.nvim",
+            disable = true,
             event = "BufRead",
             requires = { "kyazdani42/nvim-web-devicons" },
             config = function()

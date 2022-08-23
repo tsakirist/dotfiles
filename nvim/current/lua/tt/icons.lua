@@ -79,7 +79,8 @@ local misc = {
     CheckMark = "✓",
     ChevronRight = ">",
     Circle = " ",
-    XMark = "✗",
+    LeftHalfCircle = "",
+    RightHalfCircle = "",
     LeftFilledArrow = "",
     LeftUnfilledArrow = "",
     Owl = "",
@@ -89,6 +90,7 @@ local misc = {
     Star = "*",
     Storage = "",
     VerticalShadowedBox = " ",
+    XMark = "✗",
 }
 
 local document = {
