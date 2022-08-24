@@ -64,7 +64,8 @@ function M.setup()
                     bg = colors.bg0,
                 },
                 CybuCurrentSelection = {
-                    fg = colors.magenta,
+                    fg = colors.blue,
+                    bg = colors.black,
                 },
                 DressingBorder = {
                     fg = colors.blue,
@@ -104,7 +105,7 @@ function M.setup()
                     fg = colors.orange,
                     style = "bold,italic",
                 },
-                NvimSurroundHighlightTextObject = {
+                NvimSurroundHighlight = {
                     fg = colors.yellow,
                 },
                 TelescopeBorder = {
