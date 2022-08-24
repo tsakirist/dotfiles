@@ -16,8 +16,38 @@ function M.setup()
         ---@type string|function
         ignore = "^$",
 
-        ---Create basic (operator-pending) and extended mappings for NORMAL + VISUAL mode
+        ---LHS of operator-pending mapping in NORMAL + VISUAL mode
         ---@type table
+        opleader = {
+            ---line-comment keymap
+            line = "gc",
+            ---block-comment keymap
+            block = "gb",
+        },
+
+        ---LHS of extra mappings
+        ---@type table
+        extra = {
+            ---Add comment on the line above
+            above = "gcO",
+            ---Add comment on the line below
+            below = "gco",
+            ---Add comment at the end of line
+            eol = "gcA",
+        },
+
+        ---LHS of toggle mapping in NORMAL + VISUAL mode
+        ---@type table
+        toggler = {
+            ---line-comment keymap
+            line = "gcc",
+            ---block-comment keymap
+            block = "gbc",
+        },
+
+        ---Enable keybindings
+        ---NOTE: If given `false` then the plugin won't create any mappings
+        -----@type table
         mappings = {
             ---operator-pending mapping
             ---Includes `gcc`, `gcb`, `gc[count]{motion}` and `gb[count]{motion}`
@@ -30,44 +60,28 @@ function M.setup()
             extended = false,
         },
 
-        ---LHS of toggle mapping in NORMAL + VISUAL mode
-        ---@type table
-        toggler = {
-            ---line-comment keymap
-            line = "gcc",
-            ---block-comment keymap
-            block = "gbc",
-        },
-
-        ---LHS of operator-pending mapping in NORMAL + VISUAL mode
-        ---@type table
-        opleader = {
-            ---line-comment keymap
-            line = "gc",
-            ---block-comment keymap
-            block = "gb",
-        },
-
         ---Pre-hook, called before commenting the line
         ---@type function|nil
         pre_hook = function(ctx)
-            local U = require "Comment.utils"
+            if vim.bo.filetype == "typescriptreact" then
+                local U = require "Comment.utils"
 
-            --- Detemine whether to use linewise or blockwise commentstring
-            local type = ctx.ctype == U.ctype.line and "__default" or "__multiline"
+                --- Detemine whether to use linewise or blockwise commentstring
+                local type = ctx.ctype == U.ctype.linewise and "__default" or "__multiline"
 
-            -- Determine the location where to calculate commentstring from
-            local location = nil
-            if ctx.ctype == U.ctype.block then
-                location = require("ts_context_commentstring.utils").get_cursor_location()
-            elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
-                location = require("ts_context_commentstring.utils").get_visual_start_location()
+                -- Determine the location where to calculate commentstring from
+                local location = nil
+                if ctx.ctype == U.ctype.block then
+                    location = require("ts_context_commentstring.utils").get_cursor_location()
+                elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+                    location = require("ts_context_commentstring.utils").get_visual_start_location()
+                end
+
+                return require("ts_context_commentstring.internal").calculate_commentstring {
+                    key = type,
+                    location = location,
+                }
             end
-
-            return require("ts_context_commentstring.internal").calculate_commentstring {
-                key = type,
-                location = location,
-            }
         end,
 
         ---Post-hook, called after commenting is done
