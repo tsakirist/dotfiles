@@ -36,11 +36,11 @@ The configuration files will be installed to the default configuration directory
 │       │   │   ├── lsp-signature.lua
 │       │   │   ├── mason.lua
 │       │   │   ├── null-ls.lua
-│       │   │   ├── nvim-lspconfig.lua
-│       │   │   └── vista.lua
+│       │   │   └── nvim-lspconfig.lua
 │       │   ├── bufferline.lua
 │       │   ├── comment.lua
 │       │   ├── cybu.lua
+│       │   ├── dressing.lua
 │       │   ├── git-conflict.lua
 │       │   ├── hydra.lua
 │       │   ├── indent-blankline.lua

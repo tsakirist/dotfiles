@@ -38,22 +38,7 @@ return require("packer").startup {
             "stevearc/dressing.nvim",
             event = "BufReadPre",
             config = function()
-                require("dressing").setup {
-                    input = {
-                        winhighlight = "NormalFloat:DressingInput,FloatBorder:DressingBorder",
-                        -- Make ui.input centered by default
-                        relative = "editor",
-                        -- Override ui.input when renaming to be relative to cursor
-                        get_config = function(opts)
-                            local is_renaming = opts.prompt == "New Name: "
-                            if is_renaming then
-                                return {
-                                    relative = "cursor",
-                                }
-                            end
-                        end,
-                    },
-                }
+                require("tt.plugins.dressing").setup()
             end,
         }
 
@@ -207,14 +192,17 @@ return require("packer").startup {
                     end)
                 end,
             },
-            -- Tree-like viewer for symbols
+            -- Incremental LSP based renaming with command preview
             {
-                "liuchengxu/vista.vim",
-                keys = { "<leader>vv", "<leader>vf" },
-                cmd = "Vista",
+                "smjonas/inc-rename.nvim",
+                event = "BufRead",
                 after = "nvim-lspconfig",
                 config = function()
-                    require("tt.plugins.lsp.vista").setup()
+                    require("inc_rename").setup()
+                    local utils = require "tt.utils"
+                    utils.map("n", "<leader>rn", function()
+                        require("inc_rename").rename { default = vim.fn.expand "<cword>" }
+                    end)
                 end,
             },
         }
