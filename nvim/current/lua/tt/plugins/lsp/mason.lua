@@ -2,6 +2,7 @@ local M = {}
 
 function M.setup()
     local icons = require "tt.icons"
+    local utils = require "tt.utils"
 
     require("mason").setup {
         ui = {
@@ -11,8 +12,10 @@ function M.setup()
             icons = {
                 -- The list icon to use for installed packages
                 package_installed = icons.misc.CheckMark,
+
                 -- The list icon to use for packages that are installing, or queued for installation
                 package_pending = icons.misc.ArrowRight,
+
                 -- The list icon to use for packages that are not installed
                 package_uninstalled = icons.misc.XMark,
             },
@@ -20,27 +23,35 @@ function M.setup()
             keymaps = {
                 -- Keymap to expand a package
                 toggle_package_expand = "<CR>",
+
                 -- Keymap to install the package under the current cursor position
                 install_package = "i",
+
                 -- Keymap to uninstall a package
                 uninstall_package = "d",
+
                 -- Keymap to reinstall/update the package under the current cursor position
                 update_package = "u",
+
                 -- Keymap to check for new version for the package under the current cursor position
                 check_package_version = "c",
+
                 -- Keymap to update all installed packages
                 update_all_packages = "U",
+
                 -- Keymap to check which installed packages are outdated
                 check_outdated_packages = "C",
+
                 -- Keymap to cancel a package installation
                 cancel_installation = "<C-c>",
+
                 -- Keymap to apply language filter
                 apply_language_filter = "<C-f>",
             },
         },
 
         -- The directory in which to install packages
-        install_root_dir = vim.fn.stdpath "data" .. "./mason",
+        install_root_dir = utils.join_paths(vim.fn.stdpath "data", "mason"),
 
         pip = {
             -- These args will be added to `pip install` calls. Note that setting extra args might impact intended behavior
