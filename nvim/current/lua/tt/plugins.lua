@@ -467,6 +467,24 @@ return require("packer").startup {
             },
         }
 
+        -- Easily invert the word under cursor
+        use {
+            "nguyenvukhang/nvim-toggler",
+            event = "BufRead",
+            config = function()
+                require("nvim-toggler").setup {
+                    remove_default_keybinds = true,
+                }
+                local utils = require "tt.utils"
+                utils.map(
+                    { "n", "v" },
+                    "<leader>iw",
+                    require("nvim-toggler").toggle,
+                    { desc = "Inverts the word under the cursor" }
+                )
+            end,
+        }
+
         -- Vim wrapper for UNIX shell commands
         use {
             "tpope/vim-eunuch",
