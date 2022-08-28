@@ -442,6 +442,7 @@ return require("packer").startup {
         -- Popup window for cycling buffers
         use {
             "ghillb/cybu.nvim",
+            event = "BufRead",
             config = function()
                 require("tt.plugins.cybu").setup()
             end,
@@ -488,6 +489,7 @@ return require("packer").startup {
         -- Vim wrapper for UNIX shell commands
         use {
             "tpope/vim-eunuch",
+            event = "BufRead",
             cmd = {
                 "Cfind",
                 "Chmod",
@@ -506,6 +508,7 @@ return require("packer").startup {
         -- Markdown extension, mainly used for conceallevel
         use {
             "preservim/vim-markdown",
+            event = "BufRead",
             config = function()
                 vim.g.vim_markdown_conceal = 1
                 vim.g.vim_markdown_conceal_code_blocks = 1
@@ -515,7 +518,7 @@ return require("packer").startup {
         }
 
         -- Editor config support
-        use { "gpanders/editorconfig.nvim" }
+        use { "gpanders/editorconfig.nvim", event = "BufRead" }
 
         -- Easiliy resize windows
         use { "sedm0784/vim-resize-mode", event = "BufRead" }
