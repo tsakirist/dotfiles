@@ -31,10 +31,10 @@ end
 --- Creates and saves a snapshot before initiating a packer-sync procedure.
 function M.packer_sync()
     local title = "Packer"
-    vim.notify("Syncing packer...", vim.log.levels.INFO, { title = title })
     vim.notify("Creating packer snapshot...", vim.log.levels.INFO, { title = title })
     local snapshot_time = os.date "%a-%d-%b-%Y-%TZ"
     vim.cmd.PackerSnapshot(snapshot_time)
+    vim.notify("Syncing packer...", vim.log.levels.INFO, { title = title })
     vim.cmd.PackerSync()
 end
 

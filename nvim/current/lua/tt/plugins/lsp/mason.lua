@@ -82,7 +82,6 @@ function M.setup()
         automatic_installation = true,
     }
 
-    local utils = require "tt.utils"
     utils.map("n", "<leader>m", vim.cmd.Mason)
 end
 
