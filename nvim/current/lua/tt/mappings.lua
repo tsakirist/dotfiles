@@ -21,13 +21,13 @@ end, { desc = "Keep only the current buffer open" })
 
 -- List buffers and open them either on the same window or another
 utils.map("n", "<leader>bf", ":ls<CR>:b<Space>", { silent = false })
-utils.map("n", "<leader>sb", ":ls<CR>:sb<Space>", { silent = false })
-utils.map("n", "<leader>vb", ":ls<CR>:vert sb<Space>", { silent = false })
+utils.map("n", "<leader>bs", ":ls<CR>:sb<Space>", { silent = false })
+utils.map("n", "<leader>bv", ":ls<CR>:vert sb<Space>", { silent = false })
 
 -- Search within buffers and send results in the qflist
 utils.map(
     "n",
-    "<leader>bs",
+    "<leader>bS",
     ":cex []<Bar>bufdo vimgrepadd //gj %<Bar>Trouble quickfix<S-Left><S-Left><S-Left><Right>",
     { silent = false }
 )
