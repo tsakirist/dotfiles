@@ -10,12 +10,18 @@ function M.setup()
                 conf.row = 0
                 return conf
             end,
+
+            -- Where to align the prompt, can be 'left', 'right', 'center'
+            prompt_align = "center",
+
+            -- Highlights: 'NormalFloat' for the text, 'FloatBorder' for the border
             winhighlight = "NormalFloat:DressingInput,FloatBorder:DressingBorder",
+
             -- Make ui.input centered by default
             relative = "editor",
+
             -- Override ui.input when renaming to be relative to cursor
             get_config = function(opts)
-                _G.Print(opts.prompt)
                 local is_renaming = opts.prompt == "New name: "
                 if is_renaming then
                     return {
