@@ -170,7 +170,7 @@ function M.find_sessions(opts)
     --- Calls 'SDelete' on the selected session.
     local function delete_session()
         local filename = get_session_name()
-        vim.cmd.SDelete { filename, bang = true }
+        vim.cmd.SDelete { filename, bang = false }
     end
 
     --- Path where Startify stores saved sessions.
@@ -206,12 +206,14 @@ function M.find_sessions(opts)
         sorter = config.file_sorter(opts),
         attach_mappings = function(prompt_bufnr, map)
             actions.select_default:replace(load_session)
-            map("n", "d", function()
+            local function inner_delete_session()
                 delete_session()
                 --- Refresh the UI after session deletion.
                 local current_picker = actions_state.get_current_picker(prompt_bufnr)
                 current_picker:refresh(finders.new_oneshot_job(find_command, opts))
-            end)
+            end
+            map("n", "d", inner_delete_session)
+            map("i", "<C-d>", inner_delete_session)
             return true
         end,
     }):find()
