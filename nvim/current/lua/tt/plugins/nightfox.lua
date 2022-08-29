@@ -53,130 +53,39 @@ function M.setup()
         },
         groups = {
             nordfox = {
-                CmpItemKindFunction = {
-                    fg = colors.magenta,
-                },
-                CmpItemKindMethod = {
-                    fg = colors.magenta,
-                },
-                CmpWindowBorder = {
-                    fg = colors.bg0,
-                    bg = colors.bg0,
-                },
-                CybuCurrentSelection = {
-                    fg = colors.blue,
-                    bg = colors.black,
-                },
-                DressingBorder = {
-                    fg = colors.blue,
-                    bg = colors.bg1,
-                },
-                DressingInput = {
-                    fg = colors.magenta,
-                    bg = colors.bg1,
-                },
-                FidgetTask = {
-                    fg = colors.magenta,
-                },
-                FidgetTitle = {
-                    fg = colors.cyan,
-                },
-                MatchParen = {
-                    fg = colors.orange,
-                    style = "bold,italic",
-                },
-                NavicIconsFunction = {
-                    fg = colors.magenta,
-                    bg = colors.bg0,
-                },
-                NavicIconsMethod = {
-                    fg = colors.magenta,
-                    bg = colors.bg0,
-                },
-                NavicIconsClass = {
-                    fg = colors.yellow,
-                    bg = colors.bg0,
-                },
-                NaviciIconsStruct = {
-                    fg = colors.yellow,
-                    bg = colors.bg0,
-                },
-                NavicIconsConstructor = {
-                    fg = colors.yellow.dim,
-                    bg = colors.bg0,
-                },
-                NavicIconsNamespace = {
-                    fg = colors.white,
-                    bg = colors.bg0,
-                },
-                NavicIconsInterface = {
-                    fg = colors.yellow.bright,
-                    bg = colors.bg0,
-                },
-                NavicIconsEnum = {
-                    fg = colors.cyan,
-                    bg = colors.bg0,
-                },
-                NavicIconsEnumMember = {
-                    fg = colors.cyan.bright,
-                    bg = colors.bg0,
-                },
-                NavicIconsVariable = {
-                    fg = colors.cyan,
-                    bg = colors.bg0,
-                },
-                NavicIconsProperty = {
-                    fg = colors.blue,
-                    bg = colors.bg0,
-                },
-                NavicIconsKey = {
-                    fg = colors.green,
-                    bg = colors.bg0,
-                },
-                NvimSurroundHighlight = {
-                    fg = colors.yellow,
-                },
-                TelescopeBorder = {
-                    fg = colors.bg0,
-                    bg = colors.bg0,
-                },
-                TelescopeMatching = {
-                    fg = colors.magenta,
-                },
-                TelescopePreviewNormal = {
-                    bg = colors.bg0,
-                },
-                TelescopePreviewTitle = {
-                    fg = colors.bg1,
-                    bg = colors.cyan,
-                },
-                TelescopePromptBorder = {
-                    fg = colors.bg0,
-                    bg = colors.bg0,
-                },
-                TelescopePromptNormal = {
-                    fg = colors.fg1,
-                    bg = colors.bg1,
-                },
-                TelescopePromptPrefix = {
-                    fg = colors.magenta,
-                    bg = colors.bg1,
-                },
-                TelescopePromptTitle = {
-                    fg = colors.bg1,
-                    bg = colors.magenta,
-                },
-                TelescopeResultsNormal = {
-                    bg = colors.bg0,
-                },
-                TelescopeResultsTitle = {
-                    fg = colors.bg1,
-                    bg = colors.magenta,
-                },
-                TelescopeSelectionCaret = {
-                    fg = colors.cyan,
-                    bg = colors.bg0,
-                },
+                CmpItemKindFunction = { fg = colors.magenta },
+                CmpItemKindMethod = { fg = colors.magenta },
+                CmpWindowBorder = { fg = colors.bg0, bg = colors.bg0 },
+                CybuCurrentSelection = { fg = colors.blue, bg = colors.black },
+                DressingBorder = { fg = colors.blue, bg = colors.bg1 },
+                DressingInput = { fg = colors.magenta, bg = colors.bg1 },
+                FidgetTask = { fg = colors.magenta },
+                FidgetTitle = { fg = colors.cyan },
+                MatchParen = { fg = colors.orange, style = "bold,italic" },
+                NavicIconsFunction = { fg = colors.magenta, bg = colors.bg0 },
+                NavicIconsClass = { fg = colors.yellow, bg = colors.bg0 },
+                NavicIconsConstructor = { fg = colors.yellow.dim, bg = colors.bg0 },
+                NavicIconsEnum = { fg = colors.cyan, bg = colors.bg0 },
+                NavicIconsEnumMember = { fg = colors.cyan.bright, bg = colors.bg0 },
+                NavicIconsInterface = { fg = colors.yellow.bright, bg = colors.bg0 },
+                NavicIconsKey = { fg = colors.green, bg = colors.bg0 },
+                NavicIconsMethod = { fg = colors.magenta, bg = colors.bg0 },
+                NavicIconsNamespace = { fg = colors.white, bg = colors.bg0 },
+                NavicIconsProperty = { fg = colors.blue, bg = colors.bg0 },
+                NavicIconsVariable = { fg = colors.cyan, bg = colors.bg0 },
+                NaviciIconsStruct = { fg = colors.yellow, bg = colors.bg0 },
+                NvimSurroundHighlight = { fg = colors.yellow },
+                TelescopeBorder = { fg = colors.bg0, bg = colors.bg0 },
+                TelescopeMatching = { fg = colors.magenta },
+                TelescopePreviewNormal = { bg = colors.bg0 },
+                TelescopePreviewTitle = { fg = colors.bg1, bg = colors.cyan },
+                TelescopePromptBorder = { fg = colors.bg0, bg = colors.bg0 },
+                TelescopePromptNormal = { fg = colors.fg1, bg = colors.bg1 },
+                TelescopePromptPrefix = { fg = colors.magenta, bg = colors.bg1 },
+                TelescopePromptTitle = { fg = colors.bg1, bg = colors.magenta },
+                TelescopeResultsNormal = { bg = colors.bg0 },
+                TelescopeResultsTitle = { fg = colors.bg1, bg = colors.magenta },
+                TelescopeSelectionCaret = { fg = colors.cyan, bg = colors.bg0 },
             },
         },
     }
