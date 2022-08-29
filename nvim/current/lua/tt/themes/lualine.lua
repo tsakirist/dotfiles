@@ -3,7 +3,7 @@ local M = {}
 
 function M.setup()
     -- Module that shows the current cursor context
-    local gps = require "nvim-gps"
+    local navic = require "nvim-navic"
     local icons = require "tt.icons"
 
     -- Get currently used theme from nigthfox and the colors
@@ -124,8 +124,8 @@ function M.setup()
             },
             lualine_c = {
                 {
-                    gps.get_location,
-                    cond = gps.is_available,
+                    navic.get_location,
+                    cond = navic.is_available,
                     color = {
                         fg = colors.magenta,
                     },

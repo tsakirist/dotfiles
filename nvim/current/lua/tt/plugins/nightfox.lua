@@ -81,29 +81,57 @@ function M.setup()
                 FidgetTitle = {
                     fg = colors.cyan,
                 },
-                GpsItemKindClass = {
-                    fg = colors.yellow,
-                    bg = colors.bg0,
-                },
-                GpsItemKindFunction = {
-                    fg = colors.magenta,
-                    bg = colors.bg0,
-                },
-                GpsItemKindKeyword = {
-                    fg = colors.green,
-                    bg = colors.bg0,
-                },
-                GpsItemKindMethod = {
-                    fg = colors.magenta,
-                    bg = colors.bg0,
-                },
-                GpsItemKindProperty = {
-                    fg = colors.blue,
-                    bg = colors.bg0,
-                },
                 MatchParen = {
                     fg = colors.orange,
                     style = "bold,italic",
+                },
+                NavicIconsFunction = {
+                    fg = colors.magenta,
+                    bg = colors.bg0,
+                },
+                NavicIconsMethod = {
+                    fg = colors.magenta,
+                    bg = colors.bg0,
+                },
+                NavicIconsClass = {
+                    fg = colors.yellow,
+                    bg = colors.bg0,
+                },
+                NaviciIconsStruct = {
+                    fg = colors.yellow,
+                    bg = colors.bg0,
+                },
+                NavicIconsConstructor = {
+                    fg = colors.yellow.dim,
+                    bg = colors.bg0,
+                },
+                NavicIconsNamespace = {
+                    fg = colors.white,
+                    bg = colors.bg0,
+                },
+                NavicIconsInterface = {
+                    fg = colors.yellow.bright,
+                    bg = colors.bg0,
+                },
+                NavicIconsEnum = {
+                    fg = colors.cyan,
+                    bg = colors.bg0,
+                },
+                NavicIconsEnumMember = {
+                    fg = colors.cyan.bright,
+                    bg = colors.bg0,
+                },
+                NavicIconsVariable = {
+                    fg = colors.cyan,
+                    bg = colors.bg0,
+                },
+                NavicIconsProperty = {
+                    fg = colors.blue,
+                    bg = colors.bg0,
+                },
+                NavicIconsKey = {
+                    fg = colors.green,
+                    bg = colors.bg0,
                 },
                 NvimSurroundHighlight = {
                     fg = colors.yellow,

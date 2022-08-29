@@ -118,6 +118,10 @@ local function setup_highlighting(client, bufnr)
     end
 end
 
+local function setup_navigation(client, bufnr)
+    require("nvim-navic").attach(client, bufnr)
+end
+
 local function setup_formatting(client)
     -- Disable default LSP formatting as this will be handled by 'null-ls' LSP
     client.server_capabilities.documentFormattingProvider = false
@@ -158,6 +162,7 @@ local function on_attach(client, bufnr)
     setup_keymappings(client, bufnr)
     setup_formatting(client)
     setup_highlighting(client, bufnr)
+    setup_navigation(client, bufnr)
 end
 
 --- Make a new object describing the LSP client capabilities

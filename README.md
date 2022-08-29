@@ -36,7 +36,8 @@ The configuration files will be installed to the default configuration directory
 │       │   │   ├── lsp-signature.lua
 │       │   │   ├── mason.lua
 │       │   │   ├── null-ls.lua
-│       │   │   └── nvim-lspconfig.lua
+│       │   │   ├── nvim-lspconfig.lua
+│       │   │   └── nvim-navic.lua
 │       │   ├── bufferline.lua
 │       │   ├── comment.lua
 │       │   ├── cybu.lua
@@ -51,7 +52,6 @@ The configuration files will be installed to the default configuration directory
 │       │   ├── numb.lua
 │       │   ├── nvim-autopairs.lua
 │       │   ├── nvim-cmp.lua
-│       │   ├── nvim-gps.lua
 │       │   ├── nvim-surround.lua
 │       │   ├── packer.lua
 │       │   ├── startify.lua

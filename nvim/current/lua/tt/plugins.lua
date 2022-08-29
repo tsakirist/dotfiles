@@ -72,17 +72,6 @@ return require("packer").startup {
             end,
         }
 
-        -- Statusline component that shows the context of the cursor position
-        use {
-            "SmiteshP/nvim-gps",
-            event = "BufRead",
-            requires = "nvim-treesitter/nvim-treesitter",
-            after = "lualine.nvim",
-            config = function()
-                require("tt.plugins.nvim-gps").setup()
-            end,
-        }
-
         -- Statusline
         use {
             "hoob3rt/lualine.nvim",
@@ -203,6 +192,15 @@ return require("packer").startup {
                     utils.map("n", "<leader>rn", function()
                         require("inc_rename").rename { default = vim.fn.expand "<cword>" }
                     end)
+                end,
+            },
+            -- Show current code context
+            {
+                "SmiteshP/nvim-navic",
+                event = "BufRead",
+                after = "nvim-lspconfig",
+                config = function()
+                    require("tt.plugins.lsp.nvim-navic").setup()
                 end,
             },
         }

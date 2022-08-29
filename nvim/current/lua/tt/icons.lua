@@ -103,9 +103,41 @@ local document = {
     FolderOpen = "",
 }
 
+-- Only reason this section exists is because kind icons from vscode
+-- do not fit exactly in nvim-navic statusline
+local navic = {
+    Function = " ",
+    Method = " ",
+    File = " ",
+    Module = " ",
+    Namespace = " ",
+    Package = " ",
+    Class = " ",
+    Property = " ",
+    Field = " ",
+    Constructor = " ",
+    Enum = "練",
+    Variable = " ",
+    Interface = "練",
+    Constant = " ",
+    String = " ",
+    Number = " ",
+    Boolean = "◩ ",
+    Array = " ",
+    Object = " ",
+    Key = " ",
+    Null = "ﳠ ",
+    EnumMember = " ",
+    Struct = " ",
+    Event = " ",
+    Operator = " ",
+    TypeParameter = " ",
+}
+
 return {
     kind = kind[kind_source],
     diagnostics = diagnostics,
     document = document,
     misc = misc,
+    navic = navic,
 }
