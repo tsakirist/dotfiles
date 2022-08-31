@@ -252,7 +252,7 @@ function _build_essential() {
 }
 
 function _node() {
-    _print i "node" ": asyncrhonous event-driven JavaScript runtime"
+    _print i "node" ": asynchronous event-driven JavaScript runtime"
     curl -sSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - > /dev/null 2>&1
     _install nodejs
 }
