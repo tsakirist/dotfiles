@@ -74,6 +74,7 @@ function M.setup()
                 NavicIconsProperty = { fg = colors.blue, bg = colors.bg0 },
                 NavicIconsVariable = { fg = colors.cyan, bg = colors.bg0 },
                 NaviciIconsStruct = { fg = colors.yellow, bg = colors.bg0 },
+                NeoTreeRootName = { fg = colors.magenta, style = "bold" },
                 NvimSurroundHighlight = { fg = colors.yellow },
                 TelescopeBorder = { fg = colors.bg0, bg = colors.bg0 },
                 TelescopeMatching = { fg = colors.magenta },
