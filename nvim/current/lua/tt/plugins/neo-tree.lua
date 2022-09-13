@@ -11,6 +11,7 @@ function M.setup()
         popup_border_style = "rounded",
         enable_git_status = false,
         enable_diagnostics = true,
+        sort_case_insensitive = false,
         window = {
             position = "left",
             width = 40,
@@ -42,6 +43,10 @@ function M.setup()
                 ["A"] = "add_directory",
                 ["C"] = "close_node",
                 ["R"] = "refresh",
+                ["?"] = "none",
+                ["g?"] = "show_help",
+                ["<"] = "prev_source",
+                [">"] = "next_source",
             },
         },
         default_component_configs = {
@@ -55,9 +60,9 @@ function M.setup()
                 indent_marker = "│",
                 last_indent_marker = "└",
                 highlight = "NeoTreeIndentMarker",
-                with_expanders = nil, -- If true and file nesting is enabled, will enable expanders
-                expander_collapsed = "",
-                expander_expanded = "",
+                with_expanders = nil,
+                expander_collapsed = icons.misc.SmallArrowCollapsed,
+                expander_expanded = icons.misc.SmallArrowExpanded,
                 expander_highlight = "NeoTreeExpander",
             },
             icon = {
@@ -109,7 +114,7 @@ function M.setup()
                     ["."] = "set_root",
                     ["H"] = "toggle_hidden",
                     ["f"] = "filter_on_submit",
-                    ["/"] = "none", -- "fuzzy_finder"
+                    ["/"] = "none",
                     ["<M-l>"] = "clear_filter",
                 },
             },

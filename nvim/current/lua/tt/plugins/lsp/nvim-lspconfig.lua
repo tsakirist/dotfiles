@@ -119,7 +119,11 @@ local function setup_highlighting(client, bufnr)
 end
 
 local function setup_navigation(client, bufnr)
-    require("nvim-navic").attach(client, bufnr)
+    if client.supports_method "textDocument/documentSymbols" then
+        -- Suprress error messages from navic
+        vim.g.navic_silence = true
+        require("nvim-navic").attach(client, bufnr)
+    end
 end
 
 local function setup_formatting(client)
