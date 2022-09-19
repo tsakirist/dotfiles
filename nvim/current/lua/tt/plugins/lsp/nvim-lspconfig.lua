@@ -3,10 +3,10 @@ local M = {}
 local function setup_diagnostics()
     vim.diagnostic.config {
         underline = true,
-        update_in_insert = false,
+        virtual_lines = false,
         severity_sort = true,
         virtual_text = true,
-        virtual_lines = false,
+        update_in_insert = false,
         signs = true,
         float = {
             show_header = true,
