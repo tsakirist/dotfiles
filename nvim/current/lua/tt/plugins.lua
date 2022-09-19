@@ -401,6 +401,7 @@ return require("packer").startup {
             -- Visualize and fix merge conflicts
             {
                 "akinsho/git-conflict.nvim",
+                tag = "*",
                 config = function()
                     require("tt.plugins.git-conflict").setup()
                 end,
