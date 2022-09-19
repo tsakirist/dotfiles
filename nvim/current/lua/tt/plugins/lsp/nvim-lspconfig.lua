@@ -19,12 +19,14 @@ local function setup_diagnostics()
 
     --- Set custom signs for diagnostics
     local icons = require "tt.icons"
+
     local lsp_signs = {
         Error = icons.diagnostics.Error,
         Hint = icons.diagnostics.Hint,
         Info = icons.diagnostics.Info,
         Warn = icons.diagnostics.Warn,
     }
+
     for type, icon in pairs(lsp_signs) do
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })

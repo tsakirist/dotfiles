@@ -347,9 +347,7 @@ return require("packer").startup {
         -- Floating terminal
         use {
             "akinsho/toggleterm.nvim",
-            -- This seems to interfere with the print/notify statements
-            -- inside the setup function. So will keep it as non-optional for now.
-            -- event = "BufRead",
+            event = "BufRead",
             config = function()
                 require("tt.plugins.toggleterm").setup()
             end,
