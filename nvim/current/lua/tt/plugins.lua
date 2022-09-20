@@ -184,10 +184,13 @@ return require("packer").startup {
             -- Incremental LSP based renaming with command preview
             {
                 "smjonas/inc-rename.nvim",
+                commit = "1343175",
                 event = "BufRead",
                 after = "nvim-lspconfig",
                 config = function()
-                    require("inc_rename").setup()
+                    require("inc_rename").setup {
+                        show_message = false,
+                    }
                     local utils = require "tt.utils"
                     utils.map("n", "<leader>rn", function()
                         require("inc_rename").rename { default = vim.fn.expand "<cword>" }
