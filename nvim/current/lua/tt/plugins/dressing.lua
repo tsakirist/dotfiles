@@ -3,14 +3,6 @@ local M = {}
 function M.setup()
     require("dressing").setup {
         input = {
-            -- Required for 'inc-rename' to position the input
-            -- box above the cursor to not cover the word being renamed
-            override = function(conf)
-                conf.col = -1
-                conf.row = 0
-                return conf
-            end,
-
             -- Where to align the prompt, can be 'left', 'right', 'center'
             prompt_align = "center",
 
