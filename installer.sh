@@ -252,7 +252,7 @@ function _build_essential() {
 }
 
 function _node() {
-    _print i "node" ": asyncrhonous event-driven JavaScript runtime"
+    _print i "node" ": asynchronous event-driven JavaScript runtime"
     curl -sSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - > /dev/null 2>&1
     _install nodejs
 }
@@ -424,13 +424,17 @@ function _bat_config() {
 
 function _kitty() {
     _print i "kity" ": the fast, featureful, GPU based terminal emulator"
+
     curl -sSL https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n > /dev/null 2>&1
     sudo ln -svf "$HOME"/.local/kitty.app/bin/kitty /usr/local/bin/
+
     # Place the kitty.desktop file somewhere it can be found
     cp -v ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
+
     # Update the path to the kitty icon in the kitty.desktop file
     sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" \
         ~/.local/share/applications/kitty.desktop
+
     # ImageMagick is required by kitty in order to use `icat`
     _install imagemagick
 }
