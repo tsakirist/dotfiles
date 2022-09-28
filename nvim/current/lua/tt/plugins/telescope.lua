@@ -50,6 +50,8 @@ function M.setup()
                     ["<C-r>"] = trouble.open_with_trouble,
                     ["<C-t>"] = actions.select_tab,
                     ["<C-q>"] = actions.close,
+                    ["<C-Down>"] = actions.cycle_history_next,
+                    ["<C-Up>"] = actions.cycle_history_prev,
                     ["<M-m>"] = actions_layout.toggle_mirror,
                     ["<M-p>"] = actions_layout.toggle_prompt_position,
                     ["?"] = actions_layout.toggle_preview,
