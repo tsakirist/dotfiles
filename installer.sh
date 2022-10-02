@@ -495,13 +495,15 @@ function _fzf_config() {
 function _fzf() {
     _print i "fzf" ": a command line fuzzy finder"
     if [ -d "$HOME"/.fzf ]; then
-        pushd "$HOME"/.fzf || return \
+        echo -e "    ${bullet} Old version: ${red_fg}$(_print_cmd_version fzf)${reset}"
+        pushd "$HOME"/.fzf > /dev/null || return \
             && git pull --quiet origin \
-            && popd || return
+            && popd > /dev/null || return
     else
         git clone --quiet --depth=1 https://github.com/junegunn/fzf.git "$HOME"/.fzf
     fi
-    "$HOME"/.fzf/install --key-bindings --completion --no-update-rc
+    "$HOME"/.fzf/install --key-bindings --completion --no-update-rc > /dev/null
+    echo -e "    ${bullet} New version: ${red_fg}$(_print_cmd_version fzf)${reset}"
 }
 
 function _fd() {
