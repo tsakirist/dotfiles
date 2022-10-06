@@ -6,6 +6,9 @@ function M.setup()
 
     require("mason").setup {
         ui = {
+            -- Whether to automatically check for new versions when opening the :Mason window.
+            check_outdated_packages_on_open = false,
+
             -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|
             border = "none",
 
@@ -52,6 +55,13 @@ function M.setup()
 
         -- The directory in which to install packages
         install_root_dir = utils.join_paths(vim.fn.stdpath "data", "mason"),
+
+        -- Where Mason should put its bin location in your PATH. Can be one of:
+        -- "prepend" (default, Mason's bin location is put first in PATH)
+        -- "append" (Mason's bin location is put at the end of PATH)
+        -- "skip" (doesn't modify PATH)
+        ---@type '"prepend"' | '"append"' | '"skip"'
+        PATH = "prepend",
 
         pip = {
             -- These args will be added to `pip install` calls. Note that setting extra args might impact intended behavior
