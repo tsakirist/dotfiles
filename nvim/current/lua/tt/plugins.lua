@@ -434,6 +434,7 @@ return require("packer").startup {
             keys = "<leader>u",
             requires = "nvim-telescope/telescope.nvim",
             config = function()
+                require("urlview").setup()
                 local utils = require "tt.utils"
                 utils.map("n", "<leader>uv", "<Cmd>UrlView packer<CR>")
             end,
