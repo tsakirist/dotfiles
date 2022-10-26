@@ -171,14 +171,8 @@ local function on_attach(client, bufnr)
     setup_navigation(client, bufnr)
 end
 
---- Make a new object describing the LSP client capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
---- Add additional capabilities supported by nvim-cmp
-local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if status_ok then
-    capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
-end
+--- Declare the LSP capabilities
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 --- Disable LSP snippets since LuaSnip should be responsible for that
 capabilities.textDocument.completion.completionItem.snippetSupport = false
