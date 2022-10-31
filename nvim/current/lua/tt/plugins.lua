@@ -245,7 +245,7 @@ return require("packer").startup {
         -- Autocomplete related plugins and snippets
         use {
             "hrsh7th/nvim-cmp",
-            event = "InsertEnter",
+            event = "BufRead",
             after = "LuaSnip",
             requires = {
                 { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
