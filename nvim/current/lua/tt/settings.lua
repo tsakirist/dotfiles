@@ -150,6 +150,9 @@ opt.swapfile = false
 -- Set the title's window to the value of titltestring
 opt.title = true
 
+-- Enable a second stage diff for generated hunks
+opt.diffopt = opt.diffopt + "linematch:60"
+
 -- Set rg as the grep program
 if vim.fn.executable "rg" then
     opt.grepprg = "rg --vimgrep --no-heading --smart-case"
