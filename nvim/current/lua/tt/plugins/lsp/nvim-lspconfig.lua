@@ -171,18 +171,18 @@ local function on_attach(client, bufnr)
     setup_navigation(client, bufnr)
 end
 
---- Declare the LSP capabilities
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
---- Disable LSP snippets since LuaSnip should be responsible for that
-capabilities.textDocument.completion.completionItem.snippetSupport = false
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-        "documentation",
-        "detail",
-        "additionalTextEdits",
-    },
-}
+local function capabilities()
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
+    capabilities.textDocument.completion.completionItem.resolveSupport = {
+        properties = {
+            "documentation",
+            "detail",
+            "additionalTextEdits",
+        },
+    }
+    return capabilities
+end
 
 local function setup_servers()
     -- Define the required LSP servers
@@ -199,7 +199,7 @@ local function setup_servers()
     -- Common server options
     local server_opts = {
         on_attach = on_attach,
-        capabilities = capabilities,
+        capabilities = capabilities(),
     }
 
     -- Custom LSP server settings
