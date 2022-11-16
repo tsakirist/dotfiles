@@ -97,7 +97,14 @@ opt.clipboard = { "unnamed", "unnamedplus" }
 -- set listchars=trail:·,tab:»·,eol:↲,nbsp:␣,extends:⟩,precedes:⟨
 -- set listchars=eol:↴,¬,
 opt.list = true
-opt.listchars = { nbsp = "␣", extends = "⟩", precedes = "⟨", trail = "·", tab = "»·" }
+opt.listchars = {
+    space = "·",
+    tab = "»·",
+    trail = "·",
+    nbsp = "␣",
+    extends = "⟩",
+    precedes = "⟨",
+}
 
 -- The number of lines to show above/below when navigating
 opt.scrolloff = 5
