@@ -29,6 +29,7 @@ function M.setup()
 
     local utils = require "tt.utils"
     utils.map("n", "gp", "<Cmd>lua require('goto-preview').goto_preview_definition()<CR>")
+    utils.map("n", "gi", "<Cmd>lua require('goto-preview').goto_preview_implementation()<CR>")
     utils.map("n", "gP", "<Cmd>lua require('goto-preview').close_all_win()<CR>")
 end
 

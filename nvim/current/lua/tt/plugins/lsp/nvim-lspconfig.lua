@@ -159,8 +159,8 @@ local function setup_keymappings(_, bufnr)
 
     local ft = vim.bo.filetype
     if ft == "c" or ft == "cpp" or ft == "h" or ft == "hpp" then
-        -- Alternate between header/source files
         buf_set_keymap("n", "<leader>ko", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
+        buf_set_keymap("n", "<M-o>", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
     end
 end
 
