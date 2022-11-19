@@ -171,7 +171,7 @@ local function on_attach(client, bufnr)
     setup_navigation(client, bufnr)
 end
 
-local function capabilities()
+local function get_capabilities()
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = true
     capabilities.textDocument.completion.completionItem.resolveSupport = {
@@ -199,7 +199,7 @@ local function setup_servers()
     -- Common server options
     local server_opts = {
         on_attach = on_attach,
-        capabilities = capabilities(),
+        capabilities = get_capabilities(),
     }
 
     -- Custom LSP server settings
