@@ -484,6 +484,16 @@ return require("packer").startup {
             end,
         }
 
+        -- Split/join blocks of code
+        use {
+            "Wansmer/treesj",
+            event = "BufRead",
+            requires = { "nvim-treesitter" },
+            config = function()
+                require("tt.plugins.treesj").setup()
+            end,
+        }
+
         -- Vim wrapper for UNIX shell commands
         use {
             "tpope/vim-eunuch",

@@ -60,6 +60,7 @@ The configuration files will be installed to the default configuration directory
 │       │   ├── telescope.lua
 │       │   ├── toggleterm.lua
 │       │   ├── treesitter.lua
+│       │   ├── treesj.lua
 │       │   ├── trouble.lua
 │       │   └── zen-mode.lua
 │       ├── themes/
