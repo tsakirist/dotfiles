@@ -1,3 +1,11 @@
+local deps_ok, lsp_config, mason_lsp_config, cmp_nvim_lsp, nvim_navic = pcall(function()
+    return require "lspconfig", require "mason-lspconfig", require "cmp_nvim_lsp", require "nvim-navic"
+end)
+
+if not deps_ok then
+    return
+end
+
 local M = {}
 
 local function setup_diagnostics()
@@ -124,7 +132,7 @@ local function setup_navigation(client, bufnr)
     if client.supports_method "textDocument/documentSymbols" then
         -- Suprress error messages from navic
         vim.g.navic_silence = true
-        require("nvim-navic").attach(client, bufnr)
+        nvim_navic.attach(client, bufnr)
     end
 end
 
@@ -172,7 +180,7 @@ local function on_attach(client, bufnr)
 end
 
 local function get_capabilities()
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+    local capabilities = cmp_nvim_lsp.default_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = true
     capabilities.textDocument.completion.completionItem.resolveSupport = {
         properties = {
@@ -222,18 +230,32 @@ local function setup_servers()
                 },
                 hint = {
                     enable = true,
-                    arrayIndex = "Enable", -- "Enable", "Auto", "Disable"
+                    arrayIndex = "Disable", -- "Enable", "Auto", "Disable"
                     await = true,
                     paramName = "All", -- "All", "Literal", "Disable"
                     paramType = true,
-                    semicolon = "All", -- "All", "SameLine", "Disable"
+                    semicolon = "Disable", -- "All", "SameLine", "Disable"
                     setType = true,
                 },
             },
         },
+        tsserver = {
+            server = {
+                typescript = {
+                    inlayHints = {
+                        includeInlayParameterNameHints = "all",
+                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                        includeInlayFunctionParameterTypeHints = true,
+                        includeInlayVariableTypeHints = true,
+                        includeInlayPropertyDeclarationTypeHints = true,
+                        includeInlayFunctionLikeReturnTypeHints = true,
+                        includeInlayEnumMemberValueHints = true,
+                    },
+                },
+            },
+        },
+        clangd = {},
     }
-
-    local lsp_config = require "lspconfig"
 
     for _, server in ipairs(required_servers) do
         -- As an interim solution force clangd to use the same encoding
@@ -247,7 +269,7 @@ local function setup_servers()
 end
 
 local function setup_mason_lspconfig()
-    require("mason-lspconfig").setup {
+    mason_lsp_config.setup {
         -- Automatic instllation of servers that are configured via lspconfig
         automatic_installation = true,
     }

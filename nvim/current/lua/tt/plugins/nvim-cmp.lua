@@ -1,3 +1,11 @@
+local deps_ok, cmp, luasnip, neogen = pcall(function()
+    return require "cmp", require "luasnip", require "neogen"
+end)
+
+if not deps_ok then
+    return
+end
+
 local M = {}
 
 local icons = require "tt.icons"
@@ -16,10 +24,6 @@ local cmp_window_opts = {
     border = "rounded",
     winhighlight = "Normal:NormalFloat,FloatBorder:CmpWindowBorder,CursorLine:Visual,Search:None",
 }
-
-local cmp = require "cmp"
-local luasnip = require "luasnip"
-local neogen = require "neogen"
 
 -- Functions for mapping <Tab> and <S-Tab> for nvim-cmp
 local function tab(fallback)
@@ -83,7 +87,7 @@ function M.setup()
         },
         snippet = {
             expand = function(args)
-                require("luasnip").lsp_expand(args.body)
+                luasnip.lsp_expand(args.body)
             end,
         },
         window = {

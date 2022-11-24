@@ -33,6 +33,7 @@ The configuration files will be installed to the default configuration directory
 │       │   │   └── gitsigns.lua
 │       │   ├── lsp/
 │       │   │   ├── goto-preview.lua
+│       │   │   ├── inlay-hints.lua
 │       │   │   ├── lsp-signature.lua
 │       │   │   ├── mason.lua
 │       │   │   ├── null-ls.lua

@@ -137,6 +137,7 @@ return require("packer").startup {
             -- Common configuration for LSP servers
             {
                 "neovim/nvim-lspconfig",
+                wants = "cmp-nvim-lsp",
                 config = function()
                     require("tt.plugins.lsp.nvim-lspconfig").setup()
                 end,
@@ -144,7 +145,6 @@ return require("packer").startup {
             -- General purpose LSP that allows non-LSP sources to hook to native LSP
             {
                 "jose-elias-alvarez/null-ls.nvim",
-                after = "nvim-lspconfig",
                 config = function()
                     require("tt.plugins.lsp.null-ls").setup()
                 end,
@@ -152,7 +152,6 @@ return require("packer").startup {
             -- LSP progress indicator
             {
                 "j-hui/fidget.nvim",
-                after = "nvim-lspconfig",
                 config = function()
                     require("fidget").setup {
                         text = {
@@ -164,7 +163,6 @@ return require("packer").startup {
             -- Preview of implementation in floating-window
             {
                 "rmagatti/goto-preview",
-                after = "nvim-lspconfig",
                 config = function()
                     require("tt.plugins.lsp.goto-preview").setup()
                 end,
@@ -174,7 +172,6 @@ return require("packer").startup {
                 "weilbith/nvim-code-action-menu",
                 keys = { "<leader>ca" },
                 cmd = "CodeActionMenu",
-                after = "nvim-lspconfig",
                 config = function()
                     vim.g.code_action_menu_show_details = false
                     vim.g.code_action_menu_show_diff = true
@@ -183,7 +180,6 @@ return require("packer").startup {
             -- Function signature in a floating-window
             {
                 "ray-x/lsp_signature.nvim",
-                after = "nvim-lspconfig",
                 config = function()
                     require("tt.plugins.lsp.lsp-signature").setup()
                 end,
@@ -191,7 +187,6 @@ return require("packer").startup {
             -- Render LSP diagnostics using virtual lines
             {
                 "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-                after = "nvim-lspconfig",
                 config = function()
                     require("lsp_lines").setup()
                     local utils = require "tt.utils"
@@ -208,8 +203,6 @@ return require("packer").startup {
             {
                 "smjonas/inc-rename.nvim",
                 commit = "1343175",
-                event = "BufRead",
-                after = "nvim-lspconfig",
                 config = function()
                     require("inc_rename").setup {
                         show_message = false,
@@ -223,10 +216,15 @@ return require("packer").startup {
             -- Show current code context
             {
                 "SmiteshP/nvim-navic",
-                event = "BufRead",
-                after = "nvim-lspconfig",
                 config = function()
                     require("tt.plugins.lsp.nvim-navic").setup()
+                end,
+            },
+            -- Show inlay hints via LSP
+            {
+                "lvimuser/lsp-inlayhints.nvim",
+                config = function()
+                    require("tt.plugins.lsp.inlay-hints").setup()
                 end,
             },
         }
