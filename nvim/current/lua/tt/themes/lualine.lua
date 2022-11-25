@@ -32,7 +32,7 @@ function M.setup()
     }
 
     local bubble_theme = {
-        component_separators = "|",
+        component_separators = "",
         section_separators = {
             left = icons.misc.RightHalfCircle,
             right = icons.misc.LeftHalfCircle,
