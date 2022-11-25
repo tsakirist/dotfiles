@@ -73,6 +73,9 @@ function M.setup()
                 hidden = true, -- Show hidden files
                 no_ignore = true, -- Show files that are ignored by git
             },
+            colorscheme = {
+                enable_preview = true,
+            },
         },
         extensions = {
             fzf = {
@@ -114,6 +117,7 @@ function M.setup()
     utils.map("n", "<leader>fa", "<Cmd>Telescope autocommands<CR>")
     utils.map("n", "<leader>fb", "<Cmd>Telescope buffers<CR>")
     utils.map("n", "<leader>fc", "<Cmd>Telescope commands<CR>")
+    utils.map("n", "<leader>fC", "<Cmd>Telescope colorscheme<CR>")
     utils.map("n", "<leader>ff", "<Cmd>Telescope find_files<CR>")
     utils.map("n", "<leader>fF", "<Cmd>Telescope git_files<CR>")
     utils.map("n", "<leader>fH", "<Cmd>Telescope highlights<CR>")
