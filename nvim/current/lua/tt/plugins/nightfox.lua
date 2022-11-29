@@ -1,8 +1,7 @@
 local M = {}
 
 function M.setup()
-    --- Set the currently used theme in the Module
-    M.theme = "nordfox"
+    M.theme = "carbonfox"
 
     local colors = M.colors()
     local spec = M.spec()

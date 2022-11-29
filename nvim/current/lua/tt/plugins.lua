@@ -24,7 +24,7 @@ return require("packer").startup {
 
         -- Colorschemes
         use { "doums/darcula" }
-        use { "ful1e5/onedark.nvim" }
+        use { "Mofiqul/vscode.nvim" }
         use {
             "EdenEast/nightfox.nvim",
             run = ":NightfoxCompile",
