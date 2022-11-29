@@ -106,7 +106,7 @@ return require("packer").startup {
             "hrsh7th/nvim-cmp",
             after = "LuaSnip",
             requires = {
-                { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
+                { "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp", module = "cmp_nvim_lsp" },
                 { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
                 { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
                 { "hrsh7th/cmp-path", after = "nvim-cmp" },
@@ -137,7 +137,6 @@ return require("packer").startup {
             -- Common configuration for LSP servers
             {
                 "neovim/nvim-lspconfig",
-                wants = "cmp-nvim-lsp",
                 config = function()
                     require("tt.plugins.lsp.nvim-lspconfig").setup()
                 end,
