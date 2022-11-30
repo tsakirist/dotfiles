@@ -54,6 +54,9 @@ function M.setup()
             all = {
                 BarbecueSeparator = { fg = colors.white },
             },
+            carbonfox = {
+                MatchParen = { fg = colors.red, style = "bold,italic" },
+            },
             nordfox = {
                 CmpItemKindFunction = { fg = colors.magenta },
                 CmpItemKindMethod = { fg = colors.magenta },
