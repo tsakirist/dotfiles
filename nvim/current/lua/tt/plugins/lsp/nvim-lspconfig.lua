@@ -221,27 +221,40 @@ local function setup_servers()
             },
         },
         sumneko_lua = {
-            Lua = {
-                diagnostics = {
-                    globals = {
-                        "vim",
-                        "jit",
+            settings = {
+                Lua = {
+                    diagnostics = {
+                        globals = {
+                            "vim",
+                            "jit",
+                        },
                     },
-                },
-                hint = {
-                    enable = true,
-                    arrayIndex = "Disable", -- "Enable", "Auto", "Disable"
-                    await = true,
-                    paramName = "All", -- "All", "Literal", "Disable"
-                    paramType = true,
-                    semicolon = "Disable", -- "All", "SameLine", "Disable"
-                    setType = true,
+                    hint = {
+                        enable = true,
+                        arrayIndex = "Disable", -- "Enable", "Auto", "Disable"
+                        await = true,
+                        paramName = "All", -- "All", "Literal", "Disable"
+                        paramType = true,
+                        semicolon = "Disable", -- "All", "SameLine", "Disable"
+                        setType = true,
+                    },
                 },
             },
         },
         tsserver = {
-            server = {
+            settings = {
                 typescript = {
+                    inlayHints = {
+                        includeInlayParameterNameHints = "all",
+                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                        includeInlayFunctionParameterTypeHints = true,
+                        includeInlayVariableTypeHints = true,
+                        includeInlayPropertyDeclarationTypeHints = true,
+                        includeInlayFunctionLikeReturnTypeHints = true,
+                        includeInlayEnumMemberValueHints = true,
+                    },
+                },
+                javascript = {
                     inlayHints = {
                         includeInlayParameterNameHints = "all",
                         includeInlayParameterNameHintsWhenArgumentMatchesName = false,
@@ -254,23 +267,23 @@ local function setup_servers()
                 },
             },
         },
-        clangd = {},
+        clangd = {
+            capabilities = {
+                -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
+                offsetEncoding = { "utf-16" },
+            },
+        },
     }
 
     for _, server in ipairs(required_servers) do
-        -- As an interim solution force clangd to use the same encoding
-        -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
-        if server == "clangd" then
-            server_opts.capabilities.offsetEncoding = { "utf-16" }
-        end
-        server_opts.settings = server_settings[server] or {}
-        lsp_config[server].setup(server_opts)
+        local server_configuration = vim.tbl_deep_extend("force", server_opts, server_settings[server] or {})
+        lsp_config[server].setup(server_configuration)
     end
 end
 
 local function setup_mason_lspconfig()
     mason_lsp_config.setup {
-        -- Automatic instllation of servers that are configured via lspconfig
+        -- Automatic installation of servers that are configured via lspconfig
         automatic_installation = true,
     }
 end
