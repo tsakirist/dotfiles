@@ -51,6 +51,9 @@ function M.setup()
             },
         },
         groups = {
+            all = {
+                BarbecueSeparator = { fg = colors.white },
+            },
             nordfox = {
                 CmpItemKindFunction = { fg = colors.magenta },
                 CmpItemKindMethod = { fg = colors.magenta },

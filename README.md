@@ -39,6 +39,7 @@ The configuration files will be installed to the default configuration directory
 │       │   │   ├── null-ls.lua
 │       │   │   ├── nvim-lspconfig.lua
 │       │   │   └── nvim-navic.lua
+│       │   ├── barbecue.lua
 │       │   ├── bufferline.lua
 │       │   ├── comment.lua
 │       │   ├── cybu.lua

@@ -82,6 +82,20 @@ return require("packer").startup {
             end,
         }
 
+        -- Winbar
+        use {
+            "utilyre/barbecue.nvim",
+            event = "BufRead",
+            requires = {
+                "neovim/nvim-lspconfig",
+                "smiteshp/nvim-navic",
+                "kyazdani42/nvim-web-devicons",
+            },
+            config = function()
+                require("tt.plugins.barbecue").setup()
+            end,
+        }
+
         -- Distraction free mode
         use {
             "folke/zen-mode.nvim",
