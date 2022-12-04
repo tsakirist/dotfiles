@@ -74,13 +74,17 @@ zstyle ':omz:update' frequency 7
 # Load ssh-keys for the ssh-agent lazy, on first use
 zstyle :omz:plugins:ssh-agent lazy yes
 
+# Source forgit (needs to be sourced before the plugin is loaded)
+[ -f ~/.forgit.zsh ] && . ~/.forgit.zsh
+
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z zsh-autosuggestions fast-syntax-highlighting fd colored-man-pages ssh-agent)
+plugins=(git z zsh-autosuggestions fast-syntax-highlighting fd colored-man-pages ssh-agent forgit)
 
+# Fire up oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 # Set history configuration settings
@@ -109,9 +113,6 @@ kitty + complete setup zsh | source /dev/stdin
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [ ! -f ~/.p10k.zsh ] || . ~/.p10k.zsh
-
-# Source forgit
-[ -f ~/.forgit.zsh ] && . ~/.forgit.zsh
 
 # Source my custom aliases
 [ -f ~/.zsh_aliases ] && . ~/.zsh_aliases
