@@ -7,7 +7,9 @@ function M.setup()
             prompt_align = "center",
 
             -- Highlights: 'NormalFloat' for the text, 'FloatBorder' for the border
-            winhighlight = "FloatBorder:DressingBorder",
+            win_options = {
+                winhighlight = "FloatBorder:DressingBorder",
+            },
 
             -- Make ui.input centered by default
             relative = "editor",
