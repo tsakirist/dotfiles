@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block, everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # This is required to load zsh along with everything else as sudo
 # This effectively ignores permission issues and loads the system normally
 ZSH_DISABLE_COMPFIX=true
@@ -86,6 +79,13 @@ plugins=(git z zsh-autosuggestions fast-syntax-highlighting fd colored-man-pages
 
 # Fire up oh-my-zsh
 source $ZSH/oh-my-zsh.sh
+
+# Enable Powerlevel10k instant prompt.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block, everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 # Set history configuration settings
 HIST_STAMPS="%d/%m/%y %T"
