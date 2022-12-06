@@ -56,6 +56,7 @@ function M.setup()
             },
             carbonfox = {
                 MatchParen = { fg = colors.red, style = "bold,italic" },
+                NvimSurroundHighlight = { fg = M.colors("nordfox").yellow },
             },
             nordfox = {
                 CmpItemKindFunction = { fg = colors.magenta },
@@ -99,16 +100,18 @@ function M.setup()
     vim.cmd.colorscheme(M.theme)
 end
 
---- Returns the colors that are used by the currently active theme.
+---Returns the color pallete that is used by the passed theme or the currently active theme.
+---@param theme? string: an optional theme to get the pallete from.
 ---@return table: The color table used by the theme.
-function M.colors()
-    return require("nightfox.palette").load(M.theme)
+function M.colors(theme)
+    return require("nightfox.palette").load(theme or M.theme)
 end
 
---- Returns the specs that are used by the currently active theme.
----@return table: The specs table used by the theme.
-function M.spec()
-    return require("nightfox.spec").load(M.theme)
+---Returns the specs that are used by the passed theme or the currently active theme.
+---@param theme? string: an optional theme to get the spec from.
+---@return table: the specs table used by the theme.
+function M.spec(theme)
+    return require("nightfox.spec").load(theme or M.theme)
 end
 
 return M
