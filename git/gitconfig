@@ -6,6 +6,7 @@
   when-added = log --diff-filter=A --
   when-deleted = log --diff-filter=D --
   when-modified = log --diff-filter=M --
+  stash-staged = "!git stash push -m \"$1\" -- $(git diff --staged --name-only) #"
 
 [pull]
   ff = only
