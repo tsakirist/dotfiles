@@ -16,6 +16,7 @@
   log = delta
   reflog = delta
   show = delta
+  branch = false
 
 [interactive]
   diffFilter = delta --color-only
