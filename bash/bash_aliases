@@ -79,17 +79,30 @@ alias myip='hostname -I'
 # Kitty aliases
 alias icat='kitty +kitten icat'
 
-# Git aliases
-alias gap='git add -p'
-alias gc-='git checkout -'
-alias gr='git restore'
-alias grp='git restore -p'
-alias grs='git restore --staged'
-alias gsl='git stash list'
-
 # Set nvim as the pager for man pages
 function nvim_man {
     $EDITOR "+Man $1|only"
 }
 
 alias man=nvim_man
+
+alias ga='git add'
+alias gap='git add -p'
+alias gc-='git checkout -'
+alias gc='git commit'
+alias gca='git commit --amend'
+alias gcan='git commit --amend --no-edit'
+alias gcanr='git commit --amend --no-edit --reset-author'
+alias gl='git pull'
+alias gp='git push'
+alias gpf='git push --force-with-lease'
+alias gr='git restore'
+alias grb='git rebase'
+alias grba='git rebase --abort'
+alias grbc='git rebase --continue'
+alias grbi='git rebase -i'
+alias grp='git restore -p'
+alias grs='git restore --staged'
+alias gsl='git stash list'
+alias gst='git status'
+# Git aliases
