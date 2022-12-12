@@ -143,7 +143,10 @@ return require("packer").startup {
             -- Portable package manager to install LSP & DAP servers, linters and formatters
             {
                 "williamboman/mason.nvim",
-                requires = "williamboman/mason-lspconfig.nvim",
+                requires = {
+                    "williamboman/mason-lspconfig.nvim",
+                    "jayp0521/mason-null-ls.nvim",
+                },
                 config = function()
                     require("tt.plugins.lsp.mason").setup()
                 end,
@@ -151,6 +154,7 @@ return require("packer").startup {
             -- Common configuration for LSP servers
             {
                 "neovim/nvim-lspconfig",
+                after = "mason.nvim",
                 config = function()
                     require("tt.plugins.lsp.nvim-lspconfig").setup()
                 end,

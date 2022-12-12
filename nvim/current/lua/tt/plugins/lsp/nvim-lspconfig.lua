@@ -1,5 +1,5 @@
-local deps_ok, lsp_config, mason_lsp_config, cmp_nvim_lsp, nvim_navic = pcall(function()
-    return require "lspconfig", require "mason-lspconfig", require "cmp_nvim_lsp", require "nvim-navic"
+local deps_ok, lsp_config, cmp_nvim_lsp, nvim_navic = pcall(function()
+    return require "lspconfig", require "cmp_nvim_lsp", require "nvim-navic"
 end)
 
 if not deps_ok then
@@ -281,15 +281,7 @@ local function setup_servers()
     end
 end
 
-local function setup_mason_lspconfig()
-    mason_lsp_config.setup {
-        -- Automatic installation of servers that are configured via lspconfig
-        automatic_installation = true,
-    }
-end
-
 function M.setup()
-    setup_mason_lspconfig()
     setup_handlers()
     setup_servers()
 end

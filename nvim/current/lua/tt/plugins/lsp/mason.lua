@@ -77,6 +77,16 @@ function M.setup()
         -- packages that are requested to be installed will be put in a queue
         max_concurrent_installers = 8,
 
+        -- The provider implementations to use for resolving package metadata (latest version, available versions, etc.).
+        -- Accepts multiple entries, where later entries will be used as fallback should prior providers fail.
+        -- Builtin providers are:
+        --   - mason.providers.registry-api (default) - uses the https://api.mason-registry.dev API
+        --   - mason.providers.client                 - uses only client-side tooling to resolve metadata
+        providers = {
+            "mason.providers.registry-api",
+        },
+
+        -- Customize the download URL when downloading assets from GitHub releases.
         github = {
             -- The template URL to use when downloading assets from GitHub
             -- The placeholders are the following (in order):
@@ -87,9 +97,38 @@ function M.setup()
         },
     }
 
+    -- Bridge between 'mason' and 'lspconfig' allowing for easy installation and setup of LSP severs
     require("mason-lspconfig").setup {
         -- Autmatic installation of servers configured via lspconfig
         automatic_installation = true,
+    }
+
+    -- Bridge between 'mason' and 'null-ls' allowing for easy installation of non-LSP servers
+    require("mason-null-ls").setup {
+        -- A list of sources to install if they're not already installed.
+        -- This setting has no relation with the `automatic_installation` setting.
+        ensure_installed = {
+            "clang-format",
+            "luacheck",
+            "prettierd",
+            "shfmt",
+            "stylua",
+        },
+
+        -- Will automatically install masons tools based on selected sources in `null-ls`.
+        -- Can also be an exclusion list.
+        -- Example: `automatic_installation = { exclude = { "rust_analyzer", "solargraph" } }`
+        -- NOTE: This will have to be run after 'null-ls' has been setup in order for it to work.
+        automatic_installation = false,
+
+        -- Whether sources that are installed in mason should be automatically set up in null-ls.
+        -- Removes the need to set up null-ls manually.
+        -- Can either be:
+        -- - false: Null-ls is not automatically registered.
+        -- - true: Null-ls is automatically registered.
+        -- - { types = { SOURCE_NAME = {TYPES} } }. Allows overriding default configuration.
+        -- Ex: { types = { eslint_d = {'formatting'} } }
+        automatic_setup = false,
     }
 
     utils.map("n", "<leader>m", vim.cmd.Mason)
