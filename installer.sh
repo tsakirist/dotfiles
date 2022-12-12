@@ -502,7 +502,7 @@ function _fzf() {
     else
         git clone --quiet --depth=1 https://github.com/junegunn/fzf.git "$HOME"/.fzf
     fi
-    "$HOME"/.fzf/install --key-bindings --completion --no-update-rc > /dev/null
+    "$HOME"/.fzf/install --key-bindings --completion --no-update-rc > /dev/null 2>&1
     echo -e "    ${bullet} New version: ${red_fg}$(_print_cmd_version fzf)${reset}"
 }
 
