@@ -213,7 +213,7 @@ return require("packer").startup {
                             virtual_lines = virtual_lines_enabled,
                             virtual_text = not virtual_lines_enabled,
                         }
-                    end)
+                    end, { desc = "Toggle LSP lines" })
                 end,
             },
             -- Incremental LSP based renaming with command preview
@@ -227,7 +227,7 @@ return require("packer").startup {
                     local utils = require "tt.utils"
                     utils.map("n", "<leader>rn", function()
                         require("inc_rename").rename { default = vim.fn.expand "<cword>" }
-                    end)
+                    end, { desc = "Incremental LSP rename with preview" })
                 end,
             },
             -- Show current code context
@@ -450,7 +450,12 @@ return require("packer").startup {
             config = function()
                 require("urlview").setup()
                 local utils = require "tt.utils"
-                utils.map("n", "<leader>uv", "<Cmd>UrlView packer<CR>")
+                utils.map(
+                    "n",
+                    "<leader>uv",
+                    "<Cmd>UrlView packer<CR>",
+                    { desc = "View URL of installed packer plugins" }
+                )
             end,
         }
 

@@ -69,7 +69,7 @@ utils.map({ "i", "v" }, "<C-s>", "<Esc><Cmd>update<CR>")
 -- Keymaps to quit current buffer with ctrl+q
 utils.map({ "n", "i", "v" }, "<C-q>", function()
     require("tt.helper").smart_quit()
-end, { desc = { "Quit current buffer" } })
+end, { desc = "Quit current buffer" })
 
 -- Keymap to quit all buffers
 utils.map("n", "Q", "<Esc><Cmd>qa!<CR>")
