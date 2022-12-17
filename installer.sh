@@ -60,10 +60,18 @@ function _check_dir() {
     fi
 }
 
+# Checks whether the command is present and if not will try to install it
+# Takes an optional second argument that specifies a different name for the package
 function _check_command() {
     if ! command -v "$1" > /dev/null 2>&1; then
-        echo -e "${black_bg}${thunder} Installing required package ${bold}${red_fg}${1}${reset} ..."
-        _install "$1"
+        local cmd
+        if [ "$#" -eq 1 ]; then
+            cmd="$1"
+        elif [ "$#" -eq 2 ]; then
+            cmd="$2"
+        fi
+        echo -e "${black_bg}${thunder} Installing required package ${bold}${red_fg}${cmd}${reset} ..."
+        _install "$cmd"
     fi
 }
 
@@ -475,6 +483,7 @@ function _install_fonts_from_dir() {
     for font in "$fonts_dir"/*.ttf; do
         cp -v "$font" "$fonts_destination"
     done
+    _check_command fc-cache fontconfig
     fc-cache -f
 }
 
