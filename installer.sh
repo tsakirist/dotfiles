@@ -259,15 +259,12 @@ function _node() {
 
 function _nvim_nightly() {
     _print i "neovim nightly" ": a superior vim fork focused on extensiblity and usability"
-    local url="https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage"
-    local download_dir=$(mktemp -d)
-    wget -q -O "$download_dir"/nvim.appimage "$url"
-    pushd "$download_dir" > /dev/null || return
-    [ -f nvim.appimage ] \
-        && chmod u+x nvim.appimage \
-        && echo -ne "    ${green_fg}${tick}${reset} Installed " \
-        && ./nvim.appimage --version | grep --color=always -m 1 NVIM \
-        && sudo mv nvim.appimage /usr/bin/nvim
+    local temp_dir=$(mktemp -d)
+    local nvim_deb="nvim-linux64.deb"
+    local url="https://github.com/neovim/neovim/releases/download/nightly/${nvim_deb}"
+    pushd "$temp_dir" > /dev/null || return
+    curl -sSLO "$url"
+    sudo dpkg -i "$nvim_deb"
     popd > /dev/null || return
 }
 
