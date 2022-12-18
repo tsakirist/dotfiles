@@ -277,10 +277,9 @@ function _nvim_nightly() {
 }
 
 function _check_nvim_config_requirements() {
-    echo -e "    ${bullet} Checking requirements ..."
-    if ! command -v make > /dev/null 2>&1; then
-        _build_essential
-    fi
+    echo -e "    ${bullet} Checking LSP server requirements ..."
+    _check_command make build-essential
+    _check_command luarocks
     if ! command -v node > /dev/null 2>&1; then
         _node
     fi
