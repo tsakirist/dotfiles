@@ -70,15 +70,16 @@ local misc = {
     ArrowColappsed = "",
     ArrowExpanded = "",
     ArrowRight = "➜",
-    BigCircle = " ",
-    BigUnfilledCircle = " ",
+    BigCircle = "",
+    BigUnfilledCircle = "",
     Branch = "",
     Bulb = "",
     Bullets = "ﯟ",
     Calendar = "",
     CheckMark = "✓",
     ChevronRight = ">",
-    Circle = " ",
+    Circle = "●",
+    Ellipsis = "…",
     LeftFilledArrow = "",
     LeftHalfCircle = "",
     LeftUnfilledArrow = "",
@@ -87,6 +88,7 @@ local misc = {
     RightFilledArrow = "",
     RightHalfCircle = "",
     RightUnfilledArrow = "",
+    Search = "",
     SmallArrowCollapsed = "",
     SmallArrowExpanded = "",
     Star = "*",
@@ -134,7 +136,7 @@ local navic = {
     Variable = " ",
 }
 
-local barbecue = {
+local barbecue_kind = {
     Array = "",
     Boolean = "蘒",
     Class = "",
@@ -177,5 +179,5 @@ return {
     document = document,
     misc = misc,
     navic = navic,
-    barbecue = barbecue,
+    barbecue_kind = barbecue_kind,
 }

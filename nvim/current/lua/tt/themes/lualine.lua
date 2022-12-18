@@ -124,11 +124,17 @@ function M.setup()
             },
             lualine_c = {
                 {
-                    navic.get_location,
-                    cond = navic.is_available,
-                    color = {
-                        fg = colors.magenta,
-                    },
+                    "searchcount",
+                    color = "LualineSearchCount",
+                    icon = icons.misc.Search,
+                    on_click = function(number_of_clicks, mouse_button, modifier)
+                        --- Left click goes to next search hit and right click to previous
+                        if mouse_button == "l" then
+                            vim.fn.feedkeys "n"
+                        elseif mouse_button == "r" then
+                            vim.fn.feedkeys "N"
+                        end
+                    end,
                 },
             },
             lualine_x = { "encoding", "fileformat", "filetype" },

@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-    local barbecue_kinds = require("tt.icons").barbecue
+    local icons = require "tt.icons"
 
     require("barbecue").setup {
         ---whether to attach navic to language servers automatically
@@ -20,18 +20,6 @@ function M.setup()
         ---@type string[]
         exclude_filetypes = { "toggleterm", "gitcommit" },
 
-        truncation = {
-            ---whether winbar truncation is enabled
-            ---`false` to gain a little performance
-            ---@type boolean
-            enabled = true,
-
-            ---`simple` starts truncating from the beginning until it fits
-            ---`keep_basename` is the same as `simple` but skips basename
-            ---@type "simple"|"keep_basename"
-            method = "keep_basename",
-        },
-
         modifiers = {
             ---filename modifiers applied to dirname
             ---@type string
@@ -48,25 +36,29 @@ function M.setup()
             return ""
         end,
 
+        ---whether to replace file icon with the modified symbol when buffer is modified
+        ---@type boolean
+        show_modified = true,
+
         symbols = {
             ---modification indicator
             ---`false` to disable
             ---@type false|string
-            modified = false,
+            modified = icons.misc.Circle,
 
             ---truncation indicator
             ---@type string
-            ellipsis = "…",
+            ellipsis = icons.misc.Ellipsis,
 
             ---entry separator
             ---@type string
-            separator = "",
+            separator = icons.misc.ChevronRight,
         },
 
         ---icons for different context entry kinds
         ---`false` to disable kind icons
         ---@type table<string, string>|false
-        kinds = barbecue_kinds,
+        kinds = icons.barbecue_kind,
     }
 end
 

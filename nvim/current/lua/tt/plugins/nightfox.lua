@@ -53,6 +53,7 @@ function M.setup()
         groups = {
             all = {
                 BarbecueSeparator = { fg = colors.white },
+                LualineSearchCount = { fg = colors.magenta, bg = colors.bg0, style = "italic" },
             },
             carbonfox = {
                 CmpWindowBorder = { fg = colors.blue, bg = colors.bg0 },
