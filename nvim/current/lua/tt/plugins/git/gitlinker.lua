@@ -32,17 +32,28 @@ function M.setup()
     }
 
     local utils = require "tt.utils"
-    utils.map(
-        { "n", "v" },
-        "<leader>go",
-        "<Cmd>lua require'gitlinker'.get_buf_range_url('n', { action_callback = require'gitlinker.actions'.open_in_browser})<CR>"
-    )
-    utils.map(
-        "n",
-        "<leader>gO",
-        "<Cmd>lua require'gitlinker'.get_repo_url({ action_callback = require'gitlinker.actions'.open_in_browser})<CR>"
-    )
-    utils.map("n", "<leader>gY", "<Cmd>lua require'gitlinker'.get_repo_url()<CR>")
+
+    utils.map("n", "<leader>go", function()
+        require("gitlinker").get_buf_range_url("n", { action_callback = M.open_in_browser })
+    end, { desc = "Open file in browser" })
+
+    utils.map("v", "<leader>go", function()
+        require("gitlinker").get_buf_range_url("v", { action_callback = M.open_in_browser })
+    end, { desc = "Open file in browser" })
+
+    utils.map("n", "<leader>gO", function()
+        require("gitlinker").get_repo_url { action_callback = M.open_in_browser }
+    end, { desc = "Open repository in browser" })
+
+    utils.map("n", "<leader>gY", function()
+        require("gitlinker").get_repo_url()
+    end, { desc = "Copy repository URL to the clipboard" })
+end
+
+--- Callback that allows opening a url in the default application.
+---@param url string: The url to be opened.
+function M.open_in_browser(url)
+    vim.fn.jobstart("xdg-open " .. url)
 end
 
 return M
