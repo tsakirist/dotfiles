@@ -138,6 +138,9 @@ end, { desc = "Zoom toggle a buffer in a new tab" })
 utils.map("n", "n", "nzzzv")
 utils.map("n", "N", "Nzzzv")
 
+-- Sort visual selection
+utils.map("v", "<leader>s", ":sort<CR>", { desc = "Sort visual selection" })
+
 -- Copy the absolute filename to the clipboard
 utils.map("n", "<leader>cp", function()
     require("tt.helper").copy_filename_to_clipboard "p"
