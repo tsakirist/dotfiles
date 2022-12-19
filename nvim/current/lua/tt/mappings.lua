@@ -134,9 +134,15 @@ utils.map("n", "<leader>z", function()
     require("tt.helper").zoomToggleNewTab()
 end, { desc = "Zoom toggle a buffer in a new tab" })
 
--- Make `n|N` to also center the screen
+-- Make `n|N` to also center the screen and open any folds
 utils.map("n", "n", "nzzzv")
 utils.map("n", "N", "Nzzzv")
+
+-- Make the scrolling actions to also center the screen
+utils.map("n", "<C-d>", "<C-d>zz")
+utils.map("n", "<C-u>", "<C-u>zz")
+utils.map("n", "<C-f>", "<C-f>zz")
+utils.map("n", "<C-b>", "<C-b>zz")
 
 -- Sort visual selection
 utils.map("v", "<leader>s", ":sort<CR>", { desc = "Sort visual selection" })
