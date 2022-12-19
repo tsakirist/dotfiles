@@ -25,6 +25,12 @@ end
 
 --- Function to zoom-in and zoom-out of the given window in a new tab.
 local function zoomToggleNewTab()
+    -- Do not open new tab for unnamed buffer
+    -- TODO: Think how this can be fixed
+    if vim.fn.bufname() == "" then
+        return
+    end
+
     -- Do nothing if this is the only window in the first tab
     if vim.fn.winnr "$" == 1 and vim.fn.tabpagenr "$" == 1 then
         return
