@@ -1,6 +1,8 @@
 local M = {}
 
 function M.setup()
+    local icons = require "tt.icons"
+
     require("trouble").setup {
         position = "bottom", -- position of the list can be: bottom, top, left, right
         height = 18, -- height of the trouble list when position is top or bottom
@@ -37,22 +39,22 @@ function M.setup()
         auto_fold = false, -- automatically fold a file trouble list at creation
         auto_jump = { "lsp_definitions" }, -- for the given modes, automatically jump if there is only a single result
         signs = {
-            error = "",
-            information = "",
-            warning = "",
-            hint = "",
-            other = "﫠",
+            error = icons.diagnostics.Error,
+            information = icons.diagnostics.Info,
+            warning = icons.diagnostics.Warn,
+            hint = icons.diagnostics.Hint,
         },
-        use_lsp_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
+        use_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
     }
 
     local utils = require "tt.utils"
-    utils.map("n", "<leader>tt", "<Cmd>TroubleToggle<CR>")
-    utils.map("n", "<leader>tw", "<Cmd>TroubleToggle workspace_diagnostics<CR>")
     utils.map("n", "<leader>td", "<Cmd>TroubleToggle document_diagnostics<CR>")
-    utils.map("n", "<leader>tr", "<Cmd>TroubleToggle lsp_references<CR>")
-    utils.map("n", "<leader>tq", "<Cmd>TroubleToggle quickfix<CR>")
     utils.map("n", "<leader>tl", "<Cmd>TroubleToggle loclist<CR>")
+    utils.map("n", "<leader>tq", "<Cmd>TroubleToggle quickfix<CR>")
+    utils.map("n", "<leader>tr", "<Cmd>TroubleToggle lsp_references<CR>")
+    utils.map("n", "<leader>tt", "<Cmd>TroubleToggle lsp_type_definitions<CR>")
+    utils.map("n", "<leader>tw", "<Cmd>TroubleToggle lsp_implementations<CR>")
+    utils.map("n", "<leader>tw", "<Cmd>TroubleToggle workspace_diagnostics<CR>")
 end
 
 return M
