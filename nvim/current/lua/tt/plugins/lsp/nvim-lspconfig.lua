@@ -1,5 +1,5 @@
-local deps_ok, lsp_config, cmp_nvim_lsp, nvim_navic = pcall(function()
-    return require "lspconfig", require "cmp_nvim_lsp", require "nvim-navic"
+local deps_ok, lsp_config, cmp_nvim_lsp, nvim_navic, utils = pcall(function()
+    return require "lspconfig", require "cmp_nvim_lsp", require "nvim-navic", require "tt.utils"
 end)
 
 if not deps_ok then
@@ -143,32 +143,26 @@ local function setup_formatting(client)
 end
 
 local function setup_keymappings(_, bufnr)
-    local function buf_set_keymap(...)
-        vim.api.nvim_buf_set_keymap(bufnr, ...)
-    end
-
-    -- LSP keymaps
-    local opts = { noremap = true, silent = true }
-    buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    buf_set_keymap("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    buf_set_keymap("n", "gr", "<Cmd>lua vim.lsp.buf.references()<CR>", opts)
-    buf_set_keymap("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    buf_set_keymap("n", "<leader>ca", "<Cmd>CodeActionMenu<CR>", opts)
-    buf_set_keymap("n", "[d", "<Cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-    buf_set_keymap("n", "]d", "<Cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-    buf_set_keymap("n", "dp", "<Cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-    buf_set_keymap("n", "dn", "<Cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-    buf_set_keymap("n", "<leader>ll", "<Cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-    buf_set_keymap("n", "<leader>lq", "<Cmd>lua vim.diagnostic.setqflist()<CR>", opts)
-    buf_set_keymap("n", "<leader>ld", "<Cmd>lua vim.diagnostic.open_float()<CR>", opts)
-    buf_set_keymap("n", "<leader>fr", "<Cmd>lua vim.lsp.buf.format{ async = true }<CR>", opts)
-    buf_set_keymap("v", "<leader>rf", "<Cmd>lua vim.lsp.buf.range_formatting{ async = true }<CR>", opts)
-    buf_set_keymap("n", "<C-LeftMouse>", "<Cmd>TroubleToggle lsp_references<CR>", opts)
+    local opts = { buffer = bufnr }
+    utils.map("n", "<C-LeftMouse>", "<Cmd>TroubleToggle lsp_references<CR>", opts)
+    utils.map("n", "<leader>ca", "<Cmd>CodeActionMenu<CR>", opts)
+    utils.map("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    utils.map("n", "[d", "<Cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+    utils.map("n", "]d", "<Cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+    utils.map("n", "dl", "<Cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+    utils.map("n", "dn", "<Cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+    utils.map("n", "do", "<Cmd>lua vim.diagnostic.open_float()<CR>", opts)
+    utils.map("n", "dp", "<Cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+    utils.map("n", "dq", "<Cmd>lua vim.diagnostic.setqflist()<CR>", opts)
+    utils.map("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+    utils.map("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    utils.map("n", "gr", "<Cmd>lua vim.lsp.buf.references()<CR>", opts)
+    utils.map({ "n", "v" }, "<leader>fr", "<Cmd>lua vim.lsp.buf.format{ async = true }<CR>", opts)
 
     local ft = vim.bo.filetype
     if ft == "c" or ft == "cpp" or ft == "h" or ft == "hpp" then
-        buf_set_keymap("n", "<leader>ko", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
-        buf_set_keymap("n", "<M-o>", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
+        utils.map("n", "<leader>ko", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
+        utils.map("n", "<M-o>", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
     end
 end
 
@@ -177,19 +171,6 @@ local function on_attach(client, bufnr)
     setup_formatting(client)
     setup_highlighting(client, bufnr)
     setup_navigation(client, bufnr)
-end
-
-local function get_capabilities()
-    local capabilities = cmp_nvim_lsp.default_capabilities()
-    capabilities.textDocument.completion.completionItem.snippetSupport = true
-    capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = {
-            "documentation",
-            "detail",
-            "additionalTextEdits",
-        },
-    }
-    return capabilities
 end
 
 local function setup_servers()
@@ -204,10 +185,13 @@ local function setup_servers()
         "tsserver",
     }
 
+    -- Get the default capabilities for the LSP
+    local capabilities = cmp_nvim_lsp.default_capabilities()
+
     -- Common server options
     local server_opts = {
         on_attach = on_attach,
-        capabilities = get_capabilities(),
+        capabilities = capabilities,
     }
 
     -- Custom LSP server settings
@@ -286,7 +270,6 @@ function M.setup()
     setup_servers()
 end
 
-local utils = require "tt.utils"
 utils.map("n", "<leader>li", "<Cmd>LspInfo<CR>")
 
 return M
