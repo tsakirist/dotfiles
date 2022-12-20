@@ -74,6 +74,7 @@ The configuration files will be installed to the default configuration directory
 │       ├── icons.lua
 │       ├── init.lua
 │       ├── mappings.lua
+│       ├── plugin_manager.lua
 │       ├── plugins.lua
 │       ├── settings.lua
 │       └── utils.lua

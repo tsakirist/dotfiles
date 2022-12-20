@@ -84,11 +84,8 @@ function M.setup()
                 override_file_sorter = true, -- Override the file sorter
                 case_mode = "smart_case", -- "ignore_case" or "respect_case" or "smart_case"
             },
-            packer = {
+            lazy = {
                 theme = "ivy",
-                layout_config = {
-                    height = 0.5,
-                },
             },
             live_grep_args = {
                 auto_quoting = true,
@@ -107,8 +104,8 @@ function M.setup()
 
     -- Load extensions
     require("telescope").load_extension "fzf"
-    require("telescope").load_extension "packer"
     require("telescope").load_extension "notify"
+    require("telescope").load_extension "lazy"
     require("telescope").load_extension "live_grep_args"
 
     -- Set custom keybindings
@@ -126,7 +123,7 @@ function M.setup()
     utils.map("n", "<leader>fo", "<Cmd>Telescope oldfiles<CR>")
     utils.map("n", "<leader>fO", "<Cmd>Telescope vim_options<CR>")
     utils.map("n", "<leader>fw", "<Cmd>Telescope grep_string<CR>")
-    utils.map("n", "<leader>fp", "<Cmd>Telescope packer<CR>")
+    utils.map("n", "<leader>fp", "<Cmd>Telescope lazy<CR>")
     utils.map("n", "<leader>fs", "<Cmd>Telescope lsp_document_symbols<CR>")
     utils.map("n", "<leader>fT", "<Cmd>Telescope tags<CR>")
     utils.map("n", "<leader>f:", "<Cmd>Telescope command_history<CR>")
@@ -205,24 +202,26 @@ function M.find_sessions(opts)
     opts.entry_maker = opts.entry_maker or make_entry.gen_from_file(opts)
 
     --- Picker that will allow us to select a session to load or delete.
-    pickers.new(opts, {
-        prompt_title = "Session",
-        results_title = sessions_path,
-        finder = finders.new_oneshot_job(find_command, opts),
-        sorter = config.file_sorter(opts),
-        attach_mappings = function(prompt_bufnr, map)
-            actions.select_default:replace(load_session)
-            local function inner_delete_session()
-                delete_session()
-                --- Refresh the UI after session deletion.
-                local current_picker = actions_state.get_current_picker(prompt_bufnr)
-                current_picker:refresh(finders.new_oneshot_job(find_command, opts))
-            end
-            map("n", "d", inner_delete_session)
-            map("i", "<C-d>", inner_delete_session)
-            return true
-        end,
-    }):find()
+    pickers
+        .new(opts, {
+            prompt_title = "Session",
+            results_title = sessions_path,
+            finder = finders.new_oneshot_job(find_command, opts),
+            sorter = config.file_sorter(opts),
+            attach_mappings = function(prompt_bufnr, map)
+                actions.select_default:replace(load_session)
+                local function inner_delete_session()
+                    delete_session()
+                    --- Refresh the UI after session deletion.
+                    local current_picker = actions_state.get_current_picker(prompt_bufnr)
+                    current_picker:refresh(finders.new_oneshot_job(find_command, opts))
+                end
+                map("n", "d", inner_delete_session)
+                map("i", "<C-d>", inner_delete_session)
+                return true
+            end,
+        })
+        :find()
 end
 
 return M
