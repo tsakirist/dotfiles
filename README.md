@@ -78,7 +78,8 @@ The configuration files will be installed to the default configuration directory
 │       ├── plugins.lua
 │       ├── settings.lua
 │       └── utils.lua
-└── init.lua
+├── init.lua
+└── lazy-lock.json
 ```
 
 <h2 align="center">Installer</h2>
