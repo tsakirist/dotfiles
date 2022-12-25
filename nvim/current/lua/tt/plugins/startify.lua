@@ -59,7 +59,7 @@ function M.setup()
     --- Specify the custom header to use
     local datetime = os.date "%A %d %B %Y, %T"
     local version = vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch
-    local plugins = #vim.tbl_keys(packer_plugins)
+    local plugins = require("lazy").stats().count
 
     local icons = require "tt.icons"
 

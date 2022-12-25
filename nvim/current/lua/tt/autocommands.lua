@@ -60,10 +60,6 @@ function M.load_autocommands()
             { "BufEnter,FocusGained,InsertLeave,WinEnter", "*", "if &nu && mode() != 'i' | set rnu | endif" },
             { "BufLeave,FocusLost,InsertEnter,WinLeave", "*", "if &nu | set nornu | endif" },
         },
-        --- Regenerate compiled loader file everytime the plugins file changes
-        _packer = {
-            { "BufWritePost", "plugins.lua", "source <afile> | PackerCompile" },
-        },
         --- A set of filetypes where just hitting q should exit the window
         _faster_quit = {
             { "FileType", "help,man,lspinfo", "nnoremap <silent> <buffer> q :quit<CR>" },
