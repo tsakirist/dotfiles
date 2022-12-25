@@ -113,3 +113,5 @@ bindkey -s "^[OM" "^M"
 # Source my fzf configurations
 [ -f ~/.fzf.config ] && . ~/.fzf.config
 
+# Add ~/.local/bin to PATH
+export PATH="$HOME/.local/bin:$PATH"

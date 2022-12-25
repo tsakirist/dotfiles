@@ -130,3 +130,6 @@ kitty + complete setup zsh | source /dev/stdin
 # '^M' or '\n' play the role of <Enter> so that the command can run automatically
 bindkey -s '' 'foc\n'
 bindkey -s '' 'frg\n'
+
+# Add ~/.local/bin to PATH
+export PATH="$HOME/.local/bin:$PATH"
