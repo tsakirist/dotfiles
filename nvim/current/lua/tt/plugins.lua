@@ -13,7 +13,7 @@ return {
     -- Improve the default vim.ui interfaces
     {
         "stevearc/dressing.nvim",
-        event = "BufReadPre",
+        event = "VeryLazy",
         config = function()
             require("tt.plugins.dressing").setup()
         end,
@@ -30,9 +30,7 @@ return {
     -- Startify greeter screen with integrated session-handling
     {
         "mhinz/vim-startify",
-        dependencies = {
-            "nvim-tree/nvim-web-devicons",
-        },
+        dependencies = "nvim-tree/nvim-web-devicons",
         config = function()
             require("tt.plugins.startify").setup()
         end,
@@ -367,10 +365,9 @@ return {
     {
         "numToStr/Comment.nvim",
         keys = {
-            "gc",
-            "gb",
-            "gcc",
-            "<leader><leader>",
+            { "gc", mode = { "n", "v" } },
+            { "gb", mode = { "n", "v" } },
+            { "<leader><leader>", mode = { "n", "v" } },
         },
         dependencies = "JoosepAlviste/nvim-ts-context-commentstring",
         config = function()
