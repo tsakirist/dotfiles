@@ -128,8 +128,8 @@ function M.setup()
     utils.map("n", "<leader>fT", "<Cmd>Telescope tags<CR>")
     utils.map("n", "<leader>f:", "<Cmd>Telescope command_history<CR>")
     utils.map("n", "<leader>f/", "<Cmd>Telescope search_history<CR>")
-    utils.map("n", "<leader>fh", "<Cmd>lua require'telescope.builtin'.help_tags({layout_strategy = 'vertical'})<CR>")
     utils.map("n", "<leader>fg", "<Cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
+    utils.map("n", "<leader>fh", "<Cmd>lua require'telescope.builtin'.help_tags({layout_strategy = 'vertical'})<CR>")
     utils.map(
         "n",
         "<leader>fl",
@@ -140,8 +140,9 @@ function M.setup()
         "<leader>fm",
         "<Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_ivy({}))<CR>"
     )
-    utils.map("n", "<leader>fv", "<Cmd>lua require'tt.plugins.telescope'.find_in_nvim_config()<CR>")
-    utils.map("n", "<leader>fS", "<Cmd>lua require'tt.plugins.telescope'.find_sessions()<CR>")
+
+    utils.map("n", "<leader>fv", M.find_in_nvim_config, { desc = "Search in neovim config files" })
+    utils.map("n", "<leader>fS", M.find_sessions, { desc = "Search startify sessions" })
 end
 
 --- Defines custom picker for searching in neovim config.
@@ -177,7 +178,7 @@ function M.find_sessions(opts)
     end
 
     --- Path where Startify stores saved sessions.
-    local sessions_path = require("tt.plugins.startify").get_sessions_path()
+    local sessions_path = require("tt.plugins.startify").sessions_path
 
     --- The find command to use for finding the sesions.
     local find_command = vim.tbl_flatten {

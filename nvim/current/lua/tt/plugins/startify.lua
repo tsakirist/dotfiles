@@ -1,25 +1,26 @@
 local M = {}
 
---- Directory where session files will be stored.
-local sessions_path = vim.fn.stdpath "data" .. "/sessions/"
+local utils = require "tt.utils"
 
---- Create the `sessions` directory if it doesn't exists.
-if vim.fn.isdirectory(sessions_path) == 0 then
-    vim.fn.mkdir(sessions_path, "p")
-    vim.notify(
-        string.format("Created sessions directory: '%s'", sessions_path),
-        vim.log.levels.INFO,
-        { title = "Startify" }
-    )
-end
+local function bootstrap()
+    --- Directory where session files will be stored.
+    M.sessions_path = utils.join_paths(vim.fn.stdpath "data", "sessions")
 
---- Expose the session_path to other modules.
----@return string sessions_path the directory where Startify stores saved sessions.
-function M.get_sessions_path()
-    return sessions_path
+    --- Create the `sessions` directory if it doesn't exists.
+    if vim.fn.isdirectory(M.sessions_path) == 0 then
+        vim.fn.mkdir(M.sessions_path, "p")
+        vim.notify(
+            string.format("Created sessions directory: '%s'", M.sessions_path),
+            vim.log.levels.INFO,
+            { title = "Startify" }
+        )
+    end
 end
 
 function M.setup()
+    -- Perform necessary initialization
+    bootstrap()
+
     --- Do not show <empty> and <quit>
     vim.g.startify_enable_special = 0
 
@@ -33,7 +34,7 @@ function M.setup()
     vim.g.startify_update_oldfiles = 1
 
     --- Specify where to store sessions
-    vim.g.startify_session_dir = M.get_sessions_path()
+    vim.g.startify_session_dir = M.sessions_path
 
     --- Automatically update sessions
     vim.startify_session_persistence = 1
@@ -93,8 +94,8 @@ function M.setup()
 
     --- Add custom bookmarks
     vim.g.startify_bookmarks = {
-        { v = config_path .. "/init.lua" },
-        { p = config_path .. "/lua/tt/plugins.lua" },
+        { i = utils.join_paths(config_path, "init.lua") },
+        { p = utils.join_paths(config_path, "lua", "tt", "plugins.lua") },
         { z = "~/.zshrc" },
         { a = "~/.zsh_aliases" },
     }

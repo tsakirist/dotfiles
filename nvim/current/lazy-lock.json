@@ -22,7 +22,7 @@
   "hydra.nvim": { "branch": "master", "commit": "7e2aa29f88d534371c6b0263d3abbfac7c2376ce" },
   "inc-rename.nvim": { "branch": "main", "commit": "13431757bf17fe185b203dc2a687d23de8aed251" },
   "indent-blankline.nvim": { "branch": "master", "commit": "c4c203c3e8a595bc333abaf168fcb10c13ed5fb7" },
-  "lazy.nvim": { "branch": "main", "commit": "5697098e9763c204cfc75506d3fbbd187bc5d672" },
+  "lazy.nvim": { "branch": "main", "commit": "c4d924aceea13cfab5cf23d0765c5d206deff341" },
   "lsp-inlayhints.nvim": { "branch": "main", "commit": "a28c51a6362e3faa17f67749436cb5c8b55dcc6d" },
   "lsp_lines.nvim": { "branch": "main", "commit": "ec98b45c8280e5ef8c84028d4f38aa447276c002" },
   "lsp_signature.nvim": { "branch": "master", "commit": "1979f1118e2b38084e7c148f279eed6e9300a342" },
