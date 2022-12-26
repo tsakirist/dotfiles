@@ -52,4 +52,4 @@ require("lazy").setup(require "tt.plugins", {
     debug = false,
 })
 
-utils.map("n", "<leader>lz", "<Cmd>Lazy<CR>", { desc = "Open Lazy (plugins manager)" })
+utils.map("n", "<leader>lz", vim.cmd.Lazy, { desc = "Open Lazy (plugins manager)" })

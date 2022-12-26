@@ -2,44 +2,6 @@ local M = {}
 
 local Hydra = require "hydra"
 
-local function setup_venn_hydra()
-    local hint = [[
- Arrow^^^^^^   Select region with <C-v>
- ^ ^
- ^ ^ _K_ ^ ^
- _H_ ^ ^ _L_   _B_: surround it with box
- ^ ^ _J_ ^ ^                   _q_: exit
-]]
-
-    Hydra {
-        name = "Draw Diagram",
-        mode = "n",
-        body = "<leader>vt",
-        hint = hint,
-        config = {
-            color = "pink",
-            invoke_on_body = true,
-            hint = {
-                border = "rounded",
-            },
-            on_enter = function()
-                vim.cmd.setlocal "virtualedit=all"
-            end,
-            on_exit = function()
-                vim.cmd.setlocal "virtualedit="
-            end,
-        },
-        heads = {
-            { "H", "<C-v>h:VBox<CR>" },
-            { "J", "<C-v>j:VBox<CR>" },
-            { "K", "<C-v>k:VBox<CR>" },
-            { "L", "<C-v>l:VBox<CR>" },
-            { "B", ":VBox<CR>", { mode = "v" } },
-            { "q", nil, { exit = true, nowait = true, desc = "exit" } },
-        },
-    }
-end
-
 local function setup_window_management_hydra()
     local hint = [[
 ^  ^^^^^^              ^^^^^^ ^ ^^^^ ^          ^^^ ^ ^ ^                ^
@@ -196,7 +158,6 @@ local function setup_git_hydra()
 end
 
 function M.setup()
-    setup_venn_hydra()
     setup_window_management_hydra()
     setup_git_hydra()
 end

@@ -130,7 +130,10 @@ return {
         -- Preview of implementation in floating-window
         {
             "rmagatti/goto-preview",
-            keys = { "gp", "gi" },
+            keys = {
+                "gp",
+                "gi",
+            },
             config = function()
                 require("tt.plugins.lsp.goto-preview").setup()
             end,
@@ -312,7 +315,13 @@ return {
     -- Surf easily through the document and move elemetns
     {
         "ziontee113/syntax-tree-surfer",
-        keys = { "<leader>gt", "<M-j>", "<M-k>", "<M-J>", "<M-K>" },
+        keys = {
+            "<leader>gt",
+            "<M-j>",
+            "<M-k>",
+            "<M-J>",
+            "<M-K>",
+        },
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
             require("tt.plugins.syntax-tree-surfer").setup()
@@ -346,7 +355,7 @@ return {
     -- Documentation/annotation generator using Treesitter
     {
         "danymat/neogen",
-        keys = { "<leader>ng" },
+        keys = "<leader>ng",
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
             require("tt.plugins.neogen").setup()
@@ -395,7 +404,10 @@ return {
     -- File explorer tree
     {
         "nvim-neo-tree/neo-tree.nvim",
-        keys = { "<leader>nf", "<leader>nt" },
+        keys = {
+            "<leader>nf",
+            "<leader>nt",
+        },
         branch = "v2.x",
         dependencies = {
             "nvim-lua/plenary.nvim",
@@ -469,7 +481,10 @@ return {
     -- Create custom submodes and menus
     {
         "anuvyklack/hydra.nvim",
-        keys = { "<leader>gg", "<leader>w", "<leader>vt" },
+        keys = {
+            "<leader>gg",
+            "<leader>w",
+        },
         dependencies = "lewis6991/gitsigns.nvim",
         config = function()
             require("tt.plugins.hydra").setup()
@@ -552,13 +567,10 @@ return {
     -- Easiliy resize windows
     {
         "sedm0784/vim-resize-mode",
-        keys = { "<C-w>>", "<C-w><" },
-    },
-
-    -- Draw ASCII diagrams
-    {
-        "jbyuki/venn.nvim",
-        keys = "<leader>vt",
+        keys = {
+            "<C-w>>",
+            "<C-w><",
+        },
     },
 
     -- Measure the startup-time of neovim
