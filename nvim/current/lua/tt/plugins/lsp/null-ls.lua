@@ -21,6 +21,7 @@ function M.setup()
                     "vim",
                 },
             },
+            diagnostics.markdownlint,
         },
     }
 end

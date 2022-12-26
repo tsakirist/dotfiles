@@ -110,6 +110,7 @@ function M.setup()
         ensure_installed = {
             "clang-format",
             "luacheck",
+            "markdownlint",
             "prettierd",
             "shfmt",
             "stylua",
