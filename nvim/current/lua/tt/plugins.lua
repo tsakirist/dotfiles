@@ -98,6 +98,11 @@ return {
         -- Common configuration for LSP servers
         {
             "neovim/nvim-lspconfig",
+            event = "BufReadPre",
+            dependencies = {
+                "SmiteshP/nvim-navic",
+                "hrsh7th/cmp-nvim-lsp",
+            },
             config = function()
                 require("tt.plugins.lsp.nvim-lspconfig").setup()
             end,
@@ -105,6 +110,7 @@ return {
         -- General purpose LSP that allows non-LSP sources to hook to native LSP
         {
             "jose-elias-alvarez/null-ls.nvim",
+            event = "BufReadPre",
             config = function()
                 require("tt.plugins.lsp.null-ls").setup()
             end,
@@ -181,6 +187,7 @@ return {
         -- Show current code context
         {
             "SmiteshP/nvim-navic",
+            event = "BufReadPre",
             config = function()
                 require("tt.plugins.lsp.nvim-navic").setup()
             end,
@@ -188,6 +195,7 @@ return {
         -- Show inlay hints via LSP
         {
             "lvimuser/lsp-inlayhints.nvim",
+            event = "BufReadPre",
             config = function()
                 require("tt.plugins.lsp.inlay-hints").setup()
             end,
@@ -387,7 +395,7 @@ return {
     -- File explorer tree
     {
         "nvim-neo-tree/neo-tree.nvim",
-        keys = { "<leader>ng", "<leader>nt" },
+        keys = { "<leader>nf", "<leader>nt" },
         branch = "v2.x",
         dependencies = {
             "nvim-lua/plenary.nvim",
