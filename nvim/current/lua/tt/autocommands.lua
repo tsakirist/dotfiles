@@ -62,7 +62,7 @@ function M.load_autocommands()
         },
         --- A set of filetypes where just hitting q should exit the window
         _faster_quit = {
-            { "FileType", "help,man,lspinfo", "nnoremap <silent> <buffer> q :quit<CR>" },
+            { "FileType", "help,man,lspinfo,startuptime", "nnoremap <silent> <buffer> q :quit<CR>" },
         },
         --- Disables conceallevel and concealcursor for the following filetypes
         _disable_conceal = {
