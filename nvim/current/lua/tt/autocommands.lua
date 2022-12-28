@@ -51,9 +51,13 @@ function M.load_autocommands()
         _highlight = {
             { "TextYankPost", "*", "silent! lua vim.highlight.on_yank()" },
         },
-        --- Enter insert mode and remove line numbers when in terminal
+        --- Enter insert mode (if not in lazy) and remove line numbers when in terminal mode
         _terminal = {
-            { "TermOpen,BufEnter,WinEnter", "*", "if &buftype == 'terminal' | :startinsert | endif" },
+            {
+                "TermOpen,BufEnter,WinEnter",
+                "*",
+                "if &buftype == 'terminal' && &filetype != 'lazy' | :startinsert | endif",
+            },
             { "TermOpen", "*", "setlocal nonumber norelativenumber" },
         },
         --- Automatic toggling between hybrid and absolute line numbers
@@ -74,6 +78,7 @@ function M.load_autocommands()
             { "FileType", "gitcommit", "startinsert" },
         },
     }
+
     M.create_augroups(definitions)
 end
 
