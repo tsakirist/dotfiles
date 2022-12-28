@@ -27,8 +27,9 @@ function M.load_autocommands()
         --- 'r': makes <CR> key to autocomment when pressing enter in line that contains a comment, enables javadoc
         --- 'o': insert comment when pressing 'o' or 'O'
         --- 'q': allow formatting comments with gq
+        --- 'j': remove comment leader when joining lines
         _format_options = {
-            { "BufEnter", "*", "setlocal fo+=t fo+=r fo-=l fo-=o fo+=q" },
+            { "BufEnter", "*", "setlocal fo+=t fo-=r fo-=l fo-=o fo+=q fo+=j" },
         },
         --- Remove trailing whitespaces on write
         _trim_whitespace = {
