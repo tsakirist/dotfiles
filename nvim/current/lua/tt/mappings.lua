@@ -32,14 +32,6 @@ utils.map(
     { silent = false }
 )
 
--- Split comma separated arguments of function from one-line-all to one-line-each
--- f)%:       finds the starting '(' of the function signature
--- csbb:      changes surround blockwise from ( to ( on its own line
--- s/,/,\r/g: substitutes each ',' with ',' and carriage return '\r', one-arg-per-line
--- J:         joins the last ')' to the last argument
--- vib=:      select the surrounding text inside '()' and indent it visually
-utils.map("n", "<leader>bp", "f)%cSbbj:s/,/,\r/g<CR>Jvib=<CR>")
-
 -- Move to the next and previous item in the quickfixlist
 utils.map("n", "]c", "<Cmd>cnext<CR>")
 utils.map("n", "[c", "<Cmd>cprevious<CR>")
