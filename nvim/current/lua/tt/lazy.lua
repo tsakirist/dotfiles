@@ -7,7 +7,7 @@ local function bootstrap()
             "git",
             "clone",
             "--filter=blob:none",
-            "--single-branch",
+            "--branch=stable",
             "https://github.com/folke/lazy.nvim.git",
             lazypath,
         }
@@ -20,9 +20,6 @@ bootstrap()
 require("lazy").setup(require "tt.plugins", {
     root = utils.join_paths(vim.fn.stdpath "data", "lazy"),
     lockfile = utils.join_paths(vim.fn.stdpath "config", "lazy-lock.json"),
-    defaults = {
-        lazy = false,
-    },
     install = {
         missing = true,
     },
@@ -38,6 +35,10 @@ require("lazy").setup(require "tt.plugins", {
         cmd = "terminal_git",
     },
     performance = {
+        cache = {
+            enabled = true,
+            path = utils.join_paths(vim.fn.stdpath "cache", "lazy", "cache"),
+        },
         rtp = {
             disabled_plugins = {
                 "gzip",
@@ -49,7 +50,6 @@ require("lazy").setup(require "tt.plugins", {
             },
         },
     },
-    debug = false,
 })
 
 utils.map("n", "<leader>lz", vim.cmd.Lazy, { desc = "Open Lazy (plugins manager)" })
