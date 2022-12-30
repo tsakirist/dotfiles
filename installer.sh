@@ -301,7 +301,8 @@ function _nvim_config() {
     # This will force copy the soft-links, thus re-writing the existing ones
     cp -arsf "$(pwd)/nvim/current/." "$nvim_config_path"
 
-    # Make sure to install packer if needed
+    # Make sure to install Lazy and update the plugins
+    # TODO: Perhaps I should use the lazy-lock file here and restore?
     /usr/bin/env nvim --headless -c "Lazy! sync" -c "quitall"
 }
 

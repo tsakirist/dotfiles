@@ -18,7 +18,6 @@ function M.setup()
             "help",
             "startify",
             "gitcommit",
-            "packer",
             "mason",
             "neo-tree-popup",
         },
