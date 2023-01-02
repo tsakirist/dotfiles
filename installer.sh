@@ -338,7 +338,7 @@ function _stylua() {
     # TODO: Since this logic is repeating extract only the url logic to a function?
     # Download latest zip from GitHub releases
     local repo="https://api.github.com/repos/JohnnyMorganz/StyLua/releases/latest"
-    local url=$(curl -s "$repo" | grep "browser_download_url" | grep "linux" | cut -d '"' -f 4)
+    local url=$(curl -s "$repo" | grep "browser_download_url" | grep "linux-x86_64" | cut -d '"' -f 4)
     local download_dir=$(mktemp -d)
     local filename=$(basename "$url")
     local file="$download_dir/stylua"
