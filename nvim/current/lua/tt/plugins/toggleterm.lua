@@ -50,10 +50,8 @@ function M.add_custom_terminal(opts)
     M.custom_terminals[opts.count] = custom_terminal
 
     local utils = require "tt.utils"
-    local custom_terminal_func = string.format(
-        "<Cmd>lua require'tt.plugins.toggleterm'.custom_terminal_toggle(%d)<CR>",
-        opts.count
-    )
+    local custom_terminal_func =
+        string.format("<Cmd>lua require'tt.plugins.toggleterm'.custom_terminal_toggle(%d)<CR>", opts.count)
     utils.map("n", opts.keymap, custom_terminal_func)
 end
 

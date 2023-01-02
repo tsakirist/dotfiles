@@ -3,4 +3,5 @@ line_endings = "Unix"
 indent_type = "Spaces"
 indent_width = 4
 quote_style = "AutoPreferDouble"
-no_call_parentheses = true
+call_parentheses = "None"
+collapse_simple_statement = "Never"
