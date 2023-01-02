@@ -22,6 +22,10 @@ require("lazy").setup(require "tt.plugins", {
     lockfile = utils.join_paths(vim.fn.stdpath "config", "lazy-lock.json"),
     install = {
         missing = true,
+        colorscheme = {
+            require("tt.plugins.nightfox").theme,
+            "habamax",
+        },
     },
     checker = {
         enabled = true,

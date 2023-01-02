@@ -1,8 +1,8 @@
 local M = {}
 
-function M.setup()
-    M.theme = "carbonfox"
+M.theme = "carbonfox"
 
+function M.setup()
     local colors = M.colors()
     local spec = M.spec()
 
