@@ -3,23 +3,25 @@
 # This script provides an easy way to install my preferred packages along with my configurations.
 # Author: Tsakiris Tryfon
 
-# --------------------------------------------- Disable Shellcheck rules -----------------------------------------------
+# --------------------------------------------- Disable Shellcheck Rules -----------------------------------------------
 # shellcheck disable=SC2155
 # SC2155: Declare and assign separately to avoid masking return values.
 
-# --------------------------------------------- Whiptail size variables ------------------------------------------------
+# -------------------------------------------- Generic Script Variables ------------------------------------------------
+
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+
+# --------------------------------------------- Whiptail Size variables ------------------------------------------------
 
 SIZE=$(stty size)
 ROWS=$(stty size | cut -d ' ' -f 1)
 
-# -------------------------------------------------- Font commands -----------------------------------------------------
+# -------------------------------------------------- Font Commands -----------------------------------------------------
 
 bold=$(tput bold)
 start_underline=$(tput smul)
 end_underline=$(tput rmul)
-black_fg=$(tput setaf 0)
 red_fg=$(tput setaf 1)
-green_fg=$(tput setaf 2)
 white_fg=$(tput setaf 7)
 black_bg=$(tput setab 0)
 reset=$(tput sgr0)
@@ -28,8 +30,6 @@ reset=$(tput sgr0)
 
 thunder="\u2301"
 bullet="\u2022"
-cross="\u2718"
-tick="\u2714"
 
 # ---------------------------------------------------- Functions -------------------------------------------------------
 
@@ -176,25 +176,25 @@ function _change_shell() {
 function _git_config() {
     _check_file git/gitconfig
     _print s ".gitconfig"
-    ln -sv --backup=numbered "$(pwd)/git/gitconfig" "$HOME"/.gitconfig
+    ln -sv --backup=numbered "${SCRIPT_DIR}/git/gitconfig" "$HOME"/.gitconfig
 }
 
 function _bashrc() {
     _check_file bash/bashrc
     _print s ".bashrc"
-    ln -sv --backup=numbered "$(pwd)/bash/bashrc" "$HOME"/.bashrc
+    ln -sv --backup=numbered "${SCRIPT_DIR}/bash/bashrc" "$HOME"/.bashrc
 }
 
 function _bash_aliases() {
     _check_file bash/bash_aliases
     _print s ".bash_aliases"
-    ln -sv --backup=numbered "$(pwd)/bash/bash_aliases" "$HOME"/.bash_aliases
+    ln -sv --backup=numbered "${SCRIPT_DIR}/bash/bash_aliases" "$HOME"/.bash_aliases
 }
 
 function _bash_functions() {
     _check_file bash/bash_functions
     _print s ".bash_functions"
-    ln -sv --backup=numbered "$(pwd)/bash/bash_functions" "$HOME"/.bash_functions
+    ln -sv --backup=numbered "${SCRIPT_DIR}/bash/bash_functions" "$HOME"/.bash_functions
 }
 
 function _bash_config() {
@@ -210,19 +210,19 @@ function _zsh() {
 function _zshrc() {
     _check_file zsh/zshrc
     _print s ".zshrc"
-    ln -sv --backup=numbered "$(pwd)/zsh/zshrc" "$HOME"/.zshrc
+    ln -sv --backup=numbered "${SCRIPT_DIR}/zsh/zshrc" "$HOME"/.zshrc
 }
 
 function _zsh_aliases() {
     _check_file zsh/zsh_aliases
     _print s ".zsh_aliases"
-    ln -sv --backup=numbered "$(pwd)/zsh/zsh_aliases" "$HOME"/.zsh_aliases
+    ln -sv --backup=numbered "${SCRIPT_DIR}/zsh/zsh_aliases" "$HOME"/.zsh_aliases
 }
 
 function _zsh_functions() {
     _check_file zsh/zsh_functions
     _print s ".zsh_functions"
-    ln -sv --backup=numbered "$(pwd)/zsh/zsh_functions" "$HOME"/.zsh_functions
+    ln -sv --backup=numbered "${SCRIPT_DIR}/zsh/zsh_functions" "$HOME"/.zsh_functions
 }
 
 function _zsh_p10k() {
@@ -234,7 +234,7 @@ function _zsh_p10k() {
 function _zsh_forgit() {
     _check_file zsh/forgit.zsh
     _print s ".forgit.zsh"
-    ln -sv --backup=numbered "$(pwd)/zsh/forgit.zsh" "$HOME"/.forgit.zsh
+    ln -sv --backup=numbered "${SCRIPT_DIR}/zsh/forgit.zsh" "$HOME"/.forgit.zsh
 }
 
 function _zsh_config() {
@@ -277,7 +277,6 @@ function _nvim_nightly() {
 }
 
 function _check_nvim_config_requirements() {
-    echo -e "    ${bullet} Checking LSP server requirements ..."
     _check_command make build-essential
     _check_command luarocks
     if ! command -v node > /dev/null 2>&1; then
@@ -292,17 +291,21 @@ function _nvim_config() {
     local nvim_config_path="$HOME/.config/nvim"
 
     # Check nvim requirements
+    echo -e "    ${bullet} Checking LSP server requirements ..."
     _check_nvim_config_requirements
 
-    # Create the neovim config folder if it's not there
+    # Create neovim config folder if it's not there
+    echo -e "    ${bullet} Checking '$nvim_config_path' directory ..."
     _create_dir_if_not_exists "$nvim_config_path"
 
     # Make symbolic links to the whole nvim directory in the target directory
     # This will force copy the soft-links, thus re-writing the existing ones
-    cp -arsf "$(pwd)/nvim/current/." "$nvim_config_path"
+    echo -e "    ${bullet} Creating symbolic links to '$nvim_config_path' ..."
+    cp -arsf "${SCRIPT_DIR}"/nvim/current/* "$nvim_config_path"
 
     # Make sure to install Lazy and update the plugins
     # TODO: Perhaps I should use the lazy-lock file here and restore?
+    echo -e "    ${bullet} Syncing neovim plugins ..."
     /usr/bin/env nvim --headless -c "Lazy! sync" -c "quitall"
 }
 
@@ -418,7 +421,7 @@ function _bat_config() {
     _print s "bat config"
     local destination="$HOME/.config/bat"
     _create_dir_if_not_exists "$destination"
-    ln -sv --backup=numbered "$(pwd)/bat/config" "$destination/config"
+    ln -sv --backup=numbered "${SCRIPT_DIR}/bat/config" "$destination/config"
 }
 
 function _kitty() {
@@ -444,7 +447,7 @@ function _kitty_config() {
     _print s "kitty.conf"
     local destination="$HOME/.config/kitty"
     _create_dir_if_not_exists "$destination"
-    ln -sv --backup=numbered "$(pwd)/kitty/kitty.conf" "$destination/kitty.conf"
+    ln -sv --backup=numbered "${SCRIPT_DIR}/kitty/kitty.conf" "$destination/kitty.conf"
     cp -v kitty/*.png "$destination/"
 }
 
@@ -458,7 +461,7 @@ function _kitty_themes() {
 function _x_profile() {
     _check_file x/xprofile
     _print s "xprofile"
-    ln -sv --backup=numbered "$(pwd)/x/xprofile" "$HOME"/.xprofile
+    ln -sv --backup=numbered "${SCRIPT_DIR}/x/xprofile" "$HOME"/.xprofile
 }
 
 function _set_wallpaper() {
@@ -489,7 +492,7 @@ function _install_fonts() {
 function _fzf_config() {
     _check_file fzf/fzf.config
     _print s "fzf configuration"
-    ln -sv --backup=numbered "$(pwd)/fzf/fzf.config" "$HOME"/.fzf.config
+    ln -sv --backup=numbered "${SCRIPT_DIR}/fzf/fzf.config" "$HOME"/.fzf.config
 }
 
 function _fzf() {
