@@ -5,7 +5,7 @@ function M.setup()
     vim.g.git_messenger_no_default_mappings = true
 
     -- Insert cusor inside pop-up window
-    vim.g.git_messenger_always_into_popupa = true
+    vim.g.git_messenger_always_into_popup = true
 
     -- Configure the pop-up window
     vim.g.git_messenger_floating_win_opts = {
