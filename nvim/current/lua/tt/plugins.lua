@@ -548,6 +548,12 @@ return {
         },
     },
 
+    -- Automatically detect the indentation used in the file
+    {
+        "tpope/vim-sleuth",
+        event = "BufReadPost",
+    },
+
     -- Markdown extension, mainly for conceallevel
     {
         "preservim/vim-markdown",
