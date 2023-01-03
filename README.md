@@ -25,7 +25,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 ./
 ├── lua/
 │   └── tt/
-│       ├── plugins/
+│       ├── _plugins/
 │       │   ├── git/
 │       │   │   ├── diffview.lua
 │       │   │   ├── gitlinker.lua

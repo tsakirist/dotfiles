@@ -17,13 +17,13 @@ end
 
 bootstrap()
 
-require("lazy").setup(require "tt.plugins", {
+require("lazy").setup("tt.plugins", {
     root = utils.join_paths(vim.fn.stdpath "data", "lazy"),
     lockfile = utils.join_paths(vim.fn.stdpath "config", "lazy-lock.json"),
     install = {
         missing = true,
         colorscheme = {
-            require("tt.plugins.nightfox").theme,
+            require("tt._plugins.nightfox").theme,
             "habamax",
         },
     },

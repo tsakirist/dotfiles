@@ -178,7 +178,7 @@ function M.find_sessions(opts)
     end
 
     --- Path where Startify stores saved sessions.
-    local sessions_path = require("tt.plugins.startify").sessions_path
+    local sessions_path = require("tt._plugins.startify").sessions_path
 
     --- The find command to use for finding the sesions.
     local find_command = vim.tbl_flatten {

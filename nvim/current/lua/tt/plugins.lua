@@ -4,7 +4,7 @@ return {
         {
             "EdenEast/nightfox.nvim",
             config = function()
-                require("tt.plugins.nightfox").setup()
+                require("tt._plugins.nightfox").setup()
             end,
         },
         { "Mofiqul/vscode.nvim", lazy = true },
@@ -15,7 +15,7 @@ return {
         "stevearc/dressing.nvim",
         event = "VeryLazy",
         config = function()
-            require("tt.plugins.dressing").setup()
+            require("tt._plugins.dressing").setup()
         end,
     },
 
@@ -23,7 +23,7 @@ return {
     {
         "rcarriga/nvim-notify",
         config = function()
-            require("tt.plugins.notify").setup()
+            require("tt._plugins.notify").setup()
         end,
     },
 
@@ -32,7 +32,7 @@ return {
         "mhinz/vim-startify",
         dependencies = "nvim-tree/nvim-web-devicons",
         config = function()
-            require("tt.plugins.startify").setup()
+            require("tt._plugins.startify").setup()
         end,
     },
 
@@ -43,7 +43,7 @@ return {
         event = "BufRead",
         dependencies = "nvim-tree/nvim-web-devicons",
         config = function()
-            require("tt.plugins.bufferline").setup()
+            require("tt._plugins.bufferline").setup()
         end,
     },
 
@@ -80,7 +80,7 @@ return {
             "nvim-tree/nvim-web-devicons",
         },
         config = function()
-            require("tt.plugins.barbecue").setup()
+            require("tt._plugins.barbecue").setup()
         end,
     },
 
@@ -94,7 +94,7 @@ return {
                 "jayp0521/mason-null-ls.nvim",
             },
             config = function()
-                require("tt.plugins.lsp.mason").setup()
+                require("tt._plugins.lsp.mason").setup()
             end,
         },
         -- Common configuration for LSP servers
@@ -106,7 +106,7 @@ return {
                 "hrsh7th/cmp-nvim-lsp",
             },
             config = function()
-                require("tt.plugins.lsp.nvim-lspconfig").setup()
+                require("tt._plugins.lsp.nvim-lspconfig").setup()
             end,
         },
         -- General purpose LSP that allows non-LSP sources to hook to native LSP
@@ -114,7 +114,7 @@ return {
             "jose-elias-alvarez/null-ls.nvim",
             event = "BufReadPre",
             config = function()
-                require("tt.plugins.lsp.null-ls").setup()
+                require("tt._plugins.lsp.null-ls").setup()
             end,
         },
         -- LSP progress indicator
@@ -137,7 +137,7 @@ return {
                 "gi",
             },
             config = function()
-                require("tt.plugins.lsp.goto-preview").setup()
+                require("tt._plugins.lsp.goto-preview").setup()
             end,
         },
         -- Better code-action experience
@@ -154,7 +154,7 @@ return {
             "ray-x/lsp_signature.nvim",
             keys = "<leader>x",
             config = function()
-                require("tt.plugins.lsp.lsp-signature").setup()
+                require("tt._plugins.lsp.lsp-signature").setup()
             end,
         },
         -- Render LSP diagnostics using virtual lines
@@ -194,7 +194,7 @@ return {
             "SmiteshP/nvim-navic",
             event = "BufReadPre",
             config = function()
-                require("tt.plugins.lsp.nvim-navic").setup()
+                require("tt._plugins.lsp.nvim-navic").setup()
             end,
         },
         -- Show inlay hints via LSP
@@ -202,7 +202,7 @@ return {
             "lvimuser/lsp-inlayhints.nvim",
             event = "BufReadPre",
             config = function()
-                require("tt.plugins.lsp.inlay-hints").setup()
+                require("tt._plugins.lsp.inlay-hints").setup()
             end,
         },
     },
@@ -215,7 +215,7 @@ return {
             event = "BufRead",
             dependencies = "nvim-lua/plenary.nvim",
             config = function()
-                require("tt.plugins.git.gitsigns").setup()
+                require("tt._plugins.git.gitsigns").setup()
             end,
         },
         -- Better diff view interface and file history
@@ -227,7 +227,7 @@ return {
                 "DiffviewFileHistory",
             },
             config = function()
-                require("tt.plugins.git.diffview").setup()
+                require("tt._plugins.git.diffview").setup()
             end,
         },
         -- Popup about the commit message under cursor
@@ -235,7 +235,7 @@ return {
             "rhysd/git-messenger.vim",
             keys = "<leader>gm",
             config = function()
-                require("tt.plugins.git.git-messenger").setup()
+                require("tt._plugins.git.git-messenger").setup()
             end,
         },
         -- Generate shareable git file permalinks
@@ -249,7 +249,7 @@ return {
             },
             dependencies = "nvim-lua/plenary.nvim",
             config = function()
-                require("tt.plugins.git.gitlinker").setup()
+                require("tt._plugins.git.gitlinker").setup()
             end,
         },
         -- More pleasant editing experience on commit messages
@@ -265,7 +265,7 @@ return {
             "akinsho/git-conflict.nvim",
             event = "BufRead",
             config = function()
-                require("tt.plugins.git-conflict").setup()
+                require("tt._plugins.git-conflict").setup()
             end,
         },
     },
@@ -289,7 +289,7 @@ return {
             },
         },
         config = function()
-            require("tt.plugins.nvim-cmp").setup()
+            require("tt._plugins.nvim-cmp").setup()
         end,
     },
 
@@ -310,7 +310,7 @@ return {
             { "nvim-treesitter/playground" },
         },
         config = function()
-            require("tt.plugins.treesitter").setup()
+            require("tt._plugins.treesitter").setup()
         end,
     },
 
@@ -326,7 +326,7 @@ return {
         },
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
-            require("tt.plugins.syntax-tree-surfer").setup()
+            require("tt._plugins.syntax-tree-surfer").setup()
         end,
     },
 
@@ -336,7 +336,7 @@ return {
         event = "InsertEnter",
         dependencies = "hrsh7th/nvim-cmp",
         config = function()
-            require("tt.plugins.nvim-autopairs").setup()
+            require("tt._plugins.nvim-autopairs").setup()
         end,
     },
 
@@ -360,7 +360,7 @@ return {
         keys = "<leader>ng",
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
-            require("tt.plugins.neogen").setup()
+            require("tt._plugins.neogen").setup()
         end,
     },
 
@@ -376,7 +376,7 @@ return {
             { "tsakirist/telescope-lazy.nvim" },
         },
         config = function()
-            require("tt.plugins.telescope").setup()
+            require("tt._plugins.telescope").setup()
         end,
     },
 
@@ -390,7 +390,7 @@ return {
         },
         dependencies = "JoosepAlviste/nvim-ts-context-commentstring",
         config = function()
-            require("tt.plugins.comment").setup()
+            require("tt._plugins.comment").setup()
         end,
     },
 
@@ -399,7 +399,7 @@ return {
         "lukas-reineke/indent-blankline.nvim",
         event = "BufReadPre",
         config = function()
-            require("tt.plugins.indent-blankline").setup()
+            require("tt._plugins.indent-blankline").setup()
         end,
     },
 
@@ -417,7 +417,7 @@ return {
             "MunifTanjim/nui.nvim",
         },
         config = function()
-            require("tt.plugins.neo-tree").setup()
+            require("tt._plugins.neo-tree").setup()
         end,
     },
 
@@ -427,7 +427,7 @@ return {
         cmd = "ZenMode",
         keys = "<F1>",
         config = function()
-            require("tt.plugins.zen-mode").setup()
+            require("tt._plugins.zen-mode").setup()
         end,
     },
 
@@ -437,7 +437,7 @@ return {
         keys = "<leader>t",
         dependencies = "nvim-tree/nvim-web-devicons",
         config = function()
-            require("tt.plugins.trouble").setup()
+            require("tt._plugins.trouble").setup()
         end,
     },
 
@@ -446,7 +446,7 @@ return {
         "akinsho/toggleterm.nvim",
         keys = "<leader>ft",
         config = function()
-            require("tt.plugins.toggleterm").setup()
+            require("tt._plugins.toggleterm").setup()
         end,
     },
 
@@ -455,7 +455,7 @@ return {
         "nacro90/numb.nvim",
         event = "BufRead",
         config = function()
-            require("tt.plugins.numb").setup()
+            require("tt._plugins.numb").setup()
         end,
     },
 
@@ -464,7 +464,7 @@ return {
         "kylechui/nvim-surround",
         event = "BufRead",
         config = function()
-            require("tt.plugins.nvim-surround").setup()
+            require("tt._plugins.nvim-surround").setup()
         end,
     },
 
@@ -476,7 +476,7 @@ return {
             "<S-Tab>",
         },
         config = function()
-            require("tt.plugins.cybu").setup()
+            require("tt._plugins.cybu").setup()
         end,
     },
 
@@ -489,7 +489,7 @@ return {
         },
         dependencies = "lewis6991/gitsigns.nvim",
         config = function()
-            require("tt.plugins.hydra").setup()
+            require("tt._plugins.hydra").setup()
         end,
     },
 
@@ -526,7 +526,7 @@ return {
         dependencies = "nvim-treesitter/nvim-treesitter",
         keys = "<leader>sj",
         config = function()
-            require("tt.plugins.treesj").setup()
+            require("tt._plugins.treesj").setup()
         end,
     },
 

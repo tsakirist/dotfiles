@@ -7,8 +7,8 @@ function M.setup()
     local icons = require "tt.icons"
 
     -- Get currently used theme from nigthfox and the colors
-    local nightfox_theme = require("tt.plugins.nightfox").theme
-    local colors = require("tt.plugins.nightfox").colors()
+    local nightfox_theme = require("tt._plugins.nightfox").theme
+    local colors = require("tt._plugins.nightfox").colors()
 
     local normal_theme = {
         component_separators = {

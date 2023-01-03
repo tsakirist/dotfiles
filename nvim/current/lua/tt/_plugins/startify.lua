@@ -87,7 +87,7 @@ function M.setup()
         { g = { icons.document.DocumentWord .. " Grep Word", ":Telescope live_grep_args" } },
         { r = { icons.document.DoubleDocument .. " Recent Files", ":Telescope oldfiles" } },
         { h = { icons.misc.Bulb .. " Help", ":Telescope help_tags" } },
-        { s = { icons.misc.Storage .. " Sessions", ":lua require'tt.plugins.telescope'.find_sessions()" } },
+        { s = { icons.misc.Storage .. " Sessions", ":lua require'tt._plugins.telescope'.find_sessions()" } },
     }
 
     local config_path = vim.fn.stdpath "config"
