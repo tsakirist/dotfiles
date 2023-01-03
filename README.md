@@ -28,6 +28,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       ├── _plugins/
 │       │   ├── git/
 │       │   │   ├── diffview.lua
+│       │   │   ├── git-conflict.lua
 │       │   │   ├── gitlinker.lua
 │       │   │   ├── git-messenger.lua
 │       │   │   └── gitsigns.lua
@@ -44,7 +45,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── comment.lua
 │       │   ├── cybu.lua
 │       │   ├── dressing.lua
-│       │   ├── git-conflict.lua
 │       │   ├── hydra.lua
 │       │   ├── indent-blankline.lua
 │       │   ├── neogen.lua

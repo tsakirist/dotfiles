@@ -265,7 +265,7 @@ return {
             "akinsho/git-conflict.nvim",
             event = "BufRead",
             config = function()
-                require("tt._plugins.git-conflict").setup()
+                require("tt._plugins.git.git-conflict").setup()
             end,
         },
     },
