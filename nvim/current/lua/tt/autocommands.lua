@@ -1,87 +1,112 @@
-local M = {}
+--- Format options configuration:
+--- 't': is required in format options to wrap text in insert mode
+--- 'l': a line that is longer than textwidth may not be wraped if 'l' is in format options
+--- 'r': makes <CR> key to autocomment when pressing enter in line that contains a comment
+--- 'o': insert comment when pressing 'o' or 'O'
+--- 'q': allow formatting comments with gq
+--- 'j': remove comment leader when joining lines
+vim.api.nvim_create_autocmd("BufEnter", {
+    group = vim.api.nvim_create_augroup("_format_options", { clear = true }),
+    pattern = "*",
+    desc = "Format options configuration",
+    command = "setlocal fo+=t fo-=r fo-=l fo-=o fo+=q fo+=j",
+})
 
---- Create autocommand groups according to the passed definitions
----@param definitions table:
---- The table should have a key which corresponds to the name of the group
---- and each definition should have:
----  1. Event
----  2. Pattern
----  3. Command
-function M.create_augroups(definitions)
-    for augroup_name, definition in pairs(definitions) do
-        vim.cmd.augroup(augroup_name)
-        vim.cmd.autocmd { bang = true }
-        for _, def in pairs(definition) do
-            local command = table.concat(vim.tbl_flatten { "autocmd", def }, " ")
-            vim.cmd(command)
+-- Remove trailing whitespaces on write
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = vim.api.nvim_create_augroup("_trim_whitespace", { clear = true }),
+    pattern = "*",
+    desc = "Remove trailing whitespace on write",
+    callback = function()
+        require("tt.helper").trimTrailingWhiteSpace()
+    end,
+})
+
+-- Enable format on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = vim.api.nvim_create_augroup("_format_on_save", { clear = true }),
+    pattern = { "*.lua", "*.tsx", "*.ts", "*.sh" },
+    desc = "Enable format on save",
+    callback = function()
+        vim.lsp.buf.format()
+    end,
+})
+
+-- Enable spellcheck for specific filetypes
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("_spell_check", { clear = true }),
+    pattern = { "text", "gitcommit", "markdown" },
+    desc = "Enable spellcheck for specific filetypes",
+    command = "setlocal spell wrap",
+})
+
+-- Automatically resize windows when host resizes
+vim.api.nvim_create_autocmd("VimResized", {
+    group = vim.api.nvim_create_augroup("_auto_resize", { clear = true }),
+    pattern = "*",
+    desc = "Automatically resize windows when host resizes",
+    command = "tabdo wincmd =",
+})
+
+-- Enable highlighting when yanking text
+vim.api.nvim_create_autocmd("TextYankPost", {
+    group = vim.api.nvim_create_augroup("_highlight", { clear = true }),
+    pattern = "*",
+    desc = "Enable highlighting when yanking text",
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+})
+
+-- Immediately enter insert mode when in a terminal
+vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter", "WinEnter" }, {
+    group = vim.api.nvim_create_augroup("_terminal", { clear = true }),
+    pattern = "*",
+    desc = "Immediately enter insert mode when in a terminal",
+    callback = function()
+        if vim.o.buftype == "terminal" and vim.o.filetype ~= "lazy" then
+            vim.cmd.startinsert()
         end
-    end
-    vim.cmd.augroup "END"
-end
+    end,
+})
 
-function M.load_autocommands()
-    local definitions = {
-        --- Format options configuration:
-        --- 't': is required in format options to wrap text in insert mode
-        --- 'l': a line that is longer than textwidth may not be wraped if 'l' is in format options
-        --- 'r': makes <CR> key to autocomment when pressing enter in line that contains a comment, enables javadoc
-        --- 'o': insert comment when pressing 'o' or 'O'
-        --- 'q': allow formatting comments with gq
-        --- 'j': remove comment leader when joining lines
-        _format_options = {
-            { "BufEnter", "*", "setlocal fo+=t fo-=r fo-=l fo-=o fo+=q fo+=j" },
-        },
-        --- Remove trailing whitespaces on write
-        _trim_whitespace = {
-            { "BufWritePre", "*", "lua require('tt.helper').trimTrailingWhiteSpace()" },
-        },
-        --- Enable format on save
-        _format_on_save = {
-            { "BufWritePre", "*.lua,*.tsx,*.ts,*.sh", "lua vim.lsp.buf.format()" },
-        },
-        --- Enable spelling for these filetypes
-        _spell_check = {
-            { "FileType", "text,gitcommit,markdown", "setlocal spell wrap" },
-        },
-        --- Resize windows when host resizes
-        _auto_resize = {
-            { "VimResized", "*", "tabdo wincmd =" },
-        },
-        --- Enable highlighting when yanking text
-        _highlight = {
-            { "TextYankPost", "*", "silent! lua vim.highlight.on_yank()" },
-        },
-        --- Enter insert mode (if not in lazy) and remove line numbers when in terminal mode
-        _terminal = {
-            {
-                "TermOpen,BufEnter,WinEnter",
-                "*",
-                "if &buftype == 'terminal' && &filetype != 'lazy' | :startinsert | endif",
-            },
-            { "TermOpen", "*", "setlocal nonumber norelativenumber" },
-        },
-        --- Automatic toggling between hybrid and absolute line numbers
-        _number_toggle = {
-            { "BufEnter,FocusGained,InsertLeave,WinEnter", "*", "if &nu && mode() != 'i' | set rnu | endif" },
-            { "BufLeave,FocusLost,InsertEnter,WinLeave", "*", "if &nu | set nornu | endif" },
-        },
-        --- A set of filetypes where just hitting q should exit the window
-        _faster_quit = {
-            { "FileType", "help,man,lspinfo,startuptime", "nnoremap <silent> <buffer> q :quit<CR>" },
-        },
-        --- Disables conceallevel and concealcursor for the following filetypes
-        _disable_conceal = {
-            { "FileType", "json", "setlocal conceallevel=0 concealcursor=" },
-        },
-        --- Automatic enter insert mode for the following filetypes
-        _automatic_insert_mode = {
-            { "FileType", "gitcommit", "startinsert" },
-        },
-    }
+-- Remove line numbers when in a terminal
+vim.api.nvim_create_autocmd("TermOpen", {
+    group = vim.api.nvim_create_augroup("_terminal", { clear = false }),
+    pattern = "*",
+    desc = "Remove line numbers when in a terminal",
+    command = "setlocal nonumber norelativenumber",
+})
 
-    M.create_augroups(definitions)
-end
+-- A set of filetypes where just hitting 'q' should exit the buffer/window
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("_faster_quit", { clear = true }),
+    pattern = { "help", "man", "lspinfo", "startuptime" },
+    desc = "A set of filetypes where just hitting 'q' should exit the buffer/window",
+    callback = function(event)
+        vim.keymap.set("n", "q", "<Cmd>close<CR>", { silent = true, buffer = event.buf })
+    end,
+})
 
-M.load_autocommands()
+-- Automatic toggling between hybrid and absolute line numbers
+vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
+    group = vim.api.nvim_create_augroup("_number_toggle", { clear = true }),
+    pattern = "*",
+    desc = "Automatic toggling between hybrid and absolute line numbers",
+    callback = function()
+        if vim.o.number and vim.api.nvim_get_mode().mode ~= "i" then
+            vim.o.relativenumber = true
+        end
+    end,
+})
 
-return M
+vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" }, {
+    group = vim.api.nvim_create_augroup("_number_toggle", { clear = false }),
+    pattern = "*",
+    desc = "Automatic toggling between hybrid and absolute line numbers",
+    callback = function()
+        if vim.o.number then
+            vim.o.relativenumber = false
+        end
+    end,
+})
