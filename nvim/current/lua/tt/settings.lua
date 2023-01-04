@@ -79,7 +79,7 @@ opt.wrap = true
 opt.textwidth = 120
 
 -- Text with conceal syntax will be hidden
-opt.conceallevel = 2
+opt.conceallevel = 0
 
 -- Concealed text will be hidden in "nc" modes, normal and command
 opt.concealcursor = "nc"
