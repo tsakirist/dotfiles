@@ -73,8 +73,6 @@ return {
     {
         "utilyre/barbecue.nvim",
         event = "BufRead",
-        commit = "e4fe6b3e",
-        pin = true,
         dependencies = {
             "SmiteshP/nvim-navic",
             "nvim-tree/nvim-web-devicons",

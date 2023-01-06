@@ -18,7 +18,7 @@ function M.setup()
 
         ---filetypes not to enable winbar in
         ---@type string[]
-        exclude_filetypes = { "toggleterm", "gitcommit" },
+        exclude_filetypes = { "gitcommit", "toggleterm" },
 
         modifiers = {
             ---filename modifiers applied to dirname
@@ -36,14 +36,20 @@ function M.setup()
             return ""
         end,
 
+        ---`auto` uses your current colorscheme's theme or generates a theme based on it
+        ---`string` is the theme name to be used (theme should be located under `barbecue.theme` module)
+        ---`barbecue.Theme` is a table that overrides the `auto` theme detection/generation
+        ---@alias barbecue.Theme table<string, table>
+        ---@type "auto"|string|barbecue.Theme
+        theme = "auto",
+
         ---whether to replace file icon with the modified symbol when buffer is modified
         ---@type boolean
         show_modified = true,
 
         symbols = {
             ---modification indicator
-            ---`false` to disable
-            ---@type false|string
+            ---@type string
             modified = icons.misc.Circle,
 
             ---truncation indicator
