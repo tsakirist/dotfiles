@@ -40,6 +40,7 @@ function M.setup()
         word_diff = false, -- Highlights just the part of the line that has changed
         show_deleted = false, -- Show deleted hunks with virtual text
         watch_gitdir = { -- Add a watcher for the .git directory to detect changes
+            enable = true, -- Whether the watcher is enabled
             interval = 1000, -- Interval to wait before polling gitdir in (ms)
             follow_files = true, -- Follow files e.g. git mv
         },
@@ -56,7 +57,7 @@ function M.setup()
             relative_time = false,
         },
         sign_priority = 6, -- Sign priority
-        update_debounce = 200, -- Debounce time for updates in (ms)
+        update_debounce = 100, -- Debounce time for updates in (ms)
         status_formatter = nil, -- Use default status_formatter
         max_file_length = 40000, -- Max file length to attach to
         preview_config = { -- Options to pass to nvim_open_win
