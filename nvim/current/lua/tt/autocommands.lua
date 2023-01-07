@@ -84,7 +84,7 @@ vim.api.nvim_create_autocmd("FileType", {
     pattern = { "help", "man", "lspinfo", "startuptime" },
     desc = "A set of filetypes where just hitting 'q' should exit the buffer/window",
     callback = function(event)
-        vim.keymap.set("n", "q", "<Cmd>close<CR>", { silent = true, buffer = event.buf })
+        vim.keymap.set("n", "q", "<Cmd>quit<CR>", { silent = true, buffer = event.buf })
     end,
 })
 
