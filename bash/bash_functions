@@ -118,15 +118,13 @@ gmrebase() {
 download_nvim() {
     local RED='\033[0;31m'
     local NC='\033[0m'
+    local NVIM_DEB="nvim-linux64.deb"
     echo -e "${RED}==> Downloading nightly neovim...${NC}"
-    wget -q --show-progress -O \
-        /tmp/nvim.appimage https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
-    pushd /tmp/ > /dev/null || return
-    [ -f nvim.appimage ] \
-        && chmod u+x nvim.appimage \
-        && echo -n "Installed " \
-        && ./nvim.appimage --version | grep -m 1 NVIM \
-        && sudo mv nvim.appimage -v /usr/bin/nvim
+    pushd "$(mktemp -d)" > /dev/null || return
+    curl -sSLO https://github.com/neovim/neovim/releases/download/nightly/${NVIM_DEB}
+    [ -f "$NVIM_DEB" ] \
+        && sudo dpkg -i "$NVIM_DEB" >/dev/null \
+        && echo "New NVIM version: $(/usr/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$RED" -v NC="$NC" '{print COLOR $2 NC}')" \
+        && echo "Old NVIM version: $(/usr/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$RED" -v NC="$NC" '{print COLOR $2 NC}')"
     popd > /dev/null || return
 }
-
