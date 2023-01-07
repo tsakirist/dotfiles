@@ -564,12 +564,6 @@ return {
         end,
     },
 
-    -- Editor config support
-    {
-        "gpanders/editorconfig.nvim",
-        event = "BufRead",
-    },
-
     -- Easiliy resize windows
     {
         "sedm0784/vim-resize-mode",
