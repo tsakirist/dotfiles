@@ -267,12 +267,14 @@ function _node() {
 
 function _nvim_nightly() {
     _print i "neovim nightly" ": a superior vim fork focused on extensiblity and usability"
-    local temp_dir=$(mktemp -d)
     local nvim_deb="nvim-linux64.deb"
-    local url="https://github.com/neovim/neovim/releases/download/nightly/${nvim_deb}"
-    pushd "$temp_dir" > /dev/null || return
-    curl -sSLO "$url"
-    sudo dpkg -i "$nvim_deb"
+    pushd "$(mktemp -d)" > /dev/null || return
+    curl -sSLO "https://github.com/neovim/neovim/releases/download/nightly/${nvim_deb}"
+    [ -f "$nvim_deb" ] \
+        && sudo dpkg -i "$nvim_deb" > /dev/null \
+        && echo "Installed NVIM version: $(
+            /usr/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$red_fg" -v RESET="$reset" '{print COLOR $2 RESET}'
+        )"
     popd > /dev/null || return
 }
 
