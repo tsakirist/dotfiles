@@ -224,6 +224,11 @@ return {
                 "DiffviewClose",
                 "DiffviewFileHistory",
             },
+            init = function()
+                vim.cmd.cnoreabbrev "dvo DiffviewOpen"
+                vim.cmd.cnoreabbrev "dvc DiffviewClose"
+                vim.cmd.cnoreabbrev "dvf DiffviewFileHistory"
+            end,
             config = function()
                 require("tt._plugins.git.diffview").setup()
             end,
