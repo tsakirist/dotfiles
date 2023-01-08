@@ -288,7 +288,7 @@ function _check_nvim_config_requirements() {
 
 function _nvim_config() {
     _print s "neovim configuration"
-    _check_dir nvim/current
+    _check_dir nvim
 
     local nvim_config_path="$HOME/.config/nvim"
 
@@ -303,7 +303,7 @@ function _nvim_config() {
     # Make symbolic links to the whole nvim directory in the target directory
     # This will force copy the soft-links, thus re-writing the existing ones
     echo -e "    ${bullet} Creating symbolic links to '$nvim_config_path' ..."
-    cp -arsfT "${SCRIPT_DIR}"/nvim/current "$nvim_config_path"
+    cp -arsfT "${SCRIPT_DIR}"/nvim "$nvim_config_path"
 
     # Make sure to install Lazy and update the plugins
     # TODO: Perhaps I should use the lazy-lock file here and restore?
