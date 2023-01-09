@@ -139,6 +139,9 @@ utils.map("n", "<C-b>", "<C-b>zz")
 -- Sort visual selection
 utils.map("v", "<leader>s", ":sort<CR>", { desc = "Sort visual selection" })
 
+-- Paste until EOL from current cursor position
+utils.map("n", "<M-p>", "vg_p", { desc = "Paste from current cursor position until EOL"})
+
 -- Copy the absolute filename to the clipboard
 utils.map("n", "<leader>cp", function()
     require("tt.helper").copy_filename_to_clipboard "p"
