@@ -1,5 +1,12 @@
 ; vim: sw=2
 
+[user]
+  name = Tsakiris Tryfon
+  email = tr.tsakiris@gmail.com
+
+[init]
+  defaultBranch = main
+
 [alias]
   lg = log --graph --pretty=format:'%C(bold red)%h%Creset - %s %C(yellow bold)%d%Creset %C(bold green)(%cr) %C(bold cyan)<%an>%Creset' --abbrev-commit
   commit-count = rev-list HEAD --count
@@ -11,15 +18,8 @@
 [pull]
   ff = only
 
-[pager]
-  diff = delta
-  log = delta
-  reflog = delta
-  show = delta
-  branch = false
-
-[interactive]
-  diffFilter = delta --color-only
+[core]
+  pager = delta
 
 [color "diff"]
   old = red bold
@@ -47,6 +47,8 @@
   minus-non-emph-style= syntax "#601011"
   minus-emph-style    = syntax "#901011"
   whitespace-error-style = 22 reverse
+  navigate = true    # use n and N to move between diff sections
+  light = false
 
 [delta "decorations"]
   commit-decoration-style = cyan box ul
@@ -54,9 +56,11 @@
   file-decoration-style = none
   hunk-header-decoration-style = cyan box
 
-[user]
-  name = Tsakiris Tryfon
-  email = tr.tsakiris@gmail.com
+[interactive]
+  diffFilter = delta --color-only
 
-[init]
-  defaultBranch = main
+[merge]
+  conflictstyle = diff3
+
+[interactive]
+  diffFilter = delta --color-only
