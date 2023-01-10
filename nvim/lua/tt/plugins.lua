@@ -150,7 +150,7 @@ return {
         -- Function signature in a floating-window
         {
             "ray-x/lsp_signature.nvim",
-            keys = "<leader>x",
+            event = "BufReadPre",
             config = function()
                 require("tt._plugins.lsp.lsp-signature").setup()
             end,

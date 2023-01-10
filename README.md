@@ -73,6 +73,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       ├── icons.lua
 │       ├── init.lua
 │       ├── lazy.lua
+│       ├── lsp.lua
 │       ├── mappings.lua
 │       ├── plugins.lua
 │       ├── settings.lua

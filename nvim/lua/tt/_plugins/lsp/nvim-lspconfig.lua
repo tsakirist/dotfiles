@@ -1,5 +1,10 @@
-local deps_ok, lsp_config, cmp_nvim_lsp, nvim_navic, utils = pcall(function()
-    return require "lspconfig", require "cmp_nvim_lsp", require "nvim-navic", require "tt.utils"
+local deps_ok, lsp_config, cmp_nvim_lsp, nvim_navic, lsp, utils, icons = pcall(function()
+    return require "lspconfig",
+        require "cmp_nvim_lsp",
+        require "nvim-navic",
+        require "tt.lsp",
+        require "tt.utils",
+        require "tt.icons"
 end)
 
 if not deps_ok then
@@ -26,8 +31,6 @@ local function setup_diagnostics()
     }
 
     --- Set custom signs for diagnostics
-    local icons = require "tt.icons"
-
     local lsp_signs = {
         Error = icons.diagnostics.Error,
         Hint = icons.diagnostics.Hint,
@@ -213,94 +216,18 @@ local function on_attach(client, bufnr)
 end
 
 local function setup_servers()
-    -- Define the required LSP servers
-    local required_servers = {
-        "bashls",
-        "clangd",
-        "cmake",
-        "eslint",
-        "pyright",
-        "sumneko_lua",
-        "tsserver",
-    }
-
     -- Get the default capabilities for the LSP
     local capabilities = cmp_nvim_lsp.default_capabilities()
 
     -- Common server options
-    local server_opts = {
+    local common_opts = {
         on_attach = on_attach,
         capabilities = capabilities,
     }
 
-    -- Custom LSP server settings
-    local server_settings = {
-        eslint = {
-            -- Disable showDocumentation from eslint code-actions menu.
-            settings = {
-                codeAction = {
-                    showDocumentation = false,
-                },
-            },
-        },
-        sumneko_lua = {
-            settings = {
-                Lua = {
-                    diagnostics = {
-                        globals = {
-                            "vim",
-                            "jit",
-                        },
-                    },
-                    hint = {
-                        enable = true,
-                        arrayIndex = "Disable", -- "Enable", "Auto", "Disable"
-                        await = true,
-                        paramName = "All", -- "All", "Literal", "Disable"
-                        paramType = true,
-                        semicolon = "Disable", -- "All", "SameLine", "Disable"
-                        setType = true,
-                    },
-                },
-            },
-        },
-        tsserver = {
-            settings = {
-                typescript = {
-                    inlayHints = {
-                        includeInlayParameterNameHints = "all",
-                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                        includeInlayFunctionParameterTypeHints = true,
-                        includeInlayVariableTypeHints = true,
-                        includeInlayPropertyDeclarationTypeHints = true,
-                        includeInlayFunctionLikeReturnTypeHints = true,
-                        includeInlayEnumMemberValueHints = true,
-                    },
-                },
-                javascript = {
-                    inlayHints = {
-                        includeInlayParameterNameHints = "all",
-                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                        includeInlayFunctionParameterTypeHints = true,
-                        includeInlayVariableTypeHints = true,
-                        includeInlayPropertyDeclarationTypeHints = true,
-                        includeInlayFunctionLikeReturnTypeHints = true,
-                        includeInlayEnumMemberValueHints = true,
-                    },
-                },
-            },
-        },
-        clangd = {
-            capabilities = {
-                -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
-                offsetEncoding = { "utf-16" },
-            },
-        },
-    }
-
-    for _, server in ipairs(required_servers) do
-        local server_configuration = vim.tbl_deep_extend("force", server_opts, server_settings[server] or {})
-        lsp_config[server].setup(server_configuration)
+    for _, server in ipairs(vim.tbl_keys(lsp.servers)) do
+        local server_opts = vim.tbl_deep_extend("force", common_opts, lsp.servers[server])
+        lsp_config[server].setup(server_opts)
     end
 end
 
