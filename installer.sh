@@ -59,28 +59,20 @@ function _check_dir() {
         exit 1
     fi
 }
-
-# Checks whether the command is present and if not will try to install it
-# Takes an optional second argument that specifies a different name for the package
-function _check_command() {
-    if ! command -v "$1" > /dev/null 2>&1; then
-        local cmd
-        if [ "$#" -eq 1 ]; then
-            cmd="$1"
-        elif [ "$#" -eq 2 ]; then
-            cmd="$2"
-        fi
-        echo -e "${black_bg}${thunder} Installing required package ${bold}${red_fg}${cmd}${reset} ..."
-        _install "$cmd"
-    fi
-}
-
 function _create_dir_if_not_exists() {
     [ ! -d "$1" ] && mkdir -p "$1"
 }
 
 function _print_cmd_version() {
     "$1" --version | grep -Po "(\d+\.)?(\d+\.)(\d+)?( ?\(\w+\))?"
+}
+
+# Function that takes as argument the author/repo and installs the latest deb
+function _install_latest_deb() {
+    local repo="https://api.github.com/repos/$1/releases/latest"
+    local url=$(curl -s "$repo" | grep "browser_download_url" | grep -v "musl" | grep "amd64" | grep "deb" | cut -d '"' -f 4)
+    local filename=$(basename "$url")
+    wget -qO /tmp/"$filename" "$url" && sudo dpkg -i /tmp/"$filename" > /dev/null
 }
 
 # Installs latest deb and also prints the current and new installed version
@@ -102,17 +94,34 @@ function _install_latest_deb_with_version() {
     echo -e "    ${bullet} New version: ${red_fg}$(_print_cmd_version "$cmd")${reset}"
 }
 
-# Function that takes as argument the author/repo and installs the latest deb
-function _install_latest_deb() {
-    local repo="https://api.github.com/repos/$1/releases/latest"
-    local url=$(curl -s "$repo" | grep "browser_download_url" | grep -v "musl" | grep "amd64" | grep "deb" | cut -d '"' -f 4)
-    local filename=$(basename "$url")
-    wget -qO /tmp/"$filename" "$url" && sudo dpkg -i /tmp/"$filename" > /dev/null
-}
-
 function _install() {
     # -qq: option implies --yes and also is less verbose
     sudo apt-get -qq install "$@" > /dev/null
+}
+
+# Checks whether the command is present and if not will try to install it
+# Takes an optional second argument that specifies a different name for the package
+function _check_command() {
+    if ! command -v "$1" > /dev/null 2>&1; then
+        local cmd
+        if [ "$#" -eq 1 ]; then
+            cmd="$1"
+        elif [ "$#" -eq 2 ]; then
+            cmd="$2"
+        fi
+        echo -e "${black_bg}${thunder} Installing required package ${bold}${red_fg}${cmd}${reset} ..."
+        _install "$cmd"
+    fi
+}
+
+# Checks whether the package is installed and if not will try to install it
+# TODO: Think whether this can totally replace @_check_command
+function _check_package() {
+    local installed=$(dpkg-query -W -f='${Status}' "$1" 2> /dev/null | grep -c "ok installed")
+    if [ "$installed" -eq 0 ]; then
+        echo -e "${black_bg}${thunder} Installing required package ${bold}${red_fg}${1}${reset} ..."
+        _install "$1"
+    fi
 }
 
 function _backup() {
@@ -281,6 +290,7 @@ function _nvim_nightly() {
 function _check_nvim_config_requirements() {
     _check_command make build-essential
     _check_command luarocks
+    _check_package python3.10-venv
     if ! command -v node > /dev/null 2>&1; then
         _node
     fi
