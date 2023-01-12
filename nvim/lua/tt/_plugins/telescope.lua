@@ -112,10 +112,16 @@ function M.setup()
     }
 
     -- Load extensions
-    require("telescope").load_extension "fzf"
-    require("telescope").load_extension "notify"
-    require("telescope").load_extension "lazy"
-    require("telescope").load_extension "live_grep_args"
+    local extensions = {
+        "fzf",
+        "lazy",
+        "live_grep_args",
+        "notify",
+    }
+
+    for _, extension in ipairs(extensions) do
+        require("telescope").load_extension(extension)
+    end
 
     -- Set custom keybindings
     local utils = require "tt.utils"
