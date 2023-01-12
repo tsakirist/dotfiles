@@ -371,7 +371,11 @@ return {
     {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
-        keys = "<leader>f",
+        keys = {
+            "<leader>f",
+            "<leader>T",
+            "<leader>gv",
+        },
         dependencies = {
             { "nvim-lua/plenary.nvim" },
             { "nvim-telescope/telescope-live-grep-args.nvim" },

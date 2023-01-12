@@ -3,13 +3,21 @@ local M = {}
 local actions = require "telescope.actions"
 local actions_layout = require "telescope.actions.layout"
 local actions_state = require "telescope.actions.state"
+local builtin = require "telescope.builtin"
 local config = require("telescope.config").values
 local finders = require "telescope.finders"
 local lga_actions = require "telescope-live-grep-args.actions"
 local make_entry = require "telescope.make_entry"
 local pickers = require "telescope.pickers"
 local themes = require "telescope.themes"
+local telescope_config = require "telescope.config"
 local trouble = require "trouble.providers.telescope"
+
+--- Extend default telescope vimgrep_arguments
+local function extended_vimgrep_arguments()
+    local vimgrep_arguments = telescope_config.values.vimgrep_arguments
+    table.insert(vimgrep_arguments, "--follow")
+end
 
 function M.setup()
     require("telescope").setup {
@@ -40,6 +48,7 @@ function M.setup()
             sorting_strategy = "descending",
             set_env = { ["COLORTERM"] = "truecolor" },
             file_ignore_patterns = { "node_modules", "%.git", "%.cache" },
+            vimgrep_arguments = extended_vimgrep_arguments(),
             mappings = {
                 i = {
                     ["<C-j>"] = actions.move_selection_next,
@@ -141,16 +150,32 @@ function M.setup()
         "<Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_ivy({}))<CR>"
     )
 
-    utils.map("n", "<leader>fv", M.find_in_nvim_config, { desc = "Search in neovim config files" })
+    utils.map("n", "<leader>fv", function()
+        M.action_in_nvim_config "find_files"
+    end, { desc = "Find files in neovim config files" })
+
+    utils.map("n", "<leader>gv", function()
+        M.action_in_nvim_config "live_grep"
+    end, { desc = "Live grep in neovim config files" })
+
     utils.map("n", "<leader>fS", M.find_sessions, { desc = "Search startify sessions" })
 end
 
---- Defines custom picker for searching in neovim config.
-function M.find_in_nvim_config()
-    require("telescope.builtin").find_files {
-        prompt_title = "Nvim Config",
-        cwd = vim.fn.stdpath "config",
-    }
+--- Custom pickers which operate in nvim config.
+---@param action string: The action to perform ('find_files', 'live_grep').
+function M.action_in_nvim_config(action)
+    local path = vim.fn.stdpath "config"
+    if action == "find_files" then
+        builtin.find_files {
+            prompt_title = string.format("Find files (%s)", path),
+            cwd = path,
+        }
+    else
+        builtin.live_grep {
+            prompt_title = string.format("Grep files (%s)", path),
+            cwd = path,
+        }
+    end
 end
 
 --- Defines a custom picker for selection sessions made with Startify session maanagement.
