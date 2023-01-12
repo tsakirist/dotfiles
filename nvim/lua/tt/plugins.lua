@@ -141,7 +141,7 @@ return {
         -- Better code-action experience
         {
             "weilbith/nvim-code-action-menu",
-            keys = "<leader>ca",
+            cmd = "CodeActionMenu",
             config = function()
                 vim.g.code_action_menu_show_details = false
                 vim.g.code_action_menu_show_diff = true
