@@ -212,7 +212,7 @@ function M.find_sessions(opts)
     local sessions_path = require("tt._plugins.startify").sessions_path
 
     --- The find command to use for finding the sesions.
-    local find_command = vim.tbl_flatten {
+    local find_command = {
         "fd",
         ".",
         "--type",
