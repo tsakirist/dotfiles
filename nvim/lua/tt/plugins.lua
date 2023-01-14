@@ -422,6 +422,15 @@ return {
         end,
     },
 
+    -- Visualize and operate on indent scope
+    {
+        "echasnovski/mini.indentscope",
+        event = "BufReadPre",
+        config = function()
+            require("tt._plugins.mini-indentscope").setup()
+        end,
+    },
+
     -- File explorer tree
     {
         "nvim-neo-tree/neo-tree.nvim",
@@ -601,7 +610,7 @@ return {
         "dstein64/vim-startuptime",
         cmd = "StartupTime",
         config = function()
-            vim.g.startuptime_tries = 15
+            vim.g.startuptime_tries = 10
         end,
     },
 }

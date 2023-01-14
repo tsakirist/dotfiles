@@ -10,8 +10,8 @@ function M.setup()
         show_first_indent_level = false, -- Displays indentation in the first column
         show_trailing_blankline_indent = false, -- Displays a trailing indentation guide on blank lines, to match the indentation of surrounding code
         show_end_of_line = true, --  Displays the end of line character set by listchars
-        show_current_context = true, -- Use treesitter to determine the current context
-        show_current_context_start = true, -- Apply highlighting to the first line of current cnotext, by default will 'underline'
+        show_current_context = false, -- Use treesitter to determine the current context
+        show_current_context_start = false, -- Apply highlighting to the first line of current cnotext, by default will 'underline'
         show_current_context_start_on_current_line = false, -- Show context_start even when cursor is on the same line
         buftype_exclude = { "terminal" }, -- Specifies a list of buftype values for which this plugin is not enabled
         filetype_exclude = { -- Specifies a list of filetype values for which this plugin is not enabled

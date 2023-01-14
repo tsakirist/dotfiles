@@ -53,6 +53,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── dressing.lua
 │       │   ├── hydra.lua
 │       │   ├── indent-blankline.lua
+│       │   ├── mini-indentscope.lua
 │       │   ├── neogen.lua
 │       │   ├── neo-tree.lua
 │       │   ├── nightfox.lua
