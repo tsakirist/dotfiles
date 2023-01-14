@@ -285,9 +285,17 @@ return {
             "saadparwaiz1/cmp_luasnip",
             {
                 "L3MON4D3/LuaSnip",
-                dependencies = "tsakirist/friendly-snippets",
+                dependencies = {
+                    "tsakirist/friendly-snippets",
+                    config = function()
+                        require("luasnip.loaders.from_vscode").lazy_load()
+                    end,
+                },
                 config = function()
-                    require("luasnip.loaders.from_vscode").lazy_load()
+                    require("luasnip").setup {
+                        history = true,
+                        delete_check_events = "TextChanged",
+                    }
                 end,
             },
         },
