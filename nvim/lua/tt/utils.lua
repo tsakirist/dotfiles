@@ -29,4 +29,28 @@ function M.join_paths(...)
     return table.concat({ ... }, M.file_separator())
 end
 
+--- Opens the given url in the default browser.
+---@param url string: The url to open.
+function M.open_in_browser(url)
+    local open_cmd
+    if vim.fn.executable "xdg-open" == 1 then
+        open_cmd = "xdg-open"
+    elseif vim.fn.executable "explorer" == 1 then
+        open_cmd = "explorer"
+    elseif vim.fn.executable "open" == 1 then
+        open_cmd = "open"
+    elseif vim.fn.executable "wslview" == 1 then
+        open_cmd = "wslview"
+    end
+
+    local ret = vim.fn.jobstart({ open_cmd, url }, { detach = true })
+    if ret <= 0 then
+        vim.notify(
+            string.format("[utils]: Failed to open '%s'\nwith command: '%s' (ret: '%d')", url, open_cmd, ret),
+            vim.log.levels.ERROR,
+            { title = "[tt.utils]" }
+        )
+    end
+end
+
 return M
