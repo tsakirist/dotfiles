@@ -370,7 +370,11 @@ return {
     -- Telescope fuzzy finding
     {
         "nvim-telescope/telescope.nvim",
-        cmd = "Telescope",
+        cmd = function()
+            local cmds = vim.tbl_keys(require("tt._plugins.telescope.commands").commands)
+            table.insert(cmds, 1, "Telescope")
+            return cmds
+        end,
         keys = {
             "<leader>f",
             "<leader>T",

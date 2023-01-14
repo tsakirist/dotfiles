@@ -40,6 +40,12 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   ├── null-ls.lua
 │       │   │   ├── nvim-lspconfig.lua
 │       │   │   └── nvim-navic.lua
+│       │   ├── telescope/
+│       │   │   ├── commands.lua
+│       │   │   ├── extensions.lua
+│       │   │   ├── init.lua
+│       │   │   ├── keymappings.lua
+│       │   │   └── pickers.lua
 │       │   ├── barbecue.lua
 │       │   ├── bufferline.lua
 │       │   ├── comment.lua
@@ -57,7 +63,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── nvim-surround.lua
 │       │   ├── startify.lua
 │       │   ├── syntax-tree-surfer.lua
-│       │   ├── telescope.lua
 │       │   ├── toggleterm.lua
 │       │   ├── treesitter.lua
 │       │   ├── treesj.lua

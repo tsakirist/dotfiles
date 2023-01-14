@@ -84,17 +84,17 @@ function M.setup()
     vim.g.startify_commands = {
         { e = { icons.document.Document .. " New file", ":enew" } },
         { f = { icons.document.DocumentSearch .. " Find Files", ":Telescope find_files" } },
-        { g = { icons.document.DocumentWord .. " Grep Word", ":Telescope live_grep_args" } },
+        { g = { icons.document.DocumentWord .. " Grep String", ":Telescope live_grep_args" } },
         { r = { icons.document.DoubleDocument .. " Recent Files", ":Telescope oldfiles" } },
         { h = { icons.misc.Bulb .. " Help", ":Telescope help_tags" } },
-        { s = { icons.misc.Storage .. " Sessions", ":lua require'tt._plugins.telescope'.find_sessions()" } },
+        { s = { icons.misc.Storage .. " Sessions", ":TelescopeStartifySessions" } },
+        { v = { icons.misc.Owl .. " Neovim config", ":TelescopeNvimConfigFind" } },
     }
 
     local config_path = vim.fn.stdpath "config"
 
     --- Add custom bookmarks
     vim.g.startify_bookmarks = {
-        { i = utils.join_paths(config_path, "init.lua") },
         { p = utils.join_paths(config_path, "lua", "tt", "plugins.lua") },
         { z = "~/.zshrc" },
         { a = "~/.zsh_aliases" },
