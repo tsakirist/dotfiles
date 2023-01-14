@@ -22,7 +22,7 @@ function M.setup()
     }
 
     local utils = require "tt.utils"
-    utils.map("n", "<leader>sj", "<Cmd>TSJToggle<CR>", { desc = "Split or join blokcks of code" })
+    utils.map("n", "<leader>sj", "<Cmd>TSJToggle<CR>", { desc = "Split or join blocks of code" })
 end
 
 return M

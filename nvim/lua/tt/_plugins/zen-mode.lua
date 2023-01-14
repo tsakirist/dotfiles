@@ -38,13 +38,13 @@ function M.setup()
             },
         },
         -- Callback where you can add custom code when the Zen window opens
-        on_open = function(win) end,
+        on_open = function(_) end,
         -- Callback where you can add custom code when the Zen window closes
         on_close = function() end,
     }
 
     local utils = require "tt.utils"
-    utils.map("n", "<F1>", "<Cmd>ZenMode<CR>")
+    utils.map("n", "<F1>", "<Cmd>ZenMode<CR>", { desc = "Enable ZenMode" })
 end
 
 return M

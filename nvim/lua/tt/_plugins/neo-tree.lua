@@ -147,8 +147,13 @@ function M.setup()
     }
 
     local utils = require "tt.utils"
-    utils.map("n", "<leader>nt", "<Cmd>Neotree toggle<CR>")
-    utils.map("n", "<leader>nf", "<Cmd>Neotree toggle reveal<CR>")
+    utils.map("n", "<leader>nt", function()
+        vim.cmd.Neotree { "toggle" }
+    end, { desc = "Toggle Neotree" })
+
+    utils.map("n", "<leader>nf", function()
+        vim.cmd.Neotree { "toggle", "reveal" }
+    end, { desc = "Reveal current file in Neotree" })
 end
 
 return M

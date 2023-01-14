@@ -30,6 +30,6 @@ function M.setup()
 end
 
 local utils = require "tt.utils"
-utils.map("n", "<leader>nd", require("notify").dismiss)
+utils.map("n", "<leader>nd", require("notify").dismiss, { desc = "Clear notifications" })
 
 return M

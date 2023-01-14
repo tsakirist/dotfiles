@@ -34,7 +34,7 @@ function M.setup()
     }
 
     local utils = require "tt.utils"
-    utils.map("n", "<leader>ng", "<Cmd>lua require('neogen').generate()<CR>")
+    utils.map("n", "<leader>ng", require("neogen").generate, { desc = "Generate documentation" })
 end
 
 return M
