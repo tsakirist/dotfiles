@@ -59,7 +59,8 @@ function M.setup()
                 LualineSearchCount = { fg = colors.magenta, bg = colors.bg0, style = "italic" },
             },
             carbonfox = {
-                CmpWindowBorder = { fg = colors.blue, bg = colors.bg0 },
+                CmpWindowBorder = { fg = colors.bg0, bg = colors.bg0 },
+                DressingBorder = { fg = colors.blue, bg = colors.bg1 },
                 MatchParen = { fg = colors.red, style = "bold,italic" },
                 NvimSurroundHighlight = { fg = M.colors("nordfox").yellow },
             },
