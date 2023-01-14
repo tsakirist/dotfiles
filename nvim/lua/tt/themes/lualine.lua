@@ -6,10 +6,6 @@ function M.setup()
     local navic = require "nvim-navic"
     local icons = require "tt.icons"
 
-    -- Get currently used theme from nigthfox and the colors
-    local nightfox_theme = require("tt._plugins.nightfox").theme
-    local colors = require("tt._plugins.nightfox").colors()
-
     local normal_theme = {
         component_separators = {
             left = icons.misc.RightUnfilledArrow,
@@ -58,7 +54,7 @@ function M.setup()
 
     require("lualine").setup {
         options = {
-            theme = nightfox_theme,
+            theme = "auto",
             component_separators = custom_theme.component_separators,
             section_separators = custom_theme.section_separators,
             icons_enabled = true,
