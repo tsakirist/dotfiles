@@ -23,7 +23,6 @@ function M.setup()
                 ["<2-leftmouse>"] = "open",
                 ["<cr>"] = "open",
                 ["o"] = "open",
-                ["-"] = "navigate_up",
                 ["<bs>"] = "none",
                 ["<c-x>"] = "open_split",
                 ["<c-v>"] = "open_vsplit",
@@ -113,6 +112,7 @@ function M.setup()
             hijack_netrw_behavior = "open_default",
             window = {
                 mappings = {
+                    ["-"] = "navigate_up",
                     ["."] = "set_root",
                     ["H"] = "toggle_hidden",
                     ["f"] = "filter_on_submit",
@@ -125,6 +125,7 @@ function M.setup()
             show_unloaded = true,
             window = {
                 mappings = {
+                    ["-"] = "navigate_up",
                     ["."] = "set_root",
                     ["bd"] = "buffer_delete",
                 },
