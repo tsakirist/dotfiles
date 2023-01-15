@@ -174,9 +174,9 @@ function _change_shell() {
         "zsh") shell="zsh" ;;
     esac
     local msg="Do you want to change the default shell to ${shell}?\nThis will issue 'chsh -s $(command -v ${shell})' command."
-    if (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
-        chsh -s "$(command -v ${shell})"
-        _print c "shell to $(command -v ${shell})"
+    if [ "$INSTALLATION_MODE" == "unattended" ] || (whiptail --title "Change shell" --yesno "${msg}" 8 78); then
+        sudo chsh -s "$(command -v "${shell}")"
+        _print c "shell to $(command -v "${shell}")"
         echo "In order for the ${start_underline}change${end_underline} to take effect you need to" \
             "${bold}${red_fg}re-login${reset}."
     fi
@@ -724,6 +724,7 @@ function _show_selective_menu() {
 # ----------------------------------------------------- Installers -----------------------------------------------------
 
 function _fresh_install() {
+    INSTALLATION_MODE="unattended"
     _check_command curl && _check_command git
     for ((i = 1; i < "${#pkgs_functions[@]}"; i++)); do
         ${pkgs_functions[$i]}
