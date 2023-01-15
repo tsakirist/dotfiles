@@ -10,7 +10,7 @@
     " -------------------------
     Author: Tryfon Tsakiris
      Email: tr.tsakiris@gmail.com
-       Url: https://github.com/tsakirist/dotfiles/tree/master/nvim/current
+       Url: https://github.com/tsakirist/dotfiles/tree/master/nvim
     ------------------------- "
 
 --]]
