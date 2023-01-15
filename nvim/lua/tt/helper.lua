@@ -2,7 +2,7 @@ local M = {}
 
 --- Function to zoom-in and zoom-out from a window.
 ---@deprecated in favor of 'zoomToggleNewTab'
-function M.zoomToggleSameTab()
+function M.zoom_toggle_same_tab()
     -- Do nothing if this is the only window, i.e. no splits
     if vim.fn.winnr "$" == 1 then
         return nil
@@ -24,7 +24,7 @@ function M.zoomToggleSameTab()
 end
 
 --- Function to zoom-in and zoom-out of the given window in a new tab.
-local function zoomToggleNewTab()
+local function zoom_toggle_new_tab()
     -- Do not open new tab for unnamed buffer
     -- TODO: Think how this can be fixed
     if vim.fn.bufname() == "" then
@@ -51,12 +51,12 @@ end
 
 --- Function to zoom-in and zoom-out of the given window in a new tab,
 --- whilst also preserving the cursor position.
-function M.zoomToggleNewTab()
-    M.preserve_cursor_position(zoomToggleNewTab)
+function M.zoom_toggle_new_tab()
+    M.preserve_cursor_position(zoom_toggle_new_tab)
 end
 
 --- Function to trim trailing whitespace.
-function M.trimTrailingWhiteSpace()
+function M.trim_trailing_white_space()
     local savedView = vim.fn.winsaveview()
     vim.cmd [[keeppatterns %s/\s\+$//e]]
     vim.fn.winrestview(savedView)
@@ -108,6 +108,18 @@ function M.preserve_cursor_position(arg)
         vim.cmd(arg)
     end
     vim.api.nvim_win_set_cursor(0, last_cursor_pos)
+end
+
+--- Returns the start and end position of the current visual selection.
+---@return { start_pos:number, end_pos:number}
+function M.get_visual_selection()
+    local visual_range = { start_pos = vim.fn.line "v", end_pos = vim.fn.line "." }
+    if visual_range.start_pos > visual_range.end_pos then
+        local tmp = visual_range.start_pos
+        visual_range.start_pos = visual_range.end_pos
+        visual_range.end_pos = tmp
+    end
+    return visual_range
 end
 
 return M

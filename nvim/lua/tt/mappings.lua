@@ -1,4 +1,5 @@
 local utils = require "tt.utils"
+local helper = require "tt.helper"
 
 -- Toggle between folds
 utils.map("n", "<F2>", "&foldlevel ? 'zM' : 'zR'", { expr = true })
@@ -16,7 +17,7 @@ utils.map("n", "<leader>bd", "<Cmd>bdelete<CR>")
 -- Close all buffers except the current one and also keep cursor position intact
 utils.map("n", "<leader>bo", function()
     local cmd = "%bd|e#|bd#"
-    require("tt.helper").preserve_cursor_position(cmd)
+    helper.preserve_cursor_position(cmd)
 end, { desc = "Keep only the current buffer open" })
 
 -- List buffers and open them either on the same window or another
@@ -45,10 +46,14 @@ utils.map("n", "<C-j>", ":m+<CR>==")
 utils.map("v", "<C-k>", ":m '<-2<CR>gv=gv")
 utils.map("v", "<C-j>", ":m '>+1<CR>gv=gv")
 
--- Duplicate the current line
--- 't' command is a synonym for copy
-utils.map({ "n", "v" }, "<leader>d", ":t.<CR>")
+-- Duplicate the current line or lines
+utils.map("n", "<leader>d", ":t.<CR>")
 utils.map("i", "<leader>d", "<Esc>:t.<CR>")
+utils.map("v", "<leader>d", function()
+    local visual_selection = helper.get_visual_selection()
+    local lines = vim.api.nvim_buf_get_lines(0, visual_selection.start_pos - 1, visual_selection.end_pos, true)
+    vim.api.nvim_buf_set_lines(0, visual_selection.end_pos, visual_selection.end_pos, true, lines)
+end)
 
 -- Hitting ESC when inside a terminal to get into normal mode
 utils.map("t", "<Esc>", [[<C-\><C-N>]])
@@ -60,7 +65,7 @@ utils.map({ "i", "v" }, "<C-s>", "<Esc><Cmd>update<CR>")
 
 -- Keymaps to quit current buffer with ctrl+q
 utils.map({ "n", "i", "v" }, "<C-q>", function()
-    require("tt.helper").smart_quit()
+    helper.smart_quit()
 end, { desc = "Quit current buffer" })
 
 -- Keymap to quit all buffers
@@ -123,7 +128,7 @@ utils.map({ "n", "x" }, "<leader>ga", "<Plug>(LiveEasyAlign)")
 
 -- Zoom toggle a buffer in a new tab
 utils.map("n", "<leader>z", function()
-    require("tt.helper").zoomToggleNewTab()
+    helper.zoom_toggle_new_tab()
 end, { desc = "Zoom toggle a buffer in a new tab" })
 
 -- Make `n|N` to also center the screen and open any folds
@@ -140,18 +145,18 @@ utils.map("n", "<C-b>", "<C-b>zz")
 utils.map("v", "<leader>s", ":sort<CR>", { desc = "Sort visual selection" })
 
 -- Paste until EOL from current cursor position
-utils.map("n", "<M-p>", "vg_p", { desc = "Paste from current cursor position until EOL"})
+utils.map("n", "<M-p>", "vg_p", { desc = "Paste from current cursor position until EOL" })
 
 -- Copy the absolute filename to the clipboard
 utils.map("n", "<leader>cp", function()
-    require("tt.helper").copy_filename_to_clipboard "p"
+    helper.copy_filename_to_clipboard "p"
 end, { desc = "Copy absoulte path of file to clipboard" })
 
 -- Copy the filename after applying the filename-modifer from ui.input
 utils.map("n", "<leader>cP", function()
     vim.ui.input({ prompt = "Enter filename modifier: ", default = "p" }, function(input)
         if input then
-            require("tt.helper").copy_filename_to_clipboard(input)
+            helper.copy_filename_to_clipboard(input)
         end
     end)
 end, { desc = "Copy current filename according to the supplied modifier" })

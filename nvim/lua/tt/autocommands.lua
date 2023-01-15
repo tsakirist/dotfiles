@@ -18,7 +18,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*",
     desc = "Remove trailing whitespace on write",
     callback = function()
-        require("tt.helper").trimTrailingWhiteSpace()
+        require("tt.helper").trim_trailing_white_space()
     end,
 })
 
