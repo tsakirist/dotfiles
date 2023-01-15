@@ -91,11 +91,9 @@ function M.setup()
         { v = { icons.misc.Owl .. " Neovim config", ":TelescopeNvimConfigFind" } },
     }
 
-    local config_path = vim.fn.stdpath "config"
-
     --- Add custom bookmarks
     vim.g.startify_bookmarks = {
-        { p = utils.join_paths(config_path, "lua", "tt", "plugins.lua") },
+        { p = utils.join_paths(vim.fn.stdpath "config", "lua", "tt", "plugins.lua") },
         { z = "~/.zshrc" },
         { a = "~/.zsh_aliases" },
     }
