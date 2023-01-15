@@ -4,24 +4,7 @@ function _G.Print(value)
     vim.pretty_print(value)
 end
 
---- Flushes the supplied module from cache.
----@param module string: The module name to be flushed.
----@return any
-function _G.FlushModule(module)
-    if pcall(require, "plenary.reload") then
-        return require("plenary.reload").reload_module(module)
-    end
-end
-
---- Reloads the supplied module.
----@param module string: The module name to be reloaded.
----@return any
-function _G.Reload(module)
-    _G.FlushModule(module)
-    return require(module)
-end
-
---- Create a wrapper for nvim-web-devicons.
+-- Create a wrapper for nvim-web-devicons.
 ---@param path string: The path for the requested icon.
 ---@return any
 function _G.WebDevIcons(path)
