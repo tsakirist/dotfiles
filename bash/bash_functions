@@ -128,3 +128,12 @@ download_nvim() {
         && echo "Old NVIM version: $(/usr/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$RED" -v NC="$NC" '{print COLOR $2 NC}')"
     popd > /dev/null || return
 }
+
+# Read man pages with neovim
+nvim_man_pager() {
+    if (/usr/bin/man "$1" > /dev/null 2>&1) then
+        $EDITOR "+Man $1 | only"
+    else
+        echo "No manual entry for $1"
+    fi
+}
