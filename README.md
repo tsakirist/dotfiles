@@ -62,6 +62,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── nvim-autopairs.lua
 │       │   ├── nvim-cmp.lua
 │       │   ├── nvim-surround.lua
+│       │   ├── spectre.lua
 │       │   ├── startify.lua
 │       │   ├── syntax-tree-surfer.lua
 │       │   ├── toggleterm.lua

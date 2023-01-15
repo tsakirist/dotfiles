@@ -508,6 +508,19 @@ return {
         end,
     },
 
+    -- Search and replace panel
+    {
+        "windwp/nvim-spectre",
+        keys = {
+            "<leader>sr",
+            "<leader>sw",
+            "<leader>sf",
+        },
+        config = function()
+            require("tt._plugins.spectre").setup()
+        end,
+    },
+
     -- Create custom submodes and menus
     {
         "anuvyklack/hydra.nvim",
