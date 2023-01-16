@@ -16,112 +16,112 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.api.nvim_create_autocmd("BufWritePre", {
     group = vim.api.nvim_create_augroup("_trim_whitespace", { clear = true }),
     pattern = "*",
-    desc = "Remove trailing whitespace on write",
     callback = function()
         require("tt.helper").trim_trailing_white_space()
     end,
+    desc = "Remove trailing whitespace on write",
 })
 
 -- Enable format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
     group = vim.api.nvim_create_augroup("_format_on_save", { clear = true }),
     pattern = { "*.lua", "*.tsx", "*.ts", "*.sh" },
-    desc = "Enable format on save",
     callback = function()
         vim.lsp.buf.format()
     end,
+    desc = "Enable format on save",
 })
 
 -- Enable spellcheck for specific filetypes
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("_spell_check", { clear = true }),
     pattern = { "text", "gitcommit", "markdown" },
-    desc = "Enable spellcheck for specific filetypes",
     command = "setlocal spell wrap",
+    desc = "Enable spellcheck for specific filetypes",
 })
 
 -- Automatically resize windows when host resizes
 vim.api.nvim_create_autocmd("VimResized", {
     group = vim.api.nvim_create_augroup("_auto_resize", { clear = true }),
     pattern = "*",
-    desc = "Automatically resize windows when host resizes",
     command = "tabdo wincmd =",
+    desc = "Automatically resize windows when host resizes",
 })
 
 -- Enable highlighting when yanking text
 vim.api.nvim_create_autocmd("TextYankPost", {
     group = vim.api.nvim_create_augroup("_highlight", { clear = true }),
     pattern = "*",
-    desc = "Enable highlighting when yanking text",
     callback = function()
         vim.highlight.on_yank()
     end,
+    desc = "Enable highlighting when yanking text",
 })
 
 -- Immediately enter insert mode when in a terminal
 vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter", "WinEnter" }, {
     group = vim.api.nvim_create_augroup("_terminal", { clear = true }),
     pattern = "*",
-    desc = "Immediately enter insert mode when in a terminal",
     callback = function()
         if vim.o.buftype == "terminal" and vim.o.filetype ~= "lazy" then
             vim.cmd.startinsert()
         end
     end,
+    desc = "Immediately enter insert mode when in a terminal",
 })
 
 -- Remove line numbers when in a terminal
 vim.api.nvim_create_autocmd("TermOpen", {
     group = vim.api.nvim_create_augroup("_terminal", { clear = false }),
     pattern = "*",
-    desc = "Remove line numbers when in a terminal",
     command = "setlocal nonumber norelativenumber",
+    desc = "Remove line numbers when in a terminal",
 })
 
 -- A set of filetypes where just hitting 'q' should exit the buffer/window
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("_faster_quit", { clear = true }),
     pattern = { "help", "man", "lspinfo", "startuptime", "spectre_panel" },
-    desc = "A set of filetypes where just hitting 'q' should exit the buffer/window",
     callback = function(event)
         vim.keymap.set("n", "q", "<Cmd>quit<CR>", { silent = true, buffer = event.buf })
     end,
+    desc = "A set of filetypes where just hitting 'q' should exit the buffer/window",
 })
 
 -- Automatic toggling between hybrid and absolute line numbers
 vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
     group = vim.api.nvim_create_augroup("_number_toggle", { clear = true }),
     pattern = "*",
-    desc = "Automatic toggling between hybrid and absolute line numbers",
     callback = function()
         if vim.o.number and vim.api.nvim_get_mode().mode ~= "i" then
             vim.o.relativenumber = true
         end
     end,
+    desc = "Automatic toggling between hybrid and absolute line numbers",
 })
 
 vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" }, {
     group = vim.api.nvim_create_augroup("_number_toggle", { clear = false }),
     pattern = "*",
-    desc = "Automatic toggling between hybrid and absolute line numbers",
     callback = function()
         if vim.o.number then
             vim.o.relativenumber = false
         end
     end,
+    desc = "Automatic toggling between hybrid and absolute line numbers",
 })
 
 -- Toggle conceallevel when in insert mode and normal mode
 vim.api.nvim_create_autocmd("InsertEnter", {
     group = vim.api.nvim_create_augroup("_conceal_toggle", { clear = true }),
     pattern = { "*.md", "*.markdown" },
-    desc = "Automatic toggling of conceallevel when in insert/normal mode",
     command = "setlocal conceallevel=0",
+    desc = "Automatic toggling of conceallevel when in insert/normal mode",
 })
 
 vim.api.nvim_create_autocmd("InsertLeave", {
     group = vim.api.nvim_create_augroup("_conceal_toggle", { clear = false }),
     pattern = { "*.md", "*.markdown" },
-    desc = "Automatic toggling of conceallevel when in insert/normal mode",
     command = "setlocal conceallevel=2",
+    desc = "Automatic toggling of conceallevel when in insert/normal mode",
 })
