@@ -139,10 +139,8 @@ local function setup_navigation(client, bufnr)
     end
 end
 
-local function setup_formatting(client)
-    -- Disable default LSP formatting as this will be handled by 'null-ls' LSP
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
+local function setup_formatting(client, bufnr)
+    require("tt._plugins.lsp.format").on_attach(client, bufnr)
 end
 
 local function setup_keymappings(_, bufnr)
@@ -210,7 +208,7 @@ end
 
 local function on_attach(client, bufnr)
     setup_keymappings(client, bufnr)
-    setup_formatting(client)
+    setup_formatting(client, bufnr)
     setup_highlighting(client, bufnr)
     setup_navigation(client, bufnr)
 end

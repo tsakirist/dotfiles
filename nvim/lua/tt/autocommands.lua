@@ -22,16 +22,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     desc = "Remove trailing whitespace on write",
 })
 
--- Enable format on save
-vim.api.nvim_create_autocmd("BufWritePre", {
-    group = vim.api.nvim_create_augroup("_format_on_save", { clear = true }),
-    pattern = { "*.lua", "*.tsx", "*.ts", "*.sh" },
-    callback = function()
-        vim.lsp.buf.format()
-    end,
-    desc = "Enable format on save",
-})
-
 -- Enable spellcheck for specific filetypes
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("_spell_check", { clear = true }),

@@ -33,6 +33,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   ├── git-messenger.lua
 │       │   │   └── gitsigns.lua
 │       │   ├── lsp/
+│       │   │   ├── format.lua
 │       │   │   ├── goto-preview.lua
 │       │   │   ├── inlay-hints.lua
 │       │   │   ├── lsp-signature.lua
