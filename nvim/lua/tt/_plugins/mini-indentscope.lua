@@ -35,10 +35,21 @@ function M.setup()
 
     -- Disable the plugin for the following filetypes
     vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("_mini_indentscope", { clear = true }),
         pattern = { "help", "startify", "gitcommit", "neo-tree", "Trouble", "lazy", "mason" },
         callback = function()
             vim.b.miniindentscope_disable = true
         end,
+        desc = "Disable 'mini-indentscope' in the following filetypes",
+    })
+
+    -- Disable the plugin when in terminal
+    vim.api.nvim_create_autocmd("TermEnter", {
+        group = vim.api.nvim_create_augroup("_mini_indentscope", { clear = false }),
+        callback = function()
+            vim.b.miniindentscope_disable = true
+        end,
+        desc = "Disable 'mini-indentscope' in terminal",
     })
 end
 
