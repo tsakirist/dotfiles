@@ -541,6 +541,11 @@ return {
             "<Plug>(EasyAlign)",
             "<Plug>(LiveEasyAlign)",
         },
+        init = function()
+            local utils = require "tt.utils"
+            utils.map({ "n", "x" }, "ga", "<Plug>(EasyAlign)")
+            utils.map({ "n", "x" }, "<leader>ga", "<Plug>(LiveEasyAlign)")
+        end,
     },
 
     -- Easily invert the word under cursor

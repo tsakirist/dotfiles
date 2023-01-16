@@ -120,12 +120,6 @@ utils.map("n", "j", [[(v:count > 5 ? "m'" . v:count : "") . 'j']], { expr = true
 -- Insert newlines below and above
 utils.map("n", "<leader>o", "o<Esc>kO<Esc>j")
 
--- EasyAlign keybindings
--- 'vipga' starts interactive EasyAlign in visual mode
--- 'gaip' starts interactive EasyAlign for text/motion object
-utils.map({ "n", "x" }, "ga", "<Plug>(EasyAlign)")
-utils.map({ "n", "x" }, "<leader>ga", "<Plug>(LiveEasyAlign)")
-
 -- Zoom toggle a buffer in a new tab
 utils.map("n", "<leader>z", function()
     helper.zoom_toggle_new_tab()
