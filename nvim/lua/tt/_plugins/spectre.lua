@@ -5,6 +5,9 @@ function M.setup()
         color_devicons = true, -- Use icons
         is_insert_mode = true, -- Start open panel in insert mode
         live_update = true, -- Auto execute search again when a file is written
+        line_sep_start = "┌──────────────────────────────────────────",
+        result_padding = "│  ",
+        line_sep = "└───────────────────────────────────────────",
         highlight = {
             ui = "String",
             search = "GitSignsDeleteInline",
