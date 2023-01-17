@@ -1,7 +1,10 @@
 local M = {}
 
 function M.setup()
-    require("goto-preview").setup {
+    local utils = require "tt.utils"
+
+    local goto_preview = require "goto-preview"
+    goto_preview.setup {
         width = 120, -- Width of the floating window
         height = 25, -- Height of the floating window
         border = { "↖", "─", "┐", "│", "┘", "─", "└", "│" },
@@ -15,22 +18,17 @@ function M.setup()
         debug = false, -- Print debug information
 
         -- Setup a post_open_hook that gets called right before setting the cursor position in the new floating window
-        post_open_hook = function(buf_handle, win_handle)
+        post_open_hook = function(bufnr, window)
             -- Set a keymap that will close the floating window
-            vim.api.nvim_buf_set_keymap(
-                buf_handle,
-                { "n" },
-                "q",
-                ("<Cmd>call nvim_win_close(%d, v:false)<CR>"):format(win_handle),
-                { noremap = true }
-            )
+            utils.map("n", "q", function()
+                vim.api.nvim_win_close(window, true)
+            end, { buffer = bufnr })
         end,
     }
 
-    local utils = require "tt.utils"
-    utils.map("n", "gp", "<Cmd>lua require('goto-preview').goto_preview_definition()<CR>")
-    utils.map("n", "gi", "<Cmd>lua require('goto-preview').goto_preview_implementation()<CR>")
-    utils.map("n", "gP", "<Cmd>lua require('goto-preview').close_all_win()<CR>")
+    utils.map("n", "gp", goto_preview.goto_preview_definition)
+    utils.map("n", "gi", goto_preview.goto_preview_implementation)
+    utils.map("n", "gP", goto_preview.close_all_win)
 end
 
 return M
