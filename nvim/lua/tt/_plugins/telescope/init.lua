@@ -83,7 +83,7 @@ function M.setup()
     }
 
     require("tt._plugins.telescope.extensions").setup()
-    require("tt._plugins.telescope.keymappings").setup()
+    require("tt._plugins.telescope.keymaps").setup()
     require("tt._plugins.telescope.commands").setup()
 end
 
