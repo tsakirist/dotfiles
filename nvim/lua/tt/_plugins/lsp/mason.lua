@@ -3,7 +3,7 @@ local M = {}
 function M.setup()
     local icons = require "tt.icons"
     local utils = require "tt.utils"
-    local lsp = require "tt.lsp"
+    local servers = require "tt._plugins.lsp.config.servers"
 
     require("mason").setup {
         -- The directory in which to install packages
@@ -69,13 +69,13 @@ function M.setup()
     -- Bridge between 'mason' and 'lspconfig' allowing for easy installation and setup of LSP severs
     require("mason-lspconfig").setup {
         -- A list of servers to automatically install if they're not already installed
-        ensure_installed = vim.tbl_keys(lsp.servers),
+        ensure_installed = vim.tbl_keys(servers.lsp_servers),
     }
 
     -- Bridge between 'mason' and 'null-ls' allowing for easy installation of non-LSP servers
     require("mason-null-ls").setup {
         -- A list of sources to install if they're not already installed
-        ensure_installed = lsp.null_ls_sources,
+        ensure_installed = servers.null_ls_sources,
     }
 
     utils.map("n", "<leader>m", vim.cmd.Mason)

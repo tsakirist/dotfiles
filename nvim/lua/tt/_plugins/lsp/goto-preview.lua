@@ -19,7 +19,7 @@ function M.setup()
             -- Set a keymap that will close the floating window
             vim.api.nvim_buf_set_keymap(
                 buf_handle,
-                "n",
+                { "n" },
                 "q",
                 ("<Cmd>call nvim_win_close(%d, v:false)<CR>"):format(win_handle),
                 { noremap = true }

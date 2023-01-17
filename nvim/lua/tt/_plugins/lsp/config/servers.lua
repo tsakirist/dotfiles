@@ -1,7 +1,7 @@
 local M = {}
 
--- Custom LSP server settings
-M.servers = {
+-- Custom lsp server settings
+M.lsp_servers = {
     bashls = {},
     clangd = {
         capabilities = {
@@ -76,5 +76,17 @@ M.null_ls_sources = {
     "shfmt",
     "stylua",
 }
+
+function M.setup(on_attach)
+    local common_opts = {
+        on_attach = on_attach,
+        capabilities = require("cmp_nvim_lsp").default_capabilities(),
+    }
+
+    for _, server in ipairs(vim.tbl_keys(M.lsp_servers)) do
+        local server_opts = vim.tbl_deep_extend("force", common_opts, M.lsp_servers[server])
+        require("lspconfig")[server].setup(server_opts)
+    end
+end
 
 return M

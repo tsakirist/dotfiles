@@ -33,13 +33,19 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   ├── git-messenger.lua
 │       │   │   └── gitsigns.lua
 │       │   ├── lsp/
-│       │   │   ├── format.lua
+│       │   │   ├── config/
+│       │   │   │   ├── format.lua
+│       │   │   │   ├── handlers.lua
+│       │   │   │   ├── highlight.lua
+│       │   │   │   ├── init.lua
+│       │   │   │   ├── keymaps.lua
+│       │   │   │   ├── servers.lua
+│       │   │   │   └── symbols.lua
 │       │   │   ├── goto-preview.lua
 │       │   │   ├── inlay-hints.lua
 │       │   │   ├── lsp-signature.lua
 │       │   │   ├── mason.lua
 │       │   │   ├── null-ls.lua
-│       │   │   ├── nvim-lspconfig.lua
 │       │   │   └── nvim-navic.lua
 │       │   ├── telescope/
 │       │   │   ├── commands.lua
@@ -81,7 +87,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       ├── icons.lua
 │       ├── init.lua
 │       ├── lazy.lua
-│       ├── lsp.lua
 │       ├── mappings.lua
 │       ├── plugins.lua
 │       ├── settings.lua

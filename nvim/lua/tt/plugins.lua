@@ -104,7 +104,7 @@ return {
                 "hrsh7th/cmp-nvim-lsp",
             },
             config = function()
-                require("tt._plugins.lsp.nvim-lspconfig").setup()
+                require("tt._plugins.lsp.config").setup()
             end,
         },
         -- General purpose LSP that allows non-LSP sources to hook to native LSP
