@@ -34,7 +34,7 @@
   "neogen": { "branch": "main", "commit": "465af9d6c6fb7f360175991dcc23fc10917e3a06" },
   "nightfox.nvim": { "branch": "main", "commit": "97e66dfaaecdc81f1dd7da00f8d4a6033f3bf6b2" },
   "nui.nvim": { "branch": "main", "commit": "b99e6cb13dc51768abc1c4c8585045a0c0459ef1" },
-  "null-ls.nvim": { "branch": "main", "commit": "7bd74a821d991057ca1c0ca569d8252c4f89f860" },
+  "null-ls.nvim": { "branch": "main", "commit": "ef3d4a438f96865e3ae018e33ed30156a955ed00" },
   "numb.nvim": { "branch": "master", "commit": "d95b7ea62e320b02ca1aa9df3635471a88d6f3b1" },
   "nvim-autopairs": { "branch": "master", "commit": "f00eb3b766c370cb34fdabc29c760338ba9e4c6c" },
   "nvim-cmp": { "branch": "main", "commit": "11a95792a5be0f5a40bab5fc5b670e5b1399a939" },

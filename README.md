@@ -34,13 +34,13 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   └── gitsigns.lua
 │       │   ├── lsp/
 │       │   │   ├── config/
+│       │   │   │   ├── attach.lua
 │       │   │   │   ├── format.lua
 │       │   │   │   ├── handlers.lua
 │       │   │   │   ├── highlight.lua
 │       │   │   │   ├── init.lua
 │       │   │   │   ├── keymaps.lua
-│       │   │   │   ├── servers.lua
-│       │   │   │   └── symbols.lua
+│       │   │   │   └── servers.lua
 │       │   │   ├── goto-preview.lua
 │       │   │   ├── inlay-hints.lua
 │       │   │   ├── lsp-signature.lua

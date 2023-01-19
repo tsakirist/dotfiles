@@ -77,9 +77,8 @@ M.null_ls_sources = {
     "stylua",
 }
 
-function M.setup(on_attach)
+function M.setup()
     local common_opts = {
-        on_attach = on_attach,
         capabilities = require("cmp_nvim_lsp").default_capabilities(),
     }
 
