@@ -139,7 +139,7 @@ utils.map("n", "<C-b>", "<C-b>zz")
 utils.map("v", "<leader>s", ":sort<CR>", { desc = "Sort visual selection" })
 
 -- Paste until EOL from current cursor position
-utils.map("n", "<M-p>", "vg_p", { desc = "Paste from current cursor position until EOL" })
+utils.map("n", "<M-p>", [[vg_"_dP]], { desc = "Paste from current cursor position until EOL" })
 
 -- Copy the absolute filename to the clipboard
 utils.map("n", "<leader>cp", function()
