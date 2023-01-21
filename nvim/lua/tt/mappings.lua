@@ -141,6 +141,9 @@ utils.map("v", "<leader>s", ":sort<CR>", { desc = "Sort visual selection" })
 -- Paste until EOL from current cursor position
 utils.map("n", "<M-p>", [[vg_"_dP]], { desc = "Paste from current cursor position until EOL" })
 
+-- Search in the visual selected area
+utils.map("v", "/", [[<Esc>/\%V]], { silent = false, desc = "Search withing visual selected area" })
+
 -- Copy the absolute filename to the clipboard
 utils.map("n", "<leader>cp", function()
     helper.copy_filename_to_clipboard "p"
