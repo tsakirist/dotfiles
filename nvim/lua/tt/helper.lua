@@ -96,11 +96,6 @@ end
 --- Preserves cursor position upon invocation of the supplied cmd.
 ---@param arg string|function: The command|function to execute.
 function M.preserve_cursor_position(arg)
-    local arg_type = type(arg)
-    assert(
-        arg_type == "string" or arg_type == "function",
-        string.format("Argument must be either a 'string' or a 'function', you supplied '%s'.", arg_type)
-    )
     local last_cursor_pos = vim.api.nvim_win_get_cursor(0)
     if type(arg) == "function" then
         arg()
