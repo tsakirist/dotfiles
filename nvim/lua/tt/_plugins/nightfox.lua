@@ -53,6 +53,8 @@ function M.setup()
         groups = {
             all = {
                 BarbecueSeparator = { fg = colors.white },
+                FidgetTask = { fg = colors.magenta },
+                FidgetTitle = { fg = colors.cyan },
                 GitSignsAddInline = { bg = Color(spec.bg1):blend(Color(colors.green.dim), 0.55):to_css() },
                 GitSignsChangeInline = { bg = Color(spec.bg1):blend(Color(colors.yellow.dim), 0.55):to_css() },
                 GitSignsDeleteInline = { bg = Color(spec.bg1):blend(Color(colors.red.dim), 0.55):to_css() },
@@ -71,8 +73,6 @@ function M.setup()
                 CybuCurrentSelection = { fg = colors.blue, bg = colors.black },
                 DressingBorder = { fg = colors.blue, bg = colors.bg1 },
                 DressingInput = { fg = colors.magenta, bg = colors.bg1 },
-                FidgetTask = { fg = colors.magenta },
-                FidgetTitle = { fg = colors.cyan },
                 MatchParen = { fg = colors.orange, style = "bold,italic" },
                 NavicIconsClass = { fg = colors.yellow, bg = colors.bg0 },
                 NavicIconsConstructor = { fg = colors.yellow.dim, bg = colors.bg0 },
