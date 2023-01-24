@@ -61,6 +61,3 @@
 
 [merge]
   conflictstyle = diff3
-
-[interactive]
-  diffFilter = delta --color-only
