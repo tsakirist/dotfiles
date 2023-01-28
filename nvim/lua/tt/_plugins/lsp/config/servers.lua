@@ -18,6 +18,16 @@ M.lsp_servers = {
             },
         },
     },
+    rust_analyzer = {
+        settings = {
+            ["rust-analyzer"] = {
+                check = {
+                    command = "clippy",
+                },
+                checkOnSave = true,
+            },
+        },
+    },
     sumneko_lua = {
         settings = {
             Lua = {
@@ -73,6 +83,7 @@ M.null_ls_sources = {
     "luacheck",
     "markdownlint",
     "prettierd",
+    "rustfmt",
     "shfmt",
     "stylua",
 }

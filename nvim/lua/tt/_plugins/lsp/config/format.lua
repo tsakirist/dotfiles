@@ -5,6 +5,7 @@ local M = {}
 M.filetypes = {
     cpp = false,
     lua = true,
+    rust = true,
     sh = true,
     typescript = true,
     typescriptreact = true,

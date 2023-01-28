@@ -12,6 +12,7 @@ function M.setup()
             formatting.clang_format.with {
                 extra_args = { "-style=file" },
             },
+            formatting.rustfmt,
             formatting.shfmt.with {
                 extra_args = { "-i", "4", "-bn", "-ci", "-sr" },
             },
