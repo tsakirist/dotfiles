@@ -43,9 +43,7 @@ function M.setup()
         callback = function(args)
             local bufnr = args.buf
             local client = vim.lsp.get_client_by_id(args.data.client_id)
-            if client.name ~= "null-ls" then
-                on_attach(client, bufnr)
-            end
+            on_attach(client, bufnr)
         end,
     })
 end
