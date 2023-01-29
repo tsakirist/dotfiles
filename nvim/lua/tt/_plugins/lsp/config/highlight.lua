@@ -1,7 +1,7 @@
 local M = {}
 function M.on_attach(client, bufnr)
     if client.supports_method "textDocument/documentHighlight" then
-        local group = vim.api.nvim_create_augroup("_lsp_document_highlight", { clear = true })
+        local group = vim.api.nvim_create_augroup("tt.LspDocumentHighlight", { clear = true })
         vim.api.nvim_create_autocmd("CursorHold", {
             group = group,
             buffer = bufnr,

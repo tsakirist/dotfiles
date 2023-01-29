@@ -46,7 +46,7 @@ end
 ---@param bufnr number
 function M.on_attach(client, bufnr)
     if client.supports_method "textDocument/formatting" then
-        local group = vim.api.nvim_create_augroup("_format_on_save", { clear = false })
+        local group = vim.api.nvim_create_augroup("tt.FormatOnSave", { clear = false })
         vim.api.nvim_clear_autocmds { group = group, buffer = bufnr }
         vim.api.nvim_create_autocmd("BufWritePre", {
             group = group,

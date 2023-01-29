@@ -39,7 +39,7 @@ end
 
 function M.setup()
     vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("LspOnAttach", { clear = true }),
+        group = vim.api.nvim_create_augroup("tt.LspOnAttach", { clear = true }),
         callback = function(args)
             local bufnr = args.buf
             local client = vim.lsp.get_client_by_id(args.data.client_id)
