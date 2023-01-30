@@ -75,7 +75,10 @@ function M.setup()
     -- Bridge between 'mason' and 'null-ls' allowing for easy installation of non-LSP servers
     require("mason-null-ls").setup {
         -- A list of sources to install if they're not already installed
-        ensure_installed = servers.null_ls_sources,
+        ensure_installed = vim.list_extend(
+            vim.tbl_keys(servers.null_ls_sources.formatting),
+            vim.tbl_keys(servers.null_ls_sources.diagnostics)
+        ),
     }
 
     utils.map("n", "<leader>m", vim.cmd.Mason)

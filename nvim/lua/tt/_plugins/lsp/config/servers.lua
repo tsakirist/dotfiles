@@ -79,13 +79,23 @@ M.lsp_servers = {
 
 -- List of sources for null_ls
 M.null_ls_sources = {
-    "clang-format",
-    "luacheck",
-    "markdownlint",
-    "prettierd",
-    "rustfmt",
-    "shfmt",
-    "stylua",
+    formatting = {
+        clang_format = {
+            extra_args = { "-style=file" },
+        },
+        prettierd = {},
+        rustfmt = {},
+        shfmt = {
+            extra_args = { "-i", "4", "-bn", "-ci", "-sr" },
+        },
+        stylua = {},
+    },
+    diagnostics = {
+        luacheck = {
+            extra_args = { "--globals", "vim" },
+        },
+        markdownlint = {},
+    },
 }
 
 function M.setup()

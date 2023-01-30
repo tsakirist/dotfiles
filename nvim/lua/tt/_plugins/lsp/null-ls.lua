@@ -2,29 +2,19 @@ local M = {}
 
 function M.setup()
     local null_ls = require "null-ls"
-    local formatting = null_ls.builtins.formatting
-    local diagnostics = null_ls.builtins.diagnostics
+    local null_ls_sources = require("tt._plugins.lsp.config.servers").null_ls_sources
 
-    null_ls.setup {
-        sources = {
-            formatting.prettierd,
-            formatting.stylua,
-            formatting.clang_format.with {
-                extra_args = { "-style=file" },
-            },
-            formatting.rustfmt,
-            formatting.shfmt.with {
-                extra_args = { "-i", "4", "-bn", "-ci", "-sr" },
-            },
-            diagnostics.luacheck.with {
-                extra_args = {
-                    "--globals",
-                    "vim",
-                },
-            },
-            diagnostics.markdownlint,
-        },
-    }
+    local final_sources = {}
+    for type, sources in pairs(null_ls_sources) do
+        if not vim.tbl_isempty(sources) then
+            for source, extra_args in pairs(sources) do
+                local final_source = null_ls.builtins[type][source].with(extra_args)
+                table.insert(final_sources, final_source)
+            end
+        end
+    end
+
+    null_ls.setup { sources = final_sources }
 end
 
 return M
