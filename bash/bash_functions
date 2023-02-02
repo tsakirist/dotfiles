@@ -19,17 +19,17 @@ extract() {
         if [ -f "$archive" ]; then
             case "$archive" in
                 *.tar.bz2) tar xvjf "$archive" ;;
-                 *.tar.gz) tar xvzf "$archive" ;;
-                    *.bz2) bunzip2 "$archive" ;;
-                    *.rar) rar x "$archive" ;;
-                     *.gz) gunzip "$archive" ;;
-                    *.tar) tar xvf "$archive" ;;
-                   *.tbz2) tar xvjf "$archive" ;;
-                    *.tgz) tar xvzf "$archive" ;;
-                    *.zip) unzip "$archive" ;;
-                      *.Z) uncompress "$archive" ;;
-                     *.7z) 7z x "$archive" ;;
-                        *) echo "Don't know how to extract '$archive' ..." ;;
+                *.tar.gz) tar xvzf "$archive" ;;
+                *.bz2) bunzip2 "$archive" ;;
+                *.rar) rar x "$archive" ;;
+                *.gz) gunzip "$archive" ;;
+                *.tar) tar xvf "$archive" ;;
+                *.tbz2) tar xvjf "$archive" ;;
+                *.tgz) tar xvzf "$archive" ;;
+                *.zip) unzip "$archive" ;;
+                *.Z) uncompress "$archive" ;;
+                *.7z) 7z x "$archive" ;;
+                *) echo "Don't know how to extract '$archive' ..." ;;
             esac
         else
             echo "'$archive' is not a valid file!"
@@ -124,14 +124,13 @@ download_nvim() {
     curl -sSLO https://github.com/neovim/neovim/releases/download/nightly/${NVIM_DEB}
     [ -f "$NVIM_DEB" ] \
         && sudo dpkg -i "$NVIM_DEB" > /dev/null \
-        && echo "New NVIM version: $(/usr/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$RED" -v NC="$NC" '{print COLOR $2 NC}')" \
-        && echo "Old NVIM version: $(/usr/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$RED" -v NC="$NC" '{print COLOR $2 NC}')"
+        && echo "NVIM version: $(/usr/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$RED" -v NC="$NC" '{print COLOR $2 NC}')"
     popd > /dev/null || return
 }
 
 # Read man pages with neovim
 nvim_man_pager() {
-    if (/usr/bin/man "$1" > /dev/null 2>&1) then
+    if (/usr/bin/man "$1" > /dev/null 2>&1); then
         $EDITOR "+Man $1 | only"
     else
         echo "No manual entry for $1"

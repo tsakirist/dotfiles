@@ -124,8 +124,7 @@ download_nvim() {
     curl -sSLO https://github.com/neovim/neovim/releases/download/nightly/${NVIM_DEB}
     [ -f "$NVIM_DEB" ] \
         && sudo dpkg -i "$NVIM_DEB" > /dev/null \
-        && echo "New NVIM version: $(/usr/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$RED" -v NC="$NC" '{print COLOR $2 NC}')" \
-        && echo "Old NVIM version: $(/usr/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$RED" -v NC="$NC" '{print COLOR $2 NC}')"
+        && echo "NVIM version: $(/usr/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$RED" -v NC="$NC" '{print COLOR $2 NC}')"
     popd > /dev/null || return
 }
 
