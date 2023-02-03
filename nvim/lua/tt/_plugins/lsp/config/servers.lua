@@ -31,6 +31,9 @@ M.lsp_servers = {
     sumneko_lua = {
         settings = {
             Lua = {
+                runtime = {
+                    version = "LuaJIT",
+                },
                 diagnostics = {
                     globals = {
                         "vim",
@@ -45,6 +48,12 @@ M.lsp_servers = {
                     paramType = true,
                     semicolon = "Disable", -- "All", "SameLine", "Disable"
                     setType = true,
+                },
+                telemetry = {
+                    enable = false,
+                },
+                workspace = {
+                    checkThirdParty = false,
                 },
             },
         },
