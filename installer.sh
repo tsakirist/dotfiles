@@ -461,13 +461,14 @@ function _kitty_config() {
     _create_dir_if_not_exists "$destination"
     ln -sv --backup=numbered "${SCRIPT_DIR}/kitty/kitty.conf" "$destination/kitty.conf"
     cp -v kitty/*.png "$destination/"
+    _kitty_themes
 }
 
 function _kitty_themes() {
-    _print i "kitty-themes"
-    local themes_path="$HOME/.config/kitty/kitty-themes"
-    [ ! -d "$themes_path" ] \
-        && git clone --quiet --depth=1 https://github.com/dexpota/kitty-themes.git ~/.config/kitty/kitty-themes
+    _check_dir kitty/themes/
+    local destination="$HOME/.config/kitty/themes"
+    _create_dir_if_not_exists "$destination"
+    ln -sv --backup=numbered "${SCRIPT_DIR}/kitty/themes/carbonfox.conf" "$destination/"
 }
 
 function _x_profile() {
@@ -605,7 +606,6 @@ pkgs=(
     "    nvim configuration"
     "    kitty: the fast, featureful, GPU based terminal emulator"
     "    kitty configuration"
-    "    kitty themes"
     "    git config"
     "    bat config"
     "    fzf: fuzzy finder"
@@ -647,7 +647,6 @@ pkgs_functions=(
     _nvim_config
     _kitty
     _kitty_config
-    _kitty_themes
     _git_config
     _bat_config
     _fzf
