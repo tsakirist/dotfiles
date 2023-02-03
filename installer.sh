@@ -437,7 +437,7 @@ function _bat_config() {
 }
 
 function _kitty() {
-    _print i "kity" ": the fast, featureful, GPU based terminal emulator"
+    _print i "kitty" ": the fast, featureful, GPU based terminal emulator"
 
     curl -sSL https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n > /dev/null 2>&1
     sudo ln -svf "$HOME"/.local/kitty.app/bin/kitty /usr/local/bin/
