@@ -446,6 +446,27 @@ return {
         end,
     },
 
+    -- Delete buffers without losing windows layout
+    {
+        "echasnovski/mini.bufremove",
+        keys = {
+            {
+                "<leader>bd",
+                function()
+                    require("mini.bufremove").delete(0, false)
+                end,
+                desc = "Delete current buffer",
+            },
+            {
+                "<leader>bD",
+                function()
+                    require("mini.bufremove").delete(0, true)
+                end,
+                desc = "Force delete current buffer",
+            },
+        },
+    },
+
     -- File explorer tree
     {
         "nvim-neo-tree/neo-tree.nvim",

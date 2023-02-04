@@ -11,9 +11,6 @@ utils.map("c", "%%", "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { silent 
 utils.map("n", "]b", "<Cmd>bnext<CR>")
 utils.map("n", "[b", "<Cmd>bprevious<CR>")
 
--- Close the current buffer
-utils.map("n", "<leader>bd", "<Cmd>bdelete<CR>")
-
 -- Close all buffers except the current one and also keep cursor position intact
 utils.map("n", "<leader>bo", function()
     local cmd = "%bd|e#|bd#"
