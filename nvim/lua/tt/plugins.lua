@@ -431,6 +431,21 @@ return {
         end,
     },
 
+    -- Align text interactively
+    {
+        "echasnovski/mini.align",
+        keys = {
+            { "ga", mode = { "v" } },
+        },
+        config = function()
+            require("mini.align").setup {
+                mappings = {
+                    start_with_preview = "ga",
+                },
+            }
+        end,
+    },
+
     -- File explorer tree
     {
         "nvim-neo-tree/neo-tree.nvim",
@@ -531,20 +546,6 @@ return {
         dependencies = "lewis6991/gitsigns.nvim",
         config = function()
             require("tt._plugins.hydra").setup()
-        end,
-    },
-
-    -- Text alignment done easiliy
-    {
-        "junegunn/vim-easy-align",
-        keys = {
-            "<Plug>(EasyAlign)",
-            "<Plug>(LiveEasyAlign)",
-        },
-        init = function()
-            local utils = require "tt.utils"
-            utils.map({ "n", "x" }, "ga", "<Plug>(EasyAlign)")
-            utils.map({ "n", "x" }, "<leader>ga", "<Plug>(LiveEasyAlign)")
         end,
     },
 
