@@ -70,7 +70,7 @@ function M.copy_filename_to_clipboard(modifier)
     if filename ~= "" then
         vim.fn.setreg("+", filename)
         vim.notify(
-            ("Copied %s to system clipboard!"):format(filename),
+            ("Copied '%s' to system clipboard!"):format(filename),
             vim.log.levels.INFO,
             { title = "Copy filename to clipboard" }
         )

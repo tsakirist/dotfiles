@@ -558,12 +558,9 @@ return {
                 remove_default_keybinds = true,
             }
             local utils = require "tt.utils"
-            utils.map(
-                { "n", "v" },
-                "<leader>iw",
-                require("nvim-toggler").toggle,
-                { desc = "Inverts the word under the cursor" }
-            )
+            utils.map({ "n", "v" }, "<leader>iw", require("nvim-toggler").toggle, {
+                desc = "Inverts the word under the cursor",
+            })
         end,
     },
 
