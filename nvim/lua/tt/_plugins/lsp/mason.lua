@@ -43,7 +43,7 @@ function M.setup()
                 install_package = "i",
 
                 -- Keymap to uninstall a package
-                uninstall_package = "d",
+                uninstall_package = "x",
 
                 -- Keymap to reinstall/update the package under the current cursor position
                 update_package = "u",
