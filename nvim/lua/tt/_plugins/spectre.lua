@@ -17,7 +17,12 @@ function M.setup()
             ["toggle_symlinks"] = {
                 map = "tl",
                 cmd = "<Cmd>lua require('spectre').change_options('symlink')<CR>",
-                desc = "Toggle symlink",
+                desc = "toggle symlink",
+            },
+            ["run_replace"] = {
+                map = "<leader>ra",
+                cmd = "<Cmd>lua require('spectre.actions').run_replace()<CR>",
+                desc = "replace all",
             },
         },
         find_engine = {
