@@ -93,7 +93,6 @@ M.null_ls_sources = {
             extra_args = { "-style=file" },
         },
         prettierd = {},
-        rustfmt = {},
         shfmt = {
             extra_args = { "-i", "4", "-bn", "-ci", "-sr" },
         },

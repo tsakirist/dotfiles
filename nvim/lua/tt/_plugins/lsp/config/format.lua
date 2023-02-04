@@ -18,15 +18,19 @@ function M.should_format(filetype)
     return M.filetypes[filetype] == true
 end
 
---- Limit formatting to 'null-ls', this call is synchronous
+--- Give precedence to 'null-ls' if it has any formatters registered.
 ---@param bufnr number
 function M.format(bufnr)
+    local null_ls = require "tt._plugins.lsp.null-ls"
+    local filetype = vim.bo[bufnr].filetype
     vim.lsp.buf.format {
         filter = function(client)
-            return client.name == "null-ls"
+            if null_ls.has_formatter(filetype) then
+                return client.name == "null-ls"
+            end
+            return client.name ~= "null-ls"
         end,
         bufnr = bufnr,
-        {},
     }
 end
 

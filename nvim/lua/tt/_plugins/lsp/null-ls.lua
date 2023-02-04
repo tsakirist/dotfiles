@@ -17,4 +17,21 @@ function M.setup()
     null_ls.setup { sources = final_sources }
 end
 
+--- Returns the available formatters for the current filetype.
+---@param filetype string
+---@return table
+function M.get_available_formatters(filetype)
+    local methods = require "null-ls.methods"
+    local sources = require "null-ls.sources"
+    return sources.get_available(filetype, methods.internal.FORMATTING)
+end
+
+--- Returns whether there is an available formatter for the current filetype.
+---@param filetype string
+---@return boolean
+function M.has_formatter(filetype)
+    local available_formatters = M.get_available_formatters(filetype)
+    return next(available_formatters) ~= nil
+end
+
 return M
