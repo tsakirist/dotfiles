@@ -28,7 +28,7 @@ function M.setup()
     }
 
     local utils = require "tt.utils"
-    utils.map("n", "<leader>ht", require("lsp-inlayhints").toggle, { desc = "Toggle LSP inlay hints" })
+    utils.map("n", "<leader>it", require("lsp-inlayhints").toggle, { desc = "Toggle LSP inlay hints" })
 end
 
 return M

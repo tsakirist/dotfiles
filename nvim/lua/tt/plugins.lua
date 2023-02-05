@@ -501,7 +501,12 @@ return {
     -- Floating terminal
     {
         "akinsho/toggleterm.nvim",
-        keys = "<leader>ft",
+        cmd = "ToggleTerm",
+        keys = {
+            "<leader>ft",
+            "<leader>vt",
+            "<leader>ht",
+        },
         config = function()
             require("tt._plugins.toggleterm").setup()
         end,
