@@ -62,8 +62,8 @@ function M.setup()
                 last_indent_marker = "└",
                 highlight = "NeoTreeIndentMarker",
                 with_expanders = nil,
-                expander_collapsed = icons.misc.SmallArrowCollapsed,
-                expander_expanded = icons.misc.SmallArrowExpanded,
+                expander_collapsed = icons.misc.ArrowExpandedSmall,
+                expander_expanded = icons.misc.ArrowExpandedSmall,
                 expander_highlight = "NeoTreeExpander",
             },
             icon = {

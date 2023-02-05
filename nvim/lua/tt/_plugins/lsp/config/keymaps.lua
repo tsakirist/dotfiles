@@ -38,19 +38,11 @@ end
 function M.on_attach(_, bufnr)
     local opts = { buffer = bufnr }
     utils.map("n", "<C-LeftMouse>", "<Cmd>TroubleToggle lsp_references<CR>", opts)
-    utils.map("n", "<leader>ca", "<Cmd>CodeActionMenu<CR>", opts)
-    utils.map("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
     utils.map("n", "<leader>K", hover_on_new_window, opts)
-    utils.map("n", "[d", "<Cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-    utils.map("n", "]d", "<Cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+    utils.map("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
     utils.map("n", "dl", "<Cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-    utils.map("n", "dn", "<Cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-    utils.map("n", "do", "<Cmd>lua vim.diagnostic.open_float()<CR>", opts)
-    utils.map("n", "dp", "<Cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
     utils.map("n", "dq", "<Cmd>lua vim.diagnostic.setqflist()<CR>", opts)
     utils.map("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    utils.map("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    utils.map("n", "gr", "<Cmd>lua vim.lsp.buf.references()<CR>", opts)
     utils.map({ "n", "v" }, "<leader>fr", "<Cmd>lua vim.lsp.buf.format{ async = true }<CR>", opts)
 
     local ft = vim.bo.filetype

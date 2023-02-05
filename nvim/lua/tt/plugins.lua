@@ -132,26 +132,6 @@ return {
                 }
             end,
         },
-        -- Preview of implementation in floating-window
-        {
-            "rmagatti/goto-preview",
-            keys = {
-                "gp",
-                "gi",
-            },
-            config = function()
-                require("tt._plugins.lsp.goto-preview").setup()
-            end,
-        },
-        -- Better code-action experience
-        {
-            "weilbith/nvim-code-action-menu",
-            cmd = "CodeActionMenu",
-            config = function()
-                vim.g.code_action_menu_show_details = false
-                vim.g.code_action_menu_show_diff = true
-            end,
-        },
         -- Function signature in a floating-window
         {
             "ray-x/lsp_signature.nvim",
@@ -206,6 +186,14 @@ return {
             event = "BufReadPre",
             config = function()
                 require("tt._plugins.lsp.inlay-hints").setup()
+            end,
+        },
+        -- Better LSP utilities
+        {
+            "glepnir/lspsaga.nvim",
+            event = "BufReadPre",
+            config = function()
+                require("tt._plugins.lsp.lsp-saga").setup()
             end,
         },
     },

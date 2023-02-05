@@ -21,6 +21,7 @@ end
 
 local function keymaps_attach(client, bufnr)
     require("tt._plugins.lsp.config.keymaps").on_attach(client, bufnr)
+    require("tt._plugins.lsp.lsp-saga").on_attach(client, bufnr)
 end
 
 local attachers = {
