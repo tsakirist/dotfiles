@@ -612,6 +612,16 @@ return {
         end,
     },
 
+    -- Allows for writing and reading files with sudo permissions from within neovim
+    {
+        "lambdalisue/suda.vim",
+        cmd = { "SudaWrite", "SudoWrite" },
+        init = function()
+            -- Create a 'SudoWrite' alias that uses 'SudaWrite' command
+            vim.api.nvim_create_user_command("SudoWrite", "SudaWrite", {})
+        end,
+    },
+
     -- Automatically detect the indentation used in the file
     {
         "tpope/vim-sleuth",
