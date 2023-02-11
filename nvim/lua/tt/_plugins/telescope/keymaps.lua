@@ -1,40 +1,44 @@
-local custom_pickers = require "tt._plugins.telescope.pickers"
-
 local M = {}
 
 function M.setup()
-    -- Set custom keybindings
+    local builtin = require "telescope.builtin"
+    local custom_pickers = require "tt._plugins.telescope.pickers"
+    local extensions = require("telescope").extensions
+    local themes = require "telescope.themes"
     local utils = require "tt.utils"
-    utils.map("n", "<leader>T", "<Cmd>Telescope<CR>")
-    utils.map("n", "<leader>fa", "<Cmd>Telescope autocommands<CR>")
-    utils.map("n", "<leader>fb", "<Cmd>Telescope buffers<CR>")
-    utils.map("n", "<leader>fc", "<Cmd>Telescope commands<CR>")
-    utils.map("n", "<leader>fC", "<Cmd>Telescope colorscheme<CR>")
-    utils.map("n", "<leader>ff", "<Cmd>Telescope find_files<CR>")
-    utils.map("n", "<leader>fF", "<Cmd>Telescope git_files<CR>")
-    utils.map("n", "<leader>fH", "<Cmd>Telescope highlights<CR>")
-    utils.map("n", "<leader>fM", "<Cmd>Telescope man_pages<CR>")
-    utils.map("n", "<leader>fn", "<Cmd>Telescope notify<CR>")
-    utils.map("n", "<leader>fo", "<Cmd>Telescope oldfiles<CR>")
-    utils.map("n", "<leader>fO", "<Cmd>Telescope vim_options<CR>")
-    utils.map("n", "<leader>fw", "<Cmd>Telescope grep_string<CR>")
-    utils.map("n", "<leader>fp", "<Cmd>Telescope lazy<CR>")
-    utils.map("n", "<leader>fs", "<Cmd>Telescope lsp_document_symbols<CR>")
-    utils.map("n", "<leader>fT", "<Cmd>Telescope tags<CR>")
-    utils.map("n", "<leader>f:", "<Cmd>Telescope command_history<CR>")
-    utils.map("n", "<leader>f/", "<Cmd>Telescope search_history<CR>")
-    utils.map("n", "<leader>fg", "<Cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
-    utils.map("n", "<leader>fh", "<Cmd>lua require'telescope.builtin'.help_tags({layout_strategy = 'vertical'})<CR>")
-    utils.map(
-        "n",
-        "<leader>fl",
-        "<Cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find({layout_strategy = 'vertical'})<CR>"
-    )
-    utils.map(
-        "n",
-        "<leader>fm",
-        "<Cmd>lua require'telescope.builtin'.keymaps(require'telescope.themes'.get_ivy({}))<CR>"
-    )
+
+    -- stylua: ignore
+    utils.map("n", "<leader>T",  builtin.builtin, { desc = "Show telescope builtin" })
+    utils.map("n", "<leader>fa", builtin.autocommands, { desc = "Search autocommands" })
+    utils.map("n", "<leader>fb", builtin.buffers, { desc = "Search for open buffers " })
+    utils.map("n", "<leader>fc", builtin.commands, { desc = "Search for commands" })
+    utils.map("n", "<leader>ff", builtin.find_files, { desc = "Search for files" })
+    utils.map("n", "<leader>fF", builtin.git_files, { desc = "Search for git files" })
+    utils.map("n", "<leader>fH", builtin.highlights, { desc = "Search for highlights" })
+    utils.map("n", "<leader>fM", builtin.man_pages, { desc = "Search for man pages" })
+    utils.map("n", "<leader>fo", builtin.oldfiles, { desc = "Search for oldfiles" })
+    utils.map("n", "<leader>fO", builtin.vim_options, { desc = "Search for vim options" })
+    utils.map("n", "<leader>fw", builtin.grep_string, { desc = "Search for the string under cursor" })
+    utils.map("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "Search for LSP document symbols" })
+    utils.map("n", "<leader>fT", builtin.tags, { desc = "Search for tags" })
+    utils.map("n", "<leader>f:", builtin.command_history, { desc = "Search for command history" })
+    utils.map("n", "<leader>f/", builtin.search_history, { desc = "Search history" })
+
+    utils.map("n", "<leader>fh", function()
+        builtin.help_tags { layout_strategy = "vertical" }
+    end, { desc = "Search help tags" })
+
+    utils.map("n", "<leader>fl", function()
+        builtin.current_buffer_fuzzy_find { layout_strategy = "vertical" }
+    end, { desc = "Fuzzy search current buffer" })
+
+    utils.map("n", "<leader>fm", function()
+        builtin.keymaps(themes.get_ivy())
+    end, { desc = "List keymaps" })
+
+    utils.map("n", "<leader>fC", function()
+        builtin.colorscheme(themes.get_ivy { layout_config = { height = 0.2 } })
+    end, { desc = "List availalbe colorschemes" })
 
     utils.map("n", "<leader>fv", function()
         custom_pickers.action_in_nvim_config "find_files"
@@ -45,6 +49,10 @@ function M.setup()
     end, { desc = "Live grep in neovim config files" })
 
     utils.map("n", "<leader>fS", custom_pickers.find_sessions, { desc = "Search startify sessions" })
+
+    utils.map("n", "<leader>fp", extensions.lazy.lazy, { desc = "Search for installed plugins and perform actions" })
+    utils.map("n", "<leader>fn", extensions.notify.notify, { desc = "Search for notifications" })
+    utils.map("n", "<leader>fg", extensions.live_grep_args.live_grep_args, { desc = "Live grep with args" })
 end
 
 return M
