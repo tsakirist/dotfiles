@@ -402,6 +402,20 @@ function _gotop() {
     sudo snap connect gotop-cjbassi:system-observe
 }
 
+function _btop() {
+    _print i "btop" ": interactive resource monitor written in C++"
+    local repo="https://api.github.com/repos/aristocratos/btop/releases/latest"
+    local url=$(curl -s "$repo" | grep "browser_download_url" | grep "linux" | grep "x86_64" | cut -d '"' -f 4)
+    local filename=$(basename "$url")
+    pushd "$(mktemp -d)" > /dev/null || return
+    curl -sSLO "$url" \
+        && [ -f "$filename" ] \
+        && tar -xf "$filename" \
+        && cd btop || return \
+        && sudo make install
+    popd > /dev/null || return
+}
+
 function _ncdu() {
     _print i "ncdu" ": a terminal UI disk usage monitoring tool"
     _install ncdu
@@ -410,6 +424,7 @@ function _ncdu() {
 function _monitoring_tools() {
     _htop
     _gotop
+    _btop
     _ncdu
 }
 
@@ -623,7 +638,7 @@ pkgs=(
     "    xprofile"
     "    xclip"
     "    neofetch"
-    "    htop + gotop + ncdu: monitoring tools"
+    "    htop + gotop + btop + ncdu: monitoring tools"
     "    tree"
     "    cmake"
     "    gnome-tweaks"
