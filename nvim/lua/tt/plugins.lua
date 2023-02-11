@@ -594,22 +594,22 @@ return {
         end,
     },
 
-    -- Vim wrapper for UNIX shell commands
+    -- Wrapper over UNIX shell commands
     {
-        "tpope/vim-eunuch",
+        "chrisgrieser/nvim-genghis",
         cmd = {
-            "Cfind",
-            "Chmod",
-            "Clocate",
+            "Chmodx",
             "Delete",
-            "Lfind",
-            "Llocate",
-            "Mkdir",
+            "Duplicate",
             "Move",
+            "New",
             "Rename",
-            "SudoEdit",
-            "SudoWrite",
+            "Trash",
         },
+        init = function()
+            -- Create a `Delete` alias that uses `Trash` command
+            vim.api.nvim_create_user_command("Delete", "Trash", {})
+        end,
     },
 
     -- Automatically detect the indentation used in the file
