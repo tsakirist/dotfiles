@@ -42,82 +42,10 @@ function M.setup()
         end,
     }
 
-    M.create_normal_terminals()
-    M.add_custom_terminals()
-end
-
--- Adds all direction empty terminals which can be toggled on demand
-function M.create_normal_terminals()
-    local function create_terminal(direction, count)
-        local Terminal = require("toggleterm.terminal").Terminal
-        local term = Terminal:new {
-            direction = direction,
-            count = count,
-        }
-
-        local keymap
-        if direction == "vertical" then
-            keymap = "<leader>vt"
-        elseif direction == "horizontal" then
-            keymap = "<leader>ht"
-        end
-
-        local utils = require "tt.utils"
-        utils.map({ "n", "t" }, keymap, function()
-            term:toggle()
-        end, { desc = string.format("Toggle %s terminal", direction) })
-    end
-
-    create_terminal("vertical", 99)
-    create_terminal("horizontal", 100)
-end
-
--- Table to hold the custom terminals
-M.custom_terminals = {}
-
--- TODO: Fix the code/logic for the custom-terminals and add also lazygit
-function M.add_custom_terminal(opts)
-    if vim.fn.executable(opts.cmd) ~= 1 then
-        vim.notify("Could not find executable '" .. opts.cmd .. "'. Please make sure it's installed properly.")
-        return
-    end
-
-    local Terminal = require("toggleterm.terminal").Terminal
-    local custom_terminal = Terminal:new {
-        cmd = opts.cmd,
-        count = opts.count,
-        direction = opts.direction,
-        float_opts = opts.float_opts,
-    }
-
-    M.custom_terminals[opts.count] = custom_terminal
-
     local utils = require "tt.utils"
-    local custom_terminal_func =
-        string.format("<Cmd>lua require'tt.plugins.toggleterm'.custom_terminal_toggle(%d)<CR>", opts.count)
-    utils.map("n", opts.keymap, custom_terminal_func)
-end
-
-function M.custom_terminal_toggle(terminal_id)
-    if M.custom_terminals[terminal_id] == nil then
-        return
-    end
-    M.custom_terminals[terminal_id]:toggle()
-end
-
-function M.add_custom_terminals()
-    ---@format { "command", "keymap", "direction", "float_opts" }
-    local executables = {}
-
-    for i, executable in pairs(executables) do
-        local opts = {
-            cmd = executable[1],
-            keymap = executable[2],
-            float_opts = executable.float_opts or {},
-            count = i + 1,
-        }
-        M.add_custom_terminal(opts)
-    end
+    -- These keymaps take also a <count> argument which allows for stacking terminals, e.g. 1<leader>vt, 2<leader>vt
+    utils.map({ "n", "t" }, "<leader>vt", [[<Cmd>execute 50+v:count "ToggleTerm direction=vertical"<CR>]])
+    utils.map({ "n", "t" }, "<leader>ht", [[<Cmd>execute 100+v:count "ToggleTerm direction=horizontal"<CR>]])
 end
 
 return M

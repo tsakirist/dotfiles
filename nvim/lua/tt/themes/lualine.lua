@@ -1,11 +1,9 @@
----@diagnostic disable: unused-local
 local M = {}
 
 function M.setup()
-    -- Module that shows the current cursor context
-    local navic = require "nvim-navic"
     local icons = require "tt.icons"
 
+    ---@diagnostic disable-next-line: unused-local
     local normal_theme = {
         component_separators = {
             left = icons.misc.RightUnfilledArrow,
@@ -69,6 +67,7 @@ function M.setup()
         },
         extensions = {
             "neo-tree",
+            "toggleterm",
         },
         tabline = {
             lualine_a = {
