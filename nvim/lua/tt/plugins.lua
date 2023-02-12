@@ -56,7 +56,7 @@ return {
             "SmiteshP/nvim-navic",
         },
         config = function()
-            require("tt.themes.lualine").setup()
+            require("tt._plugins.lualine").setup()
         end,
     },
 

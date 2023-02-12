@@ -60,6 +60,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── dressing.lua
 │       │   ├── hydra.lua
 │       │   ├── indent-blankline.lua
+│       │   ├── lualine.lua
 │       │   ├── mini-indentscope.lua
 │       │   ├── neogen.lua
 │       │   ├── neo-tree.lua
@@ -78,9 +79,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── treesj.lua
 │       │   ├── trouble.lua
 │       │   └── zen-mode.lua
-│       ├── themes/
-│       │   ├── evil_lualine.lua
-│       │   └── lualine.lua
 │       ├── abbreviations.lua
 │       ├── autocommands.lua
 │       ├── globals.lua

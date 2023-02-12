@@ -122,6 +122,7 @@ function M.setup()
                     "searchcount",
                     color = "LualineSearchCount",
                     icon = icons.misc.Search,
+                    ---@diagnostic disable-next-line: unused-local
                     on_click = function(number_of_clicks, mouse_button, modifier)
                         --- Left click goes to next search hit and right click to previous
                         if mouse_button == "l" then
