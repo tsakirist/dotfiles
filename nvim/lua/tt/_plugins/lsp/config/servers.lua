@@ -28,7 +28,7 @@ M.lsp_servers = {
             },
         },
     },
-    sumneko_lua = {
+    lua_ls = {
         settings = {
             Lua = {
                 runtime = {
