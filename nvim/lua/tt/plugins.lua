@@ -204,7 +204,7 @@ return {
         -- Git integrations for buffers
         {
             "lewis6991/gitsigns.nvim",
-            event = "BufRead",
+            event = { "BufRead", "BufNewFile" },
             dependencies = "nvim-lua/plenary.nvim",
             config = function()
                 require("tt._plugins.git.gitsigns").setup()

@@ -3,36 +3,12 @@ local M = {}
 function M.setup()
     require("gitsigns").setup {
         signs = {
-            add = {
-                text = "│",
-                hl = "GitSignsAdd",
-                numhl = "GitSignsAddNr",
-                linehl = "GitSignsAddLn",
-            },
-            change = {
-                text = "│",
-                hl = "GitSignsChange",
-                numhl = "GitSignsChangeNr",
-                linehl = "GitSignsChangeLn",
-            },
-            delete = {
-                text = "-",
-                hl = "GitSignsDelete",
-                numhl = "GitSignsDeleteNr",
-                linehl = "GitSignsDeleteLn",
-            },
-            topdelete = {
-                text = "‾",
-                hl = "GitSignsDelete",
-                numhl = "GitSignsDeleteNr",
-                linehl = "GitSignsDeleteLn",
-            },
-            changedelete = {
-                text = "~",
-                hl = "GitSignsChange",
-                numhl = "GitSignsChangeNr",
-                linehl = "GitSignsChangeLn",
-            },
+            add = { text = "│" },
+            change = { text = "│" },
+            delete = { text = "-" },
+            topdelete = { text = "‾" },
+            changedelete = { text = "~" },
+            untracked = { text = "┆" },
         },
         signcolumn = true, -- Add signs in the signcolumn
         numhl = true, -- Highlights just the number part of the number column
@@ -79,7 +55,8 @@ function M.setup()
 
             local function visual_operation(operator)
                 return function()
-                    return require("gitsigns")[operator] { vim.fn.line "v", vim.fn.line "." }
+                    local visual_selection = require("tt.helper").get_visual_selection()
+                    return require("gitsigns")[operator] { visual_selection.start_pos, visual_selection.end_pos }
                 end
             end
 
