@@ -419,7 +419,7 @@ return {
     -- Visualize and operate on indent scope
     {
         "echasnovski/mini.indentscope",
-        event = "BufReadPre",
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("tt._plugins.mini-indentscope").setup()
         end,
