@@ -507,6 +507,7 @@ return {
             "<leader>ft",
             "<leader>vt",
             "<leader>ht",
+            "<leader>bt",
         },
         config = function()
             require("tt._plugins.toggleterm").setup()

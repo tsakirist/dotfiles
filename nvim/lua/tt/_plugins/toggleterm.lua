@@ -46,6 +46,48 @@ function M.setup()
     -- These keymaps take also a <count> argument which allows for stacking terminals, e.g. 1<leader>vt, 2<leader>vt
     utils.map({ "n", "t" }, "<leader>vt", [[<Cmd>execute 50+v:count "ToggleTerm direction=vertical"<CR>]])
     utils.map({ "n", "t" }, "<leader>ht", [[<Cmd>execute 100+v:count "ToggleTerm direction=horizontal"<CR>]])
+
+    M.add_custom_terminals()
+end
+
+function M.add_custom_terminal(custom_terminal)
+    if vim.fn.executable(custom_terminal.cmd) == 0 then
+        vim.schedule(function()
+            vim.notify(
+                string.format(
+                    "Custom terminal cmd: '%s' is not executable. Please make sure it's installed properly and it is in PATH.",
+                    custom_terminal.cmd
+                ),
+                vim.log.levels.WARN,
+                { title = "[tt.toggleterm]" }
+            )
+        end)
+        return
+    end
+
+    local Terminal = require("toggleterm.terminal").Terminal
+    local terminal = Terminal:new {
+        cmd = custom_terminal.cmd,
+        hidden = true,
+    }
+
+    local utils = require "tt.utils"
+    utils.map({ "n", "t" }, custom_terminal.keymap, function()
+        terminal:toggle()
+    end)
+end
+
+function M.add_custom_terminals()
+    local custom_terminals = {
+        btop = {
+            cmd = "btop",
+            keymap = "<leader>bt",
+        },
+    }
+
+    for _, custom_terminal in pairs(custom_terminals) do
+        M.add_custom_terminal(custom_terminal)
+    end
 end
 
 return M
