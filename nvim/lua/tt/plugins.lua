@@ -595,6 +595,21 @@ return {
         end,
     },
 
+    -- Resize windows easily
+    {
+        "mrjones2014/smart-splits.nvim",
+        keys = {
+            "<leader>rs",
+            "<M-h>",
+            "<M-j>",
+            "<M-k>",
+            "<M-l>",
+        },
+        config = function()
+            require("tt._plugins.smart-splits").setup()
+        end,
+    },
+
     -- Wrapper over UNIX shell commands
     {
         "chrisgrieser/nvim-genghis",
@@ -639,17 +654,6 @@ return {
             vim.g.vim_markdown_no_default_key_mappings = 1
             vim.g.vim_markdown_folding_disabled = 1
         end,
-    },
-
-    -- Easiliy resize windows
-    {
-        "sedm0784/vim-resize-mode",
-        keys = {
-            "<C-w>>",
-            "<C-w><",
-            "<C-w>-",
-            "<C-w>+",
-        },
     },
 
     -- Measure the startup-time of neovim
