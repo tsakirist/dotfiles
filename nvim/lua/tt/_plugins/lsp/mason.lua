@@ -65,14 +65,6 @@ function M.setup()
             },
         },
     }
-    -- Temporary fix until mason upstream is fixed
-    -- https://github.com/neovim/nvim-lspconfig/pull/2439
-    -- Taken from https://github.com/LazyVim/LazyVim/commit/543126818e678509ee9e17836f0e7906146a1002
-    local mappings = require "mason-lspconfig.mappings.server"
-    if not mappings.lspconfig_to_package.lua_ls then
-        mappings.lspconfig_to_package.lua_ls = "lua-language-server"
-        mappings.package_to_lspconfig["lua-language-server"] = "lua_ls"
-    end
 
     -- Bridge between 'mason' and 'lspconfig' allowing for easy installation and setup of LSP severs
     require("mason-lspconfig").setup {
