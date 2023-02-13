@@ -301,8 +301,7 @@ return {
     -- Treesitter related plugins
     {
         "nvim-treesitter/nvim-treesitter",
-        commit = "148cf37",
-        event = "BufReadPost",
+        event = { "BufReadPost", "BufNewFile" },
         build = function()
             if not _G.HeadlessMode() then
                 vim.cmd.TSUpdate()
