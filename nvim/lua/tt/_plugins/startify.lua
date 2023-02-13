@@ -104,8 +104,6 @@ function M.setup()
             return 'v:lua.WebDevIcons(absolute_path) . " " . entry_path'
         endfunction
     ]]
-
-    vim.cmd.highlight { "link StartifyHeader Statement", bang = true }
 end
 
 return M
