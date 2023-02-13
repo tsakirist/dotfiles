@@ -10,6 +10,9 @@ function M.setup()
         lightbulb = {
             virtual_text = false,
         },
+        code_action = {
+            extend_gitsigns = false,
+        },
         ui = {
             title = true,
             border = "rounded",
