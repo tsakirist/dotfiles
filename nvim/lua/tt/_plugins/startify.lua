@@ -88,8 +88,8 @@ function M.setup()
         { r = { icons.document.DoubleDocument .. " Recent Files", ":Telescope oldfiles" } },
         { h = { icons.misc.Bulb .. " Help", ":Telescope help_tags" } },
         { s = { icons.misc.Storage .. " Sessions", ":TelescopeStartifySessions" } },
-        { c = { icons.misc.Owl .. " Find Config", ":TelescopeNvimConfigFind" } },
-        { C = { icons.misc.Owl .. " Grep Config", ":TelescopeNvimConfigGrep" } },
+        { F = { icons.document.FolderConfig .. " Find Config", ":TelescopeNvimConfigFind" } },
+        { G = { icons.document.FileEye .. " Grep Config", ":TelescopeNvimConfigGrep" } },
     }
 
     --- Add custom bookmarks

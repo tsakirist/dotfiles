@@ -109,7 +109,9 @@ local document = {
     DocumentSearch = "",
     DocumentWord = "",
     DoubleDocument = "",
+    FileEye = "󰷊",
     FolderClosed = "",
+    FolderConfig = "",
     FolderEmpty = "ﰊ",
     FolderOpen = "",
 }
