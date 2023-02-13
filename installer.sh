@@ -502,12 +502,8 @@ function _set_wallpaper() {
 }
 
 function _install_fonts_from_dir() {
-    local fonts_dir="fonts"
-    local fonts_destination="$HOME/.local/share/fonts/"
-    _create_dir_if_not_exists "$fonts_destination"
-    for font in "$fonts_dir"/*.ttf; do
-        cp -v "$font" "$fonts_destination"
-    done
+    _check_dir fonts
+    cp -rv fonts "$HOME"/.local/share
     _check_command fc-cache fontconfig
     fc-cache -f
 }
@@ -646,8 +642,8 @@ pkgs=(
     "    gnome-sushi"
     "    preload"
     "    vmswappiness"
-    "    set wallpaper"
-    "    install fonts"
+    "    wallpaper"
+    "    fonts"
     "    disable automatic apt updates"
 )
 
