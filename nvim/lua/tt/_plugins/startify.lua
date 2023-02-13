@@ -82,13 +82,14 @@ function M.setup()
 
     --- Add custom commands
     vim.g.startify_commands = {
-        { e = { icons.document.Document .. " New file", ":enew" } },
+        { e = { icons.document.Document .. " New File", ":enew" } },
         { f = { icons.document.DocumentSearch .. " Find Files", ":Telescope find_files" } },
         { g = { icons.document.DocumentWord .. " Grep String", ":Telescope live_grep_args" } },
         { r = { icons.document.DoubleDocument .. " Recent Files", ":Telescope oldfiles" } },
         { h = { icons.misc.Bulb .. " Help", ":Telescope help_tags" } },
         { s = { icons.misc.Storage .. " Sessions", ":TelescopeStartifySessions" } },
-        { v = { icons.misc.Owl .. " Neovim config", ":TelescopeNvimConfigFind" } },
+        { c = { icons.misc.Owl .. " Find Config", ":TelescopeNvimConfigFind" } },
+        { C = { icons.misc.Owl .. " Grep Config", ":TelescopeNvimConfigGrep" } },
     }
 
     --- Add custom bookmarks
