@@ -13,6 +13,12 @@ function M.setup()
         code_action = {
             extend_gitsigns = false,
         },
+        defintion = {
+            split = "<C-c>x",
+        },
+        diagnostic = {
+            text_hl_follow = true,
+        },
         ui = {
             title = true,
             border = "rounded",
