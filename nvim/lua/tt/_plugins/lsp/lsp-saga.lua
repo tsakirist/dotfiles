@@ -17,6 +17,7 @@ function M.setup()
             split = "<C-c>x",
         },
         diagnostic = {
+            on_insert = false, -- Remove diagnostics on insert mode at the top right winbar
             text_hl_follow = true,
         },
         ui = {
