@@ -4,33 +4,45 @@ function M.setup()
     local icons = require "tt.icons"
 
     require("barbecue").setup {
-        ---whether to attach navic to language servers automatically
+        ---Whether to attach navic to language servers automatically.
         ---@type boolean
         attach_navic = true,
 
-        ---whether to create winbar updater autocmd
+        ---Whether to show/use navic in the winbar.
+        ---@type boolean
+        show_navic = true,
+
+        ---Whether to create winbar updater autocmd.
         ---@type boolean
         create_autocmd = true,
 
-        ---buftypes to enable winbar in
+        ---Buftypes to enable winbar in.
         ---@type string[]
         include_buftypes = { "" },
 
-        ---filetypes not to enable winbar in
+        ---Filetypes not to enable winbar in.
         ---@type string[]
         exclude_filetypes = { "gitcommit", "toggleterm" },
 
         modifiers = {
-            ---filename modifiers applied to dirname
+            ---Filename modifiers applied to dirname.
+            ---See: `:help filename-modifiers`
             ---@type string
             dirname = ":~:.",
 
-            ---filename modifiers applied to basename
+            ---Filename modifiers applied to basename.
+            ---See: `:help filename-modifiers`
             ---@type string
             basename = "",
         },
 
-        ---returns a string to be shown at the end of winbar
+        ---Returns a string to be shown at the start of winbar.
+        ---@type fun(bufnr: number): string
+        lead_custom_section = function()
+            return ""
+        end,
+
+        ---Returns a string to be shown at the end of winbar.
         ---@type fun(bufnr: number): string
         custom_section = function()
             return ""
@@ -43,9 +55,20 @@ function M.setup()
         ---@type "auto"|string|barbecue.Theme
         theme = "auto",
 
-        ---whether to replace file icon with the modified symbol when buffer is modified
+        ---Whether to replace file icon with the modified symbol when buffer is
+        ---modified.
         ---@type boolean
         show_modified = true,
+
+        ---Get modified status of file.
+        ---@type fun(bufnr: number): boolean
+        modified = function(bufnr)
+            return vim.bo[bufnr].modified
+        end,
+
+        ---Whether context text should follow its icon's color.
+        ---@type boolean
+        context_follow_icon_color = false,
 
         symbols = {
             ---modification indicator
@@ -61,9 +84,12 @@ function M.setup()
             separator = icons.misc.ChevronRight,
         },
 
-        ---icons for different context entry kinds
-        ---`false` to disable kind icons
-        ---@type table<string, string>|false
+        ---@alias barbecue.Config.kinds
+        ---|false # Disable kind icons.
+        ---|table<string, string> # Type to icon mapping.
+        ---
+        ---Icons for different context entry kinds.
+        ---@type barbecue.Config.kinds
         kinds = icons.barbecue_kind,
     }
 end
