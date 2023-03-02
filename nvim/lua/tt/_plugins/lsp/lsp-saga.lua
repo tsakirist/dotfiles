@@ -20,6 +20,9 @@ function M.setup()
             on_insert = false, -- Remove diagnostics on insert mode at the top right winbar
             text_hl_follow = true,
         },
+        finder = {
+            max_height = 0.7,
+        },
         ui = {
             title = true,
             border = "rounded",
