@@ -26,7 +26,7 @@ function M.setup()
                 operators = "NONE",
                 strings = "NONE",
                 types = "NONE",
-                variables = "bold",
+                variables = "NONE",
             },
             inverse = {
                 match_paren = false, -- Enable/Disable inverse highlighting for match parens
