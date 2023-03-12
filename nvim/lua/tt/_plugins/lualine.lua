@@ -74,6 +74,8 @@ function M.setup()
                 {
                     "buffers",
                     mode = 4, -- Show buffer name and number
+                    show_modified_status = true,
+                    max_length = vim.o.columns,
                     separator = {
                         left = icons.misc.LeftHalfCircle,
                         right = icons.misc.RightHalfCircle,
