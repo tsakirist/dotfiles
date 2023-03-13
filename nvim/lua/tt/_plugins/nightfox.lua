@@ -20,7 +20,7 @@ function M.setup()
                 comments = "italic",
                 conditionals = "NONE",
                 constants = "bold",
-                functions = "bold,italic",
+                functions = "bold",
                 keywords = "NONE",
                 numbers = "NONE",
                 operators = "NONE",
