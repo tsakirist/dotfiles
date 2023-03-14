@@ -19,6 +19,9 @@ function M.setup()
 
         -- Notify about possible problems or not
         notify = true,
+
+        -- Enable dot-repeat
+        dot_repeat = true,
     }
 
     local utils = require "tt.utils"
