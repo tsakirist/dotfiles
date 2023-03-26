@@ -181,6 +181,14 @@ return {
                 require("tt._plugins.lsp.nvim-navic").setup()
             end,
         },
+        {
+            "SmiteshP/nvim-navbuddy",
+            event = "BufReadPre",
+            dependencies = "MunifTanjim/nui.nvim",
+            config = function()
+                require("tt._plugins.lsp.nvim-navbuddy").setup()
+            end,
+        },
         -- Show inlay hints via LSP
         {
             "lvimuser/lsp-inlayhints.nvim",

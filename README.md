@@ -46,6 +46,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   ├── lsp-signature.lua
 │       │   │   ├── mason.lua
 │       │   │   ├── null-ls.lua
+│       │   │   ├── nvim-navbuddy.lua
 │       │   │   └── nvim-navic.lua
 │       │   ├── telescope/
 │       │   │   ├── commands.lua
