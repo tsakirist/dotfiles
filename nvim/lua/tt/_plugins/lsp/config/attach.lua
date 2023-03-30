@@ -1,7 +1,7 @@
 local M = {}
 
 local function navic_attach(client, bufnr)
-    if client.supports_method "textDocument/documentSymbols" then
+    if client.supports_method "textDocument/documentSymbol" then
         vim.g.navic_silence = true
         require("nvim-navic").attach(client, bufnr)
         require("nvim-navbuddy").attach(client, bufnr)
