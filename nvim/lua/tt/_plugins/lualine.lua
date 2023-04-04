@@ -60,7 +60,6 @@ function M.setup()
                 "help",
                 "startify",
                 "gitcommit",
-                "lazy",
             },
             always_divide_middle = true,
             globalstatus = true,
@@ -68,6 +67,7 @@ function M.setup()
         extensions = {
             "neo-tree",
             "toggleterm",
+            "lazy",
         },
         tabline = {
             lualine_a = {
