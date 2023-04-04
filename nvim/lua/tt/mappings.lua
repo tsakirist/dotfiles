@@ -136,8 +136,8 @@ utils.map("n", "<C-b>", "<C-b>zz")
 utils.map("v", "<leader>s", ":sort<CR>", { desc = "Sort visual selection" })
 
 -- Sort inner blocks
-utils.map("n", "<leader>sb", "vib:sort<CR>", { desc = "Sort '{}' inner block" })
-utils.map("n", "<leader>sB", "viB:sort<CR>", { desc = "Sort '()' inner block" })
+utils.map("n", "<leader>sb", "vib:sort<CR>", { desc = "Sort '() inner block" })
+utils.map("n", "<leader>sB", "viB:sort<CR>", { desc = "Sort '{}' inner block" })
 
 -- Paste until EOL from current cursor position
 utils.map("n", "<M-p>", [[vg_"_dP]], { desc = "Paste from current cursor position until EOL" })
