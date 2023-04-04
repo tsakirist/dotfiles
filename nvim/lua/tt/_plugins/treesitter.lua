@@ -17,7 +17,6 @@ function M.setup()
             "dockerfile",
             "git_rebase",
             "gitcommit",
-            "help",
             "html",
             "javascript",
             "jsdoc",
@@ -31,6 +30,7 @@ function M.setup()
             "toml",
             "tsx",
             "typescript",
+            "vimdoc",
         },
         autopairs = {
             enable = true,
