@@ -93,6 +93,7 @@ return {
         -- Portable package manager to install LSP & DAP servers, linters and formatters
         {
             "williamboman/mason.nvim",
+            build = ":MasonUpdate",
             dependencies = {
                 "williamboman/mason-lspconfig.nvim",
                 "jayp0521/mason-null-ls.nvim",
