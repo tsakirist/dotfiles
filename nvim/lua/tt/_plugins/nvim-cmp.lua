@@ -22,7 +22,7 @@ local cmp_source_names = {
 -- Setup custom options for the pop-up windows
 local cmp_window_opts = {
     border = "rounded",
-    winhighlight = "Normal:NormalFloat,FloatBorder:CmpWindowBorder,CursorLine:Visual,Search:None",
+    winhighlight = "Normal:NormalFloat,FloatBorder:CmpWindowBorder,CursorLine:CmpWindowCursorLine,Search:None",
 }
 
 -- Functions for mapping <Tab> and <S-Tab> for nvim-cmp

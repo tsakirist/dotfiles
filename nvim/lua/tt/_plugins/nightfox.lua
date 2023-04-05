@@ -63,6 +63,7 @@ function M.setup()
             },
             carbonfox = {
                 CmpWindowBorder = { fg = colors.bg0, bg = colors.bg0 },
+                CmpWindowCursorLine = { fg = colors.bg0, bg = colors.blue },
                 DressingBorder = { fg = colors.blue, bg = colors.bg1 },
                 MatchParen = { fg = colors.red, style = "bold,italic" },
                 NvimSurroundHighlight = { fg = M.colors("nordfox").yellow },
@@ -86,6 +87,7 @@ function M.setup()
                 CmpItemKindFunction = { fg = colors.magenta },
                 CmpItemKindMethod = { fg = colors.magenta },
                 CmpWindowBorder = { fg = colors.bg0, bg = colors.bg0 },
+                CmpWindowCursorLine = { fg = colors.bg0, bg = colors.magenta },
                 CybuCurrentSelection = { fg = colors.blue, bg = colors.black },
                 DressingBorder = { fg = colors.blue, bg = colors.bg1 },
                 DressingInput = { fg = colors.magenta, bg = colors.bg1 },
