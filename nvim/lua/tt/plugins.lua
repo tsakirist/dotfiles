@@ -77,7 +77,6 @@ return {
     -- Winbar
     {
         "utilyre/barbecue.nvim",
-        branch = "fix/E36",
         event = "BufRead",
         dependencies = {
             "SmiteshP/nvim-navic",
