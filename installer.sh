@@ -503,7 +503,7 @@ function _set_wallpaper() {
 
 function _install_fonts_from_dir() {
     _check_dir fonts
-    cp -rv fonts "$HOME"/.local/share
+    cp -r fonts "$HOME"/.local/share
     _check_command fc-cache fontconfig
     fc-cache -f
 }
