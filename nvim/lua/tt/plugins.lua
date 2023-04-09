@@ -335,6 +335,8 @@ return {
             "<M-k>",
             "<M-J>",
             "<M-K>",
+            "vm",
+            "vn",
         },
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
@@ -607,13 +609,7 @@ return {
     -- Resize windows easily
     {
         "mrjones2014/smart-splits.nvim",
-        keys = {
-            "<leader>rs",
-            "<M-h>",
-            "<M-j>",
-            "<M-k>",
-            "<M-l>",
-        },
+        keys = { "<leader>rs" },
         config = function()
             require("tt._plugins.smart-splits").setup()
         end,

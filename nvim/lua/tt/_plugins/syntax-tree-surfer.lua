@@ -1,35 +1,7 @@
 local M = {}
 
 function M.setup()
-    require("syntax-tree-surfer").setup {
-        highlight_group = "sts_highlight",
-        disable_no_instance_found_report = false,
-        default_desired_types = {
-            "else_clause",
-            "else_statement",
-            "elseif_statement",
-            "for_statement",
-            "function",
-            "function_definition",
-            "if_statement",
-            "switch_statement",
-            "while_statement",
-        },
-        left_hand_side = "fdsawervcxqtzb",
-        right_hand_side = "jkl;oiu.,mpy/n",
-        icon_dictionary = {
-            ["else_clause"] = "",
-            ["else_statement"] = "",
-            ["elseif_statement"] = "",
-            ["for_statement"] = "ﭜ",
-            ["function"] = "",
-            ["function_definition"] = "",
-            ["if_statement"] = "",
-            ["switch_statement"] = "ﳟ",
-            ["variable_declaration"] = "",
-            ["while_statement"] = "ﯩ",
-        },
-    }
+    require("syntax-tree-surfer").setup()
 
     local utils = require "tt.utils"
 
