@@ -557,7 +557,7 @@ return {
 
     -- Search and replace panel
     {
-        "windwp/nvim-spectre",
+        "nvim-pack/nvim-spectre",
         keys = {
             "<leader>sr",
             "<leader>sw",
