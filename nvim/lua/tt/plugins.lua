@@ -606,6 +606,20 @@ return {
         end,
     },
 
+    -- Enhance the f/t/F/T motions
+    {
+        "ggandor/flit.nvim",
+        dependencies = "ggandor/leap.nvim",
+        keys = function()
+            local ret = {}
+            for index, key in ipairs { "f", "t", "F", "T" } do
+                ret[index] = { key, mode = { "n", "x", "o" }, desc = key }
+            end
+            return ret
+        end,
+        opts = { labeled_modes = "nx", multiline = false },
+    },
+
     -- Resize windows easily
     {
         "mrjones2014/smart-splits.nvim",
