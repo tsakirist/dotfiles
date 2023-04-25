@@ -25,6 +25,7 @@ function M.setup()
             "markdown",
             "markdown_inline",
             "python",
+            "regex",
             "rust",
             "scss",
             "toml",
