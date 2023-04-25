@@ -1,11 +1,17 @@
 local M = {}
 
 local function setup_diagnostics()
+    local icons = require "tt.icons"
+
     vim.diagnostic.config {
         underline = true,
         virtual_lines = false,
         severity_sort = true,
-        virtual_text = true,
+        virtual_text = {
+            spacing = 4,
+            source = "if_many",
+            prefix = icons.misc.ArrowRight,
+        },
         update_in_insert = false,
         signs = true,
         float = {
@@ -16,8 +22,6 @@ local function setup_diagnostics()
             severity_sort = true,
         },
     }
-
-    local icons = require "tt.icons"
 
     --- Set custom signs for diagnostics
     local lsp_signs = {
