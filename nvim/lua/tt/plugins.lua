@@ -431,6 +431,9 @@ return {
     {
         "echasnovski/mini.indentscope",
         event = { "BufReadPre", "BufNewFile" },
+        init = function()
+            require("tt._plugins.mini-indentscope").init()
+        end,
         config = function()
             require("tt._plugins.mini-indentscope").setup()
         end,
