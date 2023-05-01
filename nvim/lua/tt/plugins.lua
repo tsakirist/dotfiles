@@ -638,13 +638,13 @@ return {
             end
             return ret
         end,
-        opts = { labeled_modes = "nx", multiline = false },
+        opts = { labeled_modes = "nxo", multiline = false },
     },
 
     -- Resize windows easily
     {
         "mrjones2014/smart-splits.nvim",
-        keys = { "<leader>rs" },
+        keys = "<leader>rs",
         config = function()
             require("tt._plugins.smart-splits").setup()
         end,
