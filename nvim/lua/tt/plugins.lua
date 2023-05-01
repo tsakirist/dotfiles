@@ -503,6 +503,24 @@ return {
         end,
     },
 
+    -- Automatically save the active session
+    {
+        "folke/persistence.nvim",
+        event = "BufReadPre",
+        config = function()
+            local utils = require "tt.utils"
+
+            require("persistence").setup {
+                dir = utils.join_paths(vim.fn.stdpath "data", "sessions", "persistence/"),
+                options = { "buffers", "curdir", "globals", "help", "tabpages", "winsize" },
+            }
+
+            utils.map("n", "<leader>ps", function()
+                require("persistence").stop()
+            end, { desc = "Do not save the current session" })
+        end,
+    },
+
     -- Pretty list for showing diagnostics, references, quickfix & loclist
     {
         "folke/trouble.nvim",

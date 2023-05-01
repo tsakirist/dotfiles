@@ -88,6 +88,8 @@ local misc = {
     ChevronRight = ">",
     Circle = "●",
     CodeInspect = "",
+    Curtains = "󱡆",
+    Database = "",
     Ellipsis = "…",
     LeftFilledArrow = "",
     LeftHalfCircle = "",
@@ -99,7 +101,6 @@ local misc = {
     RightUnfilledArrow = "",
     Search = "",
     Star = "*",
-    Storage = "",
     VerticalShadowedBox = " ",
     XMark = "✗",
 }

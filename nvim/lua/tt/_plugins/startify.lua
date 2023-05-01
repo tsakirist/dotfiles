@@ -4,9 +4,9 @@ local utils = require "tt.utils"
 
 local function bootstrap()
     --- Directory where session files will be stored.
-    M.sessions_path = utils.join_paths(vim.fn.stdpath "data", "sessions")
+    M.sessions_path = utils.join_paths(vim.fn.stdpath "data", "sessions", "startify")
 
-    --- Create the `sessions` directory if it doesn't exists.
+    --- Create the `sessions` directory if it doesn't exist.
     if vim.fn.isdirectory(M.sessions_path) == 0 then
         vim.fn.mkdir(M.sessions_path, "p")
         vim.notify(
@@ -87,9 +87,10 @@ function M.setup()
         { g = { icons.document.DocumentWord .. " Grep String", ":Telescope live_grep_args" } },
         { r = { icons.document.DoubleDocument .. " Recent Files", ":Telescope oldfiles" } },
         { h = { icons.misc.Bulb .. " Help", ":Telescope help_tags" } },
-        { s = { icons.misc.Storage .. " Sessions", ":TelescopeStartifySessions" } },
+        { s = { icons.misc.Database .. " Sessions", ":TelescopeStartifySessions" } },
         { F = { icons.document.FolderConfig .. " Find Config", ":TelescopeNvimConfigFind" } },
         { G = { icons.document.FileEye .. " Grep Config", ":TelescopeNvimConfigGrep" } },
+        { S = { icons.misc.Curtains .. " Restore last session", [[lua require("persistence").load()]] } },
     }
 
     --- Add custom bookmarks
