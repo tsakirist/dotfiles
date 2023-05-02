@@ -36,6 +36,12 @@ return {
         end,
     },
 
+    -- Create arbitrary keymap layers
+    {
+        "anuvyklack/keymap-layer.nvim",
+        event = "BufReadPre",
+    },
+
     -- Bufferline
     {
         "akinsho/bufferline.nvim",
@@ -646,6 +652,7 @@ return {
         "mrjones2014/smart-splits.nvim",
         keys = {
             "<leader>rs",
+            "<leader>ss",
             "<M-h>",
             "<M-l>",
             "<C-w>h",
