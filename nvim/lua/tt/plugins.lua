@@ -644,7 +644,15 @@ return {
     -- Resize windows easily
     {
         "mrjones2014/smart-splits.nvim",
-        keys = "<leader>rs",
+        keys = {
+            "<leader>rs",
+            "<M-h>",
+            "<M-l>",
+            "<C-w>h",
+            "<C-w>k",
+            "<C-w>j",
+            "<C-w>l",
+        },
         config = function()
             require("tt._plugins.smart-splits").setup()
         end,
