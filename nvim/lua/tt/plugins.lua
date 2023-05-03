@@ -55,7 +55,7 @@ return {
 
     -- Statusline
     {
-        "hoob3rt/lualine.nvim",
+        "nvim-lualine/lualine.nvim",
         event = "BufRead",
         dependencies = {
             "nvim-tree/nvim-web-devicons",
