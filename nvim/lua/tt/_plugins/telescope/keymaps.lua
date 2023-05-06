@@ -8,7 +8,8 @@ function M.setup()
     local utils = require "tt.utils"
 
     -- stylua: ignore
-    utils.map("n", "<leader>T",  builtin.builtin, { desc = "Show telescope builtin" })
+    utils.map("n", "<leader>T", builtin.builtin, { desc = "Show telescope builtin" })
+    utils.map("n", "<leader>tR", builtin.resume, { desc = "Opens the previous telescope picker" })
     utils.map("n", "<leader>fa", builtin.autocommands, { desc = "Search autocommands" })
     utils.map("n", "<leader>fb", builtin.buffers, { desc = "Search for open buffers " })
     utils.map("n", "<leader>fc", builtin.commands, { desc = "Search for commands" })
@@ -27,7 +28,6 @@ function M.setup()
     utils.map("n", "<leader>fh", function()
         builtin.help_tags { layout_strategy = "vertical" }
     end, { desc = "Search help tags" })
-
     utils.map("n", "<leader>fl", function()
         builtin.current_buffer_fuzzy_find { layout_strategy = "vertical" }
     end, { desc = "Fuzzy search current buffer" })
