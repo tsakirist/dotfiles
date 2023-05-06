@@ -119,22 +119,6 @@ function M.setup()
                     },
                 },
             },
-            lualine_c = {
-                {
-                    "searchcount",
-                    color = "LualineSearchCount",
-                    icon = icons.misc.Search,
-                    ---@diagnostic disable-next-line: unused-local
-                    on_click = function(number_of_clicks, mouse_button, modifier)
-                        --- Left click goes to next search hit and right click to previous
-                        if mouse_button == "l" then
-                            vim.fn.feedkeys "n"
-                        elseif mouse_button == "r" then
-                            vim.fn.feedkeys "N"
-                        end
-                    end,
-                },
-            },
             lualine_x = { "encoding", "fileformat", "filetype" },
             lualine_y = { "progress" },
             lualine_z = {

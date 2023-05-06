@@ -32,6 +32,7 @@ function M.setup()
             "tsx",
             "typescript",
             "vimdoc",
+            "vim",
         },
         autopairs = {
             enable = true,

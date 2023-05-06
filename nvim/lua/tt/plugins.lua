@@ -36,12 +36,6 @@ return {
         end,
     },
 
-    -- Create arbitrary keymap layers
-    {
-        "anuvyklack/keymap-layer.nvim",
-        event = "BufReadPre",
-    },
-
     -- Bufferline
     {
         "akinsho/bufferline.nvim",
@@ -66,20 +60,6 @@ return {
         end,
     },
 
-    -- Color highlighter
-    {
-        "NvChad/nvim-colorizer.lua",
-        event = "BufReadPre",
-        config = function()
-            require("colorizer").setup {
-                user_default_options = {
-                    names = false,
-                    mode = "foreground",
-                },
-            }
-        end,
-    },
-
     -- Winbar
     {
         "utilyre/barbecue.nvim",
@@ -91,6 +71,39 @@ return {
         config = function()
             require("tt._plugins.barbecue").setup()
         end,
+    },
+
+    -- Completely overhaul the UI
+    {
+        "folke/noice.nvim",
+        event = "VeryLazy",
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            "rcarriga/nvim-notify",
+        },
+        opts = {
+            cmdline = {
+                view = "cmdline", -- Use classic cmdline view
+            },
+            lsp = {
+                signature = {
+                    auto_open = {
+                        enabled = false,
+                    },
+                },
+                override = {
+                    -- Override markdown rendering to use Treesitter
+                    ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                    ["vim.lsp.util.stylize_markdown"] = true,
+                    ["cmp.entry.get_documentation"] = true,
+                },
+            },
+            presets = {
+                bottom_search = true, -- Use a classic bottom cmdline for search
+                command_palette = false, -- Position the cmdline and popupmenu together
+                long_message_to_split = true, -- Long messages will be sent to a split
+            },
+        },
     },
 
     -- LSP related plugins
@@ -125,26 +138,6 @@ return {
             event = "BufReadPre",
             config = function()
                 require("tt._plugins.lsp.null-ls").setup()
-            end,
-        },
-        -- LSP progress indicator
-        {
-            "j-hui/fidget.nvim",
-            event = "BufReadPre",
-            config = function()
-                require("fidget").setup {
-                    text = {
-                        spinner = "dots",
-                    },
-                }
-            end,
-        },
-        -- Function signature in a floating-window
-        {
-            "ray-x/lsp_signature.nvim",
-            event = "BufReadPre",
-            config = function()
-                require("tt._plugins.lsp.lsp-signature").setup()
             end,
         },
         -- Render LSP diagnostics using virtual lines
@@ -595,6 +588,12 @@ return {
         end,
     },
 
+    -- Create arbitrary keymap layers
+    {
+        "anuvyklack/keymap-layer.nvim",
+        event = "BufReadPre",
+    },
+
     -- Create custom submodes and menus
     {
         "anuvyklack/hydra.nvim",
@@ -662,6 +661,20 @@ return {
         },
         config = function()
             require("tt._plugins.smart-splits").setup()
+        end,
+    },
+
+    -- Color highlighter
+    {
+        "NvChad/nvim-colorizer.lua",
+        event = "BufReadPre",
+        config = function()
+            require("colorizer").setup {
+                user_default_options = {
+                    names = false,
+                    mode = "foreground",
+                },
+            }
         end,
     },
 

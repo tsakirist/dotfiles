@@ -44,6 +44,7 @@ function M.on_attach(_, bufnr)
     utils.map("n", "dq", "<Cmd>lua vim.diagnostic.setqflist()<CR>", opts)
     utils.map("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     utils.map({ "n", "v" }, "<leader>fr", "<Cmd>lua vim.lsp.buf.format{ async = true }<CR>", opts)
+    utils.map("i", "<M-x>", vim.lsp.buf.signature_help, { desc = "Display signature information" })
 
     local ft = vim.bo.filetype
     if ft == "c" or ft == "cpp" or ft == "h" or ft == "hpp" then

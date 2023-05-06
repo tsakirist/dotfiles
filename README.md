@@ -43,7 +43,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   │   └── servers.lua
 │       │   │   ├── inlay-hints.lua
 │       │   │   ├── lsp-saga.lua
-│       │   │   ├── lsp-signature.lua
 │       │   │   ├── mason.lua
 │       │   │   ├── null-ls.lua
 │       │   │   ├── nvim-navbuddy.lua
