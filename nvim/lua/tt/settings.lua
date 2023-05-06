@@ -155,6 +155,9 @@ opt.title = true
 -- Enable a second stage diff for generated hunks
 opt.diffopt = opt.diffopt + "linematch:60"
 
+-- Raise a dialog for certain operations that would normally fail (e.g. unsaved buffer)
+opt.confirm = true
+
 -- Set rg as the grep program
 if vim.fn.executable "rg" then
     opt.grepprg = "rg --vimgrep --no-heading --smart-case"

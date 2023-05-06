@@ -77,22 +77,6 @@ function M.copy_filename_to_clipboard(modifier)
     end
 end
 
---- Function that checks if the current buffer is modified before closing the window.
-function M.smart_quit()
-    local modified = vim.api.nvim_buf_get_option(0, "modified")
-    if modified then
-        vim.ui.input({
-            prompt = "You have unsaved changes. Quit anyway? (y/n) ",
-        }, function(input)
-            if input == "y" then
-                vim.cmd.quit { bang = true }
-            end
-        end)
-    else
-        vim.cmd.quit { bang = true }
-    end
-end
-
 --- Preserves cursor position upon invocation of the supplied cmd.
 ---@param arg string|function: The command|function to execute.
 function M.preserve_cursor_position(arg)
