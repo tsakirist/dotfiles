@@ -1,7 +1,7 @@
 --- Prints the supplied value.
 ---@param value any: The value to be printed.
 function _G.Print(value)
-    vim.pretty_print(value)
+    vim.print(value)
 end
 
 -- Create a wrapper for nvim-web-devicons.
