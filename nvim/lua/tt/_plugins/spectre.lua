@@ -24,6 +24,16 @@ function M.setup()
                 cmd = "<Cmd>lua require('spectre.actions').run_replace()<CR>",
                 desc = "replace all",
             },
+            ["run_current_replace"] = {
+                map = "<CR>",
+                cmd = "<Cmd>lua require('spectre.actions').run_current_replace()<CR>",
+                desc = "replace current",
+            },
+            ["enter_file"] = {
+                map = "o",
+                cmd = "<Cmd>lua require('spectre.actions').select_entry()<CR>",
+                desc = "open file",
+            },
         },
         find_engine = {
             ["rg"] = {
