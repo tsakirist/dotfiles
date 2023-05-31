@@ -36,40 +36,40 @@ local function setup_diagnostics()
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 
-    --- Status of diagnostics
-    M.diagnostics_enabled = true
-
     --- The record of the last displayed notification
     local diagnostics_notification = nil
+    local diagnostics_enabled = true
 
-    --- Function that toggles diagnostics in all buffers
-    local function toggle_diagnostics()
-        local diagnostics_title = "Diagnostics"
-        if M.diagnostics_enabled then
-            vim.diagnostic.disable()
-            diagnostics_notification = vim.notify("Diagnostics disabled!", vim.log.levels.INFO, {
-                title = diagnostics_title,
+    --- Function that toggles diagnostics on or off, for either all or the current buffer.
+    --- Any argument that is supplied will indicate current buffer only mode.
+    local function toggle_diagnostics(opts)
+        local current_buffer_only = opts.args ~= ""
+        local args = current_buffer_only and 0 or nil
+        local diagnostic_toggle = diagnostics_enabled and vim.diagnostic.disable or vim.diagnostic.enable
+
+        diagnostic_toggle(args)
+        diagnostics_notification = vim.notify(
+            string.format(
+                "Diagnostics %s %s!",
+                diagnostics_enabled and "enabled" or "disabled",
+                current_buffer_only and "for current buffer" or "for all buffers"
+            ),
+            vim.log.levels.INFO,
+            {
+                title = "Diagnostics",
                 replace = diagnostics_notification,
                 on_close = function()
                     diagnostics_notification = nil
                 end,
-            })
-        else
-            vim.diagnostic.enable()
-            diagnostics_notification = vim.notify("Diagnostics enabled!", vim.log.levels.INFO, {
-                title = diagnostics_title,
-                replace = diagnostics_notification,
-                on_close = function()
-                    diagnostics_notification = nil
-                end,
-            })
-        end
-        M.diagnostics_enabled = not M.diagnostics_enabled
+            }
+        )
+        diagnostics_enabled = not diagnostics_enabled
     end
 
     -- Add a command to toggle the diagnostics
     vim.api.nvim_create_user_command("ToggleDiagnostics", toggle_diagnostics, {
-        desc = "Toggles diagnostics on and off, for all buffers",
+        desc = "Toggles diagnostics on and off, for all/current buffer(s)",
+        nargs = "?",
     })
 end
 
