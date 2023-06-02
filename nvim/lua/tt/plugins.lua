@@ -191,6 +191,7 @@ return {
         -- Show inlay hints via LSP
         {
             "lvimuser/lsp-inlayhints.nvim",
+            branch = "anticonceal",
             event = "BufReadPre",
             config = function()
                 require("tt._plugins.lsp.inlay-hints").setup()
