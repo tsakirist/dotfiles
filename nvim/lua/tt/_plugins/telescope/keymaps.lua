@@ -9,7 +9,6 @@ function M.setup()
 
     -- stylua: ignore
     utils.map("n", "<leader>T", builtin.builtin, { desc = "Show telescope builtin" })
-    utils.map("n", "<leader>tR", builtin.resume, { desc = "Opens the previous telescope picker" })
     utils.map("n", "<leader>fa", builtin.autocommands, { desc = "Search autocommands" })
     utils.map("n", "<leader>fb", builtin.buffers, { desc = "Search for open buffers " })
     utils.map("n", "<leader>fc", builtin.commands, { desc = "Search for commands" })
@@ -22,6 +21,7 @@ function M.setup()
     utils.map("n", "<leader>fw", builtin.grep_string, { desc = "Search for the string under cursor" })
     utils.map("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "Search for LSP document symbols" })
     utils.map("n", "<leader>fT", builtin.tags, { desc = "Search for tags" })
+    utils.map("n", "<leader>f;", builtin.resume, { desc = "Opens the previous telescope picker" })
     utils.map("n", "<leader>f:", builtin.command_history, { desc = "Search for command history" })
     utils.map("n", "<leader>f/", builtin.search_history, { desc = "Search history" })
 
