@@ -68,7 +68,7 @@ end
 function M.on_attach(_, bufnr)
     -- stylua: ignore start
     local utils = require "tt.utils"
-    utils.map("n", "da", "<Cmd>Lspsaga show_buf_diagnostics<CR>", { buffer = bufnr, desc = "Show buffer diagnostics" })
+    utils.map("n", "dA", "<Cmd>Lspsaga show_buf_diagnostics<CR>", { buffer = bufnr, desc = "Show buffer diagnostics" })
     utils.map("n", "do", "<Cmd>Lspsaga show_cursor_diagnostics<CR>", { buffer = bufnr, desc = "Show cursor diagnostics" })
     utils.map("n", "dn", "<Cmd>Lspsaga diagnostic_jump_next<CR>", { buffer = bufnr, desc = "Jump to next diagnostic" })
     utils.map("n", "dp", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", { buffer = bufnr, desc = "Jump to previous diagnostic" })
