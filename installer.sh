@@ -260,6 +260,7 @@ function _oh_my_zsh() {
     git clone --quiet --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom"/plugins/zsh-autosuggestions
     git clone --quiet --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting "$zsh_custom"/plugins/fast-syntax-highlighting
     git clone --quiet --depth=1 https://github.com/wfxr/forgit.git "$zsh_custom"/plugins/forgit
+    git clone --queit --depth=1 https://github.com/tamcore/autoupdate-oh-my-zsh-plugins "$zsh_custom"/plugins/autoupdate
     _zshrc
 }
 

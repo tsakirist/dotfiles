@@ -75,7 +75,7 @@ zstyle :omz:plugins:ssh-agent lazy yes
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z zsh-autosuggestions fast-syntax-highlighting fd colored-man-pages ssh-agent forgit)
+plugins=(git z zsh-autosuggestions fast-syntax-highlighting fd colored-man-pages ssh-agent forgit autoupdate)
 
 # Fire up oh-my-zsh
 source $ZSH/oh-my-zsh.sh
