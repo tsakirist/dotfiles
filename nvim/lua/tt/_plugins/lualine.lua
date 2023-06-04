@@ -1,6 +1,8 @@
 local M = {}
 
 function M.setup()
+    local noice = require "noice"
+    local colors = require("tt._plugins.nightfox").colors()
     local icons = require "tt.icons"
 
     ---@diagnostic disable-next-line: unused-local
@@ -107,6 +109,11 @@ function M.setup()
                 },
             },
             lualine_b = {
+                {
+                    noice.api.statusline.mode.get,
+                    cond = noice.api.statusline.mode.has,
+                    color = { fg = colors.magenta.base },
+                },
                 "branch",
                 "diff",
                 {
