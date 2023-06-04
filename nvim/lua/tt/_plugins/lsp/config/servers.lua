@@ -18,16 +18,6 @@ M.lsp_servers = {
             },
         },
     },
-    rust_analyzer = {
-        settings = {
-            ["rust-analyzer"] = {
-                check = {
-                    command = "clippy",
-                },
-                checkOnSave = true,
-            },
-        },
-    },
     lua_ls = {
         settings = {
             Lua = {
