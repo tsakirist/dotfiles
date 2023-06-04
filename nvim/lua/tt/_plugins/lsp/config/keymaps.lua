@@ -36,20 +36,29 @@ local function hover_on_new_window()
 end
 
 function M.on_attach(_, bufnr)
-    local opts = { buffer = bufnr }
-    utils.map("n", "<C-LeftMouse>", "<Cmd>TroubleToggle lsp_references<CR>", opts)
-    utils.map("n", "<leader>K", hover_on_new_window, opts)
-    utils.map("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    utils.map("n", "dl", "<Cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-    utils.map("n", "dq", "<Cmd>lua vim.diagnostic.setqflist()<CR>", opts)
-    utils.map("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    utils.map({ "n", "v" }, "<leader>fr", "<Cmd>lua vim.lsp.buf.format{ async = true }<CR>", opts)
-    utils.map("i", "<M-x>", vim.lsp.buf.signature_help, { desc = "Display signature information" })
+    local function opts(desc)
+        return { desc = desc, buffer = bufnr }
+    end
+
+    utils.map("n", "<C-LeftMouse>", "<Cmd>TroubleToggle lsp_references<CR>", opts "Open lsp references in Trouble")
+    utils.map("n", "K", vim.lsp.buf.hover, opts "Display hover information about symbol")
+    utils.map("n", "<leader>K", hover_on_new_window, opts "Display hover information about symbol on new window")
+    utils.map("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts "Go to the definition of the symbol")
+    utils.map("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts "Go to the declaration of the symbol")
+    utils.map("n", "dl", "<Cmd>lua vim.diagnostic.setloclist()<CR>", opts "Add buffer diagnostics to the loclist")
+    utils.map("n", "dq", "<Cmd>lua vim.diagnostic.setqflist()<CR>", opts "Add buffer diagnostics to the qflist")
+    utils.map("i", "<M-x>", vim.lsp.buf.signature_help, opts "Display signature information about the symbol")
+    utils.map(
+        { "n", "v" },
+        "<leader>fr",
+        "<Cmd>lua vim.lsp.buf.format{ async = true }<CR>",
+        opts "Format the current buffer"
+    )
 
     local ft = vim.bo.filetype
     if ft == "c" or ft == "cpp" or ft == "h" or ft == "hpp" then
-        utils.map("n", "<leader>ko", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
-        utils.map("n", "<M-o>", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
+        utils.map("n", "<leader>ko", "<Cmd>ClangdSwitchSourceHeader<CR>", opts "Switch C++ source/header ")
+        utils.map("n", "<M-o>", "<Cmd>ClangdSwitchSourceHeader<CR>", opts "Switch C++ source/header ")
     end
 end
 

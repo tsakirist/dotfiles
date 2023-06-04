@@ -49,6 +49,10 @@ function M.setup()
                 expand_collapse = "u",
             },
         },
+        rename = {
+            quit = "<Esc>",
+            exec = "<CR>",
+        },
         ui = {
             title = true,
             border = "rounded",
@@ -66,19 +70,21 @@ function M.setup()
 end
 
 function M.on_attach(_, bufnr)
-    -- stylua: ignore start
+    local function opts(desc)
+        return { desc = desc, buffer = bufnr }
+    end
+
     local utils = require "tt.utils"
-    utils.map("n", "dA", "<Cmd>Lspsaga show_buf_diagnostics<CR>", { buffer = bufnr, desc = "Show buffer diagnostics" })
-    utils.map("n", "do", "<Cmd>Lspsaga show_cursor_diagnostics<CR>", { buffer = bufnr, desc = "Show cursor diagnostics" })
-    utils.map("n", "dn", "<Cmd>Lspsaga diagnostic_jump_next<CR>", { buffer = bufnr, desc = "Jump to next diagnostic" })
-    utils.map("n", "dp", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", { buffer = bufnr, desc = "Jump to previous diagnostic" })
-    utils.map("n", "gp", "<Cmd>Lspsaga peek_definition<CR>", { buffer = bufnr, desc = "Peek definition" })
-    utils.map("n", "gr", "<Cmd>Lspsaga lsp_finder<CR>", { buffer = bufnr, desc = "Find definition and references of current symbol" })
-    utils.map("n", "K", "<Cmd>Lspsaga hover_doc<CR>", { buffer = bufnr, desc = "Show information of current symbol" })
-    utils.map("n", "<leader>ca", "<Cmd>Lspsaga code_action<CR>", { buffer = bufnr, desc = "Open code action menu" })
-    utils.map("n", "<leader>IC", "<Cmd>Lspsaga incoming_calls<CR>", { buffer = bufnr, desc = "Show incoming calls" })
-    utils.map("n", "<leader>OC", "<Cmd>Lspsaga outgoing_calls<CR>", { buffer = bufnr, desc = "Show outgoing calls" })
-    utils.map("n", "<leader>OL", "<Cmd>Lspsaga outline<CR>", { buffer = bufnr, desc = "Show outline" })
+    utils.map("n", "dA", "<Cmd>Lspsaga show_buf_diagnostics<CR>", opts "Show buffer diagnostics")
+    utils.map("n", "do", "<Cmd>Lspsaga show_cursor_diagnostics<CR>", opts "Show cursor diagnostics")
+    utils.map("n", "dn", "<Cmd>Lspsaga diagnostic_jump_next<CR>", opts "Jump to next diagnostic")
+    utils.map("n", "dp", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", opts "Jump to previous diagnostic")
+    utils.map("n", "gp", "<Cmd>Lspsaga peek_definition<CR>", opts "Peek definition")
+    utils.map("n", "gr", "<Cmd>Lspsaga lsp_finder<CR>", opts "Find definition and references of current symbol")
+    utils.map("n", "<leader>ca", "<Cmd>Lspsaga code_action<CR>", opts "Open code action menu")
+    utils.map("n", "<leader>IC", "<Cmd>Lspsaga incoming_calls<CR>", opts "Show incoming calls")
+    utils.map("n", "<leader>OC", "<Cmd>Lspsaga outgoing_calls<CR>", opts "Show outgoing calls")
+    utils.map("n", "<leader>OL", "<Cmd>Lspsaga outline<CR>", opts "Show outline")
 end
 
 return M
