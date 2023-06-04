@@ -9,7 +9,7 @@ function M.setup()
         check_syntax_error = true,
 
         -- Do not format the node, if the line after the join operation will be longer than max value
-        max_join_length = 120,
+        max_join_length = 360,
 
         -- hold | start | end:
         -- hold: cursor follows the node/place on which it was called
