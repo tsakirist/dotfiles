@@ -81,6 +81,7 @@ function M.setup()
     vim.g.startify_custom_header = vim.fn["startify#center"](custom_header)
 
     --- Add custom commands
+    -- stylua: ignore start
     vim.g.startify_commands = {
         { e = { icons.document.Document .. " New File", ":enew" } },
         { f = { icons.document.DocumentSearch .. " Find Files", ":Telescope find_files" } },
@@ -90,8 +91,10 @@ function M.setup()
         { s = { icons.misc.Database .. " Sessions", ":TelescopeStartifySessions" } },
         { F = { icons.document.FolderConfig .. " Find Config", ":TelescopeNvimConfigFind" } },
         { G = { icons.document.FileEye .. " Grep Config", ":TelescopeNvimConfigGrep" } },
-        { S = { icons.misc.Curtains .. " Restore last session", [[lua require("persistence").load()]] } },
+        { S = { icons.misc.CurtainsOpen .. " Restore last session", [[lua require("persistence").load { last = true }]] } },
+        { C = { icons.misc.CurtainsClosed .. " Restore last session (cwd)", [[lua require("persistence").load()]] } },
     }
+    -- stylua: ignore end
 
     --- Add custom bookmarks
     vim.g.startify_bookmarks = {
