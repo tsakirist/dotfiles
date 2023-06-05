@@ -27,6 +27,9 @@ function M.setup()
         debug_mode = false,
     }
 
+    -- Disable inlay-hints at startup since the config option doesnt seem to work
+    require("lsp-inlayhints").toggle()
+
     local utils = require "tt.utils"
     utils.map("n", "<leader>it", require("lsp-inlayhints").toggle, { desc = "Toggle LSP inlay hints" })
 end
