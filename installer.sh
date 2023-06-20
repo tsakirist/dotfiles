@@ -260,7 +260,7 @@ function _oh_my_zsh() {
     git clone --quiet --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom"/plugins/zsh-autosuggestions
     git clone --quiet --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting "$zsh_custom"/plugins/fast-syntax-highlighting
     git clone --quiet --depth=1 https://github.com/wfxr/forgit.git "$zsh_custom"/plugins/forgit
-    git clone --queit --depth=1 https://github.com/tamcore/autoupdate-oh-my-zsh-plugins "$zsh_custom"/plugins/autoupdate
+    git clone --quiet --depth=1 https://github.com/tamcore/autoupdate-oh-my-zsh-plugins "$zsh_custom"/plugins/autoupdate
     _zshrc
 }
 
@@ -286,7 +286,7 @@ function _nvim_nightly() {
         && [ -d "$nvim_tar_dir" ] \
         && sudo mv "$nvim_tar_dir/bin/nvim" /usr/local/bin/nvim \
         && echo "Installed NVIM version: $(
-            /usr/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$red_fg" -v RESET="$reset" '{print COLOR $2 RESET}'
+            /usr/local/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$red_fg" -v RESET="$reset" '{print COLOR $2 RESET}'
         )"
     popd > /dev/null || return
 }
