@@ -478,11 +478,12 @@ return {
     -- File explorer tree
     {
         "nvim-neo-tree/neo-tree.nvim",
+        cmd = "Neotree",
         keys = {
             "<leader>nf",
             "<leader>nt",
         },
-        branch = "v2.x",
+        branch = "v3.x",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-tree/nvim-web-devicons",

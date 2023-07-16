@@ -99,7 +99,9 @@ function M.setup()
                 hide_by_pattern = {}, -- Uses glob style patterns
                 never_show = {}, -- Remains hidden even if visible is toggled to true
             },
-            follow_current_file = true, -- This will find and focus the file in the active buffer every time
+            follow_current_file = {
+                enabled = true, -- This will find and focus the file in the active buffer every time
+            },
             group_empty_dirs = false, -- When true, empty folders will be grouped together
             use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes, instead of autocmds
             hijack_netrw_behavior = "open_default",
