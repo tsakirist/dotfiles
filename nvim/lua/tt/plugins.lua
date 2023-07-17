@@ -148,7 +148,7 @@ return {
             config = function()
                 require("lsp_lines").setup()
                 local utils = require "tt.utils"
-                utils.map("n", "<leader>lt", function()
+                utils.map("n", "<leader>ll", function()
                     local virtual_lines_enabled = not vim.diagnostic.config().virtual_lines
                     vim.diagnostic.config {
                         virtual_lines = virtual_lines_enabled,
@@ -541,6 +541,7 @@ return {
             "<leader>vt",
             "<leader>ht",
             "<leader>bt",
+            "<leader>lt",
         },
         config = function()
             require("tt._plugins.toggleterm").setup()

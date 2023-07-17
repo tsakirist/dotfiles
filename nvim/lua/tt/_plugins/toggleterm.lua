@@ -39,15 +39,42 @@ function M.setup()
             utils.map("t", "<C-q>", function()
                 vim.cmd.quit { bang = true }
             end, { buffer = term.bufnr })
+
+            if not M.is_custom_terminal(term) then
+                -- In non-custom terminals htting `ESC` will transition to normal mode
+                utils.map("t", "<Esc>", [[<C-\><C-N>]], { buffer = term.bufnr })
+            end
         end,
     }
 
     local utils = require "tt.utils"
+
     -- These keymaps take also a <count> argument which allows for stacking terminals, e.g. 1<leader>vt, 2<leader>vt
     utils.map({ "n", "t" }, "<leader>vt", [[<Cmd>execute 50+v:count "ToggleTerm direction=vertical"<CR>]])
     utils.map({ "n", "t" }, "<leader>ht", [[<Cmd>execute 100+v:count "ToggleTerm direction=horizontal"<CR>]])
 
     M.add_custom_terminals()
+end
+
+M.custom_terminals = {
+    btop = {
+        cmd = "btop",
+        keymap = "<leader>bt",
+    },
+    lazygit = {
+        cmd = "lazygit",
+        keymap = "<leader>lt",
+    },
+}
+
+function M.is_custom_terminal(term)
+    for _, custom_terminal in pairs(M.custom_terminals) do
+        if custom_terminal.cmd == term.cmd then
+            return true
+        end
+    end
+
+    return false
 end
 
 function M.add_custom_terminal(custom_terminal)
@@ -78,14 +105,7 @@ function M.add_custom_terminal(custom_terminal)
 end
 
 function M.add_custom_terminals()
-    local custom_terminals = {
-        btop = {
-            cmd = "btop",
-            keymap = "<leader>bt",
-        },
-    }
-
-    for _, custom_terminal in pairs(custom_terminals) do
+    for _, custom_terminal in pairs(M.custom_terminals) do
         M.add_custom_terminal(custom_terminal)
     end
 end

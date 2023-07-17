@@ -52,9 +52,6 @@ utils.map("v", "<leader>d", function()
     vim.api.nvim_buf_set_lines(0, visual_selection.end_pos, visual_selection.end_pos, true, lines)
 end)
 
--- Hitting ESC when inside a terminal to get into normal mode
-utils.map("t", "<Esc>", [[<C-\><C-N>]])
-
 -- Save files with ctrl+s
 -- Use update instead of :write, to only write the file when modified
 utils.map("n", "<C-s>", "<Cmd>update<CR>")
