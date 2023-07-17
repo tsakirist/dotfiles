@@ -558,8 +558,18 @@ function _glow() {
 }
 
 function _delta() {
-    _print i "delta" " a better viewer for git and diff output"
+    _print i "delta" ": a better viewer for git and diff output"
     _install_latest_deb_with_version dandavison/delta
+}
+
+function _lazygit() {
+    _print i "lazygit" ": a terminal UI for git commands"
+    pushd "$(mktemp -d)" > /dev/null || return
+    local LAZYGIT_VERSION=$(curl -sS "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+    curl -sSLo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit /usr/local/bin
+    popd > /dev/null || return
 }
 
 function _vm_swappiness() {
@@ -629,6 +639,7 @@ pkgs=(
     "    rg: ripgrep recursive search for a pattern in files"
     "    bat: a cat clone with syntax highlighting"
     "    delta: a better viewer for git and diff output"
+    "    lazygit: a simple terminal UI for git commands"
     "    glow: markdown renderer for the terminal"
     "    shfmt: shell formatter"
     "    shellcheck: shell static analysis tool"
@@ -670,6 +681,7 @@ pkgs_functions=(
     _rg
     _bat
     _delta
+    _lazygit
     _glow
     _shfmt
     _shellcheck
