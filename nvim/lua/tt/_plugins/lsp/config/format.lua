@@ -31,6 +31,7 @@ function M.format(bufnr)
             return client.name ~= "null-ls"
         end,
         bufnr = bufnr,
+        timeout_ms = 2500,
     }
 end
 
