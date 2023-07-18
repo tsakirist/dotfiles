@@ -1,4 +1,5 @@
 local M = {}
+
 function M.on_attach(client, bufnr)
     if client.supports_method "textDocument/documentHighlight" then
         local group = vim.api.nvim_create_augroup("tt.LspDocumentHighlight", { clear = true })

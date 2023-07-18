@@ -189,14 +189,6 @@ return {
                 require("tt._plugins.lsp.nvim-navbuddy").setup()
             end,
         },
-        -- Show inlay hints via LSP
-        {
-            "lvimuser/lsp-inlayhints.nvim",
-            event = "BufReadPre",
-            config = function()
-                require("tt._plugins.lsp.inlay-hints").setup()
-            end,
-        },
         -- Better LSP utilities
         {
             "glepnir/lspsaga.nvim",
