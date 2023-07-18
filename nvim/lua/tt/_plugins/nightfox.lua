@@ -76,6 +76,7 @@ function M.setup()
                 FinderType = { link = "Keyword" },
                 LspSignatureActiveParameter = { bg = "#20253a", fg = "none", style = "bold" },
                 MatchParen = { fg = colors.red, style = "bold,italic" },
+                NoiceVirtualText = { link = "DiagnosticVirtualTextWarn" },
                 NvimSurroundHighlight = { fg = M.colors("nordfox").yellow },
                 SagaBeacon = { fg = colors.cyan },
                 SagaBorder = { link = "TelescopeBorder" },
