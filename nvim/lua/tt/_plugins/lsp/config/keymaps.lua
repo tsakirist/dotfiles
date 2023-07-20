@@ -54,9 +54,6 @@ function M.on_attach(_, bufnr)
         "<Cmd>lua vim.lsp.buf.format{ async = true }<CR>",
         opts "Format the current buffer"
     )
-    utils.map("n", "<leader>it", function()
-        vim.lsp.inlay_hint(bufnr, nil)
-    end, opts "Toggle LSP inlay hints")
 
     local ft = vim.bo.filetype
     if ft == "c" or ft == "cpp" or ft == "h" or ft == "hpp" then

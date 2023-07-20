@@ -9,9 +9,7 @@ local function navic_attach(client, bufnr)
 end
 
 local function inlay_hints_attach(client, bufnr)
-    if client.supports_method "textDocument/inlayHint" then
-        vim.lsp.inlay_hint(bufnr, true)
-    end
+    require("tt._plugins.lsp.config.inlay_hints").on_attach(client, bufnr)
 end
 
 local function highlight_attach(client, bufnr)

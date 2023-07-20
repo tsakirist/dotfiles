@@ -39,6 +39,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   │   ├── handlers.lua
 │       │   │   │   ├── highlight.lua
 │       │   │   │   ├── init.lua
+│       │   │   │   ├── inlay_hints.lua
 │       │   │   │   ├── keymaps.lua
 │       │   │   │   └── servers.lua
 │       │   │   ├── lsp-saga.lua
