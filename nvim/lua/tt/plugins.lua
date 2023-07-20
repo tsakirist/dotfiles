@@ -98,6 +98,16 @@ return {
                     ["cmp.entry.get_documentation"] = true,
                 },
             },
+            routes = {
+                {
+                    -- Route messages about saved buffers to 'mini' view
+                    filter = {
+                        event = "msg_show",
+                        find = "%d+[%a]?B written",
+                    },
+                    view = "mini",
+                },
+            },
             presets = {
                 bottom_search = true, -- Use a classic bottom cmdline for search
                 command_palette = false, -- Position the cmdline and popupmenu together
