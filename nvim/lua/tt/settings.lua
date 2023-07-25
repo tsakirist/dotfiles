@@ -26,6 +26,9 @@ opt.relativenumber = true
 -- Set the number of columns used for line numbers
 opt.numberwidth = 1
 
+-- Set the signcolumn width
+opt.signcolumn = "yes:1"
+
 -- Insert spaces when <Tab> is pressed
 opt.expandtab = true
 
