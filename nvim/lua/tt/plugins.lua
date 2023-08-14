@@ -100,12 +100,28 @@ return {
             },
             routes = {
                 {
-                    -- Route messages about saved buffers to 'mini' view
                     filter = {
                         event = "msg_show",
-                        find = "%d+[%a]?B written",
+                        any = {
+                            { find = "%d+[%a]?B written" },
+                            { find = "^/%w+" },
+                            { find = "^E%w+" },
+                            { find = "lines" },
+                        },
                     },
                     view = "mini",
+                },
+                {
+                    filter = {
+                        event = "msg_show",
+                        any = {
+                            { find = "; after #%d+" },
+                            { find = "; before #%d+" },
+                        },
+                    },
+                    opts = {
+                        skip = true,
+                    },
                 },
             },
             presets = {
