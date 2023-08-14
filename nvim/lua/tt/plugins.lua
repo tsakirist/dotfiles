@@ -344,6 +344,15 @@ return {
         end,
     },
 
+    -- Navigation enhancements
+    {
+        "folke/flash.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("tt._plugins.flash").setup()
+        end,
+    },
+
     -- Surf easily through the document and move elemetns
     {
         "ziontee113/syntax-tree-surfer",
@@ -651,20 +660,6 @@ return {
         config = function()
             require("tt._plugins.treesj").setup()
         end,
-    },
-
-    -- Enhance the f/t/F/T motions
-    {
-        "ggandor/flit.nvim",
-        dependencies = "ggandor/leap.nvim",
-        keys = function()
-            local ret = {}
-            for index, key in ipairs { "f", "t", "F", "T" } do
-                ret[index] = { key, mode = { "n", "x", "o" }, desc = key }
-            end
-            return ret
-        end,
-        opts = { labeled_modes = "nxo", multiline = false },
     },
 
     -- Resize windows easily
