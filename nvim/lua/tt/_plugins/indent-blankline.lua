@@ -16,6 +16,7 @@ function M.setup()
         buftype_exclude = { "terminal" }, -- Specifies a list of buftype values for which this plugin is not enabled
         filetype_exclude = { -- Specifies a list of filetype values for which this plugin is not enabled
             "gitcommit",
+            "git",
             "help",
             "mason",
             "neo-tree-popup",
