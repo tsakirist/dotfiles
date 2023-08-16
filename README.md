@@ -66,6 +66,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── neogen.lua
 │       │   ├── neo-tree.lua
 │       │   ├── nightfox.lua
+│       │   ├── noice.lua
 │       │   ├── notify.lua
 │       │   ├── numb.lua
 │       │   ├── nvim-autopairs.lua
