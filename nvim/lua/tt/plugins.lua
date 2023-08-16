@@ -150,10 +150,14 @@ return {
         -- Common configuration for LSP servers
         {
             "neovim/nvim-lspconfig",
-            event = "BufReadPre",
+            event = { "BufReadPre", "BufNewFile" },
             dependencies = {
                 "SmiteshP/nvim-navic",
                 "hrsh7th/cmp-nvim-lsp",
+                {
+                    "folke/neodev.nvim",
+                    opts = {},
+                },
             },
             config = function()
                 require("tt._plugins.lsp.config").setup()
