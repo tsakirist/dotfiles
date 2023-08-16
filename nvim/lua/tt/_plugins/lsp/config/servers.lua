@@ -21,6 +21,9 @@ M.lsp_servers = {
     lua_ls = {
         settings = {
             Lua = {
+                completion = {
+                    callSnippet = "Replace",
+                },
                 runtime = {
                     version = "LuaJIT",
                 },
