@@ -1,5 +1,7 @@
 local M = {}
 
+local utils = require "tt.utils"
+
 function M.setup()
     require("toggleterm").setup {
         open_mapping = "<leader>ft",
@@ -35,7 +37,6 @@ function M.setup()
             end
         end,
         on_create = function(term)
-            local utils = require "tt.utils"
             utils.map("t", "<C-q>", function()
                 vim.cmd.quit { bang = true }
             end, { buffer = term.bufnr })
@@ -47,36 +48,45 @@ function M.setup()
         end,
     }
 
-    local utils = require "tt.utils"
-
     -- These keymaps take also a <count> argument which allows for stacking terminals, e.g. 1<leader>vt, 2<leader>vt
     utils.map({ "n", "t" }, "<leader>vt", [[<Cmd>execute 50+v:count "ToggleTerm direction=vertical"<CR>]])
     utils.map({ "n", "t" }, "<leader>ht", [[<Cmd>execute 100+v:count "ToggleTerm direction=horizontal"<CR>]])
 
+    -- Enhance functionality with custom terminals
     M.add_custom_terminals()
 end
 
+--- Custom terminals configuration options
 M.custom_terminals = {
     btop = {
         cmd = "btop",
         keymap = "<leader>bt",
+        float_opts = {},
     },
     lazygit = {
         cmd = "lazygit",
+        float_opts = {
+            width = math.floor(vim.o.columns * 0.9),
+            height = math.floor(vim.o.lines * 0.9),
+        },
         keymap = "<leader>lt",
     },
 }
 
+--- Checks whether the supplied terminal is one of the custom terminals.
+---@param term any
+---@return boolean
 function M.is_custom_terminal(term)
     for _, custom_terminal in pairs(M.custom_terminals) do
         if custom_terminal.cmd == term.cmd then
             return true
         end
     end
-
     return false
 end
 
+--- Adds/creates a terminnal with a custom configuration.
+---@param custom_terminal any: Custom terminal configuration option.
 function M.add_custom_terminal(custom_terminal)
     if vim.fn.executable(custom_terminal.cmd) == 0 then
         vim.schedule(function()
@@ -95,15 +105,16 @@ function M.add_custom_terminal(custom_terminal)
     local Terminal = require("toggleterm.terminal").Terminal
     local terminal = Terminal:new {
         cmd = custom_terminal.cmd,
+        float_opts = custom_terminal.float_opts or {},
         hidden = true,
     }
 
-    local utils = require "tt.utils"
     utils.map({ "n", "t" }, custom_terminal.keymap, function()
         terminal:toggle()
     end)
 end
 
+--- Adds/creates all the custom terminals defined in the custom configuration table.
 function M.add_custom_terminals()
     for _, custom_terminal in pairs(M.custom_terminals) do
         M.add_custom_terminal(custom_terminal)
