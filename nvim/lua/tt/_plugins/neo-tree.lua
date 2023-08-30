@@ -85,6 +85,18 @@ function M.setup()
             git_status = {
                 symbols = {},
             },
+            file_size = {
+                enabled = false,
+            },
+            type = {
+                enabled = false,
+            },
+            last_modified = {
+                enabled = false,
+            },
+            created = {
+                enabled = false,
+            },
         },
         nesting_rules = {},
         filesystem = {
@@ -105,6 +117,7 @@ function M.setup()
             group_empty_dirs = false, -- When true, empty folders will be grouped together
             use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes, instead of autocmds
             hijack_netrw_behavior = "open_default",
+
             window = {
                 mappings = {
                     ["-"] = "navigate_up",
