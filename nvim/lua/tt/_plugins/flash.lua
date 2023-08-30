@@ -9,7 +9,7 @@ function M.setup()
                 enabled = false,
             },
             char = {
-                enabled = true,
+                enabled = false,
                 jump_labels = true,
                 multi_line = false,
                 highlight = {

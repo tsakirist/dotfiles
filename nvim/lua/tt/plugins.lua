@@ -310,6 +310,20 @@ return {
         end,
     },
 
+    -- Enhance the f/t/F/T motions
+    {
+        "ggandor/flit.nvim",
+        dependencies = "ggandor/leap.nvim",
+        keys = function()
+            local keys = {}
+            for index, key in ipairs { "f", "t", "F", "T" } do
+                keys[index] = { key, mode = { "n", "x", "o" }, desc = key }
+            end
+            return keys
+        end,
+        opts = { labeled_modes = "nxo", multiline = false },
+    },
+
     -- Surf easily through the document and move elemetns
     {
         "ziontee113/syntax-tree-surfer",
