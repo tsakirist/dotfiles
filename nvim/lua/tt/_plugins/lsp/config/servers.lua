@@ -82,9 +82,6 @@ M.lsp_servers = {
 -- List of sources for null_ls
 M.null_ls_sources = {
     formatting = {
-        clang_format = {
-            extra_args = { "-style=file" },
-        },
         prettierd = {},
         shfmt = {
             extra_args = { "-i", "4", "-bn", "-ci", "-sr" },
