@@ -29,7 +29,7 @@ return {
 
     -- Startify greeter screen with integrated session-handling
     {
-        "tsakirist/vim-startify",
+        "mhinz/vim-startify",
         dependencies = "nvim-tree/nvim-web-devicons",
         config = function()
             require("tt._plugins.startify").setup()
