@@ -419,6 +419,7 @@ return {
     -- Display indentation levels with lines
     {
         "lukas-reineke/indent-blankline.nvim",
+        version = "2.*",
         event = "BufReadPre",
         config = function()
             require("tt._plugins.indent-blankline").setup()
