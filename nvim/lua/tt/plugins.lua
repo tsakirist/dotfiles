@@ -145,15 +145,18 @@ return {
             "smjonas/inc-rename.nvim",
             commit = "1343175",
             pin = true,
-            keys = "<leader>rn",
+            keys = { "<leader>rn", "<F2>" },
             config = function()
                 require("inc_rename").setup {
                     show_message = false,
                 }
                 local utils = require "tt.utils"
-                utils.map("n", "<leader>rn", function()
+                local rename = function()
                     require("inc_rename").rename { default = vim.fn.expand "<cword>" }
-                end, { desc = "Incremental LSP rename with preview" })
+                end
+                local opts = { desc = "Incremental LSP rename with preview" }
+                utils.map("n", "<leader>rn", rename, opts)
+                utils.map("n", "<F2>", rename, opts)
             end,
         },
         -- Show current code context

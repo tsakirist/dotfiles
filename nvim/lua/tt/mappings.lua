@@ -2,7 +2,7 @@ local utils = require "tt.utils"
 local helper = require "tt.helper"
 
 -- Toggle between folds
-utils.map("n", "<F2>", "&foldlevel ? 'zM' : 'zR'", { expr = true })
+utils.map("n", "<F3>", "&foldlevel ? 'zM' : 'zR'", { expr = true })
 
 -- Typing %% on the command line will expand to active buffer's path
 utils.map("c", "%%", "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { silent = false, expr = true })
