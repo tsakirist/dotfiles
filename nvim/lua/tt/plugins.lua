@@ -118,7 +118,8 @@ return {
         },
         -- General purpose LSP that allows non-LSP sources to hook to native LSP
         {
-            "jose-elias-alvarez/null-ls.nvim",
+            -- `none-ls` is a community maintained fork of the archived `null-ls`
+            "nvimtools/none-ls.nvim",
             event = "BufReadPre",
             config = function()
                 require("tt._plugins.lsp.null-ls").setup()
