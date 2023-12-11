@@ -1,11 +1,8 @@
-; vim: sw=2
+; vim: sw=2 ft=gitconfig
 
 [user]
   name = Tsakiris Tryfon
   email = tr.tsakiris@gmail.com
-
-[init]
-  defaultBranch = main
 
 [alias]
   lg = log --graph --pretty=format:'%C(bold red)%h%Creset - %s %C(yellow bold)%d%Creset %C(bold green)(%cr) %C(bold cyan)<%an>%Creset' --abbrev-commit
@@ -15,8 +12,14 @@
   when-modified = log --diff-filter=M --
   stash-staged = "!git stash push -m \"$1\" -- $(git diff --staged --name-only) #"
 
+[init]
+  defaultBranch = main
+
 [pull]
   ff = only
+
+[push]
+  default = current
 
 [core]
   pager = delta
