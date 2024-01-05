@@ -318,6 +318,8 @@ return {
     {
         "ggandor/flit.nvim",
         dependencies = "ggandor/leap.nvim",
+        commit = "f4e9af",
+        pin = true,
         keys = function()
             local keys = {}
             for index, key in ipairs { "f", "t", "F", "T" } do
