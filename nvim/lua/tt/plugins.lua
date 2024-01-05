@@ -414,7 +414,12 @@ return {
             { "gb", mode = { "n", "v" } },
             { "<leader><leader>", mode = { "n", "v" } },
         },
-        dependencies = "JoosepAlviste/nvim-ts-context-commentstring",
+        dependencies = {
+            {
+                "JoosepAlviste/nvim-ts-context-commentstring",
+                opts = { enable_autocmd = false },
+            },
+        },
         config = function()
             require("tt._plugins.comment").setup()
         end,
