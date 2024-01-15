@@ -97,8 +97,9 @@ gmrebase() {
     local NC='\033[0m'
 
     # Get the "main" branch which might be either 'main or master' and strip leading '* '
-    local MAIN_BRANCH=$(git branch --list main master | sed 's/^[* ] //')
-    local CURR_BRANCH=$(git branch --show-current)
+    local MAIN_BRANCH CURR_BRANCH
+    MAIN_BRANCH=$(git branch --list main master | sed 's/^[* ] //')
+    CURR_BRANCH=$(git branch --show-current)
 
     echo -e "${RED}==> Checking out ${MAIN_BRANCH}...${NC}"
     git checkout "${MAIN_BRANCH}"
