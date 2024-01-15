@@ -91,6 +91,15 @@ backup() {
     done
 }
 
+# Read man pages with neovim
+nvim_man_pager() {
+    if (/usr/bin/man "$1" > /dev/null 2>&1) then
+        $EDITOR "+Man $1 | only"
+    else
+        echo "No manual entry for $1"
+    fi
+}
+
 # This is to rebase 'main or master' branch onto the current branch
 gmrebase() {
     local RED='\033[0;31m'
@@ -115,11 +124,43 @@ gmrebase() {
     echo ""
 }
 
-# Read man pages with neovim
-nvim_man_pager() {
-    if (/usr/bin/man "$1" > /dev/null 2>&1) then
-        $EDITOR "+Man $1 | only"
+# Checks whether the first commit is an ancestor of the second
+is_ancestor() {
+    if [[ $# -lt 2 || $# -gt 3 ]]; then
+        cat << EOF >&2
+Usage: is_ancestor [OPTIONS] <commit1> <commit2>
+
+Check if commit1 is an ancestor of commit2 and vice versa.
+
+Options:
+  -e   Display extended information (commit SHAs) in the output.
+EOF
+        return 1
+    fi
+
+    local extended
+    if [[ $1 == "-e" ]]; then
+        extended="true"
+        shift
+    fi
+
+    local first_commit second_commit
+    if [[ $extended == "true" ]]; then
+        first_commit=$(git rev-parse "$1")
+        second_commit=$(git rev-parse "$2")
     else
-        echo "No manual entry for $1"
+        first_commit="$1"
+        second_commit="$2"
+    fi
+
+    if git merge-base --is-ancestor "$1" "$2"; then
+        echo "Commit $first_commit is an ancestor of $second_commit."
+        return 0
+    elif git merge-base --is-ancestor "$2" "$1"; then
+        echo "Commit $second_commit is an ancestor of $first_commit."
+        return 0
+    else
+        echo "Error checking commit ancestry. Erorr code: $?" 1>&2
+        return $?
     fi
 }
