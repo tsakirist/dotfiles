@@ -114,20 +114,6 @@ gmrebase() {
     echo ""
 }
 
-# Download latest neovim version -- nightly
-download_nvim() {
-    local RED='\033[0;31m'
-    local NC='\033[0m'
-    local NVIM_DEB="nvim-linux64.deb"
-    echo -e "${RED}==> Downloading nightly neovim...${NC}"
-    pushd "$(mktemp -d)" > /dev/null || return
-    curl -sSLO https://github.com/neovim/neovim/releases/download/nightly/${NVIM_DEB}
-    [ -f "$NVIM_DEB" ] \
-        && sudo dpkg -i "$NVIM_DEB" > /dev/null \
-        && echo "NVIM version: $(/usr/bin/nvim --version | grep -m 1 NVIM | awk -v COLOR="$RED" -v NC="$NC" '{print COLOR $2 NC}')"
-    popd > /dev/null || return
-}
-
 # Read man pages with neovim
 nvim_man_pager() {
     if (/usr/bin/man "$1" > /dev/null 2>&1) then
