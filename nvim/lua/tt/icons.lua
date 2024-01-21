@@ -73,6 +73,7 @@ local misc = {
     ArrowExpanded = "",
     ArrowExpandedSmall = "",
     ArrowRight = "➜",
+    ArrowSouthWest = "",
     BigCircle = "",
     BigUnfilledCircle = "",
     Branch = "",

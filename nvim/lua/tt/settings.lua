@@ -113,13 +113,18 @@ opt.listchars = {
 opt.scrolloff = 5
 
 -- This sets the folding method, the default markers are {{{  }}}
-opt.foldmethod = "marker"
-
--- Set fold enabled
-opt.foldenable = true
+opt.foldmethod = "manual"
 
 -- Foldopen dictates how folds open, jump means it will open with 'gg', 'G'
 opt.foldopen = opt.foldopen + "jump"
+
+-- Characters to fill in the various places in the window
+opt.fillchars = {
+    foldopen = "",
+    foldclose = "",
+    fold = " ",
+    foldsep = " ",
+}
 
 -- Enable mouse support
 opt.mouse = "a"

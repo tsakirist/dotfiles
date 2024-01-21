@@ -96,10 +96,21 @@ M.null_ls_sources = {
     },
 }
 
+local function extend_capabilities(capabilities)
+    if vim.F.npcall(require, "ufo") then
+        capabilities.textDocument.foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+        }
+    end
+end
+
 function M.setup()
     local common_opts = {
         capabilities = require("cmp_nvim_lsp").default_capabilities(),
     }
+
+    extend_capabilities(common_opts.capabilities)
 
     for _, server in ipairs(vim.tbl_keys(M.lsp_servers)) do
         local server_opts = vim.tbl_deep_extend("force", common_opts, M.lsp_servers[server])
