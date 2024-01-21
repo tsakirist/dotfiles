@@ -101,18 +101,3 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave"
     end,
     desc = "Automatic toggling between hybrid and absolute line numbers",
 })
-
--- Toggle conceallevel when in insert mode and normal mode
-vim.api.nvim_create_autocmd("InsertEnter", {
-    group = vim.api.nvim_create_augroup("tt.ConcealToggle", { clear = true }),
-    pattern = { "*.md", "*.markdown", "*.json" },
-    command = "setlocal conceallevel=0",
-    desc = "Automatic toggling of conceallevel when in insert/normal mode",
-})
-
-vim.api.nvim_create_autocmd("InsertLeave", {
-    group = vim.api.nvim_create_augroup("tt.ConcealToggle", { clear = false }),
-    pattern = { "*.md", "*.markdown", "*.json" },
-    command = "setlocal conceallevel=2",
-    desc = "Automatic toggling of conceallevel when in insert/normal mode",
-})
