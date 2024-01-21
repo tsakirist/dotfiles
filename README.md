@@ -52,7 +52,8 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   ├── extensions.lua
 │       │   │   ├── init.lua
 │       │   │   ├── keymaps.lua
-│       │   │   └── pickers.lua
+│       │   │   ├── pickers.lua
+│       │   │   └── previewers.lua
 │       │   ├── barbecue.lua
 │       │   ├── bufferline.lua
 │       │   ├── comment.lua

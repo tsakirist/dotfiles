@@ -1,3 +1,5 @@
+local M = {}
+
 local actions = require "telescope.actions"
 local actions_state = require "telescope.actions.state"
 local builtin = require "telescope.builtin"
@@ -5,9 +7,32 @@ local config = require("telescope.config").values
 local finders = require "telescope.finders"
 local make_entry = require "telescope.make_entry"
 local pickers = require "telescope.pickers"
+local previewers = require("tt._plugins.telescope.previewers").previewers
 local themes = require "telescope.themes"
 
-local M = {}
+--- Custom pickers configuration.
+M.pickers = {
+    find_files = {
+        follow = true, -- Follow synbolic links
+        hidden = true, -- Show hidden files
+        no_ignore = true, -- Show files that are ignored by git
+    },
+    colorscheme = {
+        enable_preview = true,
+    },
+    git_commits = {
+        previewer = previewers.delta,
+    },
+    git_bcommits = {
+        previewer = previewers.delta,
+    },
+    git_status = {
+        previewer = previewers.delta,
+    },
+    git_stash = {
+        previewer = previewers.delta,
+    },
+}
 
 --- Custom pickers which operate in nvim config.
 ---@param action string: The action to perform ('find_files', 'live_grep').

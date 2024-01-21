@@ -5,7 +5,7 @@ local actions_layout = require "telescope.actions.layout"
 local telescope_config = require "telescope.config"
 local trouble = require "trouble.providers.telescope"
 
---- Extend default telescope vimgrep_arguments
+--- Extend default telescope vimgrep_arguments.
 local function extended_vimgrep_arguments()
     local vimgrep_arguments = telescope_config.values.vimgrep_arguments
     table.insert(vimgrep_arguments, "--follow")
@@ -69,16 +69,7 @@ function M.setup()
                 },
             },
         },
-        pickers = {
-            find_files = {
-                follow = true, -- Follow synbolic links
-                hidden = true, -- Show hidden files
-                no_ignore = true, -- Show files that are ignored by git
-            },
-            colorscheme = {
-                enable_preview = true,
-            },
-        },
+        pickers = require("tt._plugins.telescope.pickers").pickers,
         extensions = require("tt._plugins.telescope.extensions").extensions,
     }
 
