@@ -24,76 +24,76 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 ```bash
 ./
 ├── lua/
-│   └── tt/
-│       ├── _plugins/
-│       │   ├── git/
-│       │   │   ├── diffview.lua
-│       │   │   ├── git-conflict.lua
-│       │   │   ├── gitlinker.lua
-│       │   │   ├── git-messenger.lua
-│       │   │   └── gitsigns.lua
-│       │   ├── lsp/
-│       │   │   ├── config/
-│       │   │   │   ├── attach.lua
-│       │   │   │   ├── format.lua
-│       │   │   │   ├── handlers.lua
-│       │   │   │   ├── highlight.lua
-│       │   │   │   ├── init.lua
-│       │   │   │   ├── inlay_hints.lua
-│       │   │   │   ├── keymaps.lua
-│       │   │   │   └── servers.lua
-│       │   │   ├── lsp-saga.lua
-│       │   │   ├── mason.lua
-│       │   │   ├── null-ls.lua
-│       │   │   ├── nvim-navbuddy.lua
-│       │   │   └── nvim-navic.lua
-│       │   ├── telescope/
-│       │   │   ├── commands.lua
-│       │   │   ├── extensions.lua
-│       │   │   ├── init.lua
-│       │   │   ├── keymaps.lua
-│       │   │   ├── pickers.lua
-│       │   │   └── previewers.lua
-│       │   ├── barbecue.lua
-│       │   ├── bufferline.lua
-│       │   ├── comment.lua
-│       │   ├── cybu.lua
-│       │   ├── dressing.lua
-│       │   ├── flash.lua
-│       │   ├── hydra.lua
-│       │   ├── indent-blankline.lua
-│       │   ├── lualine.lua
-│       │   ├── mini-indentscope.lua
-│       │   ├── neogen.lua
-│       │   ├── neo-tree.lua
-│       │   ├── nightfox.lua
-│       │   ├── noice.lua
-│       │   ├── notify.lua
-│       │   ├── numb.lua
-│       │   ├── nvim-autopairs.lua
-│       │   ├── nvim-cmp.lua
-│       │   ├── nvim-surround.lua
-│       │   ├── nvim-ufo.lua
-│       │   ├── smart-splits.lua
-│       │   ├── spectre.lua
-│       │   ├── startify.lua
-│       │   ├── syntax-tree-surfer.lua
-│       │   ├── toggleterm.lua
-│       │   ├── treesitter.lua
-│       │   ├── treesj.lua
-│       │   ├── trouble.lua
-│       │   └── zen-mode.lua
-│       ├── abbreviations.lua
-│       ├── autocommands.lua
-│       ├── globals.lua
-│       ├── helper.lua
-│       ├── icons.lua
-│       ├── init.lua
-│       ├── lazy.lua
-│       ├── mappings.lua
-│       ├── plugins.lua
-│       ├── settings.lua
-│       └── utils.lua
+│   └── tt/
+│       ├── _plugins/
+│       │   ├── git/
+│       │   │   ├── diffview.lua
+│       │   │   ├── git-conflict.lua
+│       │   │   ├── gitlinker.lua
+│       │   │   ├── git-messenger.lua
+│       │   │   └── gitsigns.lua
+│       │   ├── lsp/
+│       │   │   ├── config/
+│       │   │   │   ├── attach.lua
+│       │   │   │   ├── format.lua
+│       │   │   │   ├── handlers.lua
+│       │   │   │   ├── highlight.lua
+│       │   │   │   ├── init.lua
+│       │   │   │   ├── inlay_hints.lua
+│       │   │   │   ├── keymaps.lua
+│       │   │   │   └── servers.lua
+│       │   │   ├── lsp-saga.lua
+│       │   │   ├── mason.lua
+│       │   │   ├── null-ls.lua
+│       │   │   ├── nvim-navbuddy.lua
+│       │   │   └── nvim-navic.lua
+│       │   ├── telescope/
+│       │   │   ├── commands.lua
+│       │   │   ├── extensions.lua
+│       │   │   ├── init.lua
+│       │   │   ├── keymaps.lua
+│       │   │   ├── pickers.lua
+│       │   │   └── previewers.lua
+│       │   ├── barbecue.lua
+│       │   ├── bufferline.lua
+│       │   ├── comment.lua
+│       │   ├── cybu.lua
+│       │   ├── dressing.lua
+│       │   ├── flash.lua
+│       │   ├── hydra.lua
+│       │   ├── indent-blankline.lua
+│       │   ├── lualine.lua
+│       │   ├── mini-indentscope.lua
+│       │   ├── neogen.lua
+│       │   ├── neo-tree.lua
+│       │   ├── nightfox.lua
+│       │   ├── noice.lua
+│       │   ├── notify.lua
+│       │   ├── numb.lua
+│       │   ├── nvim-autopairs.lua
+│       │   ├── nvim-cmp.lua
+│       │   ├── nvim-surround.lua
+│       │   ├── nvim-ufo.lua
+│       │   ├── smart-splits.lua
+│       │   ├── spectre.lua
+│       │   ├── startify.lua
+│       │   ├── syntax-tree-surfer.lua
+│       │   ├── toggleterm.lua
+│       │   ├── treesitter.lua
+│       │   ├── treesj.lua
+│       │   ├── trouble.lua
+│       │   └── zen-mode.lua
+│       ├── abbreviations.lua
+│       ├── autocommands.lua
+│       ├── globals.lua
+│       ├── helper.lua
+│       ├── icons.lua
+│       ├── init.lua
+│       ├── lazy.lua
+│       ├── mappings.lua
+│       ├── plugins.lua
+│       ├── settings.lua
+│       └── utils.lua
 ├── init.lua
 └── lazy-lock.json
 ```
