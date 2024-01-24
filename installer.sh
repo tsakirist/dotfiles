@@ -572,6 +572,15 @@ function _lazygit() {
     popd > /dev/null || return
 }
 
+function _lazygit_config() {
+    local file="lazygit/config.yml"
+    _check_file "$file"
+    _print s "lazygit config"
+    local destination="$HOME/.config/lazygit"
+    _create_dir_if_not_exists "$destination"
+    ln -sv --backup=numbered "${SCRIPT_DIR}/$file" "$destination/$(basename $file)"
+}
+
 function _vm_swappiness() {
     local value=10
     local file="/etc/sysctl.conf"
@@ -633,6 +642,7 @@ pkgs=(
     "    kitty configuration"
     "    git config"
     "    bat config"
+    "    lazygit config"
     "    fzf: fuzzy finder"
     "    fzf configuration"
     "    fd: improved version of find"
@@ -675,6 +685,7 @@ pkgs_functions=(
     _kitty_config
     _git_config
     _bat_config
+    _lazygit_config
     _fzf
     _fzf_config
     _fd
