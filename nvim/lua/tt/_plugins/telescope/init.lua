@@ -1,9 +1,9 @@
-local M = {}
-
 local actions = require "telescope.actions"
 local actions_layout = require "telescope.actions.layout"
 local telescope_config = require "telescope.config"
 local trouble = require "trouble.providers.telescope"
+
+local M = {}
 
 --- Extend default telescope vimgrep_arguments.
 local function extended_vimgrep_arguments()

@@ -1,5 +1,3 @@
-local M = {}
-
 local actions = require "telescope.actions"
 local actions_state = require "telescope.actions.state"
 local builtin = require "telescope.builtin"
@@ -9,6 +7,8 @@ local make_entry = require "telescope.make_entry"
 local pickers = require "telescope.pickers"
 local previewers = require("tt._plugins.telescope.previewers").previewers
 local themes = require "telescope.themes"
+
+local M = {}
 
 --- Custom pickers configuration.
 M.pickers = {

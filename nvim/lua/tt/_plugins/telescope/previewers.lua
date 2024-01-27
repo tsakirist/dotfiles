@@ -1,6 +1,6 @@
-local M = {}
-
 local previewers = require "telescope.previewers"
+
+local M = {}
 
 --- Custom previewers that can be used for telescope actions.
 M.previewers = {
