@@ -3,8 +3,8 @@ local M = {}
 function M.setup()
     require("nvim-surround").setup {
         keymaps = {
-            insert = "<C-g>s",
-            insert_line = "<C-g>S",
+            insert = false,
+            insert_line = false,
             normal = "ys",
             normal_cur = "yss",
             normal_line = "yS",
