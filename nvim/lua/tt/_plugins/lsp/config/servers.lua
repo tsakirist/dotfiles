@@ -77,6 +77,7 @@ M.lsp_servers = {
             },
         },
     },
+    yamlls = {},
 }
 
 -- List of sources for null_ls
