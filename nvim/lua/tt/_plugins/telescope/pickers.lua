@@ -72,7 +72,7 @@ function M.find_sessions(opts)
     --- Calls 'SDelete' on the selected session.
     local function delete_session()
         local filename = get_session_name()
-        vim.cmd.SDelete { filename, bang = false }
+        vim.cmd.SDelete { filename, bang = true }
     end
 
     --- Path where Startify stores saved sessions.
