@@ -8,8 +8,8 @@
 vim.api.nvim_create_autocmd("BufEnter", {
     group = vim.api.nvim_create_augroup("tt.FormatOptions", { clear = true }),
     pattern = "*",
-    desc = "Format options configuration",
     command = "setlocal fo+=t fo-=r fo-=l fo-=o fo+=q fo+=j",
+    desc = "Format options configuration",
 })
 
 -- Remove trailing whitespaces on write
@@ -100,4 +100,16 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave"
         end
     end,
     desc = "Automatic toggling between hybrid and absolute line numbers",
+})
+
+-- Enable conceallevel only when previewing files in Telescope
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("tt.Conceal", { clear = true }),
+    pattern = "TelescopePrompt",
+    callback = function()
+        local telescope_utils = require "tt._plugins.telescope.utils"
+        local preview_window = telescope_utils.get_picker_preview_window()
+        vim.api.nvim_set_option_value("conceallevel", 2, { win = preview_window })
+    end,
+    desc = "Set conceallevel only for the current Telescope preview window",
 })
