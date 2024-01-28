@@ -1,9 +1,3 @@
---- Prints the supplied value.
----@param value any: The value to be printed.
-function _G.Print(value)
-    vim.print(value)
-end
-
 -- Create a wrapper for nvim-web-devicons.
 ---@param path string: The path for the requested icon.
 ---@return any
@@ -23,7 +17,10 @@ end
 ---@return boolean
 function _G.IsWSL()
     local output = vim.fn.systemlist "uname -r"
-    return not not string.find(output[1] or "", "WSL") or string.find(output[1] or "", "Microsoft")
+    if not output then
+        return false
+    end
+    return not (not string.find(output[1] or "", "WSL") or string.find(output[1] or "", "Microsoft"))
 end
 
 --- Exports the currently used colorscheme to kitty.
