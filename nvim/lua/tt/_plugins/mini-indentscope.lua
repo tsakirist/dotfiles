@@ -4,17 +4,7 @@ function M.init()
     -- Disable the plugin for the following filetypes
     vim.api.nvim_create_autocmd("FileType", {
         group = vim.api.nvim_create_augroup("tt.MiniIndentscope", { clear = true }),
-        pattern = {
-            "Trouble",
-            "gitcommit",
-            "help",
-            "lazy",
-            "lspinfo",
-            "lspsagafinder",
-            "mason",
-            "neo-tree",
-            "startify",
-        },
+        pattern = require("tt.common").ignored_filetypes,
         callback = function()
             vim.b.miniindentscope_disable = true
         end,

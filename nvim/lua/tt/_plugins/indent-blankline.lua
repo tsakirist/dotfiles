@@ -14,15 +14,7 @@ function M.setup()
         show_current_context_start = false, -- Apply highlighting to the first line of current cnotext, by default will 'underline'
         show_current_context_start_on_current_line = false, -- Show context_start even when cursor is on the same line
         buftype_exclude = { "terminal" }, -- Specifies a list of buftype values for which this plugin is not enabled
-        filetype_exclude = { -- Specifies a list of filetype values for which this plugin is not enabled
-            "gitcommit",
-            "git",
-            "help",
-            "mason",
-            "neo-tree-popup",
-            "noice",
-            "startify",
-        },
+        filetype_exclude = require("tt.common").ignored_filetypes, -- Specifies a list of filetype values for which this plugin is not enabled
         context_patterns = { -- Specifies a list of lua patterns that are used to match against treesitter
             "class",
             "function",

@@ -87,6 +87,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   └── zen-mode.lua
 │       ├── abbreviations.lua
 │       ├── autocommands.lua
+│       ├── common.lua
 │       ├── globals.lua
 │       ├── helper.lua
 │       ├── icons.lua

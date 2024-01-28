@@ -32,22 +32,11 @@ end
 local function set_autocommands()
     vim.api.nvim_create_autocmd("FileType", {
         group = vim.api.nvim_create_augroup("tt.Ufo", { clear = true }),
-        pattern = {
-            "Trouble",
-            "help",
-            "help",
-            "lazy",
-            "lspinfo",
-            "lspsagafinder",
-            "markdown",
-            "mason",
-            "neo-tree",
-            "startify",
-        },
+        pattern = require("tt.common").ignored_filetypes,
         callback = function()
             require("ufo").detach()
         end,
-        desc = "Exclude Ufo on certain filetypes",
+        desc = "Exclude UFO on certain filetypes",
     })
 end
 

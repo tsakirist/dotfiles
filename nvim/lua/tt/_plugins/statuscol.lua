@@ -19,6 +19,7 @@ function M.setup()
                 click = "v:lua.ScSa",
             },
         },
+        ft_ignore = require("tt.common").ignored_filetypes,
     }
 end
 
