@@ -45,9 +45,11 @@ local function setup_diagnostics()
     local function toggle_diagnostics(opts)
         local current_buffer_only = opts.args ~= ""
         local args = current_buffer_only and 0 or nil
-        local diagnostic_toggle = diagnostics_enabled and vim.diagnostic.disable or vim.diagnostic.enable
 
+        local diagnostic_toggle = diagnostics_enabled and vim.diagnostic.disable or vim.diagnostic.enable
         diagnostic_toggle(args)
+        diagnostics_enabled = not diagnostics_enabled
+
         diagnostics_notification = vim.notify(
             string.format(
                 "Diagnostics %s %s!",
@@ -63,7 +65,6 @@ local function setup_diagnostics()
                 end,
             }
         )
-        diagnostics_enabled = not diagnostics_enabled
     end
 
     -- Add a command to toggle the diagnostics
