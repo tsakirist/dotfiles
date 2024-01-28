@@ -615,12 +615,6 @@ return {
         end,
     },
 
-    -- Create arbitrary keymap layers
-    {
-        "anuvyklack/keymap-layer.nvim",
-        event = "BufReadPre",
-    },
-
     -- Create custom submodes and menus
     {
         "anuvyklack/hydra.nvim",
@@ -659,6 +653,12 @@ return {
         end,
     },
 
+    -- Create arbitrary keymap layers
+    {
+        "anuvyklack/keymap-layer.nvim",
+        event = "BufReadPre",
+    },
+
     -- Resize windows easily
     {
         "mrjones2014/smart-splits.nvim",
@@ -672,6 +672,7 @@ return {
             "<C-w>j",
             "<C-w>l",
         },
+        dependencies = "anuvyklack/keymap-layer.nvim",
         config = function()
             require("tt._plugins.smart-splits").setup()
         end,
