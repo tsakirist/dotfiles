@@ -315,15 +315,7 @@ return {
                 "luukvbaal/statuscol.nvim",
                 branch = "0.10",
                 config = function()
-                    local builtin = require "statuscol.builtin"
-                    require("statuscol").setup {
-                        relculright = true,
-                        segments = {
-                            { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
-                            { text = { "%s" }, click = "v:lua.ScSa" },
-                            { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
-                        },
-                    }
+                    require("tt._plugins.statuscol").setup()
                 end,
             },
         },
