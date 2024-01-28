@@ -128,7 +128,7 @@ return {
         -- Render LSP diagnostics using virtual lines
         {
             url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-            keys = "<leader>lt",
+            keys = "<leader>ll",
             config = function()
                 require("lsp_lines").setup()
                 local utils = require "tt.utils"
