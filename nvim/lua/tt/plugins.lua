@@ -609,7 +609,7 @@ return {
 
     -- Create custom submodes and menus
     {
-        "anuvyklack/hydra.nvim",
+        "nvimtools/hydra.nvim",
         keys = {
             "<leader>gg",
             "<leader>w",
