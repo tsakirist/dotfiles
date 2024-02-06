@@ -160,6 +160,16 @@ return {
                 utils.map("n", "<F2>", rename, opts)
             end,
         },
+        -- File operations using LSP
+        {
+            "antosha417/nvim-lsp-file-operations",
+            event = "LspAttach",
+            requires = {
+                "nvim-lua/plenary.nvim",
+                "nvim-neo-tree/neo-tree.nvim",
+            },
+            config = true,
+        },
         -- Show current code context
         {
             "SmiteshP/nvim-navic",
@@ -494,12 +504,12 @@ return {
     -- File explorer tree
     {
         "nvim-neo-tree/neo-tree.nvim",
+        branch = "v3.x",
         cmd = "Neotree",
         keys = {
             "<leader>nf",
             "<leader>nt",
         },
-        branch = "v3.x",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-tree/nvim-web-devicons",
