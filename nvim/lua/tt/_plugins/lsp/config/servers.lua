@@ -93,7 +93,6 @@ M.null_ls_sources = {
         luacheck = {
             extra_args = { "--globals", "vim" },
         },
-        markdownlint = {},
     },
 }
 
