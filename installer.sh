@@ -64,13 +64,13 @@ function _create_dir_if_not_exists() {
 }
 
 function _print_cmd_version() {
-    "$1" --version | grep -Po "(\d+\.)?(\d+\.)(\d+)?( ?\(\w+\))?"
+    "$1" --version | grep -m1 -Po "(\d+\.)?(\d+\.)(\d+)?( ?\(\w+\))?"
 }
 
 # Function that takes as argument the author/repo and installs the latest deb
 function _install_latest_deb() {
     local repo="https://api.github.com/repos/$1/releases/latest"
-    local url=$(curl -s "$repo" | grep "browser_download_url" | grep -v "musl" | grep "amd64" | grep "deb" | cut -d '"' -f 4)
+    local url=$(curl -s "$repo" | grep -E 'browser_download_url.*amd64.*\.deb' | grep -vE 'musl|sha256' | cut -d '"' -f 4)
     local filename=$(basename "$url")
     wget -qO /tmp/"$filename" "$url" && sudo dpkg -i /tmp/"$filename" > /dev/null
 }
