@@ -166,6 +166,9 @@ opt.diffopt = opt.diffopt + "linematch:60"
 -- Raise a dialog for certain operations that would normally fail (e.g. unsaved buffer)
 opt.confirm = true
 
+-- Set up the default shell in neovim
+opt.shell = vim.fn.exepath "zsh"
+
 -- Set rg as the grep program
 if vim.fn.executable "rg" then
     opt.grepprg = "rg --vimgrep --no-heading --smart-case"
