@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
     require("cybu").setup {
-        display_time = 750,
+        display_time = 400,
         position = {
             anchor = "center", -- Location of where the popup will open
             relative_to = "editor", -- Popup will open relative to either `win`, `cursor`, or `editor`
