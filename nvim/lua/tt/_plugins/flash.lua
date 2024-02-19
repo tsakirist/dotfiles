@@ -32,7 +32,7 @@ function M.setup()
         flash.treesitter()
     end, { desc = "Flash Treesitter" })
 
-    utils.map("c", "<C-s>", function()
+    utils.map("c", "<M-s>", function()
         flash.toggle()
     end, { desc = "Toggle Flash Search" })
 
