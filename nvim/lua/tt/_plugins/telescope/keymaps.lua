@@ -52,7 +52,7 @@ function M.setup()
 
     utils.map("n", "<leader>fp", extensions.lazy.lazy, { desc = "Search for installed plugins and perform actions" })
     utils.map("n", "<leader>fn", extensions.notify.notify, { desc = "Search for notifications" })
-    utils.map("n", "<leader>fg", extensions.live_grep_args.live_grep_args, { desc = "Live grep with args" })
+    utils.map("n", "<leader>fg", extensions.egrepify.egrepify, { desc = "Live grep with dynamic rg flags" })
 end
 
 return M

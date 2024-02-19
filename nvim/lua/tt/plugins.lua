@@ -415,8 +415,8 @@ return {
         },
         dependencies = {
             { "nvim-lua/plenary.nvim" },
-            { "nvim-telescope/telescope-live-grep-args.nvim" },
             { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+            { "fdschmidt93/telescope-egrepify.nvim" },
             { "tsakirist/telescope-lazy.nvim" },
         },
         config = function()

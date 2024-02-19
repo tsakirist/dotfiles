@@ -1,9 +1,29 @@
 local actions = require "telescope.actions"
-local lga_actions = require "telescope-live-grep-args.actions"
 
 local M = {}
 
 M.extensions = {
+    egrepify = {
+        prefixes = {
+            -- Partial file name filtering
+            ["*"] = {
+                flag = "glob",
+                cb = function(input)
+                    return string.format("*{%s}*", input)
+                end,
+            },
+            -- Partial directory name filtering
+            ["**"] = {
+                flag = "glob",
+                cb = function(input)
+                    return string.format("**/{%s}/**", input)
+                end,
+            },
+            -- Disable default prefixes
+            [">"] = false,
+            ["&"] = false,
+        },
+    },
     fzf = {
         fuzzy = true, -- False will only do exact matching
         override_generic_sorter = true, -- Override the generic sorter
@@ -12,18 +32,6 @@ M.extensions = {
     },
     lazy = {
         theme = "ivy",
-    },
-    live_grep_args = {
-        auto_quoting = true,
-        mappings = {
-            i = {
-                -- This is required to overwirte the default mapping, which forces <C-k> keymapping
-                ["<C-k>"] = actions.move_selection_previous,
-                ["<C-l>"] = lga_actions.quote_prompt(),
-                ["<C-l>g"] = lga_actions.quote_prompt { postfix = " --iglob " },
-                ["<C-l>t"] = lga_actions.quote_prompt { postfix = " -t" },
-            },
-        },
     },
     notify = {},
 }
