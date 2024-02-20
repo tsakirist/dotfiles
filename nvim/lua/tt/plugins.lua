@@ -125,22 +125,6 @@ return {
                 require("tt._plugins.lsp.null-ls").setup()
             end,
         },
-        -- Render LSP diagnostics using virtual lines
-        {
-            url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-            keys = "<leader>ll",
-            config = function()
-                require("lsp_lines").setup()
-                local utils = require "tt.utils"
-                utils.map("n", "<leader>ll", function()
-                    local virtual_lines_enabled = not vim.diagnostic.config().virtual_lines
-                    vim.diagnostic.config {
-                        virtual_lines = virtual_lines_enabled,
-                        virtual_text = not virtual_lines_enabled,
-                    }
-                end, { desc = "Toggle LSP lines" })
-            end,
-        },
         -- Incremental LSP based renaming with command preview
         {
             "smjonas/inc-rename.nvim",
