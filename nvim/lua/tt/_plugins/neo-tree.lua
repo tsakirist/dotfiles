@@ -3,9 +3,6 @@ local M = {}
 function M.setup()
     local icons = require "tt.icons"
 
-    -- Remove deprecated commands
-    vim.g.neo_tree_remove_legacy_commands = 1
-
     require("neo-tree").setup {
         close_if_last_window = true,
         popup_border_style = "rounded",
@@ -44,10 +41,17 @@ function M.setup()
                 ["C"] = "close_node",
                 ["R"] = "refresh",
                 ["Z"] = "close_all_nodes",
-                ["?"] = "none",
                 ["g?"] = "show_help",
                 ["<"] = "prev_source",
                 [">"] = "next_source",
+                ["?"] = "none",
+                ["oc"] = "none",
+                ["od"] = "none",
+                ["og"] = "none",
+                ["om"] = "none",
+                ["on"] = "none",
+                ["os"] = "none",
+                ["ot"] = "none",
             },
         },
         default_component_configs = {
@@ -98,7 +102,9 @@ function M.setup()
                 enabled = false,
             },
         },
-        nesting_rules = {},
+        sources = {
+            "filesystem",
+        },
         filesystem = {
             filtered_items = {
                 visible = false, -- When true, they will just be displayed differently than normal items
@@ -117,7 +123,6 @@ function M.setup()
             group_empty_dirs = false, -- When true, empty folders will be grouped together
             use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes, instead of autocmds
             hijack_netrw_behavior = "open_default",
-
             window = {
                 mappings = {
                     ["-"] = "navigate_up",
@@ -126,30 +131,6 @@ function M.setup()
                     ["f"] = "filter_on_submit",
                     ["/"] = "none",
                     ["<M-l>"] = "clear_filter",
-                },
-            },
-        },
-        buffers = {
-            show_unloaded = true,
-            window = {
-                mappings = {
-                    ["-"] = "navigate_up",
-                    ["."] = "set_root",
-                    ["bd"] = "buffer_delete",
-                },
-            },
-        },
-        git_status = {
-            window = {
-                position = "float",
-                mappings = {
-                    ["A"] = "git_add_all",
-                    ["gu"] = "git_unstage_file",
-                    ["ga"] = "git_add_file",
-                    ["gr"] = "git_revert_file",
-                    ["gc"] = "git_commit",
-                    ["gp"] = "git_push",
-                    ["gg"] = "git_commit_and_push",
                 },
             },
         },
