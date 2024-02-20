@@ -109,7 +109,19 @@ function M.setup()
             { name = "nvim_lua" },
             { name = "luasnip" },
             { name = "path" },
-            { name = "buffer" },
+            {
+                name = "buffer",
+                option = {
+                    -- Use all visible buffers for suggestions
+                    get_bufnrs = function()
+                        local bufs = {}
+                        for _, win in ipairs(vim.api.nvim_list_wins()) do
+                            table.insert(bufs, vim.api.nvim_win_get_buf(win))
+                        end
+                        return bufs
+                    end,
+                },
+            },
         },
     }
 end
