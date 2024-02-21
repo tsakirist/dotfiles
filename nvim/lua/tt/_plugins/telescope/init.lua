@@ -54,6 +54,7 @@ function M.setup()
                     ["<C-Up>"] = actions.cycle_history_prev,
                     ["<C-h>"] = actions.preview_scrolling_left,
                     ["<C-l>"] = actions.preview_scrolling_right,
+                    ["<C-c>"] = actions.complete_tag,
                     ["<M-h>"] = actions.results_scrolling_left,
                     ["<M-l>"] = actions.results_scrolling_right,
                     ["<M-m>"] = actions_layout.toggle_mirror,
