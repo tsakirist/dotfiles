@@ -131,5 +131,8 @@ kitty + complete setup zsh | source /dev/stdin
 bindkey -s '' 'foc\n'
 bindkey -s '' 'frg\n'
 
+# Setup the path for ripgrep configuration
+export RIPGREP_CONFIG_PATH="$HOME/.config/rg/config"
+
 # Add ~/.local/bin to PATH
 export PATH="$HOME/.local/bin:$PATH"

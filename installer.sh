@@ -452,7 +452,15 @@ function _bat_config() {
     _print s "bat config"
     local destination="$HOME/.config/bat"
     _create_dir_if_not_exists "$destination"
-    ln -sv --backup=numbered "${SCRIPT_DIR}/bat/config" "$destination/config"
+    ln -sv --backup=numbered "${SCRIPT_DIR}/bat/config" "${destination}/config"
+}
+
+function _rg_config() {
+    _check_file rg/config
+    _print s "ripgrep config"
+    local destination="$HOME/.config/rg"
+    _create_dir_if_not_exists "$destination"
+    ln -sv --backup=numbered "${SCRIPT_DIR}/rg/config" "${destination}/config"
 }
 
 function _kitty() {
@@ -647,6 +655,7 @@ pkgs=(
     "    fzf configuration"
     "    fd: improved version of find"
     "    rg: ripgrep recursive search for a pattern in files"
+    "    rg configuration"
     "    bat: a cat clone with syntax highlighting"
     "    delta: a better viewer for git and diff output"
     "    lazygit: a simple terminal UI for git commands"
@@ -690,6 +699,7 @@ pkgs_functions=(
     _fzf_config
     _fd
     _rg
+    _rg_config
     _bat
     _delta
     _lazygit
