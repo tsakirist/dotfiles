@@ -325,43 +325,6 @@ function _nvim_config() {
     /usr/bin/env nvim --headless -c "Lazy! sync" -c "quitall"
 }
 
-function _shellcheck() {
-    _print i "shellcheck" ": Shell script static analysis tool - linter"
-    _install shellcheck
-}
-
-function _shfmt() {
-    _print i "shfmt" ": Shell formatter"
-    # TODO: Since this logic is repeating extract only the url logic to a function?
-    # Download latest zip from GitHub releases
-    local repo="https://api.github.com/repos/mvdan/sh/releases/latest"
-    local url=$(curl -s "$repo" | grep "browser_download_url" | grep "linux" | grep "amd64" | cut -d '"' -f 4)
-    local download_dir=$(mktemp -d)
-    local filename=$(basename "$url")
-    local file="$download_dir/$filename"
-    wget -qO "$file" "$url" && chmod u+x "$file" && sudo mv "$file" /usr/local/bin/shfmt
-}
-
-function _luacheck() {
-    _print i "luacheck" ": Static analysis tool and linter for Lua"
-    _install lua-check
-}
-
-function _stylua() {
-    _print i "stylua" ": An opiniated Lua formatter"
-    # Check dependencies
-    _check_command unzip
-    # TODO: Since this logic is repeating extract only the url logic to a function?
-    # Download latest zip from GitHub releases
-    local repo="https://api.github.com/repos/JohnnyMorganz/StyLua/releases/latest"
-    local url=$(curl -s "$repo" | grep "browser_download_url" | grep "linux-x86_64" | cut -d '"' -f 4)
-    local download_dir=$(mktemp -d)
-    local filename=$(basename "$url")
-    local file="$download_dir/stylua"
-    wget -qO "$download_dir/$filename" "$url" && unzip -q "$download_dir/$filename" -d "$download_dir"
-    [ -f "$file" ] && chmod u+x "$file" && sudo mv "$file" /usr/local/bin
-}
-
 function _neofetch() {
     _print i "neofetch" ": a command-line system information tool"
     _install neofetch
@@ -648,22 +611,18 @@ pkgs=(
     "    nvim configuration"
     "    kitty: the fast, featureful, GPU based terminal emulator"
     "    kitty configuration"
-    "    git config"
-    "    bat config"
-    "    lazygit config"
     "    fzf: fuzzy finder"
     "    fzf configuration"
     "    fd: improved version of find"
     "    rg: ripgrep recursive search for a pattern in files"
     "    rg configuration"
     "    bat: a cat clone with syntax highlighting"
+    "    bat configuration"
     "    delta: a better viewer for git and diff output"
     "    lazygit: a simple terminal UI for git commands"
+    "    lazygit configuration"
+    "    git configuration"
     "    glow: markdown renderer for the terminal"
-    "    shfmt: shell formatter"
-    "    shellcheck: shell static analysis tool"
-    "    stylua: an opiniated Lua formatter"
-    "    luacheck: lua static analysis tool"
     "    node: asyncrhonous event-driven JavaScript runtime"
     "    xprofile"
     "    xclip"
@@ -692,22 +651,18 @@ pkgs_functions=(
     _nvim_config
     _kitty
     _kitty_config
-    _git_config
-    _bat_config
-    _lazygit_config
     _fzf
     _fzf_config
     _fd
     _rg
     _rg_config
     _bat
+    _bat_config
     _delta
     _lazygit
+    _lazygit_config
+    _git_config
     _glow
-    _shfmt
-    _shellcheck
-    _stylua
-    _luacheck
     _node
     _x_profile
     _xclip
@@ -728,9 +683,13 @@ pkgs_functions=(
 dotfiles_functions=(
     _zsh_config
     _bash_config
-    _fzf_config
-    _nvim_config
     _kitty_config
+    _nvim_config
+    _fzf_config
+    _bat_config
+    _rg_config
+    _lazygit_config
+    _git_config
     _x_profile
 )
 
