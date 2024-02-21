@@ -4,6 +4,7 @@ local M = {}
 
 M.extensions = {
     egrepify = {
+        permutations = true,
         prefixes = {
             -- Partial file name filtering
             ["*"] = {

@@ -77,9 +77,10 @@ function M.setup()
         extensions = require("tt._plugins.telescope.extensions").extensions,
     }
 
-    require("tt._plugins.telescope.extensions").setup()
-    require("tt._plugins.telescope.keymaps").setup()
-    require("tt._plugins.telescope.commands").setup()
+    local modules = { "commands", "extensions", "keymaps" }
+    for _, module in ipairs(modules) do
+        require("tt._plugins.telescope." .. module).setup()
+    end
 end
 
 return M
