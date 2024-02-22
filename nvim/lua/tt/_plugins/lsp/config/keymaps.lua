@@ -17,20 +17,15 @@ local function hover_on_new_window()
             return
         end
 
-        local markdown_lines =
-            vim.lsp.util.trim_empty_lines(vim.lsp.util.convert_input_to_markdown_lines(result.contents))
-
-        -- No information available
-        if vim.tbl_isempty(markdown_lines) then
-            return
-        end
+        local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
 
         -- Open an new window with the hover information
         vim.cmd.new()
-        vim.api.nvim_buf_set_option(0, "filetype", "markdown")
-        vim.api.nvim_buf_set_option(0, "buftype", "nofile")
-        vim.api.nvim_buf_set_option(0, "buflisted", false)
+        vim.api.nvim_set_option_value("filetype", "markdown", { scope = "local" })
+        vim.api.nvim_set_option_value("buftype", "nofile", { scope = "local" })
+        vim.api.nvim_set_option_value("buflisted", false, { scope = "local" })
         vim.api.nvim_buf_set_lines(0, 0, -1, false, markdown_lines)
+
         utils.map("n", "q", "<C-w>c", { buffer = true })
     end)
 end
