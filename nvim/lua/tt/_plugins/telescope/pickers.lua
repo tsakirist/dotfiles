@@ -2,6 +2,7 @@ local actions = require "telescope.actions"
 local actions_state = require "telescope.actions.state"
 local builtin = require "telescope.builtin"
 local config = require("telescope.config").values
+local extensions = require("telescope").extensions
 local finders = require "telescope.finders"
 local make_entry = require "telescope.make_entry"
 local pickers = require "telescope.pickers"
@@ -43,8 +44,8 @@ function M.action_in_nvim_config(action)
             prompt_title = string.format("Find files (%s)", path),
             cwd = path,
         }
-    else
-        builtin.live_grep {
+    elseif action == "live_grep" then
+        extensions.egrepify.egrepify {
             prompt_title = string.format("Grep files (%s)", path),
             cwd = path,
         }

@@ -28,13 +28,21 @@ function M.setup()
     utils.map("n", "<leader>fh", function()
         builtin.help_tags { layout_strategy = "vertical" }
     end, { desc = "Search help tags" })
+
     utils.map("n", "<leader>fl", function()
-        builtin.current_buffer_fuzzy_find { layout_strategy = "vertical" }
-    end, { desc = "Fuzzy search current buffer" })
+        builtin.current_buffer_fuzzy_find {
+            layout_strategy = "center",
+            previewer = false,
+        }
+    end, { desc = "Search current buffer" })
 
     utils.map("n", "<leader>fm", function()
         builtin.keymaps(themes.get_ivy())
     end, { desc = "List keymaps" })
+
+    utils.map("n", "<leader>fG", function()
+        extensions.egrepify.egrepify { prompt_title = "Live grep in open buffers", grep_open_files = true }
+    end, { desc = "Live grep in open buffers" })
 
     utils.map("n", "<leader>fC", function()
         builtin.colorscheme(themes.get_ivy { layout_config = { height = 0.2 } })
@@ -52,7 +60,7 @@ function M.setup()
 
     utils.map("n", "<leader>fp", extensions.lazy.lazy, { desc = "Search for installed plugins and perform actions" })
     utils.map("n", "<leader>fn", extensions.notify.notify, { desc = "Search for notifications" })
-    utils.map("n", "<leader>fg", extensions.egrepify.egrepify, { desc = "Live grep with dynamic rg flags" })
+    utils.map("n", "<leader>fg", extensions.egrepify.egrepify, { desc = "Live grep" })
 end
 
 return M

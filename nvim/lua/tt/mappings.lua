@@ -94,7 +94,7 @@ utils.map({ "n", "v" }, "<Down>", "<Cmd>echoe 'Use j'<CR>")
 
 -- Clear highlighting with escape when in normal mode
 -- https://stackoverflow.com/a/1037182/6654329
-utils.map("n", "<Esc>", "<Cmd>noh<return><Esc>")
+utils.map("n", "<Esc>", "<Cmd>noh<CR><Esc>")
 utils.map("n", "<Esc>^[", "<Esc>^[")
 
 -- Whole-word search
