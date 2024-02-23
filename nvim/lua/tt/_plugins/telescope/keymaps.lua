@@ -40,7 +40,7 @@ function M.setup()
         builtin.keymaps(themes.get_ivy())
     end, { desc = "List keymaps" })
 
-    utils.map("n", "<leader>fG", function()
+    utils.map("n", "<leader>gb", function()
         extensions.egrepify.egrepify { prompt_title = "Live grep in open buffers", grep_open_files = true }
     end, { desc = "Live grep in open buffers" })
 

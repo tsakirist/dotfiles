@@ -50,7 +50,7 @@ function M.setup()
             local function map(mode, lhs, rhs, opts)
                 opts = opts or {}
                 opts.buffer = bufnr
-                vim.keymap.set(mode, lhs, rhs, opts)
+                require("tt.utils").map(mode, lhs, rhs, opts)
             end
 
             local function visual_operation(operator)
@@ -97,7 +97,7 @@ function M.setup()
             end, { desc = "Perform a vimdiff on the given file" })
 
             -- Toggling options
-            map("n", "<leader>gb", gitsigns.toggle_current_line_blame)
+            map("n", "<leader>gB", gitsigns.toggle_current_line_blame)
             map("n", "<leader>gh", gitsigns.toggle_linehl)
             map("n", "<leader>gn", gitsigns.toggle_numhl)
             map("n", "<leader>gs", gitsigns.toggle_signs)

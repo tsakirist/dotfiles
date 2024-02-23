@@ -395,6 +395,7 @@ return {
         keys = {
             "<leader>f",
             "<leader>T",
+            "<leader>gb",
             "<leader>gv",
         },
         dependencies = {
