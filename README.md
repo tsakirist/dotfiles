@@ -98,7 +98,9 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       ├── settings.lua
 │       └── utils.lua
 ├── init.lua
-└── lazy-lock.json
+├── lazy-lock.json
+├── neovim.toml
+└── selene.toml
 ```
 
 <h2 align="center">Installer</h2>

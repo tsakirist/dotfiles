@@ -27,12 +27,6 @@ M.lsp_servers = {
                 runtime = {
                     version = "LuaJIT",
                 },
-                diagnostics = {
-                    globals = {
-                        "vim",
-                        "jit",
-                    },
-                },
                 hint = {
                     enable = true,
                     arrayIndex = "Disable", -- "Enable", "Auto", "Disable"
@@ -90,9 +84,7 @@ M.null_ls_sources = {
         stylua = {},
     },
     diagnostics = {
-        luacheck = {
-            extra_args = { "--globals", "vim" },
-        },
+        selene = {},
     },
 }
 

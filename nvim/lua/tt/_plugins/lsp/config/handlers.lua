@@ -1,6 +1,6 @@
 local M = {}
 
-local function setup_diagnostics()
+local function setup_diagnostics_config()
     local icons = require "tt.icons"
 
     vim.diagnostic.config {
@@ -35,7 +35,9 @@ local function setup_diagnostics()
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
+end
 
+local function setup_diagnostics_toggle()
     --- The record of the last displayed notification
     local diagnostics_notification = nil
     local diagnostics_enabled = true
@@ -72,6 +74,23 @@ local function setup_diagnostics()
         desc = "Toggles diagnostics on and off, for all/current buffer(s)",
         nargs = "?",
     })
+end
+
+local function setup_diagnostics_handler()
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(function(_, result, context, config)
+        -- Filter out all diagnostics from Lua_ls. We use selene for that now
+        local function filter_diagnostics(diagnostic)
+            return not diagnostic.source:match "Lua"
+        end
+        result.diagnostics = vim.tbl_filter(filter_diagnostics, result.diagnostics)
+        vim.lsp.diagnostic.on_publish_diagnostics(_, result, context, config)
+    end, {})
+end
+
+local function setup_diagnostics()
+    setup_diagnostics_config()
+    setup_diagnostics_toggle()
+    setup_diagnostics_handler()
 end
 
 local function setup_hover()
