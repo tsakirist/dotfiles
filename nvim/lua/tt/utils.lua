@@ -13,20 +13,14 @@ function M.map(mode, lhs, rhs, opts)
     vim.keymap.set(mode, lhs, rhs, options)
 end
 
---- Returns the appropriate file separator according to the current OS.
----@return string: The appropriate file separator.
-function M.file_separator()
-    if jit and jit.os == "Windows" then
-        return "\\"
-    end
-    return "/"
-end
+--- Returns the appropriate path separator according to the current OS.
+M.path_separator = vim.loop.os_uname().sysname:match "Windows" and "\\" or "/"
 
 --- Joins the passed arguments with the appropriate file separator.
 ---@vararg any: The paths to join.
 ---@return string: The final joined path.
 function M.join_paths(...)
-    return table.concat({ ... }, M.file_separator())
+    return table.concat({ ... }, M.path_separator)
 end
 
 --- Opens the given url in the default browser.
