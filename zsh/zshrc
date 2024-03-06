@@ -89,7 +89,7 @@ fi
 
 # Set history configuration settings
 HIST_STAMPS="%d/%m/%y %T"
-HISTSIZE=100000
+HISTSIZE=1000000000
 SAVEHIST=$HISTSIZE
 HISTFILE=$HOME/.zsh_history
 
