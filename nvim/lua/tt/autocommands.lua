@@ -113,3 +113,15 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
     desc = "Set conceallevel only for the current Telescope preview window",
 })
+
+-- Create directories if needed when saving a file
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = vim.api.nvim_create_augroup("tt.Save", { clear = true }),
+    pattern = "*",
+    callback = function(event)
+        local filename = event.match
+        local filepath = vim.fn.fnamemodify(filename, ":p:h")
+        vim.fn.mkdir(filepath, "p")
+    end,
+    desc = "Automatically create required directories when saving a file",
+})
