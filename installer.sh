@@ -95,14 +95,18 @@ function _install_latest_deb_with_version() {
 }
 
 function _install() {
-    # -qq: option implies --yes and also is less verbose
     sudo apt-get -qq install "$@" > /dev/null
+}
+
+# Checks whether the provided command exists or not
+function _check_command() {
+    command -v "$1" > /dev/null 2>&1
 }
 
 # Checks whether the command is present and if not will try to install it
 # Takes an optional second argument that specifies a different name for the package
-function _check_command() {
-    if ! command -v "$1" > /dev/null 2>&1; then
+function _need_command() {
+    if ! _check_command "$1"; then
         local cmd
         if [ "$#" -eq 1 ]; then
             cmd="$1"
@@ -292,8 +296,8 @@ function _nvim_nightly() {
 }
 
 function _check_nvim_config_requirements() {
-    _check_command make build-essential
-    _check_command luarocks
+    _need_command make build-essential
+    _need_command luarocks
     _check_package python3.10-venv
     if ! command -v node > /dev/null 2>&1; then
         _node
@@ -479,7 +483,7 @@ function _set_wallpaper() {
 function _install_fonts_from_dir() {
     _check_dir fonts
     cp -r fonts "$HOME"/.local/share
-    _check_command fc-cache fontconfig
+    _need_command fc-cache fontconfig
     fc-cache -f
 }
 
@@ -550,6 +554,26 @@ function _lazygit_config() {
     local destination="$HOME/.config/lazygit"
     _create_dir_if_not_exists "$destination"
     ln -sv --backup=numbered "${SCRIPT_DIR}/$file" "$destination/$(basename $file)"
+}
+
+function _rustup() {
+    _print i "rustup" ": rust toolchain installer"
+    curl -sSf https://sh.rustup.rs | sh -s -- -y -- > /dev/null 2>&1
+}
+
+function _sd() {
+    _print i "sd" ": intuitive find & replace CLI (sed alternative)"
+    cargo -q install sd
+}
+
+function _tldr() {
+    _print i "tldr" ": cheatsheet for console commands"
+    cargo -q install tealdeer
+}
+
+function _fx() {
+    _print i "fx" ": terminal JSON viewer & processor "
+    sudo snap install fx > /dev/null
 }
 
 function _vm_swappiness() {
@@ -624,6 +648,10 @@ pkgs=(
     "    git configuration"
     "    glow: markdown renderer for the terminal"
     "    node: asyncrhonous event-driven JavaScript runtime"
+    "    rustup: rust toolchain installer"
+    "    sd: intuitive find & replace CLI (sed alternative)"
+    "    tldr: cheatsheet for console commands"
+    "    fx: terminal JSON viewer & processor"
     "    xprofile"
     "    xclip"
     "    neofetch"
@@ -664,6 +692,10 @@ pkgs_functions=(
     _git_config
     _glow
     _node
+    _rustup
+    _sd
+    _tldr
+    _fx
     _x_profile
     _xclip
     _neofetch
@@ -696,7 +728,7 @@ dotfiles_functions=(
 # -------------------------------------------------------- Menus -------------------------------------------------------
 
 function _show_main_menu() {
-    _check_command whiptail
+    _need_command whiptail
     local INFO="---------------------- System Information -----------------------\n"
     INFO+="$(hostnamectl | grep -E "Operating|Kernel|Architecture")"
     INPUT=$(whiptail --title "This script provides an easy way to install my preferred packages and configurations." \
@@ -731,7 +763,7 @@ function _show_selective_menu() {
 
 function _fresh_install() {
     INSTALLATION_MODE="unattended"
-    _check_command curl && _check_command git
+    _need_command curl && _need_command git
     for ((i = 1; i < "${#pkgs_functions[@]}"; i++)); do
         ${pkgs_functions[$i]}
     done
@@ -740,7 +772,7 @@ function _fresh_install() {
 }
 
 function _selective_install() {
-    _check_command curl && _check_command git
+    _need_command curl && _need_command git
     _create_selective_menu
     local exit_status=0
     while [ $exit_status -eq 0 ]; do
