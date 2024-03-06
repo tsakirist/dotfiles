@@ -292,7 +292,6 @@ return {
             { "nvim-treesitter/nvim-treesitter-textobjects" },
             { "nvim-treesitter/nvim-treesitter-refactor" },
             { "RRethy/nvim-treesitter-endwise" },
-            { "nvim-treesitter/playground" },
         },
         config = function()
             require("tt._plugins.treesitter").setup()
