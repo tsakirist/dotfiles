@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Do not show any error messages on screen
+exec 2> /dev/null
+
 echo -e "-- Trying to remove backups created by installer.sh. --\n"
 
 cat << EOF
@@ -22,6 +25,7 @@ while [ -n "$1" ]; do
 done
 
 rm $RM_OPT "$HOME"/.*.~*
+rm $RM_OPT "$HOME"/*.toml.~*
 rm $RM_OPT "$HOME"/.vim/autoload/*.vim.~*
 rm $RM_OPT "$HOME"/.config/nvim/init.vim.~*
 rm $RM_OPT "$HOME"/.config/kitty/kitty.conf.~*
