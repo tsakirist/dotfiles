@@ -580,6 +580,11 @@ function _fx() {
     sudo snap install fx > /dev/null
 }
 
+function _jq() {
+    _print i "jq" ": command-line json processor"
+    _install jq
+}
+
 function _vm_swappiness() {
     local value=10
     local file="/etc/sysctl.conf"
@@ -656,6 +661,7 @@ pkgs=(
     "    sd: intuitive find & replace CLI (sed alternative)"
     "    tldr: cheatsheet for console commands"
     "    fx: terminal JSON viewer & processor"
+    "    jq: command-line json processor"
     "    xprofile"
     "    xclip"
     "    neofetch"
@@ -700,6 +706,7 @@ pkgs_functions=(
     _sd
     _tldr
     _fx
+    _jq
     _x_profile
     _xclip
     _neofetch
