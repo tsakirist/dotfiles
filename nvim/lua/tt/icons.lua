@@ -102,6 +102,7 @@ local misc = {
     RightHalfCircle = "",
     RightUnfilledArrow = "",
     Search = "",
+    Selection = "",
     Star = "*",
     VerticalShadowedBox = " ",
     XMark = "✗",

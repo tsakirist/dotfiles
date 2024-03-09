@@ -4,7 +4,7 @@ function M.setup()
     local noice = require "noice"
     local icons = require "tt.icons"
 
-    ---@diagnostic disable-next-line: unused-local
+    -- selene: allow(unused_variable)
     local normal_theme = {
         component_separators = {
             left = icons.misc.RightUnfilledArrow,
@@ -125,7 +125,13 @@ function M.setup()
                 },
             },
             lualine_x = { "encoding", "fileformat", "filetype" },
-            lualine_y = { "progress" },
+            lualine_y = {
+                {
+                    "selectioncount",
+                    icon = { icons.misc.Selection, align = "right" },
+                },
+                "progress",
+            },
             lualine_z = {
                 {
                     "location",
