@@ -724,6 +724,12 @@ return {
         end,
     },
 
+    -- Nice looking animation for the current buffer
+    {
+        "eandrju/cellular-automaton.nvim",
+        cmd = "CellularAutomaton",
+    },
+
     -- Measure the startup-time of neovim
     {
         "dstein64/vim-startuptime",
