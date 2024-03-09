@@ -19,7 +19,9 @@ local function setup_window_management_hydra()
         config = {
             invoke_on_body = true,
             hint = {
-                border = "rounded",
+                float_opts = {
+                    border = "rounded",
+                },
                 offset = -1,
             },
         },
@@ -90,7 +92,9 @@ local function setup_git_hydra()
             buffer = true,
             invoke_on_body = true,
             hint = {
-                border = "rounded",
+                float_opts = {
+                    border = "rounded",
+                },
             },
             on_enter = function()
                 vim.cmd.mkview()
