@@ -113,14 +113,30 @@ function _need_command() {
         elif [ "$#" -eq 2 ]; then
             cmd="$2"
         fi
-        echo -e "${black_bg}${thunder} Installing required package ${bold}${red_fg}${cmd}${reset} ..."
+        echo -e "    ${black_bg}${thunder} Installing required package ${bold}${red_fg}${cmd}${reset} ..."
         _install "$cmd"
+    fi
+}
+
+# Checks whether the command is present and if not will try to install it via the passed arguments.
+# $2: Expected to be a function responsible for the installation
+# $3...$n: Expected arguments possibly required for the installation function
+function _need_command_fn() {
+    if [[ $# -lt 2 ]]; then
+        echo "Expected at least two arguments. Provided $# argument(s)."
+        return
+    fi
+
+    if ! _check_command "$1"; then
+        echo -e "    ${black_bg}${bullet} Command ${bold}${red_fg}${1}${reset} doesn't exist." \
+            "Installing it via ${bold}${red_fg}${2}${reset} function ..."
+        "$2" "${@:3}"
     fi
 }
 
 # Checks whether the package is installed and if not will try to install it
 # TODO: Think whether this can totally replace @_check_command
-function _check_package() {
+function _need_package() {
     local installed=$(dpkg-query -W -f='${Status}' "$1" 2> /dev/null | grep -c "ok installed")
     if [ "$installed" -eq 0 ]; then
         echo -e "${black_bg}${thunder} Installing required package ${bold}${red_fg}${1}${reset} ..."
@@ -298,10 +314,8 @@ function _nvim_nightly() {
 function _check_nvim_config_requirements() {
     _need_command make build-essential
     _need_command luarocks
-    _check_package python3.10-venv
-    if ! command -v node > /dev/null 2>&1; then
-        _node
-    fi
+    _need_package python3.10-venv
+    _need_command_fn node _node
 }
 
 function _nvim_config() {
@@ -567,11 +581,13 @@ function _rustup() {
 
 function _sd() {
     _print i "sd" ": intuitive find & replace CLI (sed alternative)"
+    _need_command cargo
     cargo -q install sd
 }
 
 function _tldr() {
     _print i "tldr" ": cheatsheet for console commands"
+    _need_command cargo
     cargo -q install tealdeer
 }
 
