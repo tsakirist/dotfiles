@@ -33,6 +33,9 @@ M.pickers = {
     git_stash = {
         previewer = previewers.delta,
     },
+    lsp_document_symbols = {
+        symbol_width = 60,
+    },
 }
 
 --- Custom pickers which operate in nvim config.
