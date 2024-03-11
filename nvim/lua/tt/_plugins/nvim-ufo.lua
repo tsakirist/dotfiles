@@ -2,12 +2,14 @@ local M = {}
 
 local function fold_virtual_text_handler(virtText, lnum, endLnum, width, truncate)
     local icons = require "tt.icons"
+
     local foldedLines = endLnum - lnum
     local text = string.format(" %s %d lines", icons.misc.ArrowSouthWest, foldedLines)
     local textWidth = vim.fn.strdisplaywidth(text)
     local targetWidth = width - textWidth
     local curWidth = 0
     local virtualText = {}
+
     for _, chunk in ipairs(virtText) do
         local chunkText = chunk[1]
         local chunkWidth = vim.fn.strdisplaywidth(chunkText)
@@ -25,7 +27,9 @@ local function fold_virtual_text_handler(virtText, lnum, endLnum, width, truncat
         end
         curWidth = curWidth + chunkWidth
     end
+
     table.insert(virtualText, { text, "MoreMsg" })
+
     return virtualText
 end
 
@@ -55,6 +59,7 @@ end
 
 function M.setup()
     local ufo = require "ufo"
+
     ufo.setup {
         open_fold_hl_timeout = 400,
         close_fold_kinds = { "imports", "comment" },
@@ -82,7 +87,8 @@ function M.setup()
     utils.map("n", "zm", ufo.closeFoldsWith, { desc = "Close all folds with fold level 0" })
     utils.map("n", "zj", ufo.goNextClosedFold, { desc = "Go to next closed fold" })
     utils.map("n", "zk", ufo.goPreviousClosedFold, { desc = "Go to previous closed fold" })
-    utils.map("n", "zK", function()
+
+    utils.map("n", "zp", function()
         local winid = ufo.peekFoldedLinesUnderCursor()
         if not winid then
             vim.lsp.buf.hover()

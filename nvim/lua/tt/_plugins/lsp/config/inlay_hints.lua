@@ -1,12 +1,13 @@
 local M = {}
 
---- A list with the current active buffers where LSP has attached
+--- A list with the current active buffers where LSP has attached.
 M.buffers = {}
 
---- Whether inlay_hints are globally enabled or not
+--- Whether inlay_hints are globally enabled or not.
 M.inlay_hints_enabled = false
 
---- On_bufdelete hanlder, which deletes the buffer from the active buffer list
+--- Handler for the 'BufDelete' event, to delete the buffer from the active buffer list.
+---@param bufnr number: The number of the buffer.
 local function on_bufdelete(bufnr)
     for index, buffer in ipairs(M.buffers) do
         if buffer == bufnr then
@@ -16,19 +17,19 @@ local function on_bufdelete(bufnr)
     end
 end
 
---- A hook that reacts on the removal of a buffer and updates the active buffer list
+--- A hook that reacts on the removal of a buffer and updates the active buffer list.
 local function setup_bufdelete_hook()
     vim.api.nvim_create_autocmd("BufDelete", {
         group = vim.api.nvim_create_augroup("tt.InlayHints", { clear = true }),
         callback = function(args)
-            local bufnr = args.buf
-            on_bufdelete(bufnr)
+            on_bufdelete(args.buf)
         end,
     })
 end
 
 setup_bufdelete_hook()
 
+--- Toggles inlay-hints on or off for all listed buffers.
 function M.toggle_inlay_hints()
     M.inlay_hints_enabled = not M.inlay_hints_enabled
     for _, buffer in ipairs(M.buffers) do
@@ -36,6 +37,9 @@ function M.toggle_inlay_hints()
     end
 end
 
+--- Enable inlay-hints when the LSP attaches to the buffer.
+---@param client any: The LSP client.
+---@param bufnr number: The number of the buffer.
 function M.on_attach(client, bufnr)
     if client.supports_method "textDocument/inlayHint" then
         table.insert(M.buffers, bufnr)

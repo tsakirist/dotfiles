@@ -15,7 +15,7 @@ M.filetypes = {
 ---@param filetype string
 ---@return boolean
 function M.should_format(filetype)
-    return M.filetypes[filetype] == true
+    return M.filetypes[filetype]
 end
 
 --- Give precedence to 'null-ls' if it has any formatters registered.
