@@ -1,5 +1,43 @@
 local M = {}
 
+--- Install the passed in servers via Mason.
+---@param servers table: A table with server names.
+local function ensure_installed(servers)
+    local registry = require "mason-registry"
+
+    for _, server in ipairs(servers) do
+        if registry.has_package(server) then
+            local pkg = registry.get_package(server)
+            if not pkg:is_installed() then
+                pkg:install():once(
+                    "closed",
+                    vim.schedule_wrap(function()
+                        if pkg:is_installed() then
+                            vim.notify(
+                                string.format('"%s" was successfully installed.', pkg.name),
+                                vim.log.levels.INFO,
+                                {
+                                    title = "Mason",
+                                }
+                            )
+                        end
+                    end)
+                )
+            end
+        else
+            vim.schedule(function()
+                vim.notify(
+                    string.format('Server "%s" could not be found in the registry.', server),
+                    vim.log.levels.WARN,
+                    {
+                        title = "Mason",
+                    }
+                )
+            end)
+        end
+    end
+end
+
 function M.setup()
     local icons = require "tt.icons"
     local utils = require "tt.utils"
@@ -80,6 +118,9 @@ function M.setup()
             vim.tbl_keys(servers.null_ls_sources.diagnostics)
         ),
     }
+
+    -- Ensure all other non-plugin related servers are properly installed
+    ensure_installed(servers.mason_servers)
 
     utils.map("n", "<leader>m", vim.cmd.Mason)
 end

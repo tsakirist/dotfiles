@@ -88,6 +88,11 @@ M.null_ls_sources = {
     },
 }
 
+-- List of servers that should be manually installed via Mason
+M.mason_servers = {
+    "shellcheck",
+}
+
 local function extend_capabilities(capabilities)
     if vim.F.npcall(require, "ufo") then
         capabilities.textDocument.foldingRange = {
