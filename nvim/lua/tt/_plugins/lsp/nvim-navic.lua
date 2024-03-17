@@ -20,7 +20,7 @@ function M.setup()
         depth_limit_indicator = "..",
 
         -- The icons to use
-        icons = icons.navic,
+        icons = icons.breadcrumps,
     }
 end
 

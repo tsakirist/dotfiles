@@ -47,4 +47,11 @@ function M.open_in_browser(url)
     end
 end
 
+--- Trims leading and trailing whitespace from the string.
+---@param s string: The string to be trimmed.
+---@return string: The trimmed string.
+function M.trim(s)
+    return s:match("^%s*(.*)"):match "(.-)%s*$"
+end
+
 return M

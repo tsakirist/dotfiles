@@ -8,7 +8,7 @@ function M.setup()
             border = "rounded",
             size = "75%",
         },
-        icons = icons.navic,
+        icons = icons.kind,
     }
 
     local utils = require "tt.utils"

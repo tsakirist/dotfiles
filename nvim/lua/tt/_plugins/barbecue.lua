@@ -90,7 +90,7 @@ function M.setup()
         ---
         ---Icons for different context entry kinds.
         ---@type barbecue.Config.kinds
-        kinds = icons.barbecue_kind,
+        kinds = icons.breadcrumps,
     }
 end
 
