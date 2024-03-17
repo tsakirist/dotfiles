@@ -55,7 +55,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   ├── previewers.lua
 │       │   │   └── utils.lua
 │       │   ├── barbecue.lua
-│       │   ├── bufferline.lua
 │       │   ├── comment.lua
 │       │   ├── cybu.lua
 │       │   ├── dressing.lua

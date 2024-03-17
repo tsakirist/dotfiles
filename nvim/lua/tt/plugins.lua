@@ -36,17 +36,6 @@ return {
         end,
     },
 
-    -- Bufferline
-    {
-        "akinsho/bufferline.nvim",
-        enabled = false,
-        event = "BufRead",
-        dependencies = "nvim-tree/nvim-web-devicons",
-        config = function()
-            require("tt._plugins.bufferline").setup()
-        end,
-    },
-
     -- Statusline
     {
         "nvim-lualine/lualine.nvim",
