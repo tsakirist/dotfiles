@@ -86,7 +86,7 @@ function M.setup()
         { e = { icons.document.Document .. " New File", ":enew" } },
         { f = { icons.document.DocumentSearch .. " Find Files", ":Telescope find_files" } },
         { g = { icons.document.DocumentWord .. " Grep String", ":Telescope egrepify" } },
-        { r = { icons.document.DoubleDocument .. " Recent Files", ":Telescope oldfiles" } },
+        { r = { icons.document.Documents .. " Recent Files", ":Telescope oldfiles" } },
         { h = { icons.misc.Bulb .. " Help", ":Telescope help_tags" } },
         { s = { icons.misc.Database .. " Sessions", ":TelescopeStartifySessions" } },
         { F = { icons.document.FolderConfig .. " Find Config", ":TelescopeNvimConfigFind" } },

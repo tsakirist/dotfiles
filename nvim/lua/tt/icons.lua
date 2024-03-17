@@ -63,7 +63,7 @@ local diagnostics = {
     Error = "",
     Hint = "",
     Info = "",
-    Warn = "",
+    Warn = "󰼅",
 }
 
 local misc = {
@@ -109,10 +109,10 @@ local misc = {
 }
 
 local document = {
-    Document = "",
-    DocumentSearch = "",
-    DocumentWord = "",
-    DoubleDocument = "",
+    Document = "󰈔",
+    DocumentSearch = "󰱼",
+    DocumentWord = "󰈙",
+    Documents = "󰈢",
     FileEye = "󰷊",
     FolderClosed = "",
     FolderConfig = "",
