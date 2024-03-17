@@ -19,8 +19,13 @@ and settings on a new Linux based distribution.
 The configuration files will be installed to the default configuration directory
 of **neovim**, located at: `${HOME}/.config/nvim`
 
-<h3 align="center">Directory Structure</h3>
-
+<br/>
+  
+<details>
+  <summary>
+    Click to toggle directory structure view.
+  </summary>
+  
 ```bash
 ./
 ├── lua/
@@ -101,6 +106,8 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 ├── neovim.toml
 └── selene.toml
 ```
+
+</details>
 
 <h2 align="center">Installer</h2>
 
