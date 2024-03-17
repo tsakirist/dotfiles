@@ -498,16 +498,49 @@ function _set_wallpaper() {
     gsettings set org.gnome.desktop.background picture-uri "$uri"
 }
 
-function _install_fonts_from_dir() {
-    _check_dir fonts
-    cp -r fonts "$HOME"/.local/share
-    _need_command fc-cache fontconfig
-    fc-cache -f
+function _download_nerd_fonts() {
+    local fonts=("CascadiaMono" "JetBrainsMono")
+    local fonts_pattern=$(
+        IFS='|'
+        echo "${fonts[*]}"
+    )
+    local repo="https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest"
+    local assets=$(curl -sSL "$repo" | grep -E "browser_download_url.*\.tar\.xz" | grep -E "$fonts_pattern" | cut -d '"' -f 4)
+
+    # Takes care of downloading, and properly extracting the fonts contents
+    while IFS= read -r asset; do
+        local font=$(basename "$asset")
+        local directory="fonts/${font%%.*}" # Remove '.' extensions from font name
+        curl -sSLO "$asset" && mkdir "$directory" && tar xf "$font" -C "$directory"
+    done <<< "$assets"
+}
+
+function _download_codicons() {
+    local repo="https://api.github.com/repos/microsoft/vscode-codicons/releases/latest"
+    local asset=$(curl -sSL "$repo" | grep -E "tarball_url" | cut -d '"' -f 4)
+    local font=$(basename "$asset")
+    local directory="fonts/Codicons"
+    curl -sSLO "$asset" && mkdir $directory && tar xf "$font" -C "$directory" --wildcards "**/codicon.ttf"
 }
 
 function _install_fonts() {
     _print i "fonts"
-    _install_fonts_from_dir
+
+    pushd "$(mktemp -d)" > /dev/null || return
+
+    # Create the directory to store fonts
+    mkdir fonts
+
+    # Download required fonts
+    _download_nerd_fonts
+    _download_codicons
+
+    # Copy and install all fonts
+    cp -r fonts "$HOME"/.local/share
+    _need_command fc-cache fontconfig
+    fc-cache -f
+
+    popd > /dev/null || return
 }
 
 function _fzf_config() {
