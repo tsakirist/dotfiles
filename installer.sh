@@ -59,6 +59,7 @@ function _check_dir() {
         exit 1
     fi
 }
+
 function _create_dir_if_not_exists() {
     [ ! -d "$1" ] && mkdir -p "$1"
 }
