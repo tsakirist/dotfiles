@@ -162,14 +162,6 @@ return {
                 require("tt._plugins.lsp.nvim-navic").setup()
             end,
         },
-        {
-            "SmiteshP/nvim-navbuddy",
-            event = "BufReadPre",
-            dependencies = "MunifTanjim/nui.nvim",
-            config = function()
-                require("tt._plugins.lsp.nvim-navbuddy").setup()
-            end,
-        },
         -- Better LSP utilities
         {
             "glepnir/lspsaga.nvim",
