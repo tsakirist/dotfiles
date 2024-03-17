@@ -656,6 +656,27 @@ return {
         end,
     },
 
+    -- Run lines/block of code within Neovim
+    {
+        "michaelb/sniprun",
+        branch = "master",
+        build = "sh install.sh",
+        cmd = {
+            "SnipRun",
+            "SnipClose",
+        },
+        keys = {
+            { "<leader>xx", "<Plug>SnipRun", mode = "v", desc = "Sniprun" },
+            { "<leader>xs", "<Plug>SnipClose", desc = "SnipClose" },
+            { "<leader>xr", "<Plug>SnipReset", desc = "SnipReset" },
+        },
+        opts = {
+            display = { "TempFloatingWindow" },
+            show_no_output = { "TempFloatingWindow" },
+            live_mode_toggle = "enable",
+        },
+    },
+
     -- Color highlighter
     {
         "NvChad/nvim-colorizer.lua",
