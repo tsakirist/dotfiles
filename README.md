@@ -60,6 +60,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── cybu.lua
 │       │   ├── dressing.lua
 │       │   ├── flash.lua
+│       │   ├── grapple.lua
 │       │   ├── hydra.lua
 │       │   ├── indent-blankline.lua
 │       │   ├── lualine.lua

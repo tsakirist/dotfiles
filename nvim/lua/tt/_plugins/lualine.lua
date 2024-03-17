@@ -1,6 +1,7 @@
 local M = {}
 
 function M.setup()
+    local grapple = require "grapple"
     local noice = require "noice"
     local icons = require "tt.icons"
 
@@ -111,6 +112,10 @@ function M.setup()
                 {
                     noice.api.status.mode.get,
                     cond = noice.api.status.mode.has,
+                },
+                {
+                    grapple.statusline,
+                    cond = grapple.exists,
                 },
                 "branch",
                 "diff",

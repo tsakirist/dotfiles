@@ -1,5 +1,3 @@
-local actions = require "telescope.actions"
-
 local M = {}
 
 M.extensions = {
@@ -31,6 +29,7 @@ M.extensions = {
         override_file_sorter = true, -- Override the file sorter
         case_mode = "smart_case", -- "ignore_case" or "respect_case" or "smart_case"
     },
+    grapple = {},
     lazy = {
         theme = "ivy",
     },

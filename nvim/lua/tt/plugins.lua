@@ -339,6 +339,18 @@ return {
         end,
     },
 
+    -- Tag important files
+    {
+        "cbochs/grapple.nvim",
+        event = {
+            "BufReadPost",
+            "BufNewFile",
+        },
+        config = function()
+            require("tt._plugins.grapple").setup()
+        end,
+    },
+
     -- Auto insert brackets, parentheses and more
     {
         "windwp/nvim-autopairs",

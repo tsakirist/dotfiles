@@ -52,7 +52,6 @@ function M.setup()
     utils.map("n", "<leader>tl", "<Cmd>TroubleToggle loclist<CR>")
     utils.map("n", "<leader>tq", "<Cmd>TroubleToggle quickfix<CR>")
     utils.map("n", "<leader>tr", "<Cmd>TroubleToggle lsp_references<CR>")
-    utils.map("n", "<leader>tt", "<Cmd>TroubleToggle lsp_type_definitions<CR>")
     utils.map("n", "<leader>tw", "<Cmd>TroubleToggle lsp_implementations<CR>")
     utils.map("n", "<leader>tw", "<Cmd>TroubleToggle workspace_diagnostics<CR>")
 end
