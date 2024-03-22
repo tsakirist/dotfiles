@@ -59,6 +59,8 @@ function M.setup()
                 GitSignsChangeInline = { bg = Color(spec.bg1):blend(Color(colors.yellow.dim), 0.55):to_css() },
                 GitSignsDeleteInline = { bg = Color(spec.bg1):blend(Color(colors.red.dim), 0.55):to_css() },
                 StartifyHeader = { link = "Statement" },
+                SniprunFloatingWinOk = { fd = colors.cyan },
+                SniprunFloatingWinErr = { link = "Error" },
             },
             carbonfox = {
                 ActionPreviewTitle = { link = "Title" },
