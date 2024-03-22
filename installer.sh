@@ -589,6 +589,20 @@ function _delta() {
     _install_latest_deb_with_version dandavison/delta
 }
 
+function _difftastic() {
+    _print i "difftastic" ": structural diff viewer"
+
+    pushd "$(mktemp -d)" > /dev/null || return
+
+    local repo="https://api.github.com/repos/Wilfred/difftastic/releases/latest"
+    local asset_url=$(curl -sSL $repo | grep -E "browser_download_url.*x86_64.*linux.*\.tar\.gz" | cut -d '"' -f 4)
+    local asset=$(basename "$asset_url")
+
+    curl -sSLO "$asset_url" && tar xf "$asset" && [ -f difft ] && sudo mv difft /usr/local/bin
+
+    popd > /dev/null || return
+}
+
 function _lazygit() {
     _print i "lazygit" ": a terminal UI for git commands"
     pushd "$(mktemp -d)" > /dev/null || return
@@ -702,6 +716,7 @@ pkgs=(
     "    bat: a cat clone with syntax highlighting"
     "    bat configuration"
     "    delta: a better viewer for git and diff output"
+    "    difftastic: a structural diff viewer"
     "    lazygit: a simple terminal UI for git commands"
     "    lazygit configuration"
     "    git configuration"
@@ -747,6 +762,7 @@ pkgs_functions=(
     _bat
     _bat_config
     _delta
+    _difftastic
     _lazygit
     _lazygit_config
     _git_config

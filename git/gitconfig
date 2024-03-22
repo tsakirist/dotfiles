@@ -6,6 +6,8 @@
 
 [alias]
   lg = log --graph --pretty=format:'%C(bold red)%h%Creset - %s %C(yellow bold)%d%Creset %C(bold green)(%cr) %C(bold cyan)<%an>%Creset' --abbrev-commit
+  dflog = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
+  dft = difftool
   commit-count = rev-list HEAD --count
   when-added = log --diff-filter=A --
   when-deleted = log --diff-filter=D --
@@ -64,3 +66,15 @@
 
 [merge]
   conflictstyle = diff3
+
+[diff]
+  tool = difftastic
+
+[difftool "difftastic"]
+  cmd = difft "$LOCAL" "$REMOTE"
+
+[difftool]
+  prompt = false
+
+[pager]
+  difftool = true
