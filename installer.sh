@@ -338,10 +338,6 @@ function _nvim_config() {
     echo -e "    ${bullet} Creating symbolic links to '$nvim_config_path' ..."
     cp -arsfT "${SCRIPT_DIR}"/nvim "$nvim_config_path"
 
-    # Make links also to the Selene toml configuration files
-    echo -e "    ${bullet} Creating symbolic links of selene configuration files to '$HOME' ..."
-    ln -s --backup=numbered "${SCRIPT_DIR}"/nvim/{neovim,selene}.toml "${HOME}/"
-
     # Make sure to install Lazy and update the plugins
     # TODO: Perhaps I should use the lazy-lock file here and restore?
     echo -e "    ${bullet} Syncing neovim plugins ..."
@@ -676,7 +672,7 @@ function _check_root() {
 }
 
 function _validate_root() {
-    # This function will validate user's timestamp without running any commnad
+    # This function will validate user's timestamp without running any command
     # It will prompt for password and keep it in cache, which is 15 mins by default
     sudo -v
 }

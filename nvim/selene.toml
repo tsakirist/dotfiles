@@ -1,5 +1,0 @@
-std = "neovim"
-
-[rules]
-global_usage = "allow"
-mixed_table = "allow"

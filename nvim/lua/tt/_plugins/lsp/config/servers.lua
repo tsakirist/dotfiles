@@ -24,8 +24,14 @@ M.lsp_servers = {
                 completion = {
                     callSnippet = "Replace",
                 },
-                runtime = {
-                    version = "LuaJIT",
+                codelens = {
+                    enable = true,
+                },
+                diagnostics = {
+                    globals = {
+                        "vim",
+                        "jit",
+                    },
                 },
                 hint = {
                     enable = true,
@@ -36,11 +42,17 @@ M.lsp_servers = {
                     semicolon = "Disable", -- "All", "SameLine", "Disable"
                     setType = true,
                 },
+                runtime = {
+                    version = "LuaJIT",
+                },
                 telemetry = {
                     enable = false,
                 },
                 workspace = {
                     checkThirdParty = false,
+                    library = {
+                        vim.env.VIMRUNTIME,
+                    },
                 },
             },
         },
@@ -72,20 +84,6 @@ M.lsp_servers = {
         },
     },
     yamlls = {},
-}
-
--- List of sources for null_ls
-M.null_ls_sources = {
-    formatting = {
-        prettierd = {},
-        shfmt = {
-            extra_args = { "-i", "4", "-bn", "-ci", "-sr" },
-        },
-        stylua = {},
-    },
-    diagnostics = {
-        selene = {},
-    },
 }
 
 -- List of servers that should be manually installed via Mason

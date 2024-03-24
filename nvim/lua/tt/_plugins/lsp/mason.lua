@@ -42,6 +42,7 @@ function M.setup()
     local icons = require "tt.icons"
     local utils = require "tt.utils"
     local servers = require "tt._plugins.lsp.config.servers"
+    local formatters = require("tt._plugins.conform").get_formatters()
 
     require("mason").setup {
         -- The directory in which to install packages
@@ -110,17 +111,9 @@ function M.setup()
         ensure_installed = vim.tbl_keys(servers.lsp_servers),
     }
 
-    -- Bridge between 'mason' and 'null-ls' allowing for easy installation of non-LSP servers
-    require("mason-null-ls").setup {
-        -- A list of sources to install if they're not already installed
-        ensure_installed = vim.list_extend(
-            vim.tbl_keys(servers.null_ls_sources.formatting),
-            vim.tbl_keys(servers.null_ls_sources.diagnostics)
-        ),
-    }
-
-    -- Ensure all other non-plugin related servers are properly installed
-    ensure_installed(servers.mason_servers)
+    -- Make sure to install required servers
+    local ensure_installed_servers = vim.list_extend(formatters, servers.mason_servers)
+    ensure_installed(ensure_installed_servers)
 
     utils.map("n", "<leader>m", vim.cmd.Mason)
 end

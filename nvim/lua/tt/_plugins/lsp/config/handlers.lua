@@ -76,21 +76,9 @@ local function setup_diagnostics_toggle()
     })
 end
 
-local function setup_diagnostics_handler()
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(function(_, result, context, config)
-        -- Filter out all diagnostics from Lua_ls. We use selene for that now
-        local function filter_diagnostics(diagnostic)
-            return not diagnostic.source:match "Lua"
-        end
-        result.diagnostics = vim.tbl_filter(filter_diagnostics, result.diagnostics)
-        vim.lsp.diagnostic.on_publish_diagnostics(_, result, context, config)
-    end, {})
-end
-
 local function setup_diagnostics()
     setup_diagnostics_config()
     setup_diagnostics_toggle()
-    setup_diagnostics_handler()
 end
 
 local function setup_hover()

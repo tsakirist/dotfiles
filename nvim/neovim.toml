@@ -1,9 +1,0 @@
-[selene]
-base = "lua51"
-name = "neovim"
-
-[vim]
-any = true
-
-[jit]
-any = true

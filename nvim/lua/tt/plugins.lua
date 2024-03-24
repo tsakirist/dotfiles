@@ -81,10 +81,7 @@ return {
         {
             "williamboman/mason.nvim",
             build = ":MasonUpdate",
-            dependencies = {
-                "williamboman/mason-lspconfig.nvim",
-                "jayp0521/mason-null-ls.nvim",
-            },
+            dependencies = { "williamboman/mason-lspconfig.nvim" },
             config = function()
                 require("tt._plugins.lsp.mason").setup()
             end,
@@ -103,15 +100,6 @@ return {
             },
             config = function()
                 require("tt._plugins.lsp.config").setup()
-            end,
-        },
-        -- General purpose LSP that allows non-LSP sources to hook to native LSP
-        {
-            -- `none-ls` is a community maintained fork of the archived `null-ls`
-            "nvimtools/none-ls.nvim",
-            event = "BufReadPre",
-            config = function()
-                require("tt._plugins.lsp.null-ls").setup()
             end,
         },
         -- Incremental LSP based renaming with command preview
@@ -276,6 +264,18 @@ return {
         },
         config = function()
             require("tt._plugins.treesitter").setup()
+        end,
+    },
+
+    -- Lightweight powerful formatter plugin
+    {
+        "stevearc/conform.nvim",
+        dependencies = { "mason.nvim" },
+        init = function()
+            require("tt._plugins.conform").init()
+        end,
+        config = function()
+            require("tt._plugins.conform").setup()
         end,
     },
 

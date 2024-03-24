@@ -40,7 +40,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── lsp/
 │       │   │   ├── config/
 │       │   │   │   ├── attach.lua
-│       │   │   │   ├── format.lua
 │       │   │   │   ├── handlers.lua
 │       │   │   │   ├── highlight.lua
 │       │   │   │   ├── init.lua
@@ -49,7 +48,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   │   └── servers.lua
 │       │   │   ├── lsp-saga.lua
 │       │   │   ├── mason.lua
-│       │   │   ├── null-ls.lua
 │       │   │   └── nvim-navic.lua
 │       │   ├── telescope/
 │       │   │   ├── commands.lua
@@ -61,6 +59,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   └── utils.lua
 │       │   ├── barbecue.lua
 │       │   ├── comment.lua
+│       │   ├── conform.lua
 │       │   ├── cybu.lua
 │       │   ├── dressing.lua
 │       │   ├── flash.lua
@@ -102,9 +101,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       ├── settings.lua
 │       └── utils.lua
 ├── init.lua
-├── lazy-lock.json
-├── neovim.toml
-└── selene.toml
+└── lazy-lock.json
 ```
 
 </details>

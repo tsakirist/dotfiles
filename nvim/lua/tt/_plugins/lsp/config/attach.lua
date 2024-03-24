@@ -15,10 +15,6 @@ local function highlight_attach(client, bufnr)
     require("tt._plugins.lsp.config.highlight").on_attach(client, bufnr)
 end
 
-local function format_attach(client, bufnr)
-    require("tt._plugins.lsp.config.format").on_attach(client, bufnr)
-end
-
 local function keymaps_attach(client, bufnr)
     require("tt._plugins.lsp.config.keymaps").on_attach(client, bufnr)
     require("tt._plugins.lsp.lsp-saga").on_attach(client, bufnr)
@@ -28,7 +24,6 @@ local attachers = {
     navic_attach,
     inlay_hints_attach,
     highlight_attach,
-    format_attach,
     keymaps_attach,
 }
 

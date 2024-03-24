@@ -44,12 +44,6 @@ function M.on_attach(_, bufnr)
     utils.map("n", "dl", "<Cmd>lua vim.diagnostic.setloclist()<CR>", opts "Add buffer diagnostics to the loclist")
     utils.map("n", "dq", "<Cmd>lua vim.diagnostic.setqflist()<CR>", opts "Add buffer diagnostics to the qflist")
     utils.map("i", "<M-x>", vim.lsp.buf.signature_help, opts "Display signature information about the symbol")
-    utils.map(
-        { "n", "v" },
-        "<leader>fr",
-        "<Cmd>lua vim.lsp.buf.format{ async = true }<CR>",
-        opts "Format the current buffer"
-    )
 
     local ft = vim.bo.filetype
     if ft == "c" or ft == "cpp" or ft == "h" or ft == "hpp" then
