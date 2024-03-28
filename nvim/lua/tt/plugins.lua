@@ -310,7 +310,7 @@ return {
         end,
     },
 
-    -- Surf easily through the document and move elemetns
+    -- Surf easily through the document and move elements
     {
         "ziontee113/syntax-tree-surfer",
         keys = {

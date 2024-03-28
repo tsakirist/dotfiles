@@ -76,6 +76,7 @@ end
 function M.setup()
     require("conform").setup {
         formatters_by_ft = {
+            cpp = { "clang-format" },
             lua = { "stylua" },
             sh = { "shfmt" },
             javascript = { "prettierd" },
@@ -87,6 +88,9 @@ function M.setup()
         formatters = {
             shfmt = {
                 prepend_args = { "-i", "4", "-bn", "-ci", "-sr" },
+            },
+            ["clang-format"] = {
+                prepend_args = { "-style=file" },
             },
         },
         format_on_save = function(bufnr)
