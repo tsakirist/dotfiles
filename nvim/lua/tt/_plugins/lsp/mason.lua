@@ -1,5 +1,7 @@
 local M = {}
 
+local extension_name = "Mason"
+
 --- Install the passed in servers via Mason.
 ---@param servers table: A table with server names.
 local function ensure_installed(servers)
@@ -9,6 +11,13 @@ local function ensure_installed(servers)
         if registry.has_package(server) then
             local pkg = registry.get_package(server)
             if not pkg:is_installed() then
+                vim.schedule(function()
+                    vim.notify(
+                        string.format("Installing '%s'.", pkg.name),
+                        vim.log.levels.INFO,
+                        { title = extension_name }
+                    )
+                end)
                 pkg:install():once(
                     "closed",
                     vim.schedule_wrap(function()
@@ -17,7 +26,7 @@ local function ensure_installed(servers)
                                 string.format('"%s" was successfully installed.', pkg.name),
                                 vim.log.levels.INFO,
                                 {
-                                    title = "Mason",
+                                    title = extension_name,
                                 }
                             )
                         end
@@ -30,7 +39,7 @@ local function ensure_installed(servers)
                     string.format('Server "%s" could not be found in the registry.', server),
                     vim.log.levels.WARN,
                     {
-                        title = "Mason",
+                        title = extension_name,
                     }
                 )
             end)
