@@ -1,9 +1,21 @@
 local M = {}
 
 function M.setup()
+    local icons = require "tt.icons"
+
     require("noice").setup {
         cmdline = {
-            view = "cmdline", -- Use classic cmdline view
+            view = "cmdline",
+            format = {
+                lua = {
+                    view = "cmdline_popup",
+                },
+                IncRename = {
+                    view = "cmdline_popup",
+                    icon = icons.misc.Edit,
+                    title = "Rename",
+                },
+            },
         },
         lsp = {
             signature = {
@@ -12,7 +24,6 @@ function M.setup()
                 },
             },
             override = {
-                -- Override markdown rendering to use Treesitter
                 ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
                 ["vim.lsp.util.stylize_markdown"] = true,
                 ["cmp.entry.get_documentation"] = true,
@@ -49,6 +60,7 @@ function M.setup()
             command_palette = false, -- Position the cmdline and popupmenu together
             long_message_to_split = true, -- Long messages will be sent to a split
             lsp_doc_border = true, -- Add border to lsp hover and signature
+            inc_rename = true, -- Add popup input dialog for 'inc-rename'
         },
     }
 

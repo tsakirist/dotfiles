@@ -105,20 +105,15 @@ return {
         -- Incremental LSP based renaming with command preview
         {
             "smjonas/inc-rename.nvim",
-            commit = "1343175",
-            pin = true,
-            keys = { "<leader>rn", "<F2>" },
             config = function()
                 require("inc_rename").setup {
                     show_message = false,
                 }
+
                 local utils = require "tt.utils"
-                local rename = function()
-                    require("inc_rename").rename { default = vim.fn.expand "<cword>" }
-                end
-                local opts = { desc = "Incremental LSP rename with preview" }
-                utils.map("n", "<leader>rn", rename, opts)
-                utils.map("n", "<F2>", rename, opts)
+                utils.map("n", { "<leader>rn", "<F2>" }, function()
+                    return ":IncRename " .. vim.fn.expand "<cword>"
+                end, { expr = true, desc = "Incremental LSP rename with preview" })
             end,
         },
         -- File operations using LSP

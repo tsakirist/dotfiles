@@ -104,6 +104,7 @@ local misc = {
     CurtainsClosed = "󱡇",
     CurtainsOpen = "󱡆",
     Database = "󰆼",
+    Edit = "",
     Ellipsis = "…",
     LeftFilledArrow = "",
     LeftHalfCircle = "",
