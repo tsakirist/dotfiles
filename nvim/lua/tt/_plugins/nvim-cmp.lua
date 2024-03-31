@@ -59,6 +59,11 @@ end
 
 function M.setup()
     cmp.setup {
+        view = {
+            entries = {
+                follow_cursor = true,
+            },
+        },
         completion = {
             -- The minimum length of a word to complete on
             keyword_length = 1,
