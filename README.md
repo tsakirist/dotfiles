@@ -20,12 +20,12 @@ The configuration files will be installed to the default configuration directory
 of **neovim**, located at: `${HOME}/.config/nvim`
 
 <br/>
-  
+
 <details>
   <summary>
     Click to toggle directory structure view.
   </summary>
-  
+
 ```bash
 ./
 ├── lua/
@@ -88,6 +88,9 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── treesj.lua
 │       │   ├── trouble.lua
 │       │   └── zen-mode.lua
+│       ├── utils/
+│       │   ├── init.lua
+│       │   └── set.lua
 │       ├── abbreviations.lua
 │       ├── autocommands.lua
 │       ├── common.lua
@@ -98,8 +101,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       ├── lazy.lua
 │       ├── mappings.lua
 │       ├── plugins.lua
-│       ├── settings.lua
-│       └── utils.lua
+│       └── settings.lua
 ├── init.lua
 └── lazy-lock.json
 ```
