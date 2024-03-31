@@ -662,7 +662,16 @@ return {
             "SnipClose",
         },
         keys = {
-            { "<leader>xx", "<Plug>SnipRun", mode = "v", desc = "Sniprun" },
+            {
+                "<leader>xx",
+                function()
+                    local helper = require "tt.helper"
+                    helper.preserve_cursor_position ":%SnipRun<CR>"
+                end,
+                mode = "n",
+                desc = "Sniprun the whole buffer",
+            },
+            { "<leader>xx", "<Plug>SnipRun", mode = "v", desc = "Sniprun visually selected lines" },
             { "<leader>xs", "<Plug>SnipClose", desc = "SnipClose" },
             { "<leader>xr", "<Plug>SnipReset", desc = "SnipReset" },
         },
