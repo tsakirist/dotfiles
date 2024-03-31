@@ -51,7 +51,7 @@ function M.setup()
     local icons = require "tt.icons"
     local utils = require "tt.utils"
     local servers = require "tt._plugins.lsp.config.servers"
-    local formatters = require("tt._plugins.conform").get_formatters()
+    local formatters = require("tt._plugins.format.conform").get_formatters()
 
     require("mason").setup {
         -- The directory in which to install packages

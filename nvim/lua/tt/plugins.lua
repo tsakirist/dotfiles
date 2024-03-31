@@ -267,10 +267,10 @@ return {
         "stevearc/conform.nvim",
         dependencies = { "mason.nvim" },
         init = function()
-            require("tt._plugins.conform").init()
+            require("tt._plugins.format.conform").init()
         end,
         config = function()
-            require("tt._plugins.conform").setup()
+            require("tt._plugins.format.conform").setup()
         end,
     },
 

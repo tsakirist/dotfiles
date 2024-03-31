@@ -31,6 +31,9 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 ├── lua/
 │   └── tt/
 │       ├── _plugins/
+│       │   ├── format/
+│       │   │   ├── conform.lua
+│       │   │   └── utils.lua
 │       │   ├── git/
 │       │   │   ├── diffview.lua
 │       │   │   ├── git-conflict.lua
@@ -59,7 +62,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   └── utils.lua
 │       │   ├── barbecue.lua
 │       │   ├── comment.lua
-│       │   ├── conform.lua
 │       │   ├── cybu.lua
 │       │   ├── dressing.lua
 │       │   ├── flash.lua
