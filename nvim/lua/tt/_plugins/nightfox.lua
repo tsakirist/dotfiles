@@ -127,8 +127,8 @@ function M.setup()
     vim.cmd.colorscheme(M.theme)
 end
 
----Returns the color pallete that is used by the passed theme or the currently active theme.
----@param theme? string: an optional theme to get the pallete from.
+---Returns the color palette that is used by the passed theme or the currently active theme.
+---@param theme? string: an optional theme to get the palette from.
 ---@return table: The color table used by the theme.
 function M.colors(theme)
     return require("nightfox.palette").load(theme or M.theme)
