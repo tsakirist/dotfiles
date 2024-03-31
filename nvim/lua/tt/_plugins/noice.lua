@@ -10,6 +10,10 @@ function M.setup()
                 lua = {
                     view = "cmdline_popup",
                 },
+                filter = {
+                    view = "cmdline_popup",
+                    title = " Shell ",
+                },
                 IncRename = {
                     view = "cmdline_popup",
                     icon = icons.misc.Edit,
@@ -34,9 +38,7 @@ function M.setup()
                 filter = {
                     event = "msg_show",
                     any = {
-                        { find = "%d+[%a]?B written" },
                         { find = "^/%w+" },
-                        { find = "^E%w+" },
                         { find = "lines" },
                     },
                 },
@@ -46,6 +48,8 @@ function M.setup()
                 filter = {
                     event = "msg_show",
                     any = {
+                        { kind = "", find = "written" },
+                        { find = "^E%w+" },
                         { find = "; after #%d+" },
                         { find = "; before #%d+" },
                     },
