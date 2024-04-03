@@ -13,6 +13,13 @@ local M = {}
 
 --- Custom pickers configuration.
 M.pickers = {
+    buffers = {
+        mappings = {
+            i = {
+                ["<M-d>"] = actions.delete_buffer,
+            },
+        },
+    },
     find_files = {
         follow = true, -- Follow synbolic links
         hidden = true, -- Show hidden files
@@ -82,7 +89,7 @@ function M.find_sessions(opts)
     --- Path where Startify stores saved sessions.
     local sessions_path = require("tt._plugins.startify").sessions_path
 
-    --- The find command to use for finding the sesions.
+    --- The find command to use for finding the sessions.
     local find_command = {
         "fd",
         ".",
