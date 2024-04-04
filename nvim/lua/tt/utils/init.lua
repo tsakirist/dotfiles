@@ -59,4 +59,20 @@ function M.trim(s)
     return s:match("^%s*(.*)"):match "(.-)%s*$"
 end
 
+--- Returns whether we're currently inside a git repo.
+---@return boolean
+function M.is_in_git_repo()
+    local res = vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { text = true }):wait()
+    return res.stdout:match "true" ~= nil
+end
+
+--- Returns the root path of the current git repository.
+---@return string|nil
+function M.get_git_root()
+    if M.is_in_git_repo() then
+        local res = vim.system({ "git", "rev-parse", "--show-toplevel" }, { text = true }):wait()
+        return (res.stdout:gsub("\n$", ""))
+    end
+end
+
 return M

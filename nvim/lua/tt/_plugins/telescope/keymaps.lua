@@ -1,12 +1,12 @@
+local builtin = require "telescope.builtin"
+local custom_pickers = require "tt._plugins.telescope.pickers"
+local extensions = require("telescope").extensions
+local themes = require "telescope.themes"
+local utils = require "tt.utils"
+
 local M = {}
 
 function M.setup()
-    local builtin = require "telescope.builtin"
-    local custom_pickers = require "tt._plugins.telescope.pickers"
-    local extensions = require("telescope").extensions
-    local themes = require "telescope.themes"
-    local utils = require "tt.utils"
-
     -- stylua: ignore
     utils.map("n", "<leader>T", builtin.builtin, { desc = "Show telescope builtin" })
     utils.map("n", "<leader>fa", builtin.autocommands, { desc = "Search autocommands" })
@@ -46,7 +46,7 @@ function M.setup()
 
     utils.map("n", "<leader>fC", function()
         builtin.colorscheme(themes.get_ivy { layout_config = { height = 0.2 } })
-    end, { desc = "List availalbe colorschemes" })
+    end, { desc = "List available colorschemes" })
 
     utils.map("n", "<leader>fv", function()
         custom_pickers.action_in_nvim_config "find_files"
@@ -61,6 +61,9 @@ function M.setup()
     utils.map("n", "<leader>fp", extensions.lazy.lazy, { desc = "Search for installed plugins and perform actions" })
     utils.map("n", "<leader>fn", extensions.notify.notify, { desc = "Search for notifications" })
     utils.map("n", "<leader>fg", extensions.egrepify.egrepify, { desc = "Live grep" })
+    utils.map("n", "<leader>fG", function()
+        extensions.egrepify.egrepify { cwd = utils.get_git_root() }
+    end, { desc = "Live grep from git root" })
 end
 
 return M
