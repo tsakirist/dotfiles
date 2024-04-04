@@ -2,10 +2,9 @@ local M = {}
 
 function M.setup()
     local grapple = require "grapple"
-    local noice = require "noice"
     local icons = require "tt.icons"
 
-    -- selene: allow(unused_variable)
+    ---@diagnostic disable-next-line: unused-local
     local normal_theme = {
         component_separators = {
             left = icons.misc.RightUnfilledArrow,
@@ -43,7 +42,7 @@ function M.setup()
         },
         lualine_z = {
             padding = 1,
-            seperator = {
+            separator = {
                 right = icons.misc.RightHalfCircle,
             },
         },
@@ -108,17 +107,12 @@ function M.setup()
                     icon = icons.misc.Owl,
                 },
             },
-            lualine_b = {
-                {
-                    noice.api.status.mode.get,
-                    cond = noice.api.status.mode.has,
-                },
+            lualine_b = { "branch" },
+            lualine_c = {
                 {
                     grapple.statusline,
                     cond = grapple.exists,
                 },
-                "branch",
-                "diff",
                 {
                     "diagnostics",
                     symbols = {
@@ -128,8 +122,29 @@ function M.setup()
                         warn = icons.diagnostics.Warn,
                     },
                 },
+                {
+                    "filetype",
+                    icon_only = true,
+                    separator = "",
+                    padding = { left = 1, right = 0 },
+                },
+                {
+                    "filename",
+                    padding = { left = 0 },
+                },
             },
-            lualine_x = { "encoding", "fileformat", "filetype" },
+            lualine_x = {
+                {
+                    "diff",
+                    symbols = {
+                        added = icons.git.Added,
+                        modified = icons.git.Modified,
+                        removed = icons.git.Removed,
+                    },
+                },
+                "encoding",
+                "fileformat",
+            },
             lualine_y = {
                 {
                     "selectioncount",

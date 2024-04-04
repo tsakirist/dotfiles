@@ -68,14 +68,16 @@ local kind_trimmed = (function()
 end)()
 
 local diagnostics = {
-    BoldError = "",
-    BoldHint = "",
-    BoldInfo = "",
-    BoldWarn = "",
-    Error = "",
-    Hint = "󰌶",
-    Info = "",
-    Warn = "",
+    Error = " ",
+    Warn = " ",
+    Hint = " ",
+    Info = " ",
+}
+
+local git = {
+    Added = " ",
+    Modified = " ",
+    Removed = " ",
 }
 
 local misc = {
@@ -138,5 +140,6 @@ return {
     breadcrumps = kind_trimmed,
     diagnostics = diagnostics,
     document = document,
+    git = git,
     misc = misc,
 }
