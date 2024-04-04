@@ -66,7 +66,7 @@ function M.setup()
             if vim.bo.filetype == "typescriptreact" then
                 local U = require "Comment.utils"
 
-                --- Detemine whether to use linewise or blockwise commentstring
+                --- Determine whether to use linewise or blockwise commentstring
                 local type = ctx.ctype == U.ctype.linewise and "__default" or "__multiline"
 
                 -- Determine the location where to calculate commentstring from

@@ -136,12 +136,12 @@ utils.map("n", "<leader>sB", "viB:sort<CR>", { desc = "Sort '{}' inner block" })
 utils.map("n", "<M-p>", [[vg_"_dP]], { desc = "Paste from current cursor position until EOL" })
 
 -- Search in the visual selected area
-utils.map("v", "/", [[<Esc>/\%V]], { silent = false, desc = "Search withing visual selected area" })
+utils.map("v", "/", [[<Esc>/\%V]], { silent = false, desc = "Search within visual selected area" })
 
 -- Copy the absolute filename to the clipboard
 utils.map("n", "<leader>cp", function()
     helper.copy_filename_to_clipboard "p"
-end, { desc = "Copy absoulte path of file to clipboard" })
+end, { desc = "Copy absolute path of file to clipboard" })
 
 -- Copy the filename after applying the filename-modifer from ui.input
 utils.map("n", "<leader>cP", function()

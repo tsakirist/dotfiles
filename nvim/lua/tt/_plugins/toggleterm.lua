@@ -42,7 +42,7 @@ function M.setup()
             end, { buffer = term.bufnr })
 
             if not M.is_custom_terminal(term) then
-                -- In non-custom terminals htting `ESC` will transition to normal mode
+                -- In non-custom terminals hitting `ESC` will transition to normal mode
                 utils.map("t", "<Esc>", [[<C-\><C-N>]], { buffer = term.bufnr })
             end
         end,

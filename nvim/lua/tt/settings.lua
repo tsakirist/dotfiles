@@ -35,7 +35,7 @@ opt.expandtab = true
 -- Controls the number of space characters inserted when pressing the tab key
 opt.tabstop = 4
 
--- Controls the number of space characters inserted for identation
+-- Controls the number of space characters inserted for indentation
 opt.shiftwidth = 4
 
 -- Use the indentation level of the previous line when pressing enter
@@ -132,7 +132,7 @@ opt.mouse = "a"
 -- Disable right click pop-up menu
 opt.mousemodel = "extend"
 
--- Enable modeline to allow file secific settings
+-- Enable modeline to allow file specific settings
 -- e.g. vim: set sw=2:
 opt.modeline = true
 
