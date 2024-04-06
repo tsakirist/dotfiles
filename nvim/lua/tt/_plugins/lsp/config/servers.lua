@@ -11,12 +11,19 @@ M.lsp_servers = {
     },
     cmake = {},
     eslint = {
-        -- Disable showDocumentation from eslint code-actions menu.
         settings = {
             codeAction = {
                 showDocumentation = false,
             },
         },
+        on_attach = function(_, bufnr)
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                group = vim.api.nvim_create_augroup("tt.Eslint", { clear = true }),
+                buffer = bufnr,
+                command = "EslintFixAll",
+                desc = "Fixes all eslint errors on save",
+            })
+        end,
     },
     lua_ls = {
         settings = {
