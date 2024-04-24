@@ -535,7 +535,7 @@ return {
 
             require("persistence").setup {
                 dir = utils.join_paths(vim.fn.stdpath "data", "sessions", "persistence/"),
-                options = { "buffers", "curdir", "globals", "help", "tabpages", "winsize" },
+                options = { "buffers", "curdir", "globals", "help", "tabpages", "winsize", "folds" },
             }
 
             utils.map("n", "<leader>ps", function()
