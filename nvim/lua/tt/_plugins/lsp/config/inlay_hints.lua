@@ -32,8 +32,8 @@ setup_bufdelete_hook()
 --- Toggles inlay-hints on or off for all listed buffers.
 function M.toggle_inlay_hints()
     M.inlay_hints_enabled = not M.inlay_hints_enabled
-    for _, buffer in ipairs(M.buffers) do
-        vim.lsp.inlay_hint.enable(buffer, M.inlay_hints_enabled)
+    for _, bufnr in ipairs(M.buffers) do
+        vim.lsp.inlay_hint.enable(M.inlay_hints_enabled, { bufnr = bufnr })
     end
 end
 
@@ -43,7 +43,7 @@ end
 function M.on_attach(client, bufnr)
     if client.supports_method "textDocument/inlayHint" then
         table.insert(M.buffers, bufnr)
-        vim.lsp.inlay_hint.enable(bufnr, M.inlay_hints_enabled)
+        vim.lsp.inlay_hint.enable(M.inlay_hints_enabled, { bufnr = bufnr })
     end
 end
 
