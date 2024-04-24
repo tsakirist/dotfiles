@@ -37,12 +37,6 @@ utils.map("n", "[c", "<Cmd>cprevious<CR>")
 -- Use space to toggle fold
 utils.map("n", "<Space>", "za")
 
--- Keybinds to move lines up and down
-utils.map("n", "<C-k>", ":m-2<CR>==")
-utils.map("n", "<C-j>", ":m+<CR>==")
-utils.map("v", "<C-k>", ":m '<-2<CR>gv=gv")
-utils.map("v", "<C-j>", ":m '>+1<CR>gv=gv")
-
 -- Duplicate the current line or lines
 utils.map("n", "<leader>d", ":t.<CR>")
 utils.map("i", "<leader>d", "<Esc>:t.<CR>")

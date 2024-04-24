@@ -564,6 +564,26 @@ return {
         end,
     },
 
+    -- Move lines easily in any direction
+    {
+        "echasnovski/mini.move",
+        opts = {
+            mappings = {
+                -- Visual mode
+                left = "<C-h>",
+                right = "<C-l>",
+                down = "<C-j>",
+                up = "<C-k>",
+
+                -- Normal mode
+                line_left = "<C-h>",
+                line_right = "<C-l>",
+                line_down = "<C-j>",
+                line_up = "<C-k>",
+            },
+        },
+    },
+
     -- Popup window for cycling buffers
     {
         "ghillb/cybu.nvim",
