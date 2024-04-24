@@ -335,16 +335,6 @@ return {
         end,
     },
 
-    -- Auto insert brackets, parentheses and more
-    {
-        "windwp/nvim-autopairs",
-        event = "InsertEnter",
-        dependencies = "hrsh7th/nvim-cmp",
-        config = function()
-            require("tt._plugins.nvim-autopairs").setup()
-        end,
-    },
-
     --  Treesitter to autoclose and autorename html tags
     {
         "windwp/nvim-ts-autotag",
@@ -440,6 +430,7 @@ return {
     -- Align text interactively
     {
         "echasnovski/mini.align",
+        event = "BufRead",
         keys = {
             { "ga", mode = { "v" } },
         },
@@ -455,6 +446,7 @@ return {
     -- Delete buffers without losing windows layout
     {
         "echasnovski/mini.bufremove",
+        event = "BufRead",
         keys = {
             {
                 "<leader>bd",
@@ -471,6 +463,34 @@ return {
                 desc = "Force delete current buffer",
             },
         },
+    },
+
+    -- Move lines easily in any direction
+    {
+        "echasnovski/mini.move",
+        event = "BufRead",
+        opts = {
+            mappings = {
+                -- Visual mode
+                left = "<C-h>",
+                right = "<C-l>",
+                down = "<C-j>",
+                up = "<C-k>",
+
+                -- Normal mode
+                line_left = "<C-h>",
+                line_right = "<C-l>",
+                line_down = "<C-j>",
+                line_up = "<C-k>",
+            },
+        },
+    },
+
+    -- Automatically add and manage character pairs
+    {
+        "echasnovski/mini.pairs",
+        event = "InsertEnter",
+        opts = {},
     },
 
     -- File explorer tree
@@ -562,26 +582,6 @@ return {
         config = function()
             require("tt._plugins.nvim-surround").setup()
         end,
-    },
-
-    -- Move lines easily in any direction
-    {
-        "echasnovski/mini.move",
-        opts = {
-            mappings = {
-                -- Visual mode
-                left = "<C-h>",
-                right = "<C-l>",
-                down = "<C-j>",
-                up = "<C-k>",
-
-                -- Normal mode
-                line_left = "<C-h>",
-                line_right = "<C-l>",
-                line_down = "<C-j>",
-                line_up = "<C-k>",
-            },
-        },
     },
 
     -- Popup window for cycling buffers
