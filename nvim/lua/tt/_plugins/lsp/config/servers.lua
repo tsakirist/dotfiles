@@ -31,9 +31,6 @@ M.lsp_servers = {
                 completion = {
                     callSnippet = "Replace",
                 },
-                codelens = {
-                    enable = true,
-                },
                 diagnostics = {
                     globals = {
                         "vim",
