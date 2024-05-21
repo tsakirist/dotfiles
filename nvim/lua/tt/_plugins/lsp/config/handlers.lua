@@ -5,15 +5,22 @@ local function setup_diagnostics_config()
 
     vim.diagnostic.config {
         underline = true,
-        virtual_lines = false,
         severity_sort = true,
+        virtual_lines = false,
         virtual_text = {
             spacing = 4,
             source = "if_many",
             prefix = icons.misc.ArrowRight,
         },
         update_in_insert = false,
-        signs = true,
+        signs = {
+            text = {
+                [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+                [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+                [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
+                [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+            },
+        },
         float = {
             show_header = true,
             source = "if_many",
@@ -22,19 +29,6 @@ local function setup_diagnostics_config()
             severity_sort = true,
         },
     }
-
-    --- Set custom signs for diagnostics
-    local lsp_signs = {
-        Error = icons.diagnostics.Error,
-        Hint = icons.diagnostics.Hint,
-        Info = icons.diagnostics.Info,
-        Warn = icons.diagnostics.Warn,
-    }
-
-    for type, icon in pairs(lsp_signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-    end
 end
 
 local function setup_diagnostics_toggle()
