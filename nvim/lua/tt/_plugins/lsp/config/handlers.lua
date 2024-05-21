@@ -34,23 +34,22 @@ end
 local function setup_diagnostics_toggle()
     --- The record of the last displayed notification
     local diagnostics_notification = nil
-    local diagnostics_enabled = true
 
     --- Function that toggles diagnostics on or off, for either all or the current buffer.
     --- Any argument that is supplied will indicate current buffer only mode.
     local function toggle_diagnostics(opts)
-        local current_buffer_only = opts.args ~= ""
-        local args = current_buffer_only and 0 or nil
+        local current_buffer = opts.args ~= ""
+        local args = {
+            bufnr = current_buffer and 0 or nil,
+        }
 
-        local diagnostic_toggle = diagnostics_enabled and vim.diagnostic.disable or vim.diagnostic.enable
-        diagnostic_toggle(args)
-        diagnostics_enabled = not diagnostics_enabled
+        vim.diagnostic.enable(not vim.diagnostic.is_enabled(args), args)
 
         diagnostics_notification = vim.notify(
             string.format(
                 "Diagnostics %s %s!",
-                diagnostics_enabled and "enabled" or "disabled",
-                current_buffer_only and "for current buffer" or "for all buffers"
+                vim.diagnostic.is_enabled(args) and "enabled" or "disabled",
+                current_buffer and "for current buffer" or "for all buffers"
             ),
             vim.log.levels.INFO,
             {
