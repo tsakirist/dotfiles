@@ -101,7 +101,7 @@ local function setup_definition()
         end
 
         local client_encoding = vim.lsp.get_client_by_id(ctx.client_id).offset_encoding
-        if vim.tbl_islist(result) and result[1] then
+        if vim.islist(result) and result[1] then
             vim.lsp.util.jump_to_location(result[1], client_encoding)
         else
             vim.lsp.util.jump_to_location(result, client_encoding)
