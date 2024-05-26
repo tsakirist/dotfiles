@@ -70,7 +70,7 @@ end)()
 local diagnostics = {
     Error = " ",
     Warn = " ",
-    Hint = " ",
+    Hint = " ",
     Info = " ",
 }
 
