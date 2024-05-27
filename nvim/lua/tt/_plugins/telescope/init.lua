@@ -37,7 +37,7 @@ function M.setup()
                     mirror = false,
                 },
             },
-            path_display = { shorten = 5 },
+            path_display = { "filename_first" },
             sorting_strategy = "descending",
             set_env = { ["COLORTERM"] = "truecolor" },
             file_ignore_patterns = { "node_modules", "%.git", "%.cache" },
