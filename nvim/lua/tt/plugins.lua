@@ -298,7 +298,7 @@ return {
 
     -- Navigation enhancements
     {
-        "tsakirist/flash.nvim",
+        "folke/flash.nvim",
         event = "VeryLazy",
         config = function()
             require("tt._plugins.flash").setup()
