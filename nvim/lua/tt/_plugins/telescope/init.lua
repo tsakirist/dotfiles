@@ -1,7 +1,7 @@
 local actions = require "telescope.actions"
 local actions_layout = require "telescope.actions.layout"
 local telescope_config = require "telescope.config"
-local trouble = require "trouble.providers.telescope"
+local trouble = require "trouble.sources.telescope"
 
 local M = {}
 
@@ -47,7 +47,7 @@ function M.setup()
                     ["<C-j>"] = actions.move_selection_next,
                     ["<C-k>"] = actions.move_selection_previous,
                     ["<CR>"] = actions.select_default + actions.center,
-                    ["<C-r>"] = trouble.smart_open_with_trouble,
+                    ["<C-r>"] = trouble.open,
                     ["<C-t>"] = actions.select_tab,
                     ["<C-q>"] = actions.close,
                     ["<C-Down>"] = actions.cycle_history_next,
@@ -64,7 +64,7 @@ function M.setup()
                 },
                 n = {
                     ["<C-j>"] = actions.move_selection_next,
-                    ["<C-r>"] = trouble.open_with_trouble,
+                    ["<C-r>"] = trouble.open,
                     ["<C-t>"] = actions.select_tab,
                     ["<C-k>"] = actions.move_selection_previous,
                     ["<M-m>"] = actions_layout.toggle_mirror,

@@ -576,6 +576,7 @@ return {
     -- Pretty list for showing diagnostics, references, quickfix & loclist
     {
         "folke/trouble.nvim",
+        cmd = "Trouble",
         keys = "<leader>t",
         dependencies = "nvim-tree/nvim-web-devicons",
         config = function()
