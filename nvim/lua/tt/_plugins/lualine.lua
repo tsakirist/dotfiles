@@ -2,6 +2,7 @@ local M = {}
 
 function M.setup()
     local grapple = require "grapple"
+    local noice = require "noice"
     local icons = require "tt.icons"
 
     ---@diagnostic disable-next-line: unused-local
@@ -134,6 +135,12 @@ function M.setup()
                 },
             },
             lualine_x = {
+                -- Show macro recordings
+                {
+                    noice.api.statusline.mode.get,
+                    cond = noice.api.statusline.mode.has,
+                    color = "@keyword",
+                },
                 {
                     "diff",
                     symbols = {
