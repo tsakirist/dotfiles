@@ -6,7 +6,7 @@ function M.setup()
     flash.setup {
         modes = {
             search = {
-                enabled = false,
+                enabled = true,
             },
             char = {
                 enabled = true,
@@ -18,6 +18,19 @@ function M.setup()
                 jump = {
                     autojump = true,
                 },
+            },
+        },
+        search = {
+            exclude = {
+                "notify",
+                "cmp_menu",
+                "noice",
+                "flash_prompt",
+                "trouble",
+                function(win)
+                    -- Exclude non-focusable windows
+                    return not vim.api.nvim_win_get_config(win).focusable
+                end,
             },
         },
     }
