@@ -18,6 +18,7 @@ function M.setup()
             ["<C-x>"] = "jump_split",
             ["<C-v>"] = "jump_vsplit",
             ["<Space>"] = "fold_toggle",
+            ["<CR>"] = "jump_close",
         },
         win = {
             type = "split",
