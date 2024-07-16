@@ -341,7 +341,7 @@ function _nvim_config() {
     # Make sure to install Lazy and update the plugins
     # TODO: Perhaps I should use the lazy-lock file here and restore?
     echo -e "    ${bullet} Syncing neovim plugins ..."
-    /usr/bin/env nvim --headless -c "Lazy! sync" -c "quitall"
+    /usr/bin/env nvim --headless -c "Lazy! sync" -c "quitall" > /dev/null
 }
 
 function _neofetch() {
