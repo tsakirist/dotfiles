@@ -36,15 +36,47 @@ function M.setup()
                     size = 0.4,
                 },
             },
+            diagnostics_inline_preview_buffer = {
+                mode = "diagnostics",
+                preview = {
+                    type = "split",
+                    relative = "win",
+                    position = "right",
+                    size = 0.4,
+                },
+                filter = {
+                    buf = 0,
+                },
+            },
+            lsp_document_symbols_float = {
+                mode = "lsp_document_symbols",
+                win = {
+                    type = "float",
+                    relative = "editor",
+                    border = "rounded",
+                    title = "LSP document symbols",
+                    title_pos = "center",
+                    size = {
+                        width = 0.7,
+                        height = 0.7,
+                    },
+                },
+            },
         },
     }
 
+    local asd
+
+    -- stylua: ignore start
     local utils = require "tt.utils"
-    utils.map("n", "<leader>td", "<Cmd>Trouble diagnostics_inline_preview<CR>")
-    utils.map("n", "<leader>tl", "<Cmd>Trouble loclist<CR>")
-    utils.map("n", "<leader>tq", "<Cmd>Trouble quickfix<CR>")
-    utils.map("n", "<leader>tr", "<Cmd>Trouble lsp_references<CR>")
-    utils.map("n", "<leader>ti", "<Cmd>Trouble lsp_implementations<CR>")
+    utils.map("n", "<leader>td", "<Cmd>Trouble diagnostics_inline_preview toggle<CR>", { desc = "Trouble diagnostics" })
+    utils.map("n", "<leader>tD", "<Cmd>Trouble diagnostics_inline_preview_buffer toggle<CR>", { desc = "Trouble diagnostics for current buffer" })
+    utils.map("n", "<leader>tl", "<Cmd>Trouble loclist toggle<CR>", { desc = "Trouble loclist" })
+    utils.map("n", "<leader>tq", "<Cmd>Trouble quickfix toggle<CR>", { desc = "Trouble quickfix" })
+    utils.map("n", "<leader>tr", "<Cmd>Trouble lsp_references toggle<CR>", { desc = "Trouble lsp references" })
+    utils.map("n", "<leader>ti", "<Cmd>Trouble lsp_implementations toggle<CR>", { desc = "Trouble lsp implementations" })
+    utils.map("n", "<leader>ts", "<Cmd>Trouble lsp_document_symbols_float toggle<CR>", { desc = "Trouble lsp document symbols float" })
+    -- stylua: ignore end
 end
 
 return M

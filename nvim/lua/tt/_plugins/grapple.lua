@@ -57,7 +57,7 @@ function M.setup()
     utils.map("n", "<leader>tt", "<Cmd>Grapple toggle<CR>", { desc = "Grapple toggle tag" })
     utils.map("n", "<leader>tn", "<Cmd>Grapple cycle forward<CR>", { desc = "Grapple go to next tag" })
     utils.map("n", "<leader>tp", "<Cmd>Grapple cycle backward<CR>", { desc = "Grapple go to previous tag" })
-    utils.map("n", "<leader>ts", "<Cmd>Grapple toggle_tags<CR>", { desc = "Grapple toggle tags window" })
+    utils.map("n", "<leader>tw", "<Cmd>Grapple toggle_tags<CR>", { desc = "Grapple toggle tags window" })
 
     for i = 1, 5 do
         utils.map("n", string.format("<leader>%d", i), string.format("<Cmd>Grapple select index=%d<CR>", i), {
