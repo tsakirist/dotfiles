@@ -15,9 +15,9 @@ function M.setup()
                 highlight = {
                     backdrop = false,
                 },
-            },
-            jump = {
-                autojump = true,
+                jump = {
+                    autojump = true,
+                },
             },
         },
     }
