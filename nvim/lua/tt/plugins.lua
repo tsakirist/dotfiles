@@ -630,16 +630,17 @@ return {
         end,
     },
 
-    -- Search and replace panel
+    -- Search & Replace UI
     {
-        "nvim-pack/nvim-spectre",
+        "MagicDuck/grug-far.nvim",
+        cmd = "GrugFar",
         keys = {
             "<leader>sr",
             "<leader>sw",
             "<leader>sf",
         },
         config = function()
-            require("tt._plugins.spectre").setup()
+            require("tt._plugins.grug-far").setup()
         end,
     },
 

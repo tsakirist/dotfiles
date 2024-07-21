@@ -71,7 +71,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 -- A set of filetypes where just hitting 'q' should exit the buffer/window
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("tt.FasterQuit", { clear = true }),
-    pattern = { "help", "man", "lspinfo", "startuptime", "spectre_panel" },
+    pattern = { "help", "man", "lspinfo", "startuptime", "grug-far" },
     callback = function(event)
         vim.bo[event.buf].buflisted = false
         vim.keymap.set("n", "q", "<Cmd>quit<CR>", { silent = true, buffer = event.buf })

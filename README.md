@@ -66,6 +66,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── dressing.lua
 │       │   ├── flash.lua
 │       │   ├── grapple.lua
+│       │   ├── grug-far.lua
 │       │   ├── hydra.lua
 │       │   ├── indent-blankline.lua
 │       │   ├── lualine.lua
@@ -81,7 +82,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── nvim-surround.lua
 │       │   ├── nvim-ufo.lua
 │       │   ├── smart-splits.lua
-│       │   ├── spectre.lua
 │       │   ├── startify.lua
 │       │   ├── statuscol.lua
 │       │   ├── syntax-tree-surfer.lua
