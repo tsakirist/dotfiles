@@ -75,4 +75,37 @@ function M.get_git_root()
     end
 end
 
+---@alias PadDirection "left" |"right" |"both"
+---@alias PadOpts { char?: string, length?: integer, direction?: PadDirection, }
+
+---Pads the given input string with a specified character.
+---@param input string: The input string to be padded.
+---@param opts? PadOpts: An optional table containing padding options. Defaults to {char = " ", length = 1, direction = "right"}.
+---@return string
+function M.pad(input, opts)
+    local defaults = { char = " ", length = 1, direction = "right" }
+    opts = opts or defaults
+
+    local direction = opts.direction or defaults.direction
+    if not (direction == "left" or direction == "right" or direction == "both") then
+        error "Padding type must be one of 'right, left, both'."
+    end
+
+    local length = opts.length or defaults.length
+    if length < 0 then
+        error "Padding length must be positive."
+    end
+
+    local char = opts.char or defaults.char
+    local padding = string.rep(char, length)
+
+    if direction == "left" then
+        return padding .. input
+    elseif direction == "right" then
+        return input .. padding
+    else
+        return padding .. input .. padding
+    end
+end
+
 return M

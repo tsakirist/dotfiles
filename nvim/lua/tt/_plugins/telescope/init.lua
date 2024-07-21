@@ -2,10 +2,21 @@ local actions = require "telescope.actions"
 local actions_layout = require "telescope.actions.layout"
 local telescope_config = require "telescope.config"
 local trouble = require "trouble.sources.telescope"
+local icons = require "tt.icons"
+local utils = require "tt.utils"
 
 local M = {}
 
---- Extend default telescope vimgrep_arguments.
+---Pads the given icon with a whitespace.
+local function adjust_icon(icon)
+    return utils.pad(icon, {
+        char = " ",
+        length = 1,
+        direction = "right",
+    })
+end
+
+---Extend default telescope vimgrep_arguments.
 local function extended_vimgrep_arguments()
     local vimgrep_arguments = telescope_config.values.vimgrep_arguments
     table.insert(vimgrep_arguments, "--follow")
@@ -16,8 +27,9 @@ function M.setup()
     require("telescope").setup {
         defaults = {
             dynamic_preview_title = true,
-            selection_caret = "❯ ",
-            prompt_prefix = "  ",
+            prompt_prefix = adjust_icon(icons.misc.Search),
+            selection_caret = adjust_icon(icons.misc.SelectionCaret),
+            multi_icon = adjust_icon(icons.misc.Plus),
             winblend = 0,
             wrap_results = false,
             initial_mode = "insert",
