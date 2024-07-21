@@ -52,7 +52,7 @@ utils.map("n", "<C-s>", "<Cmd>update<CR>")
 utils.map({ "i", "v" }, "<C-s>", "<Esc><Cmd>update<CR>")
 
 -- Keymaps to quit current buffer with ctrl+q
-utils.map({ "n", "i", "v" }, "<C-q>", vim.cmd.quit, { desc = "Quit current buffer" })
+utils.map({ "n", "i", "v" }, "<C-q>", "<Esc>:q<CR>", { desc = "Quit current window" })
 
 -- Keymap to quit all buffers
 utils.map("n", "Q", "<Esc><Cmd>qa!<CR>")
