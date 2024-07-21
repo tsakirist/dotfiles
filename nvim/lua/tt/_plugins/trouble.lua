@@ -66,8 +66,6 @@ function M.setup()
         },
     }
 
-    local asd
-
     -- stylua: ignore start
     local utils = require "tt.utils"
     utils.map("n", "<leader>td", "<Cmd>Trouble diagnostics_inline_preview toggle<CR>", { desc = "Trouble diagnostics" })

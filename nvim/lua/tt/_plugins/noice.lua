@@ -17,7 +17,7 @@ function M.setup()
                 IncRename = {
                     view = "cmdline_popup",
                     icon = icons.misc.Edit,
-                    title = "Rename",
+                    title = " Rename ",
                 },
             },
         },
@@ -40,6 +40,10 @@ function M.setup()
                     any = {
                         { find = "^/%w+" },
                         { find = "lines" },
+                    },
+                    ["not"] = {
+                        event = "msg_show",
+                        find = '^".+"%s.*lines',
                     },
                 },
                 view = "mini",
