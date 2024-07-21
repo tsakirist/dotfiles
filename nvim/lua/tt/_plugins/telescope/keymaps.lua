@@ -30,10 +30,7 @@ function M.setup()
     end, { desc = "Search help tags" })
 
     utils.map("n", "<leader>fl", function()
-        builtin.current_buffer_fuzzy_find {
-            layout_strategy = "center",
-            previewer = false,
-        }
+        builtin.current_buffer_fuzzy_find { layout_strategy = "vertical", previewer = false }
     end, { desc = "Search current buffer" })
 
     utils.map("n", "<leader>fm", function()
