@@ -133,6 +133,7 @@ function M.setup()
                     ["."] = "set_root",
                     ["f"] = "fuzzy_sorter",
                     ["F"] = "filter_on_submit",
+                    ["<M-l>"] = "clear_filter",
                     ["H"] = "toggle_hidden",
                     ["/"] = "none",
                 },
