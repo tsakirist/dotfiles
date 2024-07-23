@@ -774,16 +774,15 @@ return {
         event = "BufReadPost",
     },
 
-    -- Markdown extension, mainly for conceallevel
+    -- Improve Markdown rendering
     {
-        "preservim/vim-markdown",
+        "MeanderingProgrammer/markdown.nvim",
         ft = "markdown",
-        config = function()
-            vim.g.vim_markdown_conceal = 1
-            vim.g.vim_markdown_conceal_code_blocks = 1
-            vim.g.vim_markdown_no_default_key_mappings = 1
-            vim.g.vim_markdown_folding_disabled = 1
-        end,
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-tree/nvim-web-devicons",
+        },
+        opts = {},
     },
 
     -- Nice looking animation for the current buffer
