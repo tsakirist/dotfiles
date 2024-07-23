@@ -3,6 +3,7 @@ local M = {}
 function M.setup()
     local grug_far = require "grug-far"
     grug_far.setup {
+        transient = true,
         keymaps = {
             qflist = { n = "" },
             historyOpen = { n = "<localleader>h" },
