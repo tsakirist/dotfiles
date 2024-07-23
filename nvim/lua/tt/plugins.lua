@@ -418,9 +418,12 @@ return {
     {
         "echasnovski/mini.ai",
         event = "VeryLazy",
+        dependencies = { "echasnovski/mini.extra" },
         opts = function()
             local ai = require "mini.ai"
+            local ai_extra = require "mini.extra"
             return {
+                silent = true,
                 n_lines = 500,
                 custom_textobjects = {
                     o = ai.gen_spec.treesitter {
@@ -429,15 +432,8 @@ return {
                     },
                     f = ai.gen_spec.treesitter { a = "@function.outer", i = "@function.inner" },
                     c = ai.gen_spec.treesitter { a = "@class.outer", i = "@class.inner" },
-                    d = { "%f[%d]%d+" }, -- Digits
-                    g = function() -- Whole file
-                        local from = { line = 1, col = 1 }
-                        local to = {
-                            line = vim.fn.line "$",
-                            col = math.max(vim.fn.getline("$"):len(), 1),
-                        }
-                        return { from = from, to = to }
-                    end,
+                    g = ai_extra.gen_ai_spec.buffer(),
+                    N = ai_extra.gen_ai_spec.number(),
                 },
             }
         end,
@@ -462,13 +458,11 @@ return {
         keys = {
             { "ga", mode = { "v" } },
         },
-        config = function()
-            require("mini.align").setup {
-                mappings = {
-                    start_with_preview = "ga",
-                },
-            }
-        end,
+        opts = {
+            mappings = {
+                start_with_preview = "ga",
+            },
+        },
     },
 
     -- Delete buffers without losing windows layout
