@@ -13,6 +13,11 @@
   when-deleted = log --diff-filter=D --
   when-modified = log --diff-filter=M --
   stash-staged = "!git stash push -m \"$1\" -- $(git diff --staged --name-only) #"
+  hide = update-index --assume-unchanged
+  unhide = update-index --no-assume-unchanged
+  unhide-all = update-index --really-refresh
+  show-hidden = !git ls-files -v | grep \"^[a-z]\"
+  show-ignored = !git status -s --ignored | grep \"^!!\"
 
 [init]
   defaultBranch = main
