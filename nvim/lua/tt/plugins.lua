@@ -770,8 +770,9 @@ return {
 
     -- Automatically detect the indentation used in the file
     {
-        "tpope/vim-sleuth",
-        event = "BufReadPost",
+        "NMAC427/guess-indent.nvim",
+        event = "VeryLazy",
+        opts = {},
     },
 
     -- Improve Markdown rendering
