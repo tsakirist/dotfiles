@@ -58,14 +58,14 @@ utils.map({ "n", "i", "v" }, "<C-q>", "<Esc>:q<CR>", { desc = "Quit current wind
 utils.map("n", "Q", "<Esc><Cmd>qa!<CR>")
 
 -- Quick movements in Insert mode without having to change to Normal mode
-utils.map("i", "<C-h>", "<C-o>h")
-utils.map("i", "<C-l>", "<C-o>l")
-utils.map("i", "<C-j>", "<C-o>j")
-utils.map("i", "<C-k>", "<C-o>k")
-utils.map("i", "<C-b>", "<C-o>B")
-utils.map("i", "<C-e>", "<C-o>E<C-o>l")
-utils.map("i", "<C-a>", "<C-o>A")
-utils.map("i", "<C-^>", "<C-o><C-^>")
+utils.map("i", "<C-h>", "<Left>", { desc = "Move left" })
+utils.map("i", "<C-l>", "<Right>", { desc = "Move right" })
+utils.map("i", "<C-j>", "<Down>", { desc = "Move down" })
+utils.map("i", "<C-k>", "<Up>", { desc = "Move up" })
+utils.map("i", "<C-0>", "<C-o>^", { desc = "Move to the first non-blank at the beginning" })
+utils.map("i", "<C-a>", "<End>", { desc = "Move to the end" })
+utils.map("i", "<C-b>", "<C-o>B", { desc = "Move a WORD backwards" })
+utils.map("i", "<C-e>", "<C-o>E<C-o>l", { desc = "Move a WORD forward" })
 
 -- Keep Visual mode selection when indenting text
 utils.map("x", ">", ">gv")
