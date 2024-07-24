@@ -41,6 +41,8 @@ function M.setup()
                 ["C"] = "close_node",
                 ["R"] = "refresh",
                 ["Z"] = "close_all_nodes",
+                ["<C-d>"] = { "scroll_preview", config = { direction = -10 } },
+                ["<C-u>"] = { "scroll_preview", config = { direction = 10 } },
                 ["g?"] = "show_help",
                 ["<"] = "prev_source",
                 [">"] = "next_source",
