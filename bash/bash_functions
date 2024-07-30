@@ -155,12 +155,10 @@ EOF
 
     if git merge-base --is-ancestor "$1" "$2"; then
         echo "Commit $first_commit is an ancestor of $second_commit."
-        return 0
     elif git merge-base --is-ancestor "$2" "$1"; then
         echo "Commit $second_commit is an ancestor of $first_commit."
-        return 0
     else
-        echo "Error checking commit ancestry. Erorr code: $?" 1>&2
-        return $?
+        echo "Error checking commit ancestry. Error code: $?" 1>&2
+        return 1
     fi
 }
