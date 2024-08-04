@@ -646,18 +646,15 @@ return {
         end,
     },
 
-    -- Easily invert the word under cursor
+    -- Enhanced increment/decrement operations
     {
-        "nguyenvukhang/nvim-toggler",
-        keys = "<leader>iw",
+        "monaqa/dial.nvim",
+        keys = {
+            { "<C-a>", mode = { "n", "v" } },
+            { "<C-x>", mode = { "n", "v" } },
+        },
         config = function()
-            require("nvim-toggler").setup {
-                remove_default_keybinds = true,
-            }
-            local utils = require "tt.utils"
-            utils.map({ "n", "v" }, "<leader>iw", require("nvim-toggler").toggle, {
-                desc = "Inverts the word under the cursor",
-            })
+            require("tt._plugins.dial").setup()
         end,
     },
 
