@@ -1,5 +1,16 @@
 local M = {}
 
+local function set_no_wrap()
+    vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("tt.GrugFar", { clear = true }),
+        pattern = "grug-far-help",
+        callback = function()
+            vim.wo.wrap = false
+        end,
+        desc = "Disable wrap for grug-far-help",
+    })
+end
+
 function M.setup()
     local grug_far = require "grug-far"
     grug_far.setup {
@@ -9,6 +20,8 @@ function M.setup()
             historyOpen = { n = "<localleader>h" },
         },
     }
+
+    set_no_wrap()
 
     local utils = require "tt.utils"
 
