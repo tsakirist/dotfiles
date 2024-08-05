@@ -62,6 +62,15 @@ function M.setup()
                     skip = true,
                 },
             },
+            {
+                filter = {
+                    event = "msg_show",
+                    any = {
+                        { find = "%a" },
+                    },
+                },
+                view = "mini",
+            },
         },
         presets = {
             bottom_search = true, -- Use a classic bottom cmdline for search
