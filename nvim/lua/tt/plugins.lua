@@ -774,7 +774,7 @@ return {
 
     -- Improve Markdown rendering
     {
-        "MeanderingProgrammer/markdown.nvim",
+        "MeanderingProgrammer/render-markdown.nvim",
         ft = "markdown",
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
@@ -782,6 +782,7 @@ return {
         },
         opts = {
             code = {
+                position = "right",
                 width = "block",
                 right_pad = 1,
                 left_pad = 1,
