@@ -282,7 +282,6 @@ return {
             { "kevinhwang91/promise-async" },
             {
                 "luukvbaal/statuscol.nvim",
-                branch = "0.10",
                 config = function()
                     require("tt._plugins.statuscol").setup()
                 end,
