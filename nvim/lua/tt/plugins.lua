@@ -247,6 +247,7 @@ return {
     {
         "nvim-treesitter/nvim-treesitter",
         event = { "BufReadPost", "BufNewFile" },
+        cmd = "TSUpdate",
         build = function()
             if not _G.HeadlessMode() then
                 vim.cmd.TSUpdate()
