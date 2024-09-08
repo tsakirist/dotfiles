@@ -61,7 +61,7 @@ M.lsp_servers = {
             },
         },
     },
-    tsserver = {
+    ts_ls = {
         settings = {
             typescript = {
                 inlayHints = {
