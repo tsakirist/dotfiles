@@ -12,12 +12,15 @@
   when-added = log --diff-filter=A --
   when-deleted = log --diff-filter=D --
   when-modified = log --diff-filter=M --
-  stash-staged = "!git stash push -m \"$1\" -- $(git diff --staged --name-only) #"
   hide = update-index --assume-unchanged
   unhide = update-index --no-assume-unchanged
   unhide-all = update-index --really-refresh
-  show-hidden = !git ls-files -v | grep \"^[a-z]\"
-  show-ignored = !git status -s --ignored | grep \"^!!\"
+  skip = update-index --skip-worktree
+  unskip = update-index --no-skip-worktree
+  unskip-all = !git ls-files -v | grep -i ^s | cut -c 3- | xargs -L1 git unskip
+  show-hidden = !git ls-files -v | grep ^[hs]
+  show-skipped = !git ls-files -v | grep -i ^s
+  show-ignored = !git status -s --ignored | grep ^!!
 
 [init]
   defaultBranch = main
