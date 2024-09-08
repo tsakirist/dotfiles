@@ -7,8 +7,3 @@ git:
   paging:
     colorArg: always
     pager: delta --dark --paging=never
-
-keybinding:
-  universal:
-    goInto: "o"
-    openFile: "<enter>"
