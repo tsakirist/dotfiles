@@ -652,6 +652,8 @@ return {
         keys = {
             { "<C-a>", mode = { "n", "v" } },
             { "<C-x>", mode = { "n", "v" } },
+            { "c<C-a>", mode = "n" },
+            { "c<C-x>", mode = "n" },
         },
         config = function()
             require("tt._plugins.dial").setup()
