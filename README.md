@@ -82,6 +82,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── nvim-cmp.lua
 │       │   ├── nvim-surround.lua
 │       │   ├── nvim-ufo.lua
+│       │   ├── oil.lua
 │       │   ├── smart-splits.lua
 │       │   ├── startify.lua
 │       │   ├── statuscol.lua

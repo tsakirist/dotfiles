@@ -128,7 +128,7 @@ function M.setup()
             },
             group_empty_dirs = false, -- When true, empty folders will be grouped together
             use_libuv_file_watcher = true, -- This will use the OS level file watchers to detect changes, instead of autocmds
-            hijack_netrw_behavior = "open_default",
+            hijack_netrw_behavior = "disabled",
             window = {
                 mappings = {
                     ["-"] = "navigate_up",

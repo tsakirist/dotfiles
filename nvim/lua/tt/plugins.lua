@@ -534,6 +534,17 @@ return {
         end,
     },
 
+    -- File explorer like buffer
+    {
+        "stevearc/oil.nvim",
+        cmd = "Oil",
+        keys = { "<leader>fe" },
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+            require("tt._plugins.oil").setup()
+        end,
+    },
+
     -- Distraction free mode
     {
         "folke/zen-mode.nvim",
