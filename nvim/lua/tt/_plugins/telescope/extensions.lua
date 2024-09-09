@@ -22,6 +22,7 @@ M.extensions = {
             [">"] = false,
             ["&"] = false,
         },
+        results_ts_hl = true, -- Add treesitter highlighting to the results
     },
     fzf = {
         fuzzy = true, -- False will only do exact matching
