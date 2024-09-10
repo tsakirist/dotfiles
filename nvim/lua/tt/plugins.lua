@@ -382,7 +382,7 @@ return {
                 build = vim.fn.executable "make" == 1 and "make" or "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && \
                     cmake --build build --config Release  &&  cmake --install build --prefix build",
             },
-            { "tsakirist/telescope-egrepify.nvim", branch = "fix-devicons" },
+            { "fdschmidt93/telescope-egrepify.nvim" },
             { "tsakirist/telescope-lazy.nvim" },
         },
         config = function()
