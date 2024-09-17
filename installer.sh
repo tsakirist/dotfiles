@@ -318,7 +318,6 @@ function _nvim_nightly() {
 function _check_nvim_config_requirements() {
     _need_command make build-essential
     _need_command luarocks
-    _need_package python3.10-venv
     _need_command_fn node _node
 }
 
