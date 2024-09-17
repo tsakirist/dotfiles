@@ -271,17 +271,20 @@ function _zsh_config() {
     _zshrc && _zsh_aliases && _zsh_functions && _zsh_p10k && _zsh_forgit
 }
 
-function _oh_my_zsh() {
-    _print i "oh-my-zsh" ": framework for managing zsh configuration"
-    # Do not try to install, if the directory already exists
-    [ -d "$HOME/.oh-my-zsh" ] && return
+function _zsh_plugins() {
     local zsh_custom="$HOME/.oh-my-zsh/custom"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended > /dev/null 2>&1
     git clone --quiet --depth=1 https://github.com/romkatv/powerlevel10k.git "$zsh_custom"/themes/powerlevel10k
     git clone --quiet --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom"/plugins/zsh-autosuggestions
     git clone --quiet --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting "$zsh_custom"/plugins/fast-syntax-highlighting
     git clone --quiet --depth=1 https://github.com/wfxr/forgit.git "$zsh_custom"/plugins/forgit
     git clone --quiet --depth=1 https://github.com/tamcore/autoupdate-oh-my-zsh-plugins "$zsh_custom"/plugins/autoupdate
+    git clone --quiet --depth=1 https://github.com/reegnz/jq-zsh-plugin.git "$zsh_custom"/plugins/jq
+}
+
+function _oh_my_zsh() {
+    _print i "oh-my-zsh" ": framework for managing zsh configuration"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended > /dev/null 2>&1
+    _zsh_plugins
     _zshrc
 }
 
