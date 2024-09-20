@@ -273,12 +273,19 @@ function _zsh_config() {
 
 function _zsh_plugins() {
     local zsh_custom="$HOME/.oh-my-zsh/custom"
-    git clone --quiet --depth=1 https://github.com/romkatv/powerlevel10k.git "$zsh_custom"/themes/powerlevel10k
-    git clone --quiet --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom"/plugins/zsh-autosuggestions
-    git clone --quiet --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting "$zsh_custom"/plugins/fast-syntax-highlighting
-    git clone --quiet --depth=1 https://github.com/wfxr/forgit.git "$zsh_custom"/plugins/forgit
-    git clone --quiet --depth=1 https://github.com/tamcore/autoupdate-oh-my-zsh-plugins "$zsh_custom"/plugins/autoupdate
-    git clone --quiet --depth=1 https://github.com/reegnz/jq-zsh-plugin.git "$zsh_custom"/plugins/jq
+
+    function _install_zsh_plugin() {
+        local repo=$1
+        local target_dir=$zsh_custom/$2
+        [ ! -d "$target_dir" ] && git clone --quiet --depth=1 "$repo" "$target_dir"
+    }
+
+    _install_zsh_plugin https://github.com/romkatv/powerlevel10k.git themes/powerlevel10k
+    _install_zsh_plugin https://github.com/zsh-users/zsh-autosuggestions plugins/zsh-autosuggestions
+    _install_zsh_plugin https://github.com/zdharma-continuum/fast-syntax-highlighting plugins/fast-syntax-highlighting
+    _install_zsh_plugin https://github.com/wfxr/forgit.git plugins/forgit
+    _install_zsh_plugin https://github.com/tamcore/autoupdate-oh-my-zsh-plugins plugins/autoupdate
+    _install_zsh_plugin https://github.com/reegnz/jq-zsh-plugin.git plugins/jq
 }
 
 function _oh_my_zsh() {
