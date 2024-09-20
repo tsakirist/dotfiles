@@ -266,6 +266,7 @@ return {
     -- Lightweight powerful formatter plugin
     {
         "stevearc/conform.nvim",
+        event = { "BufWritePre" },
         dependencies = { "mason.nvim" },
         init = function()
             require("tt._plugins.format.conform").init()
