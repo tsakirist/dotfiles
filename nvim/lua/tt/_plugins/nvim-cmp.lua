@@ -112,6 +112,7 @@ function M.setup()
         sources = {
             { name = "nvim_lsp" },
             { name = "nvim_lua" },
+            { name = "lazydev", group_index = 0 },
             { name = "luasnip" },
             { name = "path" },
             {

@@ -94,8 +94,15 @@ return {
                 "SmiteshP/nvim-navic",
                 "hrsh7th/cmp-nvim-lsp",
                 {
-                    "folke/neodev.nvim",
-                    opts = {},
+                    "folke/lazydev.nvim",
+                    dependencies = { "Bilal2453/luvit-meta" },
+                    opts = {
+                        ft = "lua",
+                        cmd = "LazyDev",
+                        library = {
+                            { path = "luvit-meta/library", words = { "vim%.uv" } },
+                        },
+                    },
                 },
             },
             config = function()
