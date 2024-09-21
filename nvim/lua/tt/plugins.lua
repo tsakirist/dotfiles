@@ -422,6 +422,40 @@ return {
         end,
     },
 
+    -- Highlight current context
+    {
+        "shellRaining/hlchunk.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+        config = function()
+            local colors = require("tt._plugins.nightfox").colors()
+            ---@type HlChunk.UserConf
+            require("hlchunk").setup {
+                chunk = {
+                    enable = true,
+                    style = {
+                        { fg = colors.blue.base },
+                    },
+                    delay = 50,
+                    duration = 200,
+                    textobject = "ii",
+                },
+            }
+        end,
+    },
+
+    -- Visualize and operate on indent scope
+    {
+        "echasnovski/mini.indentscope",
+        event = { "BufReadPre", "BufNewFile" },
+        enabled = false,
+        init = function()
+            require("tt._plugins.mini-indentscope").init()
+        end,
+        config = function()
+            require("tt._plugins.mini-indentscope").setup()
+        end,
+    },
+
     -- Add extra text objects
     {
         "echasnovski/mini.ai",
@@ -444,18 +478,6 @@ return {
                     N = ai_extra.gen_ai_spec.number(),
                 },
             }
-        end,
-    },
-
-    -- Visualize and operate on indent scope
-    {
-        "echasnovski/mini.indentscope",
-        event = { "BufReadPre", "BufNewFile" },
-        init = function()
-            require("tt._plugins.mini-indentscope").init()
-        end,
-        config = function()
-            require("tt._plugins.mini-indentscope").setup()
         end,
     },
 
