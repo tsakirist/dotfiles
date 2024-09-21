@@ -3,7 +3,7 @@ local actions_state = require "telescope.actions.state"
 local M = {}
 
 --- Returns the picker associated with the current buffer.
----@param buffer number: The buffer from which to get the picker from.
+---@param buffer? number: The buffer from which to get the picker from.
 ---@return table: The picker associated with the current buffer.
 function M.get_current_picker(buffer)
     buffer = buffer or vim.api.nvim_get_current_buf()
