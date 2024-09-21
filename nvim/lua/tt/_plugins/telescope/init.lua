@@ -59,7 +59,6 @@ function M.setup()
                     ["<C-j>"] = actions.move_selection_next,
                     ["<C-k>"] = actions.move_selection_previous,
                     ["<CR>"] = actions.select_default + actions.center,
-                    ["<C-r>"] = trouble.open,
                     ["<C-t>"] = actions.select_tab,
                     ["<C-q>"] = actions.close,
                     ["<C-Down>"] = actions.cycle_history_next,
@@ -75,8 +74,8 @@ function M.setup()
                     ["<C-r><C-w>"] = false,
                 },
                 n = {
+                    ["<C-q>"] = trouble.open,
                     ["<C-j>"] = actions.move_selection_next,
-                    ["<C-r>"] = trouble.open,
                     ["<C-t>"] = actions.select_tab,
                     ["<C-k>"] = actions.move_selection_previous,
                     ["<M-m>"] = actions_layout.toggle_mirror,
