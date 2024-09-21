@@ -6,7 +6,7 @@ function M.setup()
     flash.setup {
         modes = {
             search = {
-                enabled = true,
+                enabled = false,
             },
             char = {
                 enabled = true,
