@@ -756,7 +756,7 @@ return {
                 desc = "Sniprun the whole buffer",
             },
             { "<leader>xx", "<Plug>SnipRun", mode = "v", desc = "Sniprun visually selected lines" },
-            { "<leader>xs", "<Plug>SnipClose", desc = "SnipClose" },
+            { "<leader>xc", "<Plug>SnipClose", desc = "SnipClose" },
             { "<leader>xr", "<Plug>SnipReset", desc = "SnipReset" },
         },
         opts = {
