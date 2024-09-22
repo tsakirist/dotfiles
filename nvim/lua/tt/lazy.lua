@@ -2,16 +2,25 @@ local utils = require "tt.utils"
 
 local function bootstrap()
     local lazypath = utils.join_paths(vim.fn.stdpath "data", "lazy", "lazy.nvim")
-    if not vim.loop.fs_stat(lazypath) then
-        vim.fn.system {
+
+    if not vim.uv.fs_stat(lazypath) then
+        local ret = vim.system({
             "git",
             "clone",
             "--filter=blob:none",
             "--branch=stable",
             "https://github.com/folke/lazy.nvim.git",
             lazypath,
-        }
+        }, { text = true }):wait()
+
+        if ret.code ~= 0 then
+            vim.api.nvim_echo({
+                { "Failed to clone 'lazy.nvim'\n", "ErrorMsg" },
+                { ret.stderr, "WarningMsg" },
+            }, true, {})
+        end
     end
+
     vim.opt.runtimepath:prepend(lazypath)
 end
 

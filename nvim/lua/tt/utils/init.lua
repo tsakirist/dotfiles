@@ -19,7 +19,7 @@ function M.map(mode, lhs, rhs, opts)
 end
 
 --- Returns the appropriate path separator according to the current OS.
-M.path_separator = vim.loop.os_uname().sysname:match "Windows" and "\\" or "/"
+M.path_separator = vim.uv.os_uname().sysname:match "Windows" and "\\" or "/"
 
 --- Joins the passed arguments with the appropriate file separator.
 ---@vararg any: The paths to join.
