@@ -67,9 +67,6 @@ function M.setup()
                 "imports",
                 "comment",
             },
-            json = {
-                "array",
-            },
             c = {
                 "comment",
                 "region",
@@ -90,6 +87,7 @@ function M.setup()
             },
         },
         fold_virt_text_handler = fold_virtual_text_handler,
+        enable_get_fold_virt_text = false,
     }
 
     local utils = require "tt.utils"
@@ -99,6 +97,9 @@ function M.setup()
     utils.map("n", "zm", ufo.closeFoldsWith, { desc = "Close all folds with fold level 0" })
     utils.map("n", "zj", ufo.goNextClosedFold, { desc = "Go to next closed fold" })
     utils.map("n", "zk", ufo.goPreviousClosedFold, { desc = "Go to previous closed fold" })
+
+    utils.map("n", "<F3>", ufo.openAllFolds, { desc = "Open all folds" })
+    utils.map("n", "<F4>", ufo.closeAllFolds, { desc = "Close all folds" })
 
     utils.map("n", "zp", function()
         local winid = ufo.peekFoldedLinesUnderCursor()
