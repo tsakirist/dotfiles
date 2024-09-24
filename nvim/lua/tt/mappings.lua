@@ -124,7 +124,7 @@ utils.map("n", "<leader>sb", "vib:sort<CR>", { desc = "Sort '() inner block" })
 utils.map("n", "<leader>sB", "viB:sort<CR>", { desc = "Sort '{}' inner block" })
 
 -- Paste until EOL from current cursor position
-utils.map("n", "<M-p>", [[vg_"_dP]], { desc = "Paste from current cursor position until EOL" })
+utils.map("n", "<M-p>", [[vg_"_dp]], { desc = "Paste from current cursor position until EOL" })
 
 -- Search in the visual selected area
 utils.map("v", "/", [[<Esc>/\%V]], { silent = false, desc = "Search within visual selected area" })
