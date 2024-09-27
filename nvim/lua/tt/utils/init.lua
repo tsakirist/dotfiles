@@ -1,5 +1,11 @@
 local M = {}
 
+--- Returns whether the OS is windows.
+M.is_windows = vim.uv.os_uname().sysname:match "Windows"
+
+--- Returns the appropriate path separator according to the current OS.
+M.path_separator = M.is_windows and "\\" or "/"
+
 --- Creates new mapping(s).
 ---@param mode string|string[]: can be for example 'n', 'i', 'v' or { 'n', 'i', 'v' }
 ---@param lhs string|string[]: the left hand side
@@ -17,9 +23,6 @@ function M.map(mode, lhs, rhs, opts)
         vim.keymap.set(mode, key, rhs, options)
     end
 end
-
---- Returns the appropriate path separator according to the current OS.
-M.path_separator = vim.uv.os_uname().sysname:match "Windows" and "\\" or "/"
 
 --- Joins the passed arguments with the appropriate file separator.
 ---@vararg any: The paths to join.
@@ -56,22 +59,31 @@ end
 ---@param s string: The string to be trimmed.
 ---@return string: The trimmed string.
 function M.trim(s)
-    return s:match("^%s*(.*)"):match "(.-)%s*$"
+    return s:match "^%s*(.-)%s*$"
 end
 
 --- Returns whether we're currently inside a git repo.
 ---@return boolean
 function M.is_in_git_repo()
-    local res = vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { text = true }):wait()
-    return res.stdout:match "true" ~= nil
+    local result = vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { text = true }):wait()
+    return result.stdout:match "true" ~= nil
 end
 
 --- Returns the root path of the current git repository.
 ---@return string|nil
-function M.get_git_root()
+local function get_git_root_internal()
     if M.is_in_git_repo() then
-        local res = vim.system({ "git", "rev-parse", "--show-toplevel" }, { text = true }):wait()
-        return (res.stdout:gsub("\n$", ""))
+        local result = vim.system({ "git", "rev-parse", "--show-toplevel" }, { text = true }):wait()
+        return (result.stdout:gsub("\n$", ""))
+    end
+end
+
+--- Returns the root path of the current git repository, adjusting path separators based on the OS..
+---@return string|nil
+function M.get_git_root()
+    local git_root = get_git_root_internal()
+    if git_root then
+        return M.is_windows and git_root:gsub("/", M.path_separator) or git_root
     end
 end
 
