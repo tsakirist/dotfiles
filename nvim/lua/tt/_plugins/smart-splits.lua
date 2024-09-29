@@ -35,30 +35,6 @@ function M.setup()
     utils.map("n", "<C-w>k", smart_splits.move_cursor_up, { desc = "Move cursor up" })
     utils.map("n", "<C-w>j", smart_splits.move_cursor_down, { desc = "Move cursor down" })
     utils.map("n", "<C-w>l", smart_splits.move_cursor_right, { desc = "Move cursor right" })
-
-    local keymap_layer = require "keymap-layer"
-    keymap_layer {
-        enter = {
-            { "n", "<leader>ss", nil, { desc = "Enable smart-splits keymap layer" } },
-        },
-        layer = {
-            { "n", "<C-w>H", smart_splits.swap_buf_left, { desc = "Swap buffer left" } },
-            { "n", "<C-w>L", smart_splits.swap_buf_right, { desc = "Swap buffer right" } },
-            { "n", "<C-w>K", smart_splits.swap_buf_up, { desc = "Swap buffer up" } },
-            { "n", "<C-w>J", smart_splits.swap_buf_down, { desc = "Swap buffer down" } },
-        },
-        exit = {
-            { "n", "<leader>ss", nil, { desc = "Disable smart-splits keymap layer" } },
-        },
-        config = {
-            on_enter = function()
-                print "Entered smart-splits keymap layer..."
-            end,
-            on_exit = function()
-                print "Exited smart-splits keymap layer..."
-            end,
-        },
-    }
 end
 
 return M

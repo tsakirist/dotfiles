@@ -711,18 +711,11 @@ return {
         end,
     },
 
-    -- Create arbitrary keymap layers
-    {
-        "anuvyklack/keymap-layer.nvim",
-        event = "BufReadPre",
-    },
-
     -- Resize windows easily
     {
         "mrjones2014/smart-splits.nvim",
         keys = {
             "<leader>rs",
-            "<leader>ss",
             "<M-h>",
             "<M-l>",
             "<C-w>h",
@@ -730,7 +723,6 @@ return {
             "<C-w>j",
             "<C-w>l",
         },
-        dependencies = "anuvyklack/keymap-layer.nvim",
         config = function()
             require("tt._plugins.smart-splits").setup()
         end,
