@@ -72,6 +72,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── indent-blankline.lua
 │       │   ├── lualine.lua
 │       │   ├── mini-indentscope.lua
+│       │   ├── mini-surround.lua
 │       │   ├── neogen.lua
 │       │   ├── neo-tree.lua
 │       │   ├── nightfox.lua
@@ -80,7 +81,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── numb.lua
 │       │   ├── nvim-autopairs.lua
 │       │   ├── nvim-cmp.lua
-│       │   ├── nvim-surround.lua
 │       │   ├── nvim-ufo.lua
 │       │   ├── oil.lua
 │       │   ├── smart-splits.lua

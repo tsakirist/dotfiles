@@ -456,6 +456,15 @@ return {
         end,
     },
 
+    -- Surround mappings for enclosed text
+    {
+        "echasnovski/mini.surround",
+        event = "BufRead",
+        config = function()
+            require("tt._plugins.mini-surround").setup()
+        end,
+    },
+
     -- Add extra text objects
     {
         "echasnovski/mini.ai",
@@ -636,15 +645,6 @@ return {
         event = "BufRead",
         config = function()
             require("tt._plugins.numb").setup()
-        end,
-    },
-
-    -- Surround mappings for enclosed text
-    {
-        "kylechui/nvim-surround",
-        event = "BufRead",
-        config = function()
-            require("tt._plugins.nvim-surround").setup()
         end,
     },
 
