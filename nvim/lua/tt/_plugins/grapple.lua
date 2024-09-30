@@ -60,7 +60,7 @@ function M.setup()
     utils.map("n", "<leader>tw", "<Cmd>Grapple toggle_tags<CR>", { desc = "Grapple toggle tags window" })
 
     for i = 1, 5 do
-        utils.map("n", string.format("<leader>%d", i), string.format("<Cmd>Grapple select index=%d<CR>", i), {
+        utils.map("n", string.format("<leader>t%d", i), string.format("<Cmd>Grapple select index=%d<CR>", i), {
             desc = string.format("Grapple quick select tag=%d", i),
         })
     end
