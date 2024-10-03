@@ -1,10 +1,21 @@
 -- Create a wrapper for nvim-web-devicons.
 ---@param path string: The path for the requested icon.
----@return any
+---@return string,string
 function _G.WebDevIcons(path)
     local extension = vim.fn.fnamemodify(path, ":e")
     local filename = vim.fn.fnamemodify(path, ":t")
     return require("nvim-web-devicons").get_icon(filename, extension, { default = true })
+end
+
+-- Declare a global function to retrieve the current directory
+function _G.GetOilWinbar()
+    local dir = require("oil").get_current_dir()
+    if dir then
+        return vim.fn.fnamemodify(dir, ":~")
+    else
+        -- If there is no current directory (e.g. over ssh), just show the buffer name
+        return vim.api.nvim_buf_get_name(0)
+    end
 end
 
 --- Returns whether or not neovim is running in headless mode.

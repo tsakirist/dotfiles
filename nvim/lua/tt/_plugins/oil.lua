@@ -19,6 +19,7 @@ function M.setup()
         skip_confirm_for_simple_edits = true,
         win_options = {
             wrap = true,
+            winbar = "%{v:lua.GetOilWinbar()}", -- Set in globals.lua
         },
         use_default_keymaps = false,
         keymaps = {
