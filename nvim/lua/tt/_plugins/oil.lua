@@ -14,6 +14,7 @@ local function show_detailed_view()
 end
 
 function M.setup()
+    ---@type oil.SetupOpts
     require("oil").setup {
         skip_confirm_for_simple_edits = true,
         win_options = {
@@ -60,8 +61,9 @@ function M.setup()
                 opts = { tab = true },
                 desc = "Open the entry in new tab",
             },
-            ["<C-q>"] = "actions.close",
             ["<C-l>"] = "actions.refresh",
+            ["<C-q>"] = "actions.close",
+            ["q"] = "actions.close",
         },
     }
 
