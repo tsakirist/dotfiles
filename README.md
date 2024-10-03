@@ -71,7 +71,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── hydra.lua
 │       │   ├── indent-blankline.lua
 │       │   ├── lualine.lua
-│       │   ├── mini-indentscope.lua
 │       │   ├── mini-surround.lua
 │       │   ├── neogen.lua
 │       │   ├── neo-tree.lua

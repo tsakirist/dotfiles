@@ -443,19 +443,6 @@ return {
         end,
     },
 
-    -- Visualize and operate on indent scope
-    {
-        "echasnovski/mini.indentscope",
-        event = { "BufReadPre", "BufNewFile" },
-        enabled = false,
-        init = function()
-            require("tt._plugins.mini-indentscope").init()
-        end,
-        config = function()
-            require("tt._plugins.mini-indentscope").setup()
-        end,
-    },
-
     -- Surround mappings for enclosed text
     {
         "echasnovski/mini.surround",
