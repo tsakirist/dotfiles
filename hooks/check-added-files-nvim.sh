@@ -4,7 +4,7 @@ function update_readme_tree() {
     declare -r tree_output_file="/tmp/tree_output.txt"
 
     # Check if a staged lua file (A|M|D) is added in nvim folder.
-    if git diff --cached --name-status | grep -E '^[AMD]' | awk '{print $2}' | grep '^nvim/'; then
+    if git diff --staged --name-status | grep -E '^[AMD]' | awk '{print $2}' | grep '^nvim/'; then
         pushd nvim || exit
         tree --dirsfirst --noreport -F -n . -o $tree_output_file
         popd || exit

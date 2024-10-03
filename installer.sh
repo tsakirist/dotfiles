@@ -209,6 +209,22 @@ function _git_config() {
     ln -sv --backup=numbered "${SCRIPT_DIR}/git/gitconfig" "$HOME"/.gitconfig
 }
 
+function _git_pre_commit_hooks() {
+    _chekc_dir hooks
+    _check_file hooks/pre-commit-config.yaml
+    _check_file hooks/check-added-files-nvim.sh
+    _print s "git pre-commit hooks"
+
+    # Make sure to install the required `pre-commit` package (https://pre-commit.com/)
+    _need_command pipx
+    pipx ensurepath > /dev/null 2>&1
+    pipx install pre-commit > /dev/null 2>&1
+
+    # Copy pre-commit hook files
+    cp -v hooks/pre-commit-config.yaml .pre-commit-config.yaml
+    cp -v hooks/check-added-files-nvim.sh .git/hooks
+}
+
 function _bashrc() {
     _check_file bash/bashrc
     _print s ".bashrc"
@@ -725,6 +741,7 @@ pkgs=(
     "    lazygit: a simple terminal UI for git commands"
     "    lazygit configuration"
     "    git configuration"
+    "    git pre-commit hooks"
     "    glow: markdown renderer for the terminal"
     "    node: asyncrhonous event-driven JavaScript runtime"
     "    rustup: rust toolchain installer"
@@ -771,6 +788,7 @@ pkgs_functions=(
     _lazygit
     _lazygit_config
     _git_config
+    _git_pre_commit_hooks
     _glow
     _node
     _rustup
