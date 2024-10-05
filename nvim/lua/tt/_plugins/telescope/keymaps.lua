@@ -42,7 +42,7 @@ function M.setup()
     end, { desc = "Live grep in open buffers" })
 
     utils.map("n", "<leader>fC", function()
-        builtin.colorscheme(themes.get_ivy { layout_config = { height = 0.2 } })
+        builtin.colorscheme(themes.get_dropdown { layout_config = { height = 0.2 }, previewer = false })
     end, { desc = "List available colorschemes" })
 
     utils.map("n", "<leader>fv", function()

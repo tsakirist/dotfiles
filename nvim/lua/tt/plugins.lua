@@ -8,6 +8,7 @@ return {
             end,
         },
         { "Mofiqul/vscode.nvim", lazy = true },
+        { "yorumicolors/yorumi.nvim", lazy = true },
     },
 
     -- Improve the default vim.ui interfaces
