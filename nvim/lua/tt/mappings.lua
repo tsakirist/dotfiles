@@ -68,6 +68,15 @@ utils.map("x", "<", "<gv")
 -- Thus, allowing us to repeatedly paste the word. {"_ : black-hole register}
 utils.map("v", "p", [["_dP]])
 
+-- Paste before and after the current line
+utils.map("n", "[p", function()
+    vim.cmd.put { bang = true }
+end, { desc = "Paste before line" })
+
+utils.map("n", "]p", function()
+    vim.cmd.put {}
+end, { desc = "Paste after line" })
+
 -- The '&' command repeats last substitution and the second '&' keeps the previous flags that were used
 -- So, usually we want to have this as the default behavior
 utils.map("n", "&", "<Cmd>&&<CR>")
