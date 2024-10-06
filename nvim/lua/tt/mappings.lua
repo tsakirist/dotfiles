@@ -27,10 +27,6 @@ utils.map(
     { silent = false }
 )
 
--- Move to the next and previous item in the quickfixlist
-utils.map("n", "]c", "<Cmd>cnext<CR>")
-utils.map("n", "[c", "<Cmd>cprevious<CR>")
-
 -- Use space to toggle fold
 utils.map("n", "<Space>", "za")
 
