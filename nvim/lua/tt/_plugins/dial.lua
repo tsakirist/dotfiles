@@ -31,6 +31,26 @@ function M.setup()
                 word = false,
                 cyclic = true,
             },
+            augend.constant.new {
+                elements = { "up", "down" },
+                word = true,
+                cyclic = true,
+            },
+            augend.constant.new {
+                elements = { "Up", "Down" },
+                word = true,
+                cyclic = true,
+            },
+            augend.constant.new {
+                elements = { "left", "right" },
+                word = true,
+                cyclic = true,
+            },
+            augend.constant.new {
+                elements = { "Left", "Right" },
+                word = true,
+                cyclic = true,
+            },
             augend.integer.alias.decimal,
             augend.integer.alias.hex,
             augend.integer.alias.binary,
