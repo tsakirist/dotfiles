@@ -501,8 +501,25 @@ function _kitty_config() {
 function _kitty_themes() {
     _check_dir kitty/themes/
     local destination="$HOME/.config/kitty/themes"
+    _create_dir_if_not_exists "$destination/"
+    ln -sv --backup=numbered "${SCRIPT_DIR}/kitty/themes/carbonfox.conf" "$destination"
+}
+
+function _wezterm() {
+    _print i "wezterm" ": cross platform terminal emulator in Rust"
+    curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
+    echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' \
+        | sudo tee /etc/apt/sources.list.d/wezterm.list > /dev/null 2>&1
+    _install wezterm
+    _wezterm_config
+}
+
+function _wezterm_config() {
+    _check_file wezterm/wezterm.lua
+    _print s "wezterm.lua"
+    local destination="$HOME/.config/wezterm/"
     _create_dir_if_not_exists "$destination"
-    ln -sv --backup=numbered "${SCRIPT_DIR}/kitty/themes/carbonfox.conf" "$destination/"
+    ln -sv --backup=numbered "${SCRIPT_DIR}/wezterm/wezterm.lua" "$destination"
 }
 
 function _x_profile() {
@@ -729,6 +746,8 @@ pkgs=(
     "    nvim configuration"
     "    kitty: the fast, featureful, GPU based terminal emulator"
     "    kitty configuration"
+    "    wezterm: cross platform terminal emulator in Rust"
+    "    wezterm configuration"
     "    fzf: fuzzy finder"
     "    fzf configuration"
     "    fd: improved version of find"
@@ -776,6 +795,8 @@ pkgs_functions=(
     _nvim_config
     _kitty
     _kitty_config
+    _wezterm
+    _wezterm_config
     _fzf
     _fzf_config
     _fd
