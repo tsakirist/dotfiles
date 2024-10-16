@@ -15,6 +15,7 @@ function M.setup()
         keys = {
             q = "close",
             go = "jump_close",
+            o = "jump",
             ["<C-x>"] = "jump_split",
             ["<C-v>"] = "jump_vsplit",
             ["<Space>"] = "fold_toggle",
