@@ -677,6 +677,12 @@ function _tldr() {
     cargo -q install tealdeer
 }
 
+function _yazi() {
+    _print i "yazi" ": terminal file manager"
+    _need_command cargo
+    cargo -q install --locked yazi-fm yazi-cli
+}
+
 function _fx() {
     _print i "fx" ": terminal JSON viewer & processor "
     sudo snap install fx > /dev/null
@@ -766,6 +772,7 @@ pkgs=(
     "    rustup: rust toolchain installer"
     "    sd: intuitive find & replace CLI (sed alternative)"
     "    tldr: cheatsheet for console commands"
+    "    yazi: terminal file manager"
     "    fx: terminal JSON viewer & processor"
     "    jq: command-line json processor"
     "    xprofile"
@@ -815,6 +822,7 @@ pkgs_functions=(
     _rustup
     _sd
     _tldr
+    _yazi
     _fx
     _jq
     _x_profile
