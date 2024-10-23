@@ -26,4 +26,4 @@ done
 rm $RM_OPT "$HOME"/.*.~*
 rm $RM_OPT "$HOME"/*.toml.~*
 rm $RM_OPT "$HOME"/.config/kitty/kitty.conf.~*
-rm $RM_OPT "$HOME"/.config/wezterm/wezterm.lua.~*
+rm $RM_OPT "$HOME"/.config/wezterm/wezterm*.lua.~*

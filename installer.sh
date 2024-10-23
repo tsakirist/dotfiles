@@ -516,10 +516,12 @@ function _wezterm() {
 
 function _wezterm_config() {
     _check_file wezterm/wezterm.lua
+    _check_file wezterm/wezterm_extras.lua
     _print s "wezterm.lua"
     local destination="$HOME/.config/wezterm/"
     _create_dir_if_not_exists "$destination"
     ln -sv --backup=numbered "${SCRIPT_DIR}/wezterm/wezterm.lua" "$destination"
+    ln -sv --backup=numbered "${SCRIPT_DIR}/wezterm/wezterm_extras.lua" "$destination"
 }
 
 function _x_profile() {
