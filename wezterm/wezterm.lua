@@ -1,4 +1,5 @@
 local wezterm = require("wezterm")
+local wezterm_extras = require("wezterm_extras")
 local action = wezterm.action
 local config = wezterm.config_builder()
 
@@ -38,19 +39,18 @@ config.pane_focus_follows_mouse = false
 config.default_cursor_style = "BlinkingBar"
 config.animation_fps = 1
 
--- Show a window when new wezterm versions are detected
-config.show_update_window = false
-
 -- Command palette
 config.command_palette_fg_color = colors.blue
 config.command_palette_bg_color = colors.black
 config.command_palette_font_size = 13
 
 -- Keybinds
-config.keys = {
+config.disable_default_key_bindings = true
+
+local keys = {
 	{
-		key = "P",
-		mods = "CTRL",
+		key = "p",
+		mods = "CTRL|SHIFT",
 		action = action.ActivateCommandPalette,
 	},
 	{
@@ -109,12 +109,12 @@ config.keys = {
 	},
 	{
 		key = "t",
-		mods = "SHIFT|CTRL",
+		mods = "CTRL|SHIFT",
 		action = action.SpawnTab("CurrentPaneDomain"),
 	},
 	{
 		key = "n",
-		mods = "SHIFT|CTRL",
+		mods = "CTRL|SHIFT",
 		action = action.SpawnWindow,
 	},
 	{
@@ -134,12 +134,12 @@ config.keys = {
 	},
 	{
 		key = "Tab",
-		mods = "SHIFT|CTRL",
+		mods = "CTRL|SHIFT",
 		action = action.ActivateTabRelative(-1),
 	},
 	{
 		key = "LeftArrow",
-		mods = "CTRL|SHIFT",
+		mods = "ALT",
 		action = action.AdjustPaneSize({ "Left", 5 }),
 	},
 	{
@@ -178,6 +178,26 @@ config.keys = {
 		action = action.ActivatePaneDirection("Down"),
 	},
 	{
+		key = "h",
+		mods = "CTRL|SHIFT",
+		action = action.ActivatePaneDirection("Left"),
+	},
+	{
+		key = "l",
+		mods = "CTRL|SHIFT",
+		action = action.ActivatePaneDirection("Right"),
+	},
+	{
+		key = "k",
+		mods = "CTRL|SHIFT",
+		action = action.ActivatePaneDirection("Up"),
+	},
+	{
+		key = "j",
+		mods = "CTRL|SHIFT",
+		action = action.ActivatePaneDirection("Down"),
+	},
+	{
 		key = "r",
 		mods = "CTRL|SHIFT",
 		action = action.ActivateKeyTable({
@@ -188,6 +208,14 @@ config.keys = {
 	{
 		key = "a",
 		mods = "CTRL|SHIFT",
+		action = action.ActivateKeyTable({
+			name = "activate_pane",
+			one_shot = true,
+		}),
+	},
+	{
+		key = "a",
+		mods = "ALT",
 		action = action.PaneSelect,
 	},
 	{
@@ -196,14 +224,16 @@ config.keys = {
 		action = action.ActivateCopyMode,
 	},
 	{
-		key = "L",
-		mods = "CTRL|SHIFT",
+		key = "k",
+		mods = "SUPER",
 		action = action.Multiple({
 			action.ClearScrollback("ScrollbackAndViewport"),
 			action.SendKey({ key = "L", mods = "CTRL" }),
 		}),
 	},
 }
+
+config.keys = wezterm_extras.merge_keys(keys, wezterm_extras.keys)
 
 -- Key tables
 config.key_tables = {
@@ -228,6 +258,7 @@ config.key_tables = {
 		{ key = "l", action = action.ActivatePaneDirection("Right") },
 		{ key = "k", action = action.ActivatePaneDirection("Up") },
 		{ key = "j", action = action.ActivatePaneDirection("Down") },
+		{ key = "Escape", action = "PopKeyTable" },
 	},
 }
 
