@@ -169,6 +169,9 @@ opt.confirm = true
 -- Set up the default shell in neovim
 opt.shell = vim.fn.exepath "zsh"
 
+-- Automatically change the cwd to the one of the opened buffer
+opt.autochdir = true
+
 -- Set rg as the grep program
 if vim.fn.executable "rg" then
     opt.grepprg = "rg --vimgrep --no-heading --smart-case"
