@@ -11,6 +11,10 @@ local function set_no_wrap()
     })
 end
 
+local function setup_autocommands()
+    set_no_wrap()
+end
+
 function M.setup()
     local grug_far = require "grug-far"
     grug_far.setup {
@@ -21,20 +25,20 @@ function M.setup()
         },
     }
 
-    set_no_wrap()
+    setup_autocommands()
 
     local utils = require "tt.utils"
 
-    utils.map("n", "<leader>sr", grug_far.grug_far, {
+    utils.map("n", "<leader>sr", grug_far.open, {
         desc = "Search and replace files",
     })
 
     utils.map("n", "<leader>sf", function()
-        grug_far.grug_far { prefills = { flags = vim.fn.expand "%" } }
+        grug_far.open { prefills = { flags = vim.fn.expand "%" } }
     end, { desc = "Search and replace in current file" })
 
     utils.map("n", "<leader>sw", function()
-        grug_far.grug_far { prefills = { flags = vim.fn.expand "<cword" } }
+        grug_far.open { prefills = { flags = vim.fn.expand "<cword" } }
     end, { desc = "Search and replace for current word" })
 end
 
