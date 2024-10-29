@@ -642,6 +642,19 @@ return {
         end,
     },
 
+    -- Automatic change normal string to template string when ${} is typed
+    {
+        "axelvc/template-string.nvim",
+        ft = {
+            "javascript",
+            "javascriptreact",
+            "typescript",
+            "typescriptreact",
+            "python",
+        },
+        opts = {},
+    },
+
     -- Peak lines easily with :<number>
     {
         "nacro90/numb.nvim",
