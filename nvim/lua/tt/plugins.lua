@@ -150,6 +150,21 @@ return {
                 require("tt._plugins.lsp.lsp-saga").setup()
             end,
         },
+        -- Vscode like floating window with LSP locations
+        {
+            "dnlhc/glance.nvim",
+            cmd = "Glance",
+            keys = {
+                {
+                    "gr",
+                    "<Cmd>Glance references<CR>",
+                    desc = "Glance references",
+                },
+            },
+            opts = {
+                border = { enable = true },
+            },
+        },
     },
 
     -- Git related plugins
