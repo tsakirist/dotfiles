@@ -64,6 +64,20 @@ function M.setup()
                     },
                 },
             },
+            lsp_references = {
+                preview = {
+                    type = "float",
+                    relative = "win",
+                    border = "rounded",
+                    title = "LSP reference preview",
+                    title_pos = "center",
+                    size = {
+                        height = 1,
+                        width = 0.5,
+                    },
+                    position = { 0, 1 },
+                },
+            },
         },
     }
 
