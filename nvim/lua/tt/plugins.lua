@@ -847,6 +847,17 @@ return {
         cmd = "CellularAutomaton",
     },
 
+    -- Minimal Eye-candy keys screencaster
+    {
+        "nvchad/showkeys",
+        cmd = "ShowkeysToggle",
+        opts = {
+            maxkeys = 5,
+            show_count = true,
+            position = "top-right",
+        },
+    },
+
     -- Measure the startup-time of neovim
     {
         "dstein64/vim-startuptime",
