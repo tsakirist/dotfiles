@@ -32,12 +32,7 @@ function M.setup()
             ["<"] = "actions.parent",
             ["-"] = "actions.parent",
             ["_"] = "actions.open_cwd",
-            ["`"] = "actions.cd",
-            ["~"] = {
-                "actions.cd",
-                opts = { scope = "tab" },
-                desc = ":tcd to the current oil directory",
-            },
+            ["<C-c>d"] = "actions.cd",
             ["gs"] = "actions.change_sort",
             ["gx"] = "actions.open_external",
             ["gd"] = {

@@ -20,6 +20,7 @@ function M.setup()
                 ["<2-leftmouse>"] = "open",
                 ["<cr>"] = "open",
                 ["o"] = "open",
+                ["="] = "open",
                 ["<bs>"] = "none",
                 ["<C-x>"] = "open_split",
                 ["<C-v>"] = "open_vsplit",
