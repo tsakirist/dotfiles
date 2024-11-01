@@ -7,6 +7,15 @@ function M.setup()
                 input = { "%b{}", "^.().*().$" },
                 output = { left = "{", right = "}" },
             },
+            -- Reverse the `<` and the `>` builtin surrounds
+            [">"] = {
+                input = { "%b<>", "^.%s*().-()%s*.$" },
+                output = { left = "< ", right = " >" },
+            },
+            ["<"] = {
+                input = { "%b<>", "^.().*().$" },
+                output = { left = "<", right = ">" },
+            },
         },
         mappings = {
             add = "ys",
