@@ -19,6 +19,12 @@ function M.setup()
                     icon = icons.misc.Edit,
                     title = " Rename ",
                 },
+                search_down = {
+                    icon = icons.misc.Search .. " " .. icons.misc.DoubleChevronDown,
+                },
+                search_up = {
+                    icon = icons.misc.Search .. " " .. icons.misc.DoubleChevronUp,
+                },
             },
         },
         lsp = {
