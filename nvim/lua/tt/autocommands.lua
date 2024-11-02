@@ -43,7 +43,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     group = vim.api.nvim_create_augroup("tt.Highlight", { clear = true }),
     pattern = "*",
     callback = function()
-        vim.highlight.on_yank()
+        vim.hl.on_yank { timeout = 200 }
     end,
     desc = "Enable highlighting when yanking text",
 })
