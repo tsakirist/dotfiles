@@ -12,7 +12,7 @@ function M.get_current_picker(buffer)
 end
 
 --- Returns the preview window associated with the picker.
----@param picker table: The picker object.
+---@param picker? table: The picker object.
 ---@return number: The preview window associated with the picker.
 function M.get_picker_preview_window(picker)
     picker = picker or M.get_current_picker()
