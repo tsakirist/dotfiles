@@ -81,6 +81,9 @@ return {
         -- Portable package manager to install LSP & DAP servers, linters and formatters
         {
             "williamboman/mason.nvim",
+            event = "BufRead",
+            cmd = "Mason",
+            keys = { "<leader>m" },
             build = ":MasonUpdate",
             dependencies = { "williamboman/mason-lspconfig.nvim" },
             config = function()
@@ -113,6 +116,7 @@ return {
         -- Incremental LSP based renaming with command preview
         {
             "smjonas/inc-rename.nvim",
+            keys = { "<leader>rn", "<F2>" },
             config = function()
                 require("inc_rename").setup {
                     show_message = false,
@@ -289,7 +293,7 @@ return {
     -- Lightweight powerful formatter plugin
     {
         "stevearc/conform.nvim",
-        event = { "BufWritePre" },
+        event = "BufWritePre",
         dependencies = { "mason.nvim" },
         init = function()
             require("tt._plugins.format.conform").init()
@@ -471,7 +475,7 @@ return {
     -- Add extra text objects
     {
         "echasnovski/mini.ai",
-        event = "VeryLazy",
+        event = "BufRead",
         dependencies = { "echasnovski/mini.extra" },
         opts = function()
             local ai = require "mini.ai"
@@ -819,7 +823,7 @@ return {
     -- Automatically detect the indentation used in the file
     {
         "NMAC427/guess-indent.nvim",
-        event = "VeryLazy",
+        event = "BufReadPre",
         opts = {},
     },
 
