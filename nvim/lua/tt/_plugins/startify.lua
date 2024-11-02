@@ -1,6 +1,7 @@
 local M = {}
 
 local utils = require "tt.utils"
+local icons = require "tt.icons"
 
 local function bootstrap()
     --- Directory where session files will be stored.
@@ -62,8 +63,6 @@ function M.setup()
     local version = vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch
     local plugins = require("lazy").stats().count
 
-    local icons = require "tt.icons"
-
     local custom_header = {
         [[                                 __                 ]],
         [[    ___     ___    ___   __  __ /\_\    ___ ___     ]],
@@ -72,9 +71,9 @@ function M.setup()
         [[  \ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\ ]],
         [[   \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/ ]],
         [[                                                    ]],
-        " " .. icons.misc.Bullets .. " Tryfon Tsakiris, tr.tsakiris@gmail.com",
+        " " .. icons.misc.Github .. " Tryfon Tsakiris, tr.tsakiris@gmail.com",
         " " .. icons.misc.Calendar .. " " .. datetime,
-        " " .. icons.misc.Branch .. " Neovim Version: " .. version,
+        " " .. icons.misc.GitCompare .. " Neovim Version: " .. version,
         " " .. icons.misc.Plug .. " Plugins: " .. plugins,
     }
 
