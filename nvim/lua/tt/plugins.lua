@@ -668,18 +668,6 @@ return {
         end,
     },
 
-    -- Popup window for cycling buffers
-    {
-        "ghillb/cybu.nvim",
-        keys = {
-            "<Tab>",
-            "<S-Tab>",
-        },
-        config = function()
-            require("tt._plugins.cybu").setup()
-        end,
-    },
-
     -- Search & Replace UI
     {
         "MagicDuck/grug-far.nvim",
