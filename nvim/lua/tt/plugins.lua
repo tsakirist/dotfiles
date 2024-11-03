@@ -783,19 +783,23 @@ return {
     -- Wrapper over UNIX shell commands
     {
         "chrisgrieser/nvim-genghis",
-        cmd = {
-            "Chmodx",
-            "Delete",
-            "Duplicate",
-            "Move",
-            "New",
-            "Rename",
-            "Trash",
-        },
+        dependencies = "stevearc/dressing.nvim",
+        cmd = "Genghis",
         init = function()
-            -- Create a `Delete` alias that uses `Trash` command
-            vim.api.nvim_create_user_command("Delete", "Trash", {})
+            local cmds = {
+                { name = "Chmodx", command = ":Genghis chmodx" },
+                { name = "Delete", command = ":Genghis trashFile" },
+                { name = "Duplicate", command = ":Genghis duplicateFile" },
+                { name = "MoveRename", command = ":Genghis moveAndRenameFile" },
+                { name = "MoveTo", command = ":Genghis moveToFolderInCwd" },
+                { name = "Rename", command = ":Genghis renameFile" },
+            }
+
+            for _, cmd in ipairs(cmds) do
+                vim.api.nvim_create_user_command(cmd.name, cmd.command, {})
+            end
         end,
+        opts = {},
     },
 
     -- Allows for writing and reading files with sudo permissions from within neovim
