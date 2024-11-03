@@ -361,7 +361,7 @@ function _nvim_config() {
     # Make symbolic links to the whole nvim directory in the target directory
     # This will force copy the soft-links, thus re-writing the existing ones
     echo -e "    ${bullet} Creating symbolic links to '$nvim_config_path' ..."
-    cp -arsfT "${SCRIPT_DIR}"/nvim "$nvim_config_path"
+    cp -asfT "${SCRIPT_DIR}"/nvim "$nvim_config_path"
 
     # Make sure to install Lazy and update the plugins
     # TODO: Perhaps I should use the lazy-lock file here and restore?
@@ -515,13 +515,13 @@ function _wezterm() {
 }
 
 function _wezterm_config() {
-    _check_file wezterm/wezterm.lua
-    _check_file wezterm/wezterm_extras.lua
-    _print s "wezterm.lua"
+    _check_dir wezterm
+    _print s "wezterm configuration"
+
     local destination="$HOME/.config/wezterm/"
     _create_dir_if_not_exists "$destination"
-    ln -sv --backup=numbered "${SCRIPT_DIR}/wezterm/wezterm.lua" "$destination"
-    ln -sv --backup=numbered "${SCRIPT_DIR}/wezterm/wezterm_extras.lua" "$destination"
+
+    cp -avsfT "${SCRIPT_DIR}/wezterm/" "$destination"
 }
 
 function _x_profile() {
