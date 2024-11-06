@@ -7,6 +7,8 @@ utils.map("c", "%%", "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { silent 
 -- Change buffers quickly
 utils.map("n", "]b", "<Cmd>bnext<CR>")
 utils.map("n", "[b", "<Cmd>bprevious<CR>")
+utils.map("n", "<Tab>", "<Cmd>bnext<CR>")
+utils.map("n", "<S-Tab>", "<Cmd>bprevious<CR>")
 
 -- Close all buffers except the current one and also keep cursor position intact
 utils.map("n", "<leader>bo", function()
