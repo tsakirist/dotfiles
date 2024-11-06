@@ -2,12 +2,17 @@ local wezterm = require("wezterm")
 
 local M = {}
 
-local function basename(s)
+function M.basename(s)
 	return string.gsub(s, "(.*[/\\])(.*)", "%2")
 end
 
+function M.get_cwd(tab)
+	local cwd = tab.active_pane.current_working_dir
+	return M.basename(cwd.file_path)
+end
+
 function M.is_neovim(pane)
-	local process_name = basename(pane:get_foreground_process_name())
+	local process_name = M.basename(pane:get_foreground_process_name())
 	return process_name == "nvim"
 end
 

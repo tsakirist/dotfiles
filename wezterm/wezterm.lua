@@ -1,5 +1,6 @@
 local wezterm = require("wezterm")
 local wezterm_bindings = require("wezterm_bindings")
+local wezterm_extras = require("wezterm_extras")
 local config = wezterm.config_builder()
 
 -- Terminal
@@ -23,7 +24,7 @@ config.font_size = 12
 -- Tab
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
-config.hide_tab_bar_if_only_one_tab = true
+config.hide_tab_bar_if_only_one_tab = false
 config.tab_and_split_indices_are_zero_based = true
 
 -- Window
@@ -59,6 +60,20 @@ wezterm.on("update-status", function(window)
 		{ Foreground = { Color = colors.magenta } },
 		{ Text = active_key_table },
 	}))
+end)
+
+-- Set the tab title, preferring any custom title manually set, or falls back to the cwd
+wezterm.on("format-tab-title", function(tab)
+	local tab_title = tab.tab_title
+
+	local title
+	if tab_title and #tab_title > 0 then
+		title = tab.tab_titlee
+	else
+		title = wezterm_extras.get_cwd(tab)
+	end
+
+	return string.format("  %s•%s  ", tab.tab_index, title)
 end)
 
 return config
