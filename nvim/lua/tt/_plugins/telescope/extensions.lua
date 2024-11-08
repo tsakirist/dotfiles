@@ -36,7 +36,6 @@ M.extensions = {
     lazy = {
         theme = "ivy",
     },
-    notify = {},
 }
 
 function M.setup()

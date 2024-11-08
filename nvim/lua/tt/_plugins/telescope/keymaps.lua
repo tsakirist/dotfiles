@@ -56,7 +56,6 @@ function M.setup()
     utils.map("n", "<leader>fS", custom_pickers.find_sessions, { desc = "Search startify sessions" })
 
     utils.map("n", "<leader>fp", extensions.lazy.lazy, { desc = "Search for installed plugins and perform actions" })
-    utils.map("n", "<leader>fn", extensions.notify.notify, { desc = "Search for notifications" })
     utils.map("n", "<leader>fg", extensions.egrepify.egrepify, { desc = "Live grep" })
     utils.map("n", "<leader>fG", function()
         extensions.egrepify.egrepify { cwd = utils.get_git_root() }

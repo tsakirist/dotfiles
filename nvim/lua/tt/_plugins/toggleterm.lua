@@ -63,14 +63,6 @@ M.custom_terminals = {
         keymap = "<leader>bt",
         float_opts = {},
     },
-    lazygit = {
-        cmd = "lazygit",
-        float_opts = {
-            width = math.floor(vim.o.columns * 0.9),
-            height = math.floor(vim.o.lines * 0.9),
-        },
-        keymap = "<leader>lt",
-    },
 }
 
 --- Checks whether the supplied terminal is one of the custom terminals.

@@ -11,20 +11,21 @@ return {
         { "yorumicolors/yorumi.nvim", lazy = true },
     },
 
+    -- Snacks a collection of QoL plugins
+    {
+        "folke/snacks.nvim",
+        priority = 1000,
+        config = function()
+            require("tt._plugins.snacks").setup()
+        end,
+    },
+
     -- Improve the default vim.ui interfaces
     {
         "stevearc/dressing.nvim",
         event = "VeryLazy",
         config = function()
             require("tt._plugins.dressing").setup()
-        end,
-    },
-
-    -- Fancy notifications to replace vim.notify
-    {
-        "rcarriga/nvim-notify",
-        config = function()
-            require("tt._plugins.notify").setup()
         end,
     },
 
@@ -105,6 +106,7 @@ return {
                         cmd = "LazyDev",
                         library = {
                             { path = "luvit-meta/library", words = { "vim%.uv" } },
+                            { path = "snacks.nvim", words = { "Snacks" } },
                         },
                     },
                 },

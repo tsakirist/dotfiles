@@ -75,13 +75,13 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── neo-tree.lua
 │       │   ├── nightfox.lua
 │       │   ├── noice.lua
-│       │   ├── notify.lua
 │       │   ├── numb.lua
 │       │   ├── nvim-autopairs.lua
 │       │   ├── nvim-cmp.lua
 │       │   ├── nvim-ufo.lua
 │       │   ├── oil.lua
 │       │   ├── smart-splits.lua
+│       │   ├── snacks.lua
 │       │   ├── startify.lua
 │       │   ├── statuscol.lua
 │       │   ├── syntax-tree-surfer.lua
