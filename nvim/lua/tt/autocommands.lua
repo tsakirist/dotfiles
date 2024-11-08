@@ -119,9 +119,24 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     group = vim.api.nvim_create_augroup("tt.Save", { clear = true }),
     pattern = "*",
     callback = function(event)
-        local filename = event.match
-        local filepath = vim.fn.fnamemodify(filename, ":p:h")
-        vim.fn.mkdir(filepath, "p")
+        ---Checks whether the autocommand should run
+        ---@param path string
+        ---@return boolean
+        local function is_excluded(path)
+            for _, pattern in ipairs { "^oil://" } do
+                if path:find(pattern) then
+                    return true
+                end
+            end
+            return false
+        end
+
+        local full_path = event.match
+        if is_excluded(full_path) then
+            return
+        end
+        local directory = vim.fn.fnamemodify(full_path, ":p:h")
+        vim.fn.mkdir(directory, "p")
     end,
     desc = "Automatically create required directories when saving a file",
 })
