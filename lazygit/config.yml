@@ -2,6 +2,27 @@ notARepository: "skip"
 
 gui:
   nerdFontsVersion: "3"
+  theme:
+    defaultFgColor:
+      - "#f2f4f8"
+    cherryPickedCommitFgColor:
+      - "#8cb6ff"
+    cherryPickedCommitBgColor:
+      - "#33b1ff"
+    activeBorderColor:
+      - "#ee5396"
+      - "bold"
+    unstagedChangesColor:
+      - "#ee5396"
+    selectedLineBgColor:
+      - "#2a2a2a"
+    searchingActiveBorderColor:
+      - "#ee5396"
+      - "bold"
+    optionsTextColor:
+      - "#8cb6ff"
+    inactiveBorderColor:
+      - "#7b7c7e"
 
 git:
   paging:
