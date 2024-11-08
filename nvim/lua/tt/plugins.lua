@@ -82,7 +82,7 @@ return {
         -- Portable package manager to install LSP & DAP servers, linters and formatters
         {
             "williamboman/mason.nvim",
-            event = "BufRead",
+            event = { "BufRead", "BufNewFile" },
             cmd = "Mason",
             keys = { "<leader>m" },
             build = ":MasonUpdate",
