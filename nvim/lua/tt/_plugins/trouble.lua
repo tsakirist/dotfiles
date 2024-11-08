@@ -1,5 +1,21 @@
 local M = {}
 
+local function setup_autocommands()
+    vim.api.nvim_create_autocmd("BufRead", {
+        group = vim.api.nvim_create_augroup("tt.TroubleQuickFix", { clear = true }),
+        pattern = "*",
+        callback = function(event)
+            if vim.bo[event.buf].buftype == "quickfix" then
+                vim.schedule(function()
+                    vim.cmd.cclose()
+                    vim.cmd.Trouble { "qflist", "open" }
+                end)
+            end
+        end,
+        desc = "Automatically open Trouble when quickfix list is opened.",
+    })
+end
+
 function M.setup()
     require("trouble").setup {
         auto_close = false, -- Auto close when there are no items
@@ -80,6 +96,8 @@ function M.setup()
             },
         },
     }
+
+    setup_autocommands()
 
     -- stylua: ignore start
     local utils = require "tt.utils"
