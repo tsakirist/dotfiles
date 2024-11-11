@@ -4,6 +4,9 @@ function M.setup()
     local icons = require "tt.icons"
 
     require("lspsaga").setup {
+        beacon = {
+            enable = false,
+        },
         symbol_in_winbar = {
             enable = false,
         },
@@ -76,11 +79,14 @@ function M.on_attach(_, bufnr)
     end
 
     local utils = require "tt.utils"
+    utils.map("n", "<leader>ca", "<Cmd>Lspsaga code_action<CR>", opts "Open code action menu")
+    utils.map("n", "gd", "<Cmd>Lspsaga goto_definition<CR>", opts "Goto definition")
+    utils.map("n", "gD", "<Cmd>Lspsaga goto_type_definition<CR>", opts "Goto type definition")
+    utils.map("n", "gp", "<Cmd>Lspsaga peek_definition<CR>", opts "Peek definition")
     utils.map("n", "dA", "<Cmd>Lspsaga show_buf_diagnostics<CR>", opts "Show buffer diagnostics")
     utils.map("n", "do", "<Cmd>Lspsaga show_cursor_diagnostics<CR>", opts "Show cursor diagnostics")
     utils.map("n", "dn", "<Cmd>Lspsaga diagnostic_jump_next<CR>", opts "Jump to next diagnostic")
     utils.map("n", "dp", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", opts "Jump to previous diagnostic")
-    utils.map("n", "gp", "<Cmd>Lspsaga peek_definition<CR>", opts "Peek definition")
 end
 
 return M
