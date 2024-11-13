@@ -28,6 +28,9 @@ function M.setup()
             },
         },
         lsp = {
+            progress = {
+                enabled = false,
+            },
             signature = {
                 auto_open = {
                     enabled = false,
