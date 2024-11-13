@@ -137,8 +137,10 @@ function M.setup()
             lualine_x = {
                 -- Show macro recordings
                 {
-                    noice.api.statusline.mode.get,
-                    cond = noice.api.statusline.mode.has,
+                    ---@diagnostic disable-next-line: undefined-field
+                    noice.api.status.mode.get,
+                    ---@diagnostic disable-next-line: undefined-field
+                    cond = noice.api.status.mode.has,
                     color = "@keyword",
                 },
                 {
