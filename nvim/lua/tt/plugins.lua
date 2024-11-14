@@ -7,8 +7,14 @@ return {
                 require("tt._plugins.nightfox").setup()
             end,
         },
+        {
+            "rose-pine/neovim",
+            name = "rose-pine",
+            config = function()
+                require("tt._plugins.rose-pine").setup()
+            end,
+        },
         { "Mofiqul/vscode.nvim", lazy = true },
-        { "yorumicolors/yorumi.nvim", lazy = true },
     },
 
     -- Snacks a collection of QoL plugins
@@ -449,13 +455,13 @@ return {
         "shellRaining/hlchunk.nvim",
         event = { "BufReadPre", "BufNewFile" },
         config = function()
-            local colors = require("tt._plugins.nightfox").colors()
             ---@type HlChunk.UserConf
             require("hlchunk").setup {
                 chunk = {
                     enable = true,
                     style = {
-                        { fg = colors.blue.base },
+                        { fg = "#806d9c" },
+                        { fg = "#806d9c" },
                     },
                     delay = 50,
                     duration = 200,
