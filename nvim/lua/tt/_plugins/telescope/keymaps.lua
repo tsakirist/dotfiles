@@ -19,7 +19,6 @@ function M.setup()
     utils.map("n", "<leader>fo", builtin.oldfiles, { desc = "Search for oldfiles" })
     utils.map("n", "<leader>fO", builtin.vim_options, { desc = "Search for vim options" })
     utils.map("n", "<leader>fw", builtin.grep_string, { desc = "Search for the string under cursor" })
-    utils.map("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "Search for LSP document symbols" })
     utils.map("n", "<leader>fT", builtin.tags, { desc = "Search for tags" })
     utils.map("n", "<leader>f;", builtin.resume, { desc = "Opens the previous telescope picker" })
     utils.map("n", "<leader>f:", builtin.command_history, { desc = "Search for command history" })
@@ -60,6 +59,8 @@ function M.setup()
     utils.map("n", "<leader>fG", function()
         extensions.egrepify.egrepify { cwd = utils.get_git_root() }
     end, { desc = "Live grep from git root" })
+
+    utils.map("n", "<leader>fs", custom_pickers.document_symbols, { desc = "Search for LSP document symbols" })
 end
 
 return M

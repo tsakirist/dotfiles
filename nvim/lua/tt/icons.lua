@@ -31,6 +31,8 @@ local kind = {
     },
     -- https://github.com/hrsh7th/nvim-cmp/wiki/Menu-Appearance#how-to-add-visual-studio-code-codicons-to-the-menu
     vscode = {
+        Array = "  ",
+        Boolean = "  ",
         Class = "  ",
         Color = "  ",
         Constant = "  ",
@@ -46,10 +48,13 @@ local kind = {
         Keyword = "  ",
         Method = "  ",
         Module = "  ",
+        Number = "  ",
+        Object = "  ",
         Operator = "  ",
         Property = "  ",
         Reference = "  ",
         Snippet = "",
+        String = "",
         Struct = "  ",
         Text = "  ",
         TypeParameter = "  ",

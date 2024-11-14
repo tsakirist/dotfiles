@@ -5,9 +5,11 @@ local config = require("telescope.config").values
 local extensions = require("telescope").extensions
 local finders = require "telescope.finders"
 local make_entry = require "telescope.make_entry"
+local entry_display = require "telescope.pickers.entry_display"
 local pickers = require "telescope.pickers"
 local previewers = require("tt._plugins.telescope.previewers").previewers
 local themes = require "telescope.themes"
+local icons = require "tt.icons"
 
 local M = {}
 
@@ -132,6 +134,38 @@ function M.find_sessions(opts)
             end,
         })
         :find()
+end
+
+---Pretty document symbols picker.
+---@param opts? table Optional table with extra configuration options.
+function M.document_symbols(opts)
+    opts = opts or {}
+
+    local original_entry_maker = make_entry.gen_from_lsp_symbols(opts)
+
+    opts.entry_maker = function(line)
+        local displayer = entry_display.create {
+            separator = " ",
+            items = {
+                { width = 35 },
+                { width = 3 },
+                { remaining = true },
+            },
+        }
+
+        local original_entry = original_entry_maker(line)
+        original_entry.display = function(entry)
+            return displayer {
+                { entry.symbol_name },
+                { icons.kind[entry.symbol_type], "TelescopeResultsField" },
+                { entry.symbol_type:lower(), "TelescopeResultsVariable" },
+            }
+        end
+
+        return original_entry
+    end
+
+    builtin.lsp_document_symbols(opts)
 end
 
 return M
