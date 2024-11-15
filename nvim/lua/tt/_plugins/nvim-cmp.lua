@@ -61,6 +61,7 @@ function M.setup()
     cmp.setup {
         view = {
             entries = {
+                name = "custom",
                 follow_cursor = true,
             },
         },
@@ -70,9 +71,11 @@ function M.setup()
         },
         experimental = {
             ghost_text = true,
-            native_menu = false,
         },
         formatting = {
+            -- Whether to show the `~` on suggestions
+            expandable_indicator = true,
+
             -- Set the ordering of the fields/items in the pop-up menu
             fields = { "kind", "abbr", "menu" },
 
@@ -86,7 +89,7 @@ function M.setup()
 
                 -- Do not add duplicate entries if an item with the same word is already present
                 -- Seems to fix, the duplicate entries with the snippets
-                vim_item.dup = 0
+                vim_item.dup = nil
 
                 return vim_item
             end,
