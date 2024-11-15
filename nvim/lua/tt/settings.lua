@@ -170,7 +170,7 @@ opt.confirm = true
 opt.shell = vim.fn.exepath "zsh"
 
 -- Automatically change the cwd to the one of the opened buffer
-opt.autochdir = true
+opt.autochdir = false
 
 -- Set rg as the grep program
 if vim.fn.executable "rg" then
