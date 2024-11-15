@@ -11,12 +11,6 @@ function M.setup()
         notifier = {
             enabled = true,
         },
-        statuscolumn = {
-            enabled = false,
-        },
-        words = {
-            enabled = false,
-        },
         styles = {
             notification = {
                 wo = {
