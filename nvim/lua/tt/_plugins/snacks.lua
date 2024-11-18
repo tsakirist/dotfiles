@@ -33,6 +33,8 @@ function M.setup()
     utils.map("n", "<leader>nd", function()
         Snacks.notifier.hide()
     end, { desc = "Hide all notifications" })
+
+    vim.api.nvim_create_user_command("Rename", Snacks.rename.rename_file, { desc = "Rename current file" })
 end
 
 return M

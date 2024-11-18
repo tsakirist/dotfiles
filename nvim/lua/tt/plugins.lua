@@ -800,7 +800,6 @@ return {
                 { name = "Duplicate", command = ":Genghis duplicateFile" },
                 { name = "MoveRename", command = ":Genghis moveAndRenameFile" },
                 { name = "MoveTo", command = ":Genghis moveToFolderInCwd" },
-                { name = "Rename", command = ":Genghis renameFile" },
             }
 
             for _, cmd in ipairs(cmds) do
