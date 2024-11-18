@@ -519,28 +519,6 @@ return {
         },
     },
 
-    -- Delete buffers without losing windows layout
-    {
-        "echasnovski/mini.bufremove",
-        event = "BufRead",
-        keys = {
-            {
-                "<leader>bd",
-                function()
-                    require("mini.bufremove").delete(0, false)
-                end,
-                desc = "Delete current buffer",
-            },
-            {
-                "<leader>bD",
-                function()
-                    require("mini.bufremove").delete(0, true)
-                end,
-                desc = "Force delete current buffer",
-            },
-        },
-    },
-
     -- Move lines easily in any direction
     {
         "echasnovski/mini.move",

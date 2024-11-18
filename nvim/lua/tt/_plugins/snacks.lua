@@ -34,6 +34,11 @@ function M.setup()
         Snacks.notifier.hide()
     end, { desc = "Hide all notifications" })
 
+    utils.map("n", "<leader>bd", Snacks.bufdelete.delete, { desc = "Delete current buffer" })
+    utils.map("n", "<leader>bD", function()
+        Snacks.bufdelete.delete { force = true }
+    end, { desc = "Force delete current buffer" })
+
     vim.api.nvim_create_user_command("Rename", Snacks.rename.rename_file, { desc = "Rename current file" })
 end
 
