@@ -77,12 +77,12 @@ local keys = {
 	{
 		key = "|",
 		mods = "CTRL|SHIFT",
-		action = action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+		action = action.SplitHorizontal({ domain = "CurrentPaneDomain", cwd = wezterm.home_dir }),
 	},
 	{
 		key = "Enter",
 		mods = "CTRL|SHIFT",
-		action = action.SplitVertical({ domain = "CurrentPaneDomain" }),
+		action = action.SplitVertical({ domain = "CurrentPaneDomain", cwd = wezterm.home_dir }),
 	},
 	{
 		key = "Tab",
