@@ -9,6 +9,7 @@ return {
         },
         {
             "rose-pine/neovim",
+            lazy = true,
             name = "rose-pine",
             config = function()
                 require("tt._plugins.rose-pine").setup()
@@ -20,7 +21,6 @@ return {
     -- Snacks a collection of QoL plugins
     {
         "folke/snacks.nvim",
-        priority = 1000,
         config = function()
             require("tt._plugins.snacks").setup()
         end,
@@ -232,6 +232,7 @@ return {
         -- More pleasant editing experience on commit messages
         {
             "rhysd/committia.vim",
+            ft = "gitcommit",
             config = function()
                 vim.g.committia_min_window_width = 140
                 vim.g.committia_edit_window_width = 90
