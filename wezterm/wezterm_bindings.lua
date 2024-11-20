@@ -31,6 +31,11 @@ local keys = {
 		action = action.ResetFontSize,
 	},
 	{
+		key = ")",
+		mods = "CTRL|SHIFT",
+		action = action.ResetFontSize,
+	},
+	{
 		key = "c",
 		mods = "CTRL|SHIFT",
 		action = wezterm.action.CopyTo("Clipboard"),
