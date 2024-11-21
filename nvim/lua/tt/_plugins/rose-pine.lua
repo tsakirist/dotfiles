@@ -25,9 +25,6 @@ function M.setup()
             CmpWindowCursorLine = { fg = "base", bg = "foam" },
             CmpItemAbbrMatch = { fg = "foam" },
             CmpItemAbbr = { fg = "text" },
-            StartifyFile = { fg = "foam" },
-            StartifyHeader = { fg = "rose" },
-            StartifyPath = { fg = "pine" },
         },
     }
 end

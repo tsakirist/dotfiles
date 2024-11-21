@@ -60,7 +60,6 @@ function M.setup()
             icons_enabled = true,
             disabled_filetypes = {
                 "help",
-                "startify",
                 "gitcommit",
             },
             always_divide_middle = true,

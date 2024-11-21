@@ -44,17 +44,12 @@ local function set_autocommands()
     })
 end
 
-local function set_options()
+function M.init()
     vim.opt.foldmethod = "expr"
     vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
     vim.opt.foldcolumn = "1"
     vim.opt.foldlevel = 99
     vim.opt.foldlevelstart = 99
-end
-
-function M.init()
-    set_options()
-    set_autocommands()
 end
 
 function M.setup()
@@ -90,6 +85,8 @@ function M.setup()
         enable_get_fold_virt_text = false,
     }
 
+    set_autocommands()
+
     local utils = require "tt.utils"
     utils.map("n", "zR", ufo.openAllFolds, { desc = "Open all folds" })
     utils.map("n", "zr", ufo.openFoldsExceptKinds, { desc = "Open all folds except kinds" })
@@ -113,6 +110,11 @@ function M.setup()
             ufo.closeFoldsWith(i)
         end, { desc = " Close L" .. i .. " folds" })
     end
+
+    utils.map("n", "<leader>ut", function()
+        vim.cmd.UfoDetach()
+        vim.cmd.UfoAttach()
+    end, { desc = "Detach/Re-attach UFO" })
 end
 
 return M

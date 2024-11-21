@@ -83,7 +83,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── rose-pine.lua
 │       │   ├── smart-splits.lua
 │       │   ├── snacks.lua
-│       │   ├── startify.lua
 │       │   ├── statuscol.lua
 │       │   ├── syntax-tree-surfer.lua
 │       │   ├── toggleterm.lua

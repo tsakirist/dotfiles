@@ -52,8 +52,6 @@ function M.setup()
         custom_pickers.action_in_nvim_config "live_grep"
     end, { desc = "Live grep in neovim config files" })
 
-    utils.map("n", "<leader>fS", custom_pickers.find_sessions, { desc = "Search startify sessions" })
-
     utils.map("n", "<leader>fp", extensions.lazy.lazy, { desc = "Search for installed plugins and perform actions" })
     utils.map("n", "<leader>fg", extensions.egrepify.egrepify, { desc = "Live grep" })
     utils.map("n", "<leader>fG", function()

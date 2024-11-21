@@ -35,15 +35,6 @@ return {
         end,
     },
 
-    -- Startify greeter screen with integrated session-handling
-    {
-        "mhinz/vim-startify",
-        dependencies = "nvim-tree/nvim-web-devicons",
-        config = function()
-            require("tt._plugins.startify").setup()
-        end,
-    },
-
     -- Statusline
     {
         "nvim-lualine/lualine.nvim",
@@ -315,7 +306,7 @@ return {
     -- Fold enhancements
     {
         "kevinhwang91/nvim-ufo",
-        event = "VimEnter",
+        event = "BufRead",
         dependencies = {
             { "kevinhwang91/promise-async" },
             {
@@ -399,13 +390,7 @@ return {
     -- Telescope fuzzy finding
     {
         "nvim-telescope/telescope.nvim",
-        cmd = function()
-            if pcall(require, "telescope") then
-                local cmds = vim.tbl_keys(require("tt._plugins.telescope.commands").commands)
-                table.insert(cmds, 1, "Telescope")
-                return cmds
-            end
-        end,
+        cmd = "Telescope",
         keys = {
             "<leader>f",
             "<leader>T",

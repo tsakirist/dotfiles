@@ -10,8 +10,8 @@ M.ignored_filetypes = {
     "mason",
     "neo-tree",
     "noice",
-    "startify",
     "toggleterm",
+    "snacks_dashboard",
 }
 
 return M

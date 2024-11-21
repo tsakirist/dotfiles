@@ -3,12 +3,6 @@ local custom_pickers = require "tt._plugins.telescope.pickers"
 local M = {}
 
 M.commands = {
-    TelescopeStartifySessions = {
-        cmd = function()
-            custom_pickers.find_sessions()
-        end,
-        opt = true,
-    },
     TelescopeNvimConfigFind = {
         cmd = function()
             custom_pickers.action_in_nvim_config "find_files"
