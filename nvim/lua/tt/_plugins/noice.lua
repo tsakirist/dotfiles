@@ -62,7 +62,6 @@ function M.setup()
                     event = "msg_show",
                     any = {
                         { kind = "", find = "written" },
-                        { find = "^E%w+" },
                         { find = "; after #%d+" },
                         { find = "; before #%d+" },
                     },
@@ -76,6 +75,7 @@ function M.setup()
                     event = "msg_show",
                     any = {
                         { find = "%a" },
+                        { find = "^E%w+" },
                     },
                 },
                 view = "mini",
