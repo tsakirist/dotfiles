@@ -18,13 +18,31 @@ local function get_dashboard_items()
         [[                                                                      ]],
     }, "\n")
 
-    local datetime = os.date "%A %d %B %Y, %T"
-    local version = vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch
-    local info = table.concat({
-        icons.misc.Github .. " Tryfon Tsakiris, tr.tsakiris@gmail.com",
-        icons.misc.Calendar .. " " .. datetime .. "    ",
-        icons.misc.GitCompare .. " Neovim Version: " .. version .. "                ",
-    }, "\n")
+    local function generate_info()
+        local datetime = os.date "%A %d %B %Y, %T"
+        local version = table.concat({
+            vim.version().major,
+            vim.version().minor,
+            vim.version().patch,
+        }, ".")
+        local info_items = {
+            icons.misc.Github .. " Tryfon Tsakiris, tr.tsakiris@gmail.com",
+            icons.misc.Calendar .. " " .. datetime,
+            icons.misc.GitCompare .. " Neovim Version: " .. version,
+        }
+
+        local max_item_length = math.max(unpack(vim.tbl_map(function(info_item)
+            return #info_item
+        end, info_items)))
+
+        info_items = vim.tbl_map(function(info_item)
+            return utils.pad(info_item, { length = max_item_length - #info_item })
+        end, info_items)
+
+        return table.concat(info_items, "\n")
+    end
+
+    local info = generate_info()
 
     local plugins_file = utils.join_paths(vim.fn.stdpath "config", "lua", "tt", "plugins.lua")
 
