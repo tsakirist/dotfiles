@@ -96,4 +96,50 @@ function M.document_symbols(opts)
     builtin.lsp_document_symbols(opts)
 end
 
+function M.show_sessions()
+    local ok, resession = pcall(require, "resession")
+    if not ok then
+        vim.notify("**resession** is not installed.", vim.log.levels.WARN, { title = "Telescope pickers" })
+        return
+    end
+
+    local opts = themes.get_dropdown()
+
+    local function get_session_name()
+        local selection = actions_state.get_selected_entry()
+        return selection.value
+    end
+
+    local function load_session(prompt_bufnr)
+        actions.close(prompt_bufnr)
+        resession.load(get_session_name())
+    end
+
+    local function delete_session()
+        resession.delete(get_session_name())
+    end
+
+    local function refresh_picker(prompt_bufnr)
+        local current_picker = actions_state.get_current_picker(prompt_bufnr)
+        current_picker:refresh(finders.new_table { results = resession.list() })
+    end
+
+    pickers
+        .new(opts, {
+            prompt_title = "Sessions",
+            finder = finders.new_table { results = resession.list() },
+            attach_mappings = function(prompt_bufnr, map)
+                local function inner_delete_session()
+                    delete_session()
+                    refresh_picker(prompt_bufnr)
+                end
+                actions.select_default:replace(load_session)
+                map("n", "d", inner_delete_session)
+                map("i", "<C-d>", inner_delete_session)
+                return true
+            end,
+        })
+        :find()
+end
+
 return M

@@ -80,6 +80,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── nvim-cmp.lua
 │       │   ├── nvim-ufo.lua
 │       │   ├── oil.lua
+│       │   ├── resession.lua
 │       │   ├── rose-pine.lua
 │       │   ├── smart-splits.lua
 │       │   ├── snacks.lua

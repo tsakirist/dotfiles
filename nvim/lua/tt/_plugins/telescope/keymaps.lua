@@ -59,6 +59,7 @@ function M.setup()
     end, { desc = "Live grep from git root" })
 
     utils.map("n", "<leader>fs", custom_pickers.document_symbols, { desc = "Search for LSP document symbols" })
+    utils.map("n", "<leader>fS", custom_pickers.show_sessions, { desc = "Search for saved sessions" })
 end
 
 return M

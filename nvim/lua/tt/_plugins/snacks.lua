@@ -58,7 +58,9 @@ function M.setup()
         notifier = {
             enabled = true,
         },
-        statuscolumn = { enabled = true },
+        statuscolumn = {
+            enabled = false,
+        },
         dashboard = {
             enabled = true,
             width = 80,
@@ -73,11 +75,12 @@ function M.setup()
                     -- stylua: ignore start
                     { icon = icons.document.Document, key = "e", desc = "New file", action = ":ene | startinsert" },
                     { icon = icons.misc.Search, key = "f", desc = "Find files", action = "<leader>ff" },
-                    { icon = icons.misc.TextLines, key = "g", desc = "Find text", action = "<leader>fg" },
+                    { icon = icons.misc.Notes, key = "g", desc = "Find text", action = "<leader>fg" },
                     { icon = icons.document.Documents, key = "r", desc = "Recent files", action = "<leader>fo" },
                     { icon = icons.misc.Settings, key = "F", desc = "Find config file", action = "<leader>fv"},
                     { icon = icons.misc.Settings, key = "G", desc = "Find config text", action = "<leader>gv"},
-                    { icon = icons.misc.Restore, key = "s", desc = "Restore session", section = "session" },
+                    { icon = icons.misc.Database, key = "s", desc = "Find sessions", action = "<leader>fS" },
+                    { icon = icons.misc.Restore, key = "L", desc = "Restore last session", action = ":SLast" },
                     { icon = icons.misc.Sleep, key = "z", desc = "Lazy", action = "<leader>lz", enabled = package.loaded.lazy ~= nil },
                     { icon = icons.misc.Quit, key = "q", desc = "Quit", action = ":qa" },
                     -- stylua: ignore end

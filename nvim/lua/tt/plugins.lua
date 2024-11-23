@@ -573,21 +573,18 @@ return {
         end,
     },
 
-    -- Automatically save the active session
+    -- Session management
     {
-        "folke/persistence.nvim",
-        event = "BufReadPre",
+        "stevearc/resession.nvim",
+        lazy = true,
+        cmd = {
+            "SSave",
+            "SDelete",
+            "SLoad",
+            "SLast",
+        },
         config = function()
-            local utils = require "tt.utils"
-
-            require("persistence").setup {
-                dir = utils.join_paths(vim.fn.stdpath "data", "sessions", "persistence/"),
-                options = { "buffers", "curdir", "globals", "help", "tabpages", "winsize", "folds" },
-            }
-
-            utils.map("n", "<leader>ps", function()
-                require("persistence").stop()
-            end, { desc = "Do not save the current session" })
+            require("tt._plugins.resession").setup()
         end,
     },
 
