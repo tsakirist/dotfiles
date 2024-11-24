@@ -130,6 +130,10 @@ function M.setup()
                     wrap = true,
                 },
             },
+            ["notification.history"] = {
+                width = 0.75,
+                height = 0.75,
+            },
         },
     }
 
