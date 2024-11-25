@@ -362,7 +362,7 @@ return {
     -- Fold enhancements
     {
         "kevinhwang91/nvim-ufo",
-        event = "BufRead",
+        event = "VeryLazy",
         dependencies = {
             { "kevinhwang91/promise-async" },
             {
