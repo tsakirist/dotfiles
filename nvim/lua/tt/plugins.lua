@@ -73,6 +73,21 @@ return {
         end,
     },
 
+    -- Cursor animation with a smear effect
+    {
+        "sphamba/smear-cursor.nvim",
+        event = "BufRead",
+        config = function()
+            require("smear_cursor").setup()
+
+            local enabled = true
+            vim.api.nvim_create_user_command("SmearToggle", function()
+                enabled = not enabled
+                require("smear_cursor").enabled = enabled
+            end, { desc = "Toggle smear cursor" })
+        end,
+    },
+
     -- LSP related plugins
     {
         -- Portable package manager to install LSP & DAP servers, linters and formatters
@@ -189,6 +204,8 @@ return {
                 local recipes = require "symbols.recipes"
                 require("symbols").setup(recipes.DefaultFilters, {
                     sidebar = {
+                        auto_peek = true,
+                        close_on_goto = true,
                         cursor_follow = false,
                         keymaps = {
                             ["go"] = "goto-symbol",
