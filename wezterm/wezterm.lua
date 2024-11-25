@@ -5,7 +5,7 @@ local config = wezterm.config_builder()
 
 -- Terminal
 config.initial_cols = 160
-config.initial_rows = 50
+config.initial_rows = 52
 
 -- Color
 config.color_scheme = "carbonfox"
