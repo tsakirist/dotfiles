@@ -7,11 +7,7 @@ local function setup_diagnostics_config()
         underline = true,
         severity_sort = true,
         virtual_lines = false,
-        virtual_text = {
-            spacing = 4,
-            source = "if_many",
-            prefix = icons.misc.ArrowRight,
-        },
+        virtual_text = false,
         update_in_insert = false,
         signs = {
             text = {

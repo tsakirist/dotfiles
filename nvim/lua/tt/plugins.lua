@@ -167,6 +167,18 @@ return {
                 border = { enable = true },
             },
         },
+        -- Pretty diagnostics
+        {
+            "rachartier/tiny-inline-diagnostic.nvim",
+            event = "BufRead",
+            config = function()
+                require("tiny-inline-diagnostic").setup {
+                    options = {
+                        multilines = true,
+                    },
+                }
+            end,
+        },
     },
 
     -- Git related plugins
