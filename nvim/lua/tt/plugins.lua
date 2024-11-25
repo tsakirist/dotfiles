@@ -179,6 +179,32 @@ return {
                 }
             end,
         },
+        -- Sidebar with LSP symbols
+        {
+            "oskarrrrrrr/symbols.nvim",
+            keys = {
+                { "<leader>ss", "<Cmd>SymbolsToggle<CR>", mode = "n", desc = "Toggle the symbols sidebar" },
+            },
+            config = function()
+                local recipes = require "symbols.recipes"
+                require("symbols").setup(recipes.DefaultFilters, {
+                    sidebar = {
+                        cursor_follow = false,
+                        keymaps = {
+                            ["go"] = "goto-symbol",
+                            ["P"] = "open-preview",
+                        },
+                    },
+                    providers = {
+                        lsp = {
+                            kinds = {
+                                default = require("tt.icons").kind,
+                            },
+                        },
+                    },
+                })
+            end,
+        },
     },
 
     -- Git related plugins
