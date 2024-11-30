@@ -712,7 +712,7 @@ return {
 
     -- Create custom submodes and menus
     {
-        "nvimtools/hydra.nvim",
+        "cathyprime/hydra.nvim",
         keys = {
             "<leader>gg",
             "<leader>w",
