@@ -78,7 +78,10 @@ return {
         "sphamba/smear-cursor.nvim",
         event = "BufRead",
         config = function()
-            require("smear_cursor").setup()
+            require("smear_cursor").setup {
+                -- When "none" it matches the text color at the target position
+                cursor_color = "none",
+            }
 
             local enabled = true
             vim.api.nvim_create_user_command("SmearToggle", function()
