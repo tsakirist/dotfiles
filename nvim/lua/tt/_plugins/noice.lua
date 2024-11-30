@@ -61,6 +61,16 @@ function M.setup()
                 filter = {
                     event = "msg_show",
                     any = {
+                        { find = "%a" },
+                        { find = "^E%w+" },
+                    },
+                },
+                view = "mini",
+            },
+            {
+                filter = {
+                    event = "msg_show",
+                    any = {
                         { kind = "", find = "written" },
                         { find = "; after #%d+" },
                         { find = "; before #%d+" },
@@ -72,13 +82,12 @@ function M.setup()
             },
             {
                 filter = {
-                    event = "msg_show",
-                    any = {
-                        { find = "%a" },
-                        { find = "^E%w+" },
-                    },
+                    event = "notify",
+                    find = "position_encoding param is required",
                 },
-                view = "mini",
+                opts = {
+                    skip = true,
+                },
             },
         },
         presets = {
