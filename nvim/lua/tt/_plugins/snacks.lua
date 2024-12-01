@@ -76,8 +76,24 @@ function M.setup()
         notifier = {
             enabled = true,
         },
-        statuscolumn = {
-            enabled = false,
+        ---@type snacks.scratch.Config
+        scratch = {
+            template = "",
+            win_by_ft = {
+                lua = {
+                    keys = {
+                        ["source"] = {
+                            "<C-s>",
+                            mode = { "n", "x" },
+                            function(self)
+                                local name = "scratch." .. vim.fn.fnamemodify(vim.api.nvim_buf_get_name(self.buf), ":e")
+                                Snacks.debug.run { buf = self.buf, name = name }
+                            end,
+                            desc = "Execute buffer",
+                        },
+                    },
+                },
+            },
         },
         dashboard = {
             enabled = true,
@@ -134,6 +150,10 @@ function M.setup()
                 width = 0.75,
                 height = 0.75,
             },
+            scratch = {
+                width = 0.70,
+                height = 0.65,
+            },
         },
     }
 
@@ -150,9 +170,12 @@ function M.setup()
     end, { desc = "Hide all notifications" })
 
     utils.map("n", "<leader>bd", Snacks.bufdelete.delete, { desc = "Delete current buffer" })
+
     utils.map("n", "<leader>bD", function()
         Snacks.bufdelete.delete { force = true }
     end, { desc = "Force delete current buffer" })
+
+    utils.map("n", "<leader>so", Snacks.scratch.open, { desc = "Open scratch buffer" })
 
     vim.api.nvim_create_user_command("Rename", Snacks.rename.rename_file, { desc = "Rename current file" })
 end
