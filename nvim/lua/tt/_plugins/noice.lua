@@ -101,13 +101,13 @@ function M.setup()
 
     local utils = require "tt.utils"
 
-    utils.map("n", "<C-d>", function()
+    utils.map({ "n", "i" }, "<C-d>", function()
         if not require("noice.lsp").scroll(4) then
             return "<C-d>zz"
         end
     end, { expr = true, desc = "Scroll window downwards" })
 
-    utils.map("n", "<C-u>", function()
+    utils.map({ "n", "i" }, "<C-u>", function()
         if not require("noice.lsp").scroll(-4) then
             return "<C-u>zz"
         end
