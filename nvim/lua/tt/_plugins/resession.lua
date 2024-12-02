@@ -14,6 +14,14 @@ local function setup_autocommands()
     })
 end
 
+local function complete(arglead)
+    return vim.iter(resession.list())
+        :filter(function(session)
+            return vim.startswith(session, arglead)
+        end)
+        :totable()
+end
+
 local function setup_commands()
     local cmds = {
         {
@@ -30,13 +38,21 @@ local function setup_commands()
                 local session_name = event.fargs[1]
                 resession.delete(session_name)
             end,
-            opts = { nargs = "?" },
+            opts = {
+                nargs = "?",
+                complete = complete,
+            },
         },
         {
             name = "SLoad",
-            command = function()
-                resession.load()
+            command = function(event)
+                local session_name = event.fargs[1]
+                resession.load(session_name)
             end,
+            opts = {
+                nargs = "?",
+                complete = complete,
+            },
         },
         {
             name = "SLast",
