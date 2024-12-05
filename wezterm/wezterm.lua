@@ -4,8 +4,8 @@ local wezterm_extras = require("wezterm_extras")
 local config = wezterm.config_builder()
 
 -- Terminal
-config.initial_cols = 160
-config.initial_rows = 52
+config.initial_cols = 170
+config.initial_rows = 55
 
 -- Color
 config.color_scheme = "carbonfox"
