@@ -11,7 +11,6 @@ M.ignored_filetypes = {
     "neo-tree",
     "noice",
     "toggleterm",
-    "snacks_dashboard",
 }
 
 return M

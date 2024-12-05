@@ -33,9 +33,33 @@ local function fold_virtual_text_handler(virtText, lnum, endLnum, width, truncat
     return virtualText
 end
 
-local function set_autocommands()
+local function set_init_autocommands()
+    local group = vim.api.nvim_create_augroup("tt.Ufo", { clear = true })
+
+    vim.api.nvim_create_autocmd("User", {
+        group = group,
+        pattern = "SnacksDashboardOpened",
+        callback = function()
+            require("ufo").detach()
+        end,
+        desc = "Detach UFO when SnacksDashboard is opened",
+    })
+
+    vim.api.nvim_create_autocmd("User", {
+        group = group,
+        pattern = "SnacksDashboardClosed",
+        callback = function()
+            require("ufo").attach()
+        end,
+        desc = "Attach UFO when SnacksDashboard is closed",
+    })
+end
+
+local function set_setup_autocommands()
+    local group = vim.api.nvim_create_augroup("tt.Ufo", { clear = false })
+
     vim.api.nvim_create_autocmd("FileType", {
-        group = vim.api.nvim_create_augroup("tt.Ufo", { clear = true }),
+        group = group,
         pattern = require("tt.common").ignored_filetypes,
         callback = function()
             require("ufo").detach()
@@ -50,6 +74,8 @@ function M.init()
     vim.opt.foldcolumn = "1"
     vim.opt.foldlevel = 99
     vim.opt.foldlevelstart = 99
+
+    set_init_autocommands()
 end
 
 function M.setup()
@@ -85,7 +111,7 @@ function M.setup()
         enable_get_fold_virt_text = false,
     }
 
-    set_autocommands()
+    set_setup_autocommands()
 
     local utils = require "tt.utils"
     utils.map("n", "zR", ufo.openAllFolds, { desc = "Open all folds" })
