@@ -22,6 +22,9 @@ function M.setup()
             winbar = "%{v:lua.GetOilWinbar()}", -- Set in globals.lua
         },
         use_default_keymaps = false,
+        preview_win = {
+            preview_method = "load",
+        },
         keymaps = {
             ["g?"] = "actions.show_help",
             ["<CR>"] = "actions.select",
@@ -57,6 +60,8 @@ function M.setup()
                 opts = { tab = true },
                 desc = "Open the entry in new tab",
             },
+            ["<C-d>"] = "actions.preview_scroll_down",
+            ["<C-u>"] = "actions.preview_scroll_up",
             ["<C-l>"] = "actions.refresh",
             ["<C-q>"] = "actions.close",
             ["q"] = "actions.close",
