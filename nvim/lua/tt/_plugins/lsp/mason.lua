@@ -85,7 +85,7 @@ function M.setup()
 
             keymaps = {
                 -- Keymap to expand a package
-                toggle_package_expand = "<CR>",
+                toggle_package_expand = "<Space>",
 
                 -- Keymap to install the package under the current cursor position
                 install_package = "i",
@@ -116,6 +116,7 @@ function M.setup()
 
     -- Bridge between 'mason' and 'lspconfig' allowing for easy installation and setup of LSP severs
     require("mason-lspconfig").setup {
+        automatic_installation = false,
         -- A list of servers to automatically install if they're not already installed
         ensure_installed = vim.tbl_keys(servers.lsp_servers),
     }
