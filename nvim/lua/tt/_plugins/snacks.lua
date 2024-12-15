@@ -76,7 +76,6 @@ function M.setup()
         notifier = {
             enabled = true,
         },
-        ---@type snacks.scratch.Config
         scratch = {
             template = "",
             win_by_ft = {
@@ -92,6 +91,14 @@ function M.setup()
                             desc = "Execute buffer",
                         },
                     },
+                },
+            },
+        },
+        zen = {
+            win = {
+                width = 0.9,
+                keys = {
+                    q = "close",
                 },
             },
         },
@@ -176,6 +183,10 @@ function M.setup()
     end, { desc = "Force delete current buffer" })
 
     utils.map("n", "<leader>so", Snacks.scratch.open, { desc = "Open scratch buffer" })
+
+    utils.map("n", "<F1>", Snacks.zen.zen, { desc = "Toggle Zen mode" })
+
+    Snacks.toggle.dim():map("<leader>sd", { desc = "Toggle dim mode" })
 
     vim.api.nvim_create_user_command("Rename", Snacks.rename.rename_file, { desc = "Rename current file" })
 end

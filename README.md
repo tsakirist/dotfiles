@@ -89,8 +89,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── toggleterm.lua
 │       │   ├── treesitter.lua
 │       │   ├── treesj.lua
-│       │   ├── trouble.lua
-│       │   └── zen-mode.lua
+│       │   └── trouble.lua
 │       ├── utils/
 │       │   ├── init.lua
 │       │   └── set.lua

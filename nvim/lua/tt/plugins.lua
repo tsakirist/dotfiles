@@ -622,16 +622,6 @@ return {
         end,
     },
 
-    -- Distraction free mode
-    {
-        "folke/zen-mode.nvim",
-        cmd = "ZenMode",
-        keys = "<F1>",
-        config = function()
-            require("tt._plugins.zen-mode").setup()
-        end,
-    },
-
     -- Session management
     {
         "stevearc/resession.nvim",
