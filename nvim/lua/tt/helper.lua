@@ -1,51 +1,40 @@
 local M = {}
 
---- Function to zoom-in and zoom-out from a window.
----@deprecated in favor of 'zoomToggleNewTab'
-function M.zoom_toggle_same_tab()
-    -- Do nothing if this is the only window, i.e. no splits
-    if vim.fn.winnr "$" == 1 then
-        return nil
-    end
-
-    if vim.t.zoomed then
-        -- Restore the window to its original dimensions
-        vim.cmd.execute "t:zoom_restore_cmd"
-        vim.t.zoomed = false
-    else
-        vim.t.zoomed = true
-        -- Returns a sequence of :resize commands that should
-        -- restore the current window sizes
-        vim.t.zoom_restore_cmd = vim.fn.winrestcmd()
-        -- Maximize the current window
-        vim.cmd.wincmd "_"
-        vim.cmd.wincmd "|"
-    end
-end
-
 --- Function to zoom-in and zoom-out of the given window in a new tab.
 local function zoom_toggle_new_tab()
+    local zoomed_window_id = "zoomed_window"
+
     -- Do not open new tab for unnamed buffer
-    -- TODO: Think how this can be fixed
-    if vim.fn.bufname() == "" then
+    local buf_name = vim.api.nvim_buf_get_name(0)
+    if buf_name == "" then
         return
     end
 
-    -- Do nothing if this is the only window in the first tab
-    if vim.fn.winnr "$" == 1 and vim.fn.tabpagenr "$" == 1 then
-        return
+    -- Get the windows in the current tab, excluding those with filetypes listed in `excluded_filetypes`
+    local function get_tab_windows()
+        local excluded_filetypes = { ["smear-cursor"] = true, snacks_notif = true, noice = true }
+        local tab_windows = vim.api.nvim_tabpage_list_wins(0)
+        return vim.iter(tab_windows)
+            :filter(function(window)
+                local buf = vim.api.nvim_win_get_buf(window)
+                local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
+                return not excluded_filetypes[ft]
+            end)
+            :totable()
     end
 
-    if vim.fn.winnr "$" == 1 then
+    -- Do not open if it's the only window in the current tab
+    local tab_windows = get_tab_windows()
+    if #tab_windows == 1 then
         -- Close the tab only if it's opened by this function
-        if pcall(vim.api.nvim_tabpage_get_var, 0, "zoomedTab") then
+        if pcall(vim.api.nvim_tabpage_get_var, 0, zoomed_window_id) then
             vim.cmd.tabclose()
         end
     else
         -- Open a new tab with the current file
-        vim.cmd.tabnew "%:p"
-        -- Set a tab local variable indicating that we're in a "zoomed" tab
-        vim.api.nvim_tabpage_set_var(0, "zoomedTab", true)
+        vim.cmd.tabnew(buf_name)
+        -- Set a tab local variable indicating that we're in a "zoomed" window
+        vim.api.nvim_tabpage_set_var(0, zoomed_window_id, true)
     end
 end
 
