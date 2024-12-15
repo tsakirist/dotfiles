@@ -1,3 +1,15 @@
+---Show a notification with a pretty printed dump of the object(s).
+function _G.dbg(...)
+    Snacks.debug.inspect(...)
+end
+
+---Show a notification with a pretty backtrace.
+---@param msg? string|string[]
+---@param opts? snacks.notify.Opts
+function _G.bt(msg, opts)
+    Snacks.debug.backtrace(msg, opts)
+end
+
 -- Create a wrapper for nvim-web-devicons.
 ---@param path string: The path for the requested icon.
 ---@return string,string
