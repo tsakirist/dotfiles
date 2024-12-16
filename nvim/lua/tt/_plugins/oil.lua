@@ -25,6 +25,12 @@ function M.setup()
         preview_win = {
             preview_method = "load",
         },
+        float = {
+            padding = 0,
+            get_win_title = function()
+                return ""
+            end,
+        },
         keymaps = {
             ["g?"] = "actions.show_help",
             ["<CR>"] = "actions.select",
@@ -69,7 +75,10 @@ function M.setup()
     }
 
     local utils = require "tt.utils"
-    utils.map("n", "<leader>fe", vim.cmd.Oil, { desc = "Open Oil file explorer" })
+    utils.map("n", "<leader>fe", function()
+        local open_method = vim.v.count == 0 and require("oil").open or require("oil").open_float
+        open_method()
+    end, { desc = "Open Oil file explorer. If a count is passed it opens in floating mode." })
 end
 
 return M
