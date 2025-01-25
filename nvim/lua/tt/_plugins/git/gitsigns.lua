@@ -14,7 +14,6 @@ function M.setup()
         numhl = true, -- Highlights just the number part of the number column
         linehl = false, -- Highlights the whole line
         word_diff = false, -- Highlights just the part of the line that has changed
-        show_deleted = false, -- Show deleted hunks with virtual text
         watch_gitdir = { -- Add a watcher for the .git directory to detect changes
             enable = true, -- Whether the watcher is enabled
             interval = 1000, -- Interval to wait before polling gitdir in (ms)
