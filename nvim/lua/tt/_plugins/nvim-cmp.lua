@@ -17,6 +17,7 @@ local cmp_source_names = {
     luasnip = "[LuaSnip]",
     path = "[Path]",
     buffer = "[Buffer]",
+    copilot = "[Copilot]",
 }
 
 -- Setup custom options for the pop-up windows
@@ -56,6 +57,40 @@ local function shift_tab(fallback)
         fallback()
     end
 end
+
+local sources = (function()
+    local cmp_sources = {
+        { name = "nvim_lsp" },
+        { name = "nvim_lua" },
+        { name = "lazydev", group_index = 0 },
+        { name = "luasnip" },
+        { name = "path" },
+        {
+            name = "buffer",
+            option = {
+                -- Use all visible buffers for suggestions
+                get_bufnrs = function()
+                    local bufs = {}
+                    for _, win in ipairs(vim.api.nvim_list_wins()) do
+                        table.insert(bufs, vim.api.nvim_win_get_buf(win))
+                    end
+                    return bufs
+                end,
+            },
+        },
+    }
+
+    -- Conditionally add copilot source if the plugin is available
+    local copilot_ok = pcall(function()
+        return require "copilot", require "copilot_cmp"
+    end)
+
+    if copilot_ok then
+        table.insert(cmp_sources, 4, { name = "copilot" })
+    end
+
+    return cmp_sources
+end)()
 
 function M.setup()
     cmp.setup {
@@ -119,26 +154,7 @@ function M.setup()
             ["<C-Space>"] = cmp.mapping.complete(),
         },
         preselect = cmp.PreselectMode.Item,
-        sources = {
-            { name = "nvim_lsp" },
-            { name = "nvim_lua" },
-            { name = "lazydev", group_index = 0 },
-            { name = "luasnip" },
-            { name = "path" },
-            {
-                name = "buffer",
-                option = {
-                    -- Use all visible buffers for suggestions
-                    get_bufnrs = function()
-                        local bufs = {}
-                        for _, win in ipairs(vim.api.nvim_list_wins()) do
-                            table.insert(bufs, vim.api.nvim_win_get_buf(win))
-                        end
-                        return bufs
-                    end,
-                },
-            },
-        },
+        sources = sources,
     }
 end
 

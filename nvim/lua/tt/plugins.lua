@@ -311,6 +311,20 @@ return {
                 opts = {},
             },
             {
+                "zbirenbaum/copilot-cmp",
+                enabled = false,
+                opts = {},
+                dependencies = {
+                    "zbirenbaum/copilot.lua",
+                    cmd = "Copilot",
+                    event = "InsertEnter",
+                    opts = {
+                        suggestion = { enabled = false },
+                        panel = { enabled = false },
+                    },
+                },
+            },
+            {
                 "L3MON4D3/LuaSnip",
                 dependencies = {
                     "tsakirist/friendly-snippets",

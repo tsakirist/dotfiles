@@ -37,6 +37,7 @@ local kind = {
         Color = "  ",
         Constant = "  ",
         Constructor = "  ",
+        Copilot = " ",
         Enum = "  ",
         EnumMember = "  ",
         Event = "  ",
