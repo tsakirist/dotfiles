@@ -5,7 +5,7 @@ local M = {}
 --- Filetypes along with their format on save status.
 ---@type table<string, boolean>
 M.filetypes = {
-    cpp = false,
+    cpp = true,
     sh = true,
     lua = true,
     javascript = true,
