@@ -121,7 +121,7 @@ function M.setup()
                     { icon = icons.misc.Settings, key = "F", desc = "Find config file", action = "<leader>fv"},
                     { icon = icons.misc.Settings, key = "G", desc = "Find config text", action = "<leader>gv"},
                     { icon = icons.misc.Database, key = "s", desc = "Find sessions", action = "<leader>fS" },
-                    { icon = icons.misc.Restore, key = "L", desc = "Restore last session", action = ":SLast" },
+                    { icon = icons.misc.Restore, key = "S", desc = "Restore last session", action = ":SLast" },
                     { icon = icons.misc.Sleep, key = "z", desc = "Lazy", action = "<leader>lz", enabled = package.loaded.lazy ~= nil },
                     { icon = icons.misc.Quit, key = "q", desc = "Quit", action = ":qa" },
                     -- stylua: ignore end
@@ -152,14 +152,17 @@ function M.setup()
                 wo = {
                     wrap = true,
                 },
+                relative = "editor",
             },
             notification_history = {
                 width = 0.75,
                 height = 0.75,
+                relative = "editor",
             },
             scratch = {
                 width = 0.70,
                 height = 0.65,
+                relative = "editor",
             },
         },
     }
