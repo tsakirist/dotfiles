@@ -1,5 +1,5 @@
-local deps_ok, cmp, luasnip, neogen = pcall(function()
-    return require "cmp", require "luasnip", require "neogen"
+local deps_ok, cmp, luasnip, neogen, colorful_menu = pcall(function()
+    return require "cmp", require "luasnip", require "neogen", require "colorful-menu"
 end)
 
 if not deps_ok then
@@ -90,6 +90,13 @@ function M.setup()
                 -- Do not add duplicate entries if an item with the same word is already present
                 -- Seems to fix, the duplicate entries with the snippets
                 vim_item.dup = nil
+
+                -- Add highlights
+                local highlights_info = colorful_menu.cmp_highlights(entry)
+                if highlights_info ~= nil then
+                    vim_item.abbr = highlights_info.text
+                    vim_item.abbr_hl_group = highlights_info.highlights
+                end
 
                 return vim_item
             end,

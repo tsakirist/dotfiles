@@ -60,6 +60,7 @@ function M.setup()
                 SniprunFloatingWinErr = { link = "Error" },
                 SnacksDashboardInfo = { fg = colors.white, style = "bold,italic" },
                 SnacksDashboardStartupMetrics = { fg = colors.white, style = "bold" },
+                CmpItemAbbrMatch = { style = "bold" },
             },
             carbonfox = {
                 ActionPreviewTitle = { link = "Title" },

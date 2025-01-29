@@ -307,6 +307,10 @@ return {
             "hrsh7th/cmp-path",
             "saadparwaiz1/cmp_luasnip",
             {
+                "xzbdmw/colorful-menu.nvim",
+                opts = {},
+            },
+            {
                 "L3MON4D3/LuaSnip",
                 dependencies = {
                     "tsakirist/friendly-snippets",
