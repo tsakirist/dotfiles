@@ -410,22 +410,17 @@ return {
         end,
     },
 
-    -- Surf easily through the document and move elements
+    -- Move and swap code around in a syntax tree aware manner
     {
-        "ziontee113/syntax-tree-surfer",
-        keys = {
-            "<leader>gt",
-            "<M-j>",
-            "<M-k>",
-            "<M-J>",
-            "<M-K>",
-            "vm",
-            "vn",
-        },
+        "aaronik/treewalker.nvim",
         dependencies = "nvim-treesitter/nvim-treesitter",
-        config = function()
-            require("tt._plugins.syntax-tree-surfer").setup()
-        end,
+        keys = {
+            { "<M-J>", "<Cmd>Treewalker SwapDown<CR>", mode = "n", desc = "Swap node down" },
+            { "<M-K>", "<Cmd>Treewalker SwapUp<CR>", mode = "n", desc = "Swap node up" },
+            { "<M-j>", "<Cmd>Treewalker SwapRight<CR>", mode = "n", desc = "Swap node right" },
+            { "<M-k>", "<Cmd>Treewalker SwapLeft<CR>", mode = "n", desc = "Swap node left" },
+        },
+        opts = {},
     },
 
     -- Tag important files
