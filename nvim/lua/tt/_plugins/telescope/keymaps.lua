@@ -9,7 +9,6 @@ local M = {}
 function M.setup()
     -- stylua: ignore
     utils.map("n", "<leader>T", builtin.builtin, { desc = "Show telescope builtin" })
-    utils.map("n", "<leader>fa", builtin.autocommands, { desc = "Search autocommands" })
     utils.map("n", "<leader>fb", builtin.buffers, { desc = "Search for open buffers " })
     utils.map("n", "<leader>fc", builtin.commands, { desc = "Search for commands" })
     utils.map("n", "<leader>ff", builtin.find_files, { desc = "Search for files" })
@@ -31,10 +30,6 @@ function M.setup()
     utils.map("n", "<leader>fl", function()
         builtin.current_buffer_fuzzy_find { layout_strategy = "vertical", previewer = false }
     end, { desc = "Search current buffer" })
-
-    utils.map("n", "<leader>fm", function()
-        builtin.keymaps(themes.get_ivy())
-    end, { desc = "List keymaps" })
 
     utils.map("n", "<leader>gb", function()
         extensions.egrepify.egrepify { prompt_title = "Live grep in open buffers", grep_open_files = true }

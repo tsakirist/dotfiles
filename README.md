@@ -52,6 +52,15 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   ├── lsp-saga.lua
 │       │   │   ├── mason.lua
 │       │   │   └── nvim-navic.lua
+│       │   ├── snacks/
+│       │   │   ├── commands.lua
+│       │   │   ├── dashboard.lua
+│       │   │   ├── init.lua
+│       │   │   ├── keymaps.lua
+│       │   │   ├── picker.lua
+│       │   │   ├── scratch.lua
+│       │   │   ├── styles.lua
+│       │   │   └── zen.lua
 │       │   ├── telescope/
 │       │   │   ├── commands.lua
 │       │   │   ├── extensions.lua
@@ -83,7 +92,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── resession.lua
 │       │   ├── rose-pine.lua
 │       │   ├── smart-splits.lua
-│       │   ├── snacks.lua
 │       │   ├── statuscol.lua
 │       │   ├── toggleterm.lua
 │       │   ├── treesitter.lua
