@@ -605,25 +605,6 @@ return {
         opts = {},
     },
 
-    -- File explorer tree
-    {
-        "nvim-neo-tree/neo-tree.nvim",
-        branch = "v3.x",
-        cmd = "Neotree",
-        keys = {
-            "<leader>nf",
-            "<leader>nt",
-        },
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons",
-            "MunifTanjim/nui.nvim",
-        },
-        config = function()
-            require("tt._plugins.neo-tree").setup()
-        end,
-    },
-
     -- File explorer like buffer
     {
         "stevearc/oil.nvim",

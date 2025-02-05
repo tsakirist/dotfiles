@@ -81,7 +81,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── lualine.lua
 │       │   ├── mini-surround.lua
 │       │   ├── neogen.lua
-│       │   ├── neo-tree.lua
 │       │   ├── nightfox.lua
 │       │   ├── noice.lua
 │       │   ├── numb.lua
