@@ -99,6 +99,10 @@ function _install() {
     sudo apt-get -qq install "$@" > /dev/null
 }
 
+function _update() {
+    sudo apt-get -qq update
+}
+
 # Checks whether the provided command exists or not
 function _check_command() {
     command -v "$1" > /dev/null 2>&1
@@ -322,6 +326,16 @@ function _node() {
     _install nodejs
 }
 
+function _mise() {
+    _print i "mise" ": a manager for dev tools"
+    sudo install -dm 755 /etc/apt/keyrings
+    wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1> /dev/null
+    echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" \
+        | sudo tee /etc/apt/sources.list.d/mise.list > /dev/null 2>&1
+    _update
+    _install mise
+}
+
 function _nvim_nightly() {
     _print i "neovim nightly" ": a superior vim fork focused on extensiblity and usability"
     local nvim_tar="nvim-linux64.tar.gz"
@@ -510,6 +524,7 @@ function _wezterm() {
     curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
     echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' \
         | sudo tee /etc/apt/sources.list.d/wezterm.list > /dev/null 2>&1
+    _update
     _install wezterm
     _wezterm_config
 }
@@ -771,6 +786,7 @@ pkgs=(
     "    git pre-commit hooks"
     "    glow: markdown renderer for the terminal"
     "    node: asyncrhonous event-driven JavaScript runtime"
+    "    mise: a manager for dev tools"
     "    rustup: rust toolchain installer"
     "    sd: intuitive find & replace CLI (sed alternative)"
     "    tldr: cheatsheet for console commands"
@@ -821,6 +837,7 @@ pkgs_functions=(
     _git_pre_commit_hooks
     _glow
     _node
+    _mise
     _rustup
     _sd
     _tldr

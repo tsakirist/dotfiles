@@ -75,7 +75,7 @@ zstyle :omz:plugins:ssh-agent lazy yes
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z zsh-autosuggestions fast-syntax-highlighting colored-man-pages ssh-agent forgit autoupdate jq)
+plugins=(git z zsh-autosuggestions fast-syntax-highlighting colored-man-pages ssh-agent forgit autoupdate jq mise)
 
 # Fire up oh-my-zsh
 source $ZSH/oh-my-zsh.sh
@@ -133,6 +133,11 @@ bindkey -s '' 'frg\n'
 
 # Setup the path for ripgrep configuration
 export RIPGREP_CONFIG_PATH="$HOME/.config/rg/config"
+
+# Activate mise
+if command -v mise &>/dev/null; then
+  eval "$(mise activate zsh)"
+fi
 
 # Add ~/.local/bin to PATH
 export PATH="$HOME/.local/bin:$PATH"
