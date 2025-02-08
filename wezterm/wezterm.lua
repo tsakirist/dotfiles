@@ -68,7 +68,7 @@ wezterm.on("format-tab-title", function(tab)
 
 	local title
 	if tab_title and #tab_title > 0 then
-		title = tab.tab_titlee
+		title = tab.tab_title
 	else
 		title = wezterm_extras.get_cwd(tab)
 	end

@@ -193,6 +193,22 @@ local keys = {
 			action.SendKey({ key = "L", mods = "CTRL" }),
 		}),
 	},
+	{
+		key = "r",
+		mods = "SUPER",
+		action = action.PromptInputLine({
+			description = "Enter new tab name:",
+			action = wezterm.action_callback(function(window, _, line)
+				-- If 'ESC' is pressed, the line will be nil
+				-- If 'CR' is pressed, the line will be an empty string
+				if line == nil then
+					return
+				end
+				-- Will either set the new tab title to the line or fallback to the default mechanism
+				window:active_tab():set_title(line)
+			end),
+		}),
+	},
 }
 
 M.keys = wezterm_extras.merge_keys(keys, wezterm_extras.keys)
