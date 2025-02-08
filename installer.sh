@@ -320,12 +320,6 @@ function _build_essential() {
     _install build-essential
 }
 
-function _node() {
-    _print i "node" ": asynchronous event-driven JavaScript runtime"
-    curl -sSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - > /dev/null 2>&1
-    _install nodejs
-}
-
 function _mise() {
     _print i "mise" ": a manager for dev tools"
     sudo install -dm 755 /etc/apt/keyrings
@@ -333,7 +327,14 @@ function _mise() {
     echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" \
         | sudo tee /etc/apt/sources.list.d/mise.list > /dev/null 2>&1
     _update
-    _install mise
+    _install mise \
+        && echo "Make sure to ${red_fg}restart${reset} your shell session or ${red_fg}source${reset} the rc file to be able use mise tools."
+}
+
+function _node() {
+    _print i "node" ": asynchronous event-driven javascript runtime"
+    _need_command_fn mise _mise
+    mise use --global node@lts > /dev/null
 }
 
 function _nvim_nightly() {
@@ -785,8 +786,8 @@ pkgs=(
     "    git configuration"
     "    git pre-commit hooks"
     "    glow: markdown renderer for the terminal"
-    "    node: asyncrhonous event-driven JavaScript runtime"
     "    mise: a manager for dev tools"
+    "    node: asyncrhonous event-driven JavaScript runtime"
     "    rustup: rust toolchain installer"
     "    sd: intuitive find & replace CLI (sed alternative)"
     "    tldr: cheatsheet for console commands"
@@ -836,8 +837,8 @@ pkgs_functions=(
     _git_config
     _git_pre_commit_hooks
     _glow
-    _node
     _mise
+    _node
     _rustup
     _sd
     _tldr
