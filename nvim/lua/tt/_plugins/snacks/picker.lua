@@ -1,7 +1,29 @@
 local M = {}
 
+---@type table<string, snacks.picker.layout.Config>
+M.layouts = {
+    default = {
+        reverse = true,
+        layout = {
+            box = "horizontal",
+            width = 0.8,
+            min_width = 120,
+            height = 0.8,
+            {
+                box = "vertical",
+                border = "rounded",
+                title = "{title} {live} {flags}",
+                { win = "list", border = "bottom" },
+                { win = "input", border = "none", height = 1 },
+            },
+            { win = "preview", title = "{preview}", border = "rounded", width = 0.5 },
+        },
+    },
+}
+
 ---@type snacks.picker.Config|{}
 M.picker = {
+    layouts = M.layouts,
     win = {
         input = {
             keys = {

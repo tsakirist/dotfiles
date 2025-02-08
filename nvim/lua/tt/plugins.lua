@@ -120,7 +120,7 @@ return {
                         cmd = "LazyDev",
                         library = {
                             { path = "luvit-meta/library", words = { "vim%.uv" } },
-                            { path = "snacks.nvim", words = { "Snacks" } },
+                            { path = "snacks.nvim", words = { "Snacks", "snacks" } },
                         },
                     },
                 },
