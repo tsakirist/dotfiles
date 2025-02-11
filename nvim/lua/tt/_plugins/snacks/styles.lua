@@ -1,6 +1,6 @@
 local M = {}
 
----@type snacks.Config
+---@type table<string, snacks.win.Config>
 M.styles = {
     notification = {
         wo = {

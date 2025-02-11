@@ -11,6 +11,9 @@ function M.setup()
         notifier = {
             enabled = true,
         },
+        image = {
+            enabled = false,
+        },
         zen = require("tt._plugins.snacks.zen").zen,
         dashboard = require("tt._plugins.snacks.dashboard").dashboard,
         picker = require("tt._plugins.snacks.picker").picker,

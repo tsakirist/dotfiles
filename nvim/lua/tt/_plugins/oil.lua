@@ -75,7 +75,7 @@ function M.setup()
     }
 
     local utils = require "tt.utils"
-    utils.map("n", "<leader>fe", function()
+    utils.map("n", "<leader>e", function()
         local open_method = vim.v.count == 0 and require("oil").open or require("oil").open_float
         open_method()
     end, { desc = "Open Oil file explorer. If a count is passed it opens in floating mode." })

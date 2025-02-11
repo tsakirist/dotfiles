@@ -1,10 +1,39 @@
 local M = {}
 
-local snack_picker_layouts = require "snacks.picker.config.layouts"
+---@type snacks.picker.layout.Config
+local telecsope_layout = {
+    reverse = true,
+    layout = {
+        box = "horizontal",
+        backdrop = false,
+        width = 0.8,
+        height = 0.8,
+        border = "none",
+        {
+            box = "vertical",
+            { win = "list", title = " Results ", title_pos = "center", border = "rounded" },
+            {
+                win = "input",
+                height = 1,
+                border = "rounded",
+                title = "{title} {live} {flags}",
+                title_pos = "center",
+            },
+        },
+        {
+            win = "preview",
+            title = "{preview:Preview}",
+            border = "rounded",
+            width = 0.5,
+            title_pos = "center",
+        },
+    },
+}
 
 ---@type table<string, snacks.picker.layout.Config>
-M.layouts = {
-    default = snack_picker_layouts.telescope,
+local layouts = {
+    default = telecsope_layout,
+    telescope = telecsope_layout,
     vertical = {
         reverse = true,
         layout = {
@@ -24,23 +53,41 @@ M.layouts = {
     },
 }
 
+---@type table<string, false|string|fun(self: snacks.win)|snacks.win.Keys>
+local common_keys = {
+    ["<C-q>"] = { "close", mode = { "n", "i" } },
+    ["<C-d>"] = { "preview_scroll_down", mode = { "n", "i" } },
+    ["<C-u>"] = { "preview_scroll_up", mode = { "n", "i" } },
+    ["<C-l>"] = { "preview_scroll_right", mode = { "n", "i" } },
+    ["<C-h>"] = { "preview_scroll_left", mode = { "n", "i" } },
+}
+
 ---@type snacks.picker.Config|{}
 M.picker = {
-    layouts = M.layouts,
+    layouts = layouts,
+    actions = {
+        trouble_open = function(...)
+            return require("trouble.sources.snacks").actions.trouble_open.action(...)
+        end,
+    },
     win = {
         input = {
-            keys = {
-                ["<C-q>"] = { "close", mode = { "n", "i" } },
-                ["<C-d>"] = { "preview_scroll_down", mode = { "n", "i" } },
-                ["<C-u>"] = { "preview_scroll_up", mode = { "n", "i" } },
-            },
+            keys = vim.tbl_extend("force", common_keys, {
+                ["<C-c>"] = { "trouble_open", mode = { "n", "i" } },
+            }),
         },
         list = {
-            keys = {
-                ["<C-q>"] = { "close", mode = { "n", "i" } },
-                ["<C-d>"] = { "preview_scroll_down", mode = { "n", "i" } },
-                ["<C-u>"] = { "preview_scroll_up", mode = { "n", "i" } },
+            keys = common_keys,
+        },
+        preview = {
+            wo = {
+                wrap = false,
             },
+        },
+    },
+    formatters = {
+        file = {
+            filename_first = true,
         },
     },
     sources = {
@@ -48,6 +95,9 @@ M.picker = {
             layout = {
                 preset = "vscode",
             },
+        },
+        grep = {
+            follow = true,
         },
         explorer = {
             layout = {
@@ -61,6 +111,7 @@ M.picker = {
                         ["-"] = "explorer_up",
                         ["o"] = "confirm",
                         ["="] = "confirm",
+                        ["+"] = "confirm",
                         ["O"] = "explorer_open",
                         ["<M-h>"] = false,
                     },
@@ -73,16 +124,9 @@ M.picker = {
                 hidden = { "preview" },
             },
         },
-        help = {
-            layout = {
-                preset = "vertical",
-            },
-        },
-        colorschemes = {
-            layout = {
-                preset = "vertical",
-            },
-        },
+        help = { layout = { preset = "vertical" } },
+        colorschemes = { layout = { preset = "vertical" } },
+        notifications = { layout = { preset = "vertical" } },
     },
 }
 

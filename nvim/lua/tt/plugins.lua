@@ -609,7 +609,7 @@ return {
     {
         "stevearc/oil.nvim",
         cmd = "Oil",
-        keys = { "<leader>fe" },
+        keys = { "<leader>e" },
         dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
             require("tt._plugins.oil").setup()
