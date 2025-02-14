@@ -320,6 +320,12 @@ function _build_essential() {
     _install build-essential
 }
 
+function _mise_config() {
+    _check_file mise/config.toml
+    _print s "mise configuration"
+    ln -sv --backup=numbered "${SCRIPT_DIR}/mise/config.toml" "$HOME"/.config/mise/config.toml
+}
+
 function _mise() {
     _print i "mise" ": a manager for dev tools"
     sudo install -dm 755 /etc/apt/keyrings
@@ -329,6 +335,8 @@ function _mise() {
     _update
     _install mise \
         && echo "Make sure to ${red_fg}restart${reset} your shell session or ${red_fg}source${reset} the rc file to be able use mise tools."
+    _mise_config
+    mise install --silent --yes > /dev/null 2>&1
 }
 
 function _node() {
@@ -787,6 +795,7 @@ pkgs=(
     "    git pre-commit hooks"
     "    glow: markdown renderer for the terminal"
     "    mise: a manager for dev tools"
+    "    mise configuration"
     "    node: asyncrhonous event-driven JavaScript runtime"
     "    rustup: rust toolchain installer"
     "    sd: intuitive find & replace CLI (sed alternative)"
@@ -838,6 +847,7 @@ pkgs_functions=(
     _git_pre_commit_hooks
     _glow
     _mise
+    _mise_config
     _node
     _rustup
     _sd

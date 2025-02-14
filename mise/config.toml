@@ -1,0 +1,23 @@
+[tools]
+"cargo:tlrc" = "latest"
+"cargo:sd" = "latest"
+bat = "latest"
+cmake = "latest"
+delta = "latest"
+difftastic = "latest"
+dust = "latest"
+fd = "latest"
+fx = "latest"
+fzf = "latest"
+glow = "latest"
+hyperfine = "latest"
+jq = "latest"
+lazydocker = "latest"
+lazygit = "latest"
+node = "lts"
+rg = "latest"
+usage = "latest"
+yazi = "latest"
+
+[settings]
+experimental = true

@@ -74,8 +74,9 @@ alias nvv='nvim ~/.vimrc'
 # Set nvim as the pager for man pages
 alias man=nvim_man_pager
 
-# Lazygit
+# Lazy
 alias lg='lazygit'
+alias ld='lazydocker'
 
 # Git aliases
 alias ga='git add'
