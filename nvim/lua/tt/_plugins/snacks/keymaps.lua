@@ -22,6 +22,8 @@ local function setup_generic_keymaps()
 
     utils.map("n", "<F1>", Snacks.zen.zen, { desc = "Toggle Zen mode" })
 
+    utils.map({ "n", "v" }, "<leader>go", Snacks.gitbrowse.open, { desc = "Git browse file" })
+
     Snacks.toggle.dim():map("<leader>sd", { desc = "Toggle dim mode" })
 end
 
