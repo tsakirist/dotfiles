@@ -59,6 +59,8 @@ function M.setup()
     utils.map("n", "<leader>gv", function()
         custom_pickers.config_action "grep"
     end, { desc = "Grep files in config" })
+
+    utils.map("n", "<leader>fS", custom_pickers.show_sessions, { desc = "Search for saved sessions" })
 end
 
 return M
