@@ -292,9 +292,16 @@ function _zsh_config() {
 }
 
 function _zsh_plugins() {
+    _print i "zsh plugins"
+
     local zsh_custom="$HOME/.oh-my-zsh/custom"
 
     function _install_zsh_plugin() {
+        if [ $# -ne 2 ]; then
+            echo "Expected two arguments. Provided $# argument(s)."
+            return
+        fi
+
         local repo=$1
         local target_dir=$zsh_custom/$2
         [ ! -d "$target_dir" ] && git clone --quiet --depth=1 "$repo" "$target_dir"

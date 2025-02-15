@@ -18,6 +18,7 @@ node = "lts"
 rg = "latest"
 usage = "latest"
 yazi = "latest"
+zoxide = "latest"
 
 [settings]
 experimental = true

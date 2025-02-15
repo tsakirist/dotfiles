@@ -44,9 +44,6 @@ alias network_restart2='sudo service network-manager restart'
 # xclip properly copy to clipboard
 alias xclip='xclip -selection clipboard'
 
-# Shorten the name to just gotop
-alias gotop='gotop-cjbassi -c monokai'
-
 # Logout
 alias logout='gnome-session-quit'
 
@@ -58,9 +55,6 @@ alias mv='mv -v'
 
 # Make cp command verbose
 alias cp='cp -v'
-
-# Kitty aliases
-alias icat='kitty +kitten icat'
 
 # Neovim is everywhere
 alias vi='nvim'
@@ -77,6 +71,9 @@ alias man=nvim_man_pager
 # Lazy
 alias lg='lazygit'
 alias ld='lazydocker'
+
+# Make z start in interactive mode
+# alias z='zi'
 
 # Git aliases
 alias ga='git add'

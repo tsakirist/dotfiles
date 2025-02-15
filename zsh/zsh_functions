@@ -163,7 +163,7 @@ EOF
     fi
 }
 
- # Shell wrapper for yazi
+# Shell wrapper for yazi
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
 	yazi "$@" --cwd-file="$tmp"
@@ -171,4 +171,11 @@ function y() {
 		builtin cd -- "$cwd"
 	fi
 	rm -f -- "$tmp"
+}
+
+# Make zoxide 'z' change to directory when arguments are provided
+# otherwise display an interactive 'fzf' prompt
+unalias z 2>/dev/null
+z() {
+    [ $# -gt 0 ] && __zoxide_z "$@" || __zoxide_zi
 }
