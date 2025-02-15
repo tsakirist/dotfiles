@@ -5,10 +5,6 @@ local custom_pickers = require "tt._plugins.snacks.custom_pickers"
 function M.setup()
     local utils = require "tt.utils"
 
-    utils.map("n", { "<leader>lg", "<leader>lt" }, function()
-        Snacks.lazygit()
-    end, { desc = "Open Lazygit" })
-
     utils.map("n", "<leader>nh", function()
         Snacks.notifier.show_history()
     end, { desc = "Show notification history" })
@@ -27,6 +23,9 @@ function M.setup()
 
     utils.map("n", "<F1>", Snacks.zen.zen, { desc = "Toggle Zen mode" })
 
+    Snacks.toggle.dim():map("<leader>sd", { desc = "Toggle dim mode" })
+
+    -- Find/Grep pickers
     utils.map("n", "<leader>F", Snacks.picker.pick, { desc = "Snacks pickers" })
     utils.map("n", "<leader>fa", Snacks.picker.autocmds, { desc = "Search autocommands" })
     utils.map("n", "<leader>fb", Snacks.picker.buffers, { desc = "Search for open buffers" })
@@ -50,8 +49,6 @@ function M.setup()
     utils.map("n", "<leader>gb", Snacks.picker.grep_buffers, { desc = "Live grep in open buffers" })
     utils.map("n", "<leader>so", Snacks.picker.smart, { desc = "Smart open" })
 
-    Snacks.toggle.dim():map("<leader>sd", { desc = "Toggle dim mode" })
-
     utils.map("n", "<leader>fv", function()
         custom_pickers.config_action "files"
     end, { desc = "Find files in config" })
@@ -61,6 +58,56 @@ function M.setup()
     end, { desc = "Grep files in config" })
 
     utils.map("n", "<leader>fS", custom_pickers.show_sessions, { desc = "Search for saved sessions" })
+
+    -- Terminals
+    utils.map("n", { "<leader>lg", "<leader>lt" }, function()
+        Snacks.lazygit()
+    end, { desc = "Open Lazygit" })
+
+    utils.map({ "n", "t" }, "<leader>ft", function()
+        Snacks.terminal.toggle(nil, {
+            env = {
+                snacks_terminal_float = "1",
+            },
+            win = {
+                border = "rounded",
+                position = "float",
+                height = 0.85,
+                width = 0.85,
+            },
+        })
+    end, { desc = "Toggle float terminal" })
+
+    utils.map({ "n", "t" }, "<leader>ht", function()
+        Snacks.terminal.toggle(nil, {
+            env = {
+                snacks_terminal_horizontal = "1",
+            },
+            win = {
+                position = "bottom",
+            },
+        })
+    end, { desc = "Toggle horizontal terminal" })
+
+    utils.map({ "n", "t" }, "<leader>vt", function()
+        Snacks.terminal.toggle(nil, {
+            env = {
+                snacks_terminal_vertical = "1",
+            },
+            win = {
+                position = "right",
+            },
+        })
+    end, { desc = "Toggle vertical terminal" })
+
+    utils.map({ "n", "t" }, "<leader>bt", function()
+        Snacks.terminal.toggle("btop", {
+            win = {
+                height = 0.85,
+                width = 0.85,
+            },
+        })
+    end, { desc = "Toggle btop terminal" })
 end
 
 return M

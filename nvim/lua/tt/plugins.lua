@@ -642,22 +642,6 @@ return {
         end,
     },
 
-    -- Floating terminal
-    {
-        "akinsho/toggleterm.nvim",
-        cmd = "ToggleTerm",
-        keys = {
-            "<leader>ft",
-            "<leader>vt",
-            "<leader>ht",
-            "<leader>bt",
-            "<leader>lt",
-        },
-        config = function()
-            require("tt._plugins.toggleterm").setup()
-        end,
-    },
-
     -- Automatic change normal string to template string when ${} is typed
     {
         "axelvc/template-string.nvim",
