@@ -1,10 +1,9 @@
 local M = {}
 
+local utils = require "tt.utils"
 local custom_pickers = require "tt._plugins.snacks.custom_pickers"
 
-function M.setup()
-    local utils = require "tt.utils"
-
+local function setup_generic_keymaps()
     utils.map("n", "<leader>nh", function()
         Snacks.notifier.show_history()
     end, { desc = "Show notification history" })
@@ -24,8 +23,9 @@ function M.setup()
     utils.map("n", "<F1>", Snacks.zen.zen, { desc = "Toggle Zen mode" })
 
     Snacks.toggle.dim():map("<leader>sd", { desc = "Toggle dim mode" })
+end
 
-    -- Find/Grep pickers
+local function setup_picker_keymaps()
     utils.map("n", "<leader>F", Snacks.picker.pick, { desc = "Snacks pickers" })
     utils.map("n", "<leader>fa", Snacks.picker.autocmds, { desc = "Search autocommands" })
     utils.map("n", "<leader>fb", Snacks.picker.buffers, { desc = "Search for open buffers" })
@@ -58,8 +58,9 @@ function M.setup()
     end, { desc = "Grep files in config" })
 
     utils.map("n", "<leader>fS", custom_pickers.show_sessions, { desc = "Search for saved sessions" })
+end
 
-    -- Terminals
+local function setup_terminal_keymaps()
     utils.map("n", { "<leader>lg", "<leader>lt" }, function()
         Snacks.lazygit()
     end, { desc = "Open Lazygit" })
@@ -108,6 +109,12 @@ function M.setup()
             },
         })
     end, { desc = "Toggle btop terminal" })
+end
+
+function M.setup()
+    setup_generic_keymaps()
+    setup_picker_keymaps()
+    setup_terminal_keymaps()
 end
 
 return M
