@@ -37,7 +37,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── git/
 │       │   │   ├── diffview.lua
 │       │   │   ├── git-conflict.lua
-│       │   │   ├── gitlinker.lua
 │       │   │   ├── git-messenger.lua
 │       │   │   └── gitsigns.lua
 │       │   ├── lsp/

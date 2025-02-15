@@ -11,6 +11,10 @@ function M.setup()
         notifier = {
             enabled = true,
         },
+        gitbrowse = {
+            enabled = true,
+            notify = false,
+        },
         image = {
             enabled = false,
         },

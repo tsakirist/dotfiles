@@ -263,20 +263,6 @@ return {
                 require("tt._plugins.git.git-messenger").setup()
             end,
         },
-        -- Generate shareable git file permalinks
-        {
-            "ruifm/gitlinker.nvim",
-            keys = {
-                "<leader>gy",
-                "<leader>go",
-                "<leader>gO",
-                "<leader>gY",
-            },
-            dependencies = "nvim-lua/plenary.nvim",
-            config = function()
-                require("tt._plugins.git.gitlinker").setup()
-            end,
-        },
         -- More pleasant editing experience on commit messages
         {
             "rhysd/committia.vim",
