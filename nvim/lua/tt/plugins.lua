@@ -450,10 +450,9 @@ return {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
         keys = {
-            "<leader>f",
+            "<leader>fp",
+            "<leader>fo",
             "<leader>T",
-            "<leader>gb",
-            "<leader>gv",
         },
         dependencies = {
             { "nvim-lua/plenary.nvim" },
