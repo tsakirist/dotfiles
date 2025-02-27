@@ -31,6 +31,24 @@
 [push]
   default = current
 
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+
+[rebase]
+  autoSquash = true
+
+[rerere]
+  enabled = true
+  autoupdate = true
+
+[branch]
+  sort = -committerdate
+
+[tag]
+  sort = version:refname
+
 [core]
   pager = delta
 
@@ -73,10 +91,14 @@
   diffFilter = delta --color-only
 
 [merge]
-  conflictstyle = diff3
+  conflictstyle = zdiff3
 
 [diff]
   tool = difftastic
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
 
 [difftool "difftastic"]
   cmd = difft "$LOCAL" "$REMOTE"
