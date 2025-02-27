@@ -640,6 +640,15 @@ return {
         opts = {},
     },
 
+    -- Fancy LSP symbol picker mimicking Zed editor
+    {
+        "bassamsdata/namu.nvim",
+        keys = "<leader>fs",
+        config = function()
+            require("tt._plugins.namu").setup()
+        end,
+    },
+
     -- Peak lines easily with :<number>
     {
         "nacro90/numb.nvim",
