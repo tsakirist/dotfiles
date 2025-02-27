@@ -7,6 +7,10 @@ function M.setup()
     end
 
     require("nvim-treesitter.configs").setup {
+        modules = {},
+        sync_install = false,
+        auto_install = false,
+        ignore_install = {},
         ensure_installed = {
             "bash",
             "c",
