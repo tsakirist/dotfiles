@@ -34,11 +34,11 @@ function M.setup()
     })
 
     utils.map("n", "<leader>sf", function()
-        grug_far.open { prefills = { flags = vim.fn.expand "%" } }
+        grug_far.open { prefills = { paths = vim.fn.expand "%" } }
     end, { desc = "Search and replace in current file" })
 
     utils.map("n", "<leader>sw", function()
-        grug_far.open { prefills = { flags = vim.fn.expand "<cword" } }
+        grug_far.open { prefills = { search = vim.fn.expand "<cword>" } }
     end, { desc = "Search and replace for current word" })
 end
 
