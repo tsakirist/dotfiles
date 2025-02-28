@@ -60,6 +60,8 @@ local common_keys = {
     ["<C-u>"] = { "preview_scroll_up", mode = { "n", "i" } },
     ["<C-l>"] = { "preview_scroll_right", mode = { "n", "i" } },
     ["<C-h>"] = { "preview_scroll_left", mode = { "n", "i" } },
+    ["g?"] = { "toggle_help_list", mode = { "n", "i" } },
+    ["?"] = { "toggle_preview", mode = { "n", "i" } },
 }
 
 ---@type snacks.picker.Config|{}
@@ -113,6 +115,8 @@ M.picker = {
                         ["="] = "confirm",
                         ["+"] = "confirm",
                         ["O"] = "explorer_open",
+                        ["?"] = "toggle_help_list",
+                        ["<C-t>"] = "tab",
                         ["<M-h>"] = false,
                     },
                 },
