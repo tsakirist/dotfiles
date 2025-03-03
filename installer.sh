@@ -617,8 +617,10 @@ function _install_fonts() {
 
 function _fzf_config() {
     _check_file fzf/fzf.config
+    _check_file fzf/fzf.zsh
     _print s "fzf configuration"
     ln -sv --backup=numbered "${SCRIPT_DIR}/fzf/fzf.config" "$HOME"/.fzf.config
+    ln -sv --backup=numbered "${SCRIPT_DIR}/fzf/fzf.zsh" "$HOME"/.fzf.zsh
 }
 
 function _fzf() {

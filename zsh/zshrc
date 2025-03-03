@@ -88,7 +88,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Set history configuration settings
-HIST_STAMPS="%d/%m/%y %T"
+HIST_STAMPS="%d/%m/%Y %T"
 HISTSIZE=1000000000
 SAVEHIST=$HISTSIZE
 HISTFILE=$HOME/.zsh_history
