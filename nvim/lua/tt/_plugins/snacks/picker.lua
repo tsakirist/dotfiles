@@ -128,6 +128,13 @@ M.picker = {
                 hidden = { "preview" },
             },
         },
+        lines = {
+            layout = {
+                preset = "vertical",
+                hidden = { "preview" },
+                layout = { height = 0.85, width = 0.85 },
+            },
+        },
         help = { layout = { preset = "vertical" } },
         colorschemes = { layout = { preset = "vertical" } },
         notifications = { layout = { preset = "vertical" } },
