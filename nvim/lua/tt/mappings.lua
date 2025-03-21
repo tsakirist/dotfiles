@@ -29,6 +29,10 @@ utils.map(
     { silent = false }
 )
 
+-- Toggle comment lines using native 'gcc' mapping
+utils.map("n", "<leader><leader>", "gcc", { remap = true, desc = "Toggle comment" })
+utils.map("i", "<leader><leader>", "<C-o>gcc", { remap = true, desc = "Toggle comment" })
+
 -- Use space to toggle fold
 utils.map("n", "<Space>", "za")
 
