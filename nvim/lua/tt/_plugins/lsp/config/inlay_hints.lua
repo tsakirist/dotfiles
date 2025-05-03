@@ -41,7 +41,7 @@ end
 ---@param client any: The LSP client.
 ---@param bufnr number: The number of the buffer.
 function M.on_attach(client, bufnr)
-    if client.supports_method "textDocument/inlayHint" then
+    if client:supports_method "textDocument/inlayHint" then
         table.insert(M.buffers, bufnr)
         vim.lsp.inlay_hint.enable(M.inlay_hints_enabled, { bufnr = bufnr })
     end
