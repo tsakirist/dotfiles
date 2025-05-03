@@ -344,9 +344,7 @@ return {
         dependencies = {
             { "nvim-treesitter/nvim-treesitter-textobjects" },
             { "nvim-treesitter/nvim-treesitter-refactor" },
-            -- TODO: Replace with fork until it's merged to upstream
-            -- https://github.com/RRethy/nvim-treesitter-endwise/issues/41
-            { "metiulekm/nvim-treesitter-endwise" },
+            { "RRethy/nvim-treesitter-endwise" },
         },
         config = function()
             require("tt._plugins.treesitter").setup()
