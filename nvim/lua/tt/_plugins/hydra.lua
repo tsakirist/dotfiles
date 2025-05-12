@@ -161,9 +161,32 @@ local function setup_git_hydra()
     }
 end
 
+local function setup_resize_mode()
+    local smart_splits = require "smart-splits"
+
+    Hydra {
+        name = "Resize",
+        mode = "n",
+        body = "<leader>rs",
+        config = { hint = false },
+        heads = {
+            { "h", smart_splits.resize_left, { desc = "Resize left" } },
+            { "j", smart_splits.resize_down, { desc = "Resize down" } },
+            { "k", smart_splits.resize_up, { desc = "Resize up" } },
+            { "l", smart_splits.resize_right, { desc = "Resize right" } },
+            { "<C-h>", smart_splits.move_cursor_left, { desc = "Move cursor left" } },
+            { "<C-j>", smart_splits.move_cursor_down, { desc = "Move cursor down" } },
+            { "<C-k>", smart_splits.move_cursor_up, { desc = "Move cursor up" } },
+            { "<C-l>", smart_splits.move_cursor_right, { desc = "Move cursor right" } },
+            { "q", nil, { exit = true, nowait = true, desc = "exit" } },
+        },
+    }
+end
+
 function M.setup()
     setup_window_management_hydra()
     setup_git_hydra()
+    setup_resize_mode()
 end
 
 return M

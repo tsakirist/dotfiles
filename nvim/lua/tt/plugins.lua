@@ -665,12 +665,13 @@ return {
 
     -- Create custom submodes and menus
     {
-        "cathyprime/hydra.nvim",
+        "nvimtools/hydra.nvim",
         keys = {
             "<leader>gg",
             "<leader>w",
+            "<leader>rs",
         },
-        dependencies = "lewis6991/gitsigns.nvim",
+        dependencies = { "lewis6991/gitsigns.nvim", "mrjones2014/smart-splits.nvim" },
         config = function()
             require("tt._plugins.hydra").setup()
         end,
@@ -704,7 +705,6 @@ return {
     {
         "mrjones2014/smart-splits.nvim",
         keys = {
-            "<leader>rs",
             "<M-h>",
             "<M-l>",
             "<C-w>h",
