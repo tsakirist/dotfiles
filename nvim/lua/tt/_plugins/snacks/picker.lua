@@ -111,27 +111,7 @@ M.picker = {
         grep = {
             follow = true,
         },
-        explorer = {
-            layout = {
-                preset = "sidebar",
-                preview = "main",
-                hidden = { "preview" },
-            },
-            win = {
-                list = {
-                    keys = {
-                        ["-"] = "explorer_up",
-                        ["o"] = "confirm",
-                        ["="] = "confirm",
-                        ["+"] = "confirm",
-                        ["O"] = "explorer_open",
-                        ["?"] = "toggle_help_list",
-                        ["<C-t>"] = "tab",
-                        ["<M-h>"] = false,
-                    },
-                },
-            },
-        },
+        explorer = require("tt._plugins.snacks.explorer").explorer,
         keymaps = {
             layout = {
                 preset = "ivy",

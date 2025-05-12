@@ -55,6 +55,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   ├── commands.lua
 │       │   │   ├── custom_pickers.lua
 │       │   │   ├── dashboard.lua
+│       │   │   ├── explorer.lua
 │       │   │   ├── init.lua
 │       │   │   ├── keymaps.lua
 │       │   │   ├── picker.lua
