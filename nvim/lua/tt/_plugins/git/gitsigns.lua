@@ -62,7 +62,7 @@ function M.setup()
                     return "]c"
                 end
                 vim.schedule(function()
-                    gitsigns.next_hunk()
+                    gitsigns.nav_hunk "next"
                 end)
                 return "<Ignore>"
             end, { expr = true, desc = "Next hunk" })
@@ -72,7 +72,7 @@ function M.setup()
                     return "[c"
                 end
                 vim.schedule(function()
-                    gitsigns.prev_hunk()
+                    gitsigns.nav_hunk "prev"
                 end)
                 return "<Ignore>"
             end, { expr = true, desc = "Previous hunk" })
@@ -80,7 +80,6 @@ function M.setup()
             -- Hunk specific
             map("n", "<leader>hs", gitsigns.stage_hunk)
             map("n", "<leader>hr", gitsigns.reset_hunk)
-            map("n", "<leader>hu", gitsigns.undo_stage_hunk)
             map("n", "<leader>hp", gitsigns.preview_hunk)
             map("n", "<leader>hb", gitsigns.blame_line)
 
@@ -98,7 +97,7 @@ function M.setup()
             map("n", "<leader>gn", gitsigns.toggle_numhl)
             map("n", "<leader>gs", gitsigns.toggle_signs)
             map("n", "<leader>gw", gitsigns.toggle_word_diff)
-            map("n", "<leader>gd", gitsigns.toggle_deleted)
+            map("n", "<leader>gd", gitsigns.preview_hunk_inline)
 
             -- Text objects
             map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")

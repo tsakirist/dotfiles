@@ -110,7 +110,7 @@ local function setup_git_hydra()
                 vim.cmd.normal "zv"
                 gitsigns.toggle_signs(false)
                 gitsigns.toggle_linehl(false)
-                gitsigns.toggle_deleted(false)
+                gitsigns.preview_hunk_inline()
             end,
         },
         heads = {
@@ -121,7 +121,7 @@ local function setup_git_hydra()
                         return "]c"
                     end
                     vim.schedule(function()
-                        gitsigns.next_hunk { preview = true }
+                        gitsigns.nav_hunk("next", { preview = true })
                     end)
                     return "<Ignore>"
                 end,
@@ -134,7 +134,7 @@ local function setup_git_hydra()
                         return "[c"
                     end
                     vim.schedule(function()
-                        gitsigns.prev_hunk { preview = true }
+                        gitsigns.nav_hunk("prev", { preview = true })
                     end)
                     return "<Ignore>"
                 end,
@@ -142,12 +142,12 @@ local function setup_git_hydra()
             },
             { "s", gitsigns.stage_hunk, { silent = true, desc = "stage hunk" } },
             { "r", gitsigns.reset_hunk, { silent = true, desc = "reset hunk" } },
-            { "u", gitsigns.undo_stage_hunk, { desc = "undo last stage" } },
+            { "u", gitsigns.stage_hunk, { desc = "undo last stage" } },
             { "p", gitsigns.preview_hunk, { desc = "preview hunk" } },
             { "S", gitsigns.stage_buffer, { desc = "stage buffer" } },
             { "R", gitsigns.reset_buffer, { desc = "reset buffer" } },
             { "U", gitsigns.reset_buffer_index, { desc = "reset buffer index" } },
-            { "d", gitsigns.toggle_deleted, { nowait = true, desc = "toggle deleted" } },
+            { "d", gitsigns.preview_hunk_inline, { nowait = true, desc = "toggle deleted" } },
             { "b", gitsigns.blame_line, { desc = "blame" } },
             {
                 "B",
