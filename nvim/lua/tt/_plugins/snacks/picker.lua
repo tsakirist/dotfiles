@@ -98,6 +98,16 @@ M.picker = {
                 preset = "vscode",
             },
         },
+        buffers = {
+            win = {
+                input = {
+                    keys = {
+                        ["<C-x>"] = { "edit_split", mode = { "n", "i" } },
+                        ["dd"] = { "bufdelete", mode = "n" },
+                    },
+                },
+            },
+        },
         grep = {
             follow = true,
         },
