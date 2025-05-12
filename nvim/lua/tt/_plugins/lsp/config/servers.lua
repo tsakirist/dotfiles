@@ -3,7 +3,17 @@ local M = {}
 -- Custom lsp server settings
 M.lsp_servers = {
     bashls = {},
-    clangd = {},
+    clangd = {
+        cmd = {
+            "clangd",
+            "-j=4",
+            "--background-index",
+            "--completion-style=detailed",
+            "--header-insertion=iwyu",
+            "--header-insertion-decorators",
+            "--pch-storage=memory",
+        },
+    },
     cmake = {},
     eslint = {
         settings = {

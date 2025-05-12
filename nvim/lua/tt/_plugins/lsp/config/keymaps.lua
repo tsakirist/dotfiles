@@ -45,8 +45,8 @@ function M.on_attach(_, bufnr)
 
     local ft = vim.bo.filetype
     if ft == "c" or ft == "cpp" or ft == "h" or ft == "hpp" then
-        utils.map("n", "<leader>ko", "<Cmd>ClangdSwitchSourceHeader<CR>", opts "Switch C++ source/header ")
-        utils.map("n", "<M-o>", "<Cmd>ClangdSwitchSourceHeader<CR>", opts "Switch C++ source/header ")
+        utils.map("n", "<leader>ko", "<Cmd>LspClangdSwitchSourceHeader<CR>", opts "Switch C++ source/header ")
+        utils.map("n", "<M-o>", "<Cmd>LspClangdSwitchSourceHeader<CR>", opts "Switch C++ source/header ")
     end
 end
 
