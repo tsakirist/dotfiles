@@ -3,12 +3,7 @@ local M = {}
 -- Custom lsp server settings
 M.lsp_servers = {
     bashls = {},
-    clangd = {
-        capabilities = {
-            -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
-            offsetEncoding = { "utf-16" },
-        },
-    },
+    clangd = {},
     cmake = {},
     eslint = {
         settings = {
@@ -39,11 +34,11 @@ M.lsp_servers = {
                 },
                 hint = {
                     enable = true,
-                    arrayIndex = "Disable", -- "Enable", "Auto", "Disable"
+                    arrayIndex = "Disable",
                     await = true,
-                    paramName = "All", -- "All", "Literal", "Disable"
+                    paramName = "All",
                     paramType = true,
-                    semicolon = "Disable", -- "All", "SameLine", "Disable"
+                    semicolon = "Disable",
                     setType = true,
                 },
                 runtime = {
@@ -95,25 +90,38 @@ M.mason_servers = {
     "shellcheck",
 }
 
-local function extend_capabilities(capabilities)
-    if vim.F.npcall(require, "ufo") then
-        capabilities.textDocument.foldingRange = {
+local function make_client_capabilities()
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+    capabilities.textDocument = {
+        foldingRange = {
             dynamicRegistration = false,
             lineFoldingOnly = true,
-        }
-    end
+        },
+        semanticTokens = {
+            multilineTokenSupport = true,
+        },
+        completion = {
+            completionItem = {
+                snippetSupport = true,
+            },
+        },
+    }
+    return capabilities
 end
 
 function M.setup()
-    local common_opts = {
-        capabilities = require("cmp_nvim_lsp").default_capabilities(),
-    }
+    local capabilities = make_client_capabilities()
 
-    extend_capabilities(common_opts.capabilities)
+    -- Setup settings for all servers
+    vim.lsp.config("*", {
+        capabilities = capabilities,
+    })
 
+    -- Setup settings per server and enable auto start
     for _, server in ipairs(vim.tbl_keys(M.lsp_servers)) do
-        local server_opts = vim.tbl_deep_extend("force", common_opts, M.lsp_servers[server])
-        require("lspconfig")[server].setup(server_opts)
+        vim.lsp.config(server, M.lsp_servers[server])
+        vim.lsp.enable(server)
     end
 end
 

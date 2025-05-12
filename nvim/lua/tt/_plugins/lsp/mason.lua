@@ -116,9 +116,11 @@ function M.setup()
 
     -- Bridge between 'mason' and 'lspconfig' allowing for easy installation and setup of LSP severs
     require("mason-lspconfig").setup {
-        automatic_installation = false,
         -- A list of servers to automatically install if they're not already installed
         ensure_installed = vim.tbl_keys(servers.lsp_servers),
+
+        -- Do not automatically enable all the lsp servers here as it's handled in 'servers.lua'
+        automatic_enable = false,
     }
 
     -- Make sure to install required servers
