@@ -4,7 +4,7 @@ local utils = require "tt.utils"
 local custom_pickers = require "tt._plugins.snacks.custom_pickers"
 
 local function setup_generic_keymaps()
-    utils.map("n", "<leader>nh", function()
+    utils.map("n", { "<leader>nn", "<leader>nh" }, function()
         Snacks.notifier.show_history()
     end, { desc = "Show notification history" })
 
