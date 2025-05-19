@@ -1,5 +1,11 @@
 local M = {}
 
+-- Workaround for on_attach not firing properly when overridden
+-- https://github.com/neovim/nvim-lspconfig/issues/3837#issuecomment-2868987087
+local base_on_attach = {
+    eslint = vim.lsp.config.eslint.on_attach,
+}
+
 -- Custom lsp server settings
 M.lsp_servers = {
     bashls = {},
@@ -21,11 +27,12 @@ M.lsp_servers = {
                 showDocumentation = false,
             },
         },
-        on_attach = function(_, bufnr)
+        on_attach = function(client, bufnr)
+            base_on_attach.eslint(client, bufnr)
             vim.api.nvim_create_autocmd("BufWritePre", {
                 group = vim.api.nvim_create_augroup("tt.Eslint", { clear = true }),
                 buffer = bufnr,
-                command = "EslintFixAll",
+                command = "LspEslintFixAll",
                 desc = "Fixes all eslint errors on save",
             })
         end,
