@@ -8,7 +8,7 @@ end
 
 function M.get_cwd(tab)
 	local cwd = tab.active_pane.current_working_dir
-	return M.basename(cwd.file_path)
+	return cwd and M.basename(cwd.file_path) or "Overlay"
 end
 
 function M.is_neovim(pane)
