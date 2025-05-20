@@ -111,7 +111,6 @@ return {
             event = { "BufReadPre", "BufNewFile" },
             dependencies = {
                 "SmiteshP/nvim-navic",
-                "hrsh7th/cmp-nvim-lsp",
                 {
                     "folke/lazydev.nvim",
                     dependencies = { "Bilal2453/luvit-meta" },
@@ -284,32 +283,11 @@ return {
 
     -- Autocomplete menu and snippets
     {
-        "hrsh7th/nvim-cmp",
+        "saghen/blink.cmp",
         event = "InsertEnter",
+        version = "1.*",
         dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-nvim-lua",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
-            "saadparwaiz1/cmp_luasnip",
-            {
-                "xzbdmw/colorful-menu.nvim",
-                opts = {},
-            },
-            {
-                "zbirenbaum/copilot-cmp",
-                enabled = false,
-                opts = {},
-                dependencies = {
-                    "zbirenbaum/copilot.lua",
-                    cmd = "Copilot",
-                    event = "InsertEnter",
-                    opts = {
-                        suggestion = { enabled = false },
-                        panel = { enabled = false },
-                    },
-                },
-            },
+            { "xzbdmw/colorful-menu.nvim", opts = {} },
             {
                 "L3MON4D3/LuaSnip",
                 dependencies = {
@@ -325,9 +303,21 @@ return {
                     }
                 end,
             },
+            {
+                "zbirenbaum/copilot.lua",
+                enabled = false,
+                cmd = "Copilot",
+                opts = {
+                    suggestion = { enabled = false },
+                    panel = { enabled = false },
+                },
+                dependencies = {
+                    "fang2hou/blink-copilot",
+                },
+            },
         },
         config = function()
-            require("tt._plugins.nvim-cmp").setup()
+            require("tt._plugins.blink-cmp").setup()
         end,
     },
 

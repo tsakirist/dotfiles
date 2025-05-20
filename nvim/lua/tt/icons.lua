@@ -37,7 +37,7 @@ local kind = {
         Color = "  ",
         Constant = "  ",
         Constructor = "  ",
-        Copilot = " ",
+        Copilot = " ",
         Enum = "  ",
         EnumMember = "  ",
         Event = "  ",
@@ -157,6 +157,7 @@ local document = {
 
 return {
     kind = kind[kind_source],
+    kind_trimmed = kind_trimmed,
     breadcrumps = kind_trimmed,
     diagnostics = diagnostics,
     document = document,

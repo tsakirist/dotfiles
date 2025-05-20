@@ -108,23 +108,23 @@ M.mason_servers = {
 }
 
 local function make_client_capabilities()
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-    capabilities.textDocument = {
-        foldingRange = {
-            dynamicRegistration = false,
-            lineFoldingOnly = true,
-        },
-        semanticTokens = {
-            multilineTokenSupport = true,
-        },
-        completion = {
-            completionItem = {
-                snippetSupport = true,
+    local capabilities = {
+        textDocument = {
+            foldingRange = {
+                dynamicRegistration = false,
+                lineFoldingOnly = true,
+            },
+            semanticTokens = {
+                multilineTokenSupport = true,
+            },
+            completion = {
+                completionItem = {
+                    snippetSupport = true,
+                },
             },
         },
     }
-    return capabilities
+    return require("blink.cmp").get_lsp_capabilities(capabilities)
 end
 
 function M.setup()
