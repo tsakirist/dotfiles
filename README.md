@@ -71,6 +71,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   ├── previewers.lua
 │       │   │   └── utils.lua
 │       │   ├── barbecue.lua
+│       │   ├── blink-cmp.lua
 │       │   ├── dial.lua
 │       │   ├── dressing.lua
 │       │   ├── flash.lua
@@ -86,7 +87,6 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── noice.lua
 │       │   ├── numb.lua
 │       │   ├── nvim-autopairs.lua
-│       │   ├── nvim-cmp.lua
 │       │   ├── nvim-ufo.lua
 │       │   ├── oil.lua
 │       │   ├── resession.lua
