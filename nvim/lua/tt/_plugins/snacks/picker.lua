@@ -60,6 +60,8 @@ local common_keys = {
     ["<C-u>"] = { "preview_scroll_up", mode = { "n", "i" } },
     ["<C-l>"] = { "preview_scroll_right", mode = { "n", "i" } },
     ["<C-h>"] = { "preview_scroll_left", mode = { "n", "i" } },
+    ["<C-v>"] = { "edit_vsplit", mode = { "n", "i" } },
+    ["<C-x>"] = { "edit_split", mode = { "n", "i" } },
     ["g?"] = { "toggle_help_list", mode = { "n", "i" } },
     ["?"] = { "toggle_preview", mode = { "n", "i" } },
 }
@@ -102,7 +104,6 @@ M.picker = {
             win = {
                 input = {
                     keys = {
-                        ["<C-x>"] = { "edit_split", mode = { "n", "i" } },
                         ["dd"] = { "bufdelete", mode = "n" },
                     },
                 },
