@@ -5,6 +5,9 @@ function M.setup()
         namu_symbols = {
             enable = true,
             options = {
+                display = {
+                    format = "tree_guides",
+                },
                 window = {
                     title_prefix = require("tt.utils").pad(require("tt.icons").misc.ChevronRight),
                 },
