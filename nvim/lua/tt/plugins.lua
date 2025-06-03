@@ -93,18 +93,6 @@ return {
 
     -- LSP related plugins
     {
-        -- Portable package manager to install LSP & DAP servers, linters and formatters
-        {
-            "williamboman/mason.nvim",
-            event = { "BufRead", "BufNewFile" },
-            cmd = "Mason",
-            keys = { "<leader>m" },
-            build = ":MasonUpdate",
-            dependencies = { "williamboman/mason-lspconfig.nvim" },
-            config = function()
-                require("tt._plugins.lsp.mason").setup()
-            end,
-        },
         -- Common configuration for LSP servers
         {
             "neovim/nvim-lspconfig",
@@ -126,6 +114,21 @@ return {
             },
             config = function()
                 require("tt._plugins.lsp.config").setup()
+            end,
+        },
+        -- Portable package manager to install LSP & DAP servers, linters and formatters
+        {
+            "williamboman/mason.nvim",
+            event = { "BufRead", "BufNewFile" },
+            cmd = "Mason",
+            keys = { "<leader>m" },
+            build = ":MasonUpdate",
+            dependencies = {
+                "williamboman/mason-lspconfig.nvim",
+                "neovim/nvim-lspconfig",
+            },
+            config = function()
+                require("tt._plugins.lsp.mason").setup()
             end,
         },
         -- Incremental LSP based renaming with command preview
