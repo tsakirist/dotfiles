@@ -627,7 +627,8 @@ return {
     -- Fancy LSP symbol picker mimicking Zed editor
     {
         "bassamsdata/namu.nvim",
-        keys = "<leader>fs",
+        cmd = "Namu",
+        keys = { "<leader>fs", "<leader>fC" },
         config = function()
             require("tt._plugins.namu").setup()
         end,

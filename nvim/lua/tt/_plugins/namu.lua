@@ -39,10 +39,22 @@ function M.setup()
                 },
             },
         },
+        colorscheme = {
+            enable = true,
+            options = {
+                title = "PAOKR",
+                movement = {
+                    next = { "<C-j>" },
+                    previous = { "<C-k>" },
+                    close = { "<C-q>" },
+                },
+            },
+        },
     }
 
     local utils = require "tt.utils"
     utils.map("n", "<leader>fs", "<Cmd>Namu symbols<CR>", { desc = "Search for LSP document symbols" })
+    utils.map("n", "<leader>fC", "<Cmd>Namu colorscheme<CR>", { desc = "List available colorschemes" })
 end
 
 return M
