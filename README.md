@@ -42,7 +42,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   ├── lsp/
 │       │   │   ├── config/
 │       │   │   │   ├── attach.lua
-│       │   │   │   ├── handlers.lua
+│       │   │   │   ├── diagnostics.lua
 │       │   │   │   ├── highlight.lua
 │       │   │   │   ├── init.lua
 │       │   │   │   ├── inlay_hints.lua
