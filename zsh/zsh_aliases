@@ -59,11 +59,11 @@ alias cp='cp -v'
 # Neovim is everywhere
 alias vi='nvim'
 alias vim='nvim'
-alias vv='nvim ~/.vimrc'
 
 alias nv='nvim'
 alias nvi='nvim'
-alias nvv='nvim ~/.vimrc'
+
+alias nvimu='nvim -u $HOME/.config/nvim/minimal_init.lua'
 
 # Set nvim as the pager for man pages
 alias man=nvim_man_pager

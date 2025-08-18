@@ -111,7 +111,8 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       ├── plugins.lua
 │       └── settings.lua
 ├── init.lua
-└── lazy-lock.json
+├── lazy-lock.json
+└── minimal_init.lua
 ```
 
 </details>
