@@ -2,13 +2,23 @@ local M = {}
 
 local copilot_enabled = pcall(require, "copilot")
 
+local disabled_filetypes = {
+    "DressingInput",
+}
+
 function M.setup()
     require("blink.cmp").setup {
+        enabled = function()
+            return not vim.tbl_contains(disabled_filetypes, vim.bo.filetype)
+        end,
         signature = {
             enabled = true,
         },
         appearance = {
             kind_icons = require("tt.icons").kind_trimmed,
+        },
+        cmdline = {
+            enabled = true,
         },
         completion = {
             menu = {
