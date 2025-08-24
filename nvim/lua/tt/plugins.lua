@@ -755,6 +755,13 @@ return {
         end,
     },
 
+    -- Simple and sophisticated Neovim todo plugin
+    {
+        "bngarren/checkmate.nvim",
+        ft = "markdown",
+        opts = {},
+    },
+
     -- Wrapper over UNIX shell commands
     {
         "chrisgrieser/nvim-genghis",
