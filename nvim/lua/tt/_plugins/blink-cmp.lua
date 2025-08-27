@@ -98,6 +98,8 @@ function M.setup()
             preset = "enter",
             ["<Tab>"] = { "select_next", "fallback" },
             ["<S-Tab>"] = { "select_prev", "fallback" },
+            ["<M-x>"] = { "show_signature", "hide_signature", "fallback" },
+            ["<C-k>"] = false, -- Disable <C-k> as this interferes with insert mode mapping movement
         },
     }
 end
