@@ -73,11 +73,15 @@ M.picker = {
         trouble_open = function(...)
             return require("trouble.sources.snacks").actions.trouble_open.action(...)
         end,
+        cycle_preview = function(...)
+            require("tt._plugins.snacks.actions").cycle_preview(...)
+        end,
     },
     win = {
         input = {
             keys = vim.tbl_extend("force", common_keys, {
                 ["<C-c>"] = { "trouble_open", mode = { "n", "i" } },
+                ["<C-p>"] = { "cycle_preview", mode = { "n", "i" } },
             }),
         },
         list = {

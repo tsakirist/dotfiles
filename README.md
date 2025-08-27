@@ -52,6 +52,7 @@ of **neovim**, located at: `${HOME}/.config/nvim`
 │       │   │   ├── mason.lua
 │       │   │   └── nvim-navic.lua
 │       │   ├── snacks/
+│       │   │   ├── actions.lua
 │       │   │   ├── commands.lua
 │       │   │   ├── custom_pickers.lua
 │       │   │   ├── dashboard.lua
