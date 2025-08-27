@@ -246,6 +246,19 @@ return {
                 },
             },
         },
+        -- Display LSP inlay hints at the end of the line
+        {
+            "chrisgrieser/nvim-lsp-endhints",
+            event = "LspAttach",
+            init = function()
+                require("tt.utils").map("n", "<leader>im", function()
+                    require("lsp-endhints").toggle()
+                end, { desc = "Toggle between different inlay hint modes" })
+            end,
+            opts = {
+                autoEnableHints = false,
+            },
+        },
     },
 
     -- Git related plugins
