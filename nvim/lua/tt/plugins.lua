@@ -227,6 +227,25 @@ return {
                 })
             end,
         },
+        -- LSP diagnostics for all files
+        {
+            "artemave/workspace-diagnostics.nvim",
+            opts = {},
+            keys = {
+                {
+                    "<leader>wd",
+                    function()
+                        -- Populate diagnostics for all files and open Trouble diagnostics view
+                        for _, client in ipairs(vim.lsp.get_clients()) do
+                            require("workspace-diagnostics").populate_workspace_diagnostics(client, 0)
+                        end
+                        vim.cmd.Trouble "diagnostics_inline_preview"
+                    end,
+                    mode = "n",
+                    desc = "Populate workspace diagnostics and open Trouble",
+                },
+            },
+        },
     },
 
     -- Git related plugins
@@ -662,7 +681,7 @@ return {
         "nvimtools/hydra.nvim",
         keys = {
             "<leader>gg",
-            "<leader>w",
+            "<leader>ww",
             "<leader>rs",
         },
         dependencies = { "lewis6991/gitsigns.nvim", "mrjones2014/smart-splits.nvim" },

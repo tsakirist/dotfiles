@@ -1,5 +1,8 @@
 local M = {}
 
+-- Disable workspace diagnostics as this could have a performance impact on large repos
+local enable_workspace_diagnostics = false
+
 local function navic_attach(client, bufnr)
     if client:supports_method "textDocument/documentSymbol" then
         vim.g.navic_silence = true
@@ -20,11 +23,18 @@ local function keymaps_attach(client, bufnr)
     require("tt._plugins.lsp.lsp-saga").on_attach(client, bufnr)
 end
 
+local function diagnostics_attach(client, bufnr)
+    if enable_workspace_diagnostics then
+        require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
+    end
+end
+
 local attachers = {
     navic_attach,
     inlay_hints_attach,
     highlight_attach,
     keymaps_attach,
+    diagnostics_attach,
 }
 
 local function on_attach(client, bufnr)

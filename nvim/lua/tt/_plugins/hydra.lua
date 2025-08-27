@@ -26,7 +26,7 @@ local function setup_window_management_hydra()
             },
         },
         mode = "n",
-        body = "<leader>w",
+        body = "<leader>ww",
         heads = {
             -- Move cursor
             { "h", "<C-w>h" },
