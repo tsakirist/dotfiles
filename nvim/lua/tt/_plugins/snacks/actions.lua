@@ -72,4 +72,45 @@ M.cycle_preview = function(picker)
     picker:set_layout(layout_config)
 end
 
+---@type table<string, snacks.picker.Config>
+local reopen_state = {}
+
+---Action to allow for re-opening a different picker while keeping the state.
+---Copied from https://github.com/folke/snacks.nvim/discussions/2003#discussioncomment-13653042
+---@param picker snacks.Picker
+---@param source "files" | "grep" | "git_files" | "git_grep"
+---@param opts? snacks.picker.Config
+M.reopen_picker = function(picker, source, opts)
+    local function wrap_on_close(on_close)
+        ---@diagnostic disable-next-line: redefined-local
+        return function(picker)
+            if not picker.skip_reset then
+                reopen_state = {}
+            end
+            if type(on_close) == "function" then
+                on_close(picker)
+            end
+        end
+    end
+
+    ---Wrap on_close to handle state reset
+    picker.opts.on_close = wrap_on_close(picker.opts.on_close)
+
+    ---Save current picker state
+    local from_source = picker.opts.source
+    if from_source then
+        local state = picker.opts
+        state.pattern = picker:filter().pattern
+        state.search = picker:filter().search
+        reopen_state[from_source] = state
+    end
+
+    ---Skip resetting state when transitioning between pickers
+    ---@diagnostic disable-next-line: inject-field
+    picker.skip_reset = true
+    picker:close()
+
+    Snacks.picker.pick(source, vim.tbl_extend("force", reopen_state[source] or {}, opts or {}))
+end
+
 return M

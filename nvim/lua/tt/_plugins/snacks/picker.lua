@@ -99,6 +99,79 @@ M.picker = {
         },
     },
     sources = {
+        files = {
+            actions = {
+                switch_grep = function(picker)
+                    require("tt._plugins.snacks.actions").reopen_picker(
+                        picker,
+                        "grep",
+                        { search = picker:filter().pattern }
+                    )
+                end,
+            },
+            win = {
+                input = {
+                    keys = {
+                        ["<M-g>"] = { "switch_grep", mode = { "n", "i" } },
+                    },
+                },
+            },
+        },
+        grep = {
+            actions = {
+                switch_files = function(picker)
+                    require("tt._plugins.snacks.actions").reopen_picker(
+                        picker,
+                        "files",
+                        { pattern = picker:filter().search }
+                    )
+                end,
+            },
+            win = {
+                input = {
+                    keys = {
+                        ["<M-g>"] = { "switch_files", mode = { "n", "i" } },
+                    },
+                },
+            },
+            follow = true,
+        },
+        git_files = {
+            actions = {
+                switch_git_grep = function(picker)
+                    require("tt._plugins.snacks.actions").reopen_picker(
+                        picker,
+                        "git_grep",
+                        { search = picker:filter().pattern }
+                    )
+                end,
+            },
+            win = {
+                input = {
+                    keys = {
+                        ["<M-g>"] = { "switch_git_grep", mode = { "n", "i" } },
+                    },
+                },
+            },
+        },
+        git_grep = {
+            actions = {
+                switch_git_files = function(picker)
+                    require("tt._plugins.snacks.actions").reopen_picker(
+                        picker,
+                        "git_files",
+                        { pattern = picker:filter().search }
+                    )
+                end,
+            },
+            win = {
+                input = {
+                    keys = {
+                        ["<M-g>"] = { "switch_git_files", mode = { "n", "i" } },
+                    },
+                },
+            },
+        },
         pickers = {
             layout = {
                 preset = "vscode",
@@ -112,9 +185,6 @@ M.picker = {
                     },
                 },
             },
-        },
-        grep = {
-            follow = true,
         },
         explorer = require("tt._plugins.snacks.explorer").explorer,
         keymaps = {
