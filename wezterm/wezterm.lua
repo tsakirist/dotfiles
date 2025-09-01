@@ -8,7 +8,7 @@ config.initial_cols = 170
 config.initial_rows = 55
 
 -- Color
-config.color_scheme = "carbonfox"
+config.color_scheme = "duskfox"
 local colorscheme = wezterm.color.get_builtin_schemes()[config.color_scheme]
 local colors = {
 	black = colorscheme.ansi[1],

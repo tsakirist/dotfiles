@@ -1,6 +1,6 @@
 local M = {}
 
-M.theme = "carbonfox"
+M.theme = "duskfox"
 
 function M.setup()
     local colors = M.colors()
@@ -91,6 +91,9 @@ function M.setup()
                 GlanceListFilename = { fg = colors.blue },
                 GlanceListFilepath = { link = "GlanceWinbarTitle" },
                 GlanceListCount = { link = "GlanceWinBarTitle" },
+            },
+            duskfox = {
+                LspSignatureActiveParameter = { fg = colors.red.bright, style = "bold" },
             },
             nordfox = {
                 DressingBorder = { fg = colors.blue, bg = colors.bg1 },
