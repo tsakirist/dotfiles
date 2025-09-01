@@ -532,7 +532,7 @@ return {
 
     -- Surround mappings for enclosed text
     {
-        "echasnovski/mini.surround",
+        "nvim-mini/mini.surround",
         event = "BufRead",
         config = function()
             require("tt._plugins.mini-surround").setup()
@@ -541,9 +541,9 @@ return {
 
     -- Add extra text objects
     {
-        "echasnovski/mini.ai",
+        "nvim-mini/mini.ai",
         event = "BufRead",
-        dependencies = { "echasnovski/mini.extra" },
+        dependencies = { "nvim-mini/mini.extra" },
         opts = function()
             local ai = require "mini.ai"
             local ai_extra = require "mini.extra"
@@ -566,7 +566,7 @@ return {
 
     -- Align text interactively
     {
-        "echasnovski/mini.align",
+        "nvim-mini/mini.align",
         event = "BufRead",
         keys = {
             { "ga", mode = { "v" } },
@@ -580,7 +580,7 @@ return {
 
     -- Move lines easily in any direction
     {
-        "echasnovski/mini.move",
+        "nvim-mini/mini.move",
         event = "BufRead",
         opts = {
             mappings = {
@@ -601,7 +601,7 @@ return {
 
     -- Automatically add and manage character pairs
     {
-        "echasnovski/mini.pairs",
+        "nvim-mini/mini.pairs",
         event = "InsertEnter",
         opts = {},
     },
