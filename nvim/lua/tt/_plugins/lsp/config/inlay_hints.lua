@@ -4,7 +4,7 @@ local M = {}
 M.buffers = {}
 
 --- Whether inlay_hints are globally enabled or not.
-M.inlay_hints_enabled = false
+M.inlay_hints_enabled = true
 
 --- Handler for the 'BufDelete' event, to delete the buffer from the active buffer list.
 ---@param bufnr number: The number of the buffer.
