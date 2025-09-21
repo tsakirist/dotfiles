@@ -1,5 +1,6 @@
 local opt = vim.opt
 
+--{{{Opts
 -- Syntax highlighting
 opt.syntax = "on"
 
@@ -112,8 +113,11 @@ opt.listchars = {
 -- The number of lines to show above/below when navigating
 opt.scrolloff = 5
 
+-- Keep all folds open
+opt.foldlevelstart = 99
+
 -- This sets the folding method, the default markers are {{{  }}}
-opt.foldmethod = "manual"
+opt.foldmethod = "marker"
 
 -- Foldopen dictates how folds open, jump means it will open with 'gg', 'G'
 opt.foldopen = opt.foldopen + "jump"
@@ -176,7 +180,9 @@ if vim.fn.executable "rg" then
     opt.grepprg = "rg --vimgrep --no-heading --smart-case"
     opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
 end
+--}}}
 
+--{{{Helpers
 local helpers = {}
 
 --- Function to zoom-in and zoom-out of the given window in a new tab,
@@ -275,7 +281,9 @@ function helpers.get_visual_selection()
 
     return visual_range
 end
+--}}}
 
+--{{{Utils
 local utils = {}
 
 function utils.map(mode, lhs, rhs, opts)
@@ -293,7 +301,9 @@ function utils.map(mode, lhs, rhs, opts)
         vim.keymap.set(mode, key, rhs, options)
     end
 end
+--}}}
 
+--{{{Maps
 -- Save files with ctrl+s
 -- Use update instead of :write, to only write the file when modified
 utils.map("n", "<C-s>", "<Cmd>update<CR>")
@@ -326,6 +336,12 @@ utils.map("n", "<S-Tab>", "<Cmd>bprevious<CR>")
 utils.map("x", ">", ">gv")
 utils.map("x", "<", "<gv")
 
+-- Keybinds to move lines up and down
+utils.map("n", "<C-k>", ":m-2<CR>==")
+utils.map("n", "<C-j>", ":m+<CR>==")
+utils.map("v", "<C-k>", ":m '<-2<CR>gv=gv")
+utils.map("v", "<C-j>", ":m '>+1<CR>gv=gv")
+
 -- Quick movements in Insert mode without having to change to Normal mode
 utils.map("i", "<C-h>", "<Left>", { desc = "Move left" })
 utils.map("i", "<C-l>", "<Right>", { desc = "Move right" })
@@ -348,6 +364,9 @@ end, { desc = "Paste before line" })
 utils.map("n", "]p", function()
     vim.cmd.put {}
 end, { desc = "Paste after line" })
+
+-- Toggle folds
+utils.map("n", "<Space>", "za", { desc = "Toggle fold" })
 
 -- Clear highlighting with escape when in normal mode
 -- https://stackoverflow.com/a/1037182/6654329
@@ -398,5 +417,6 @@ utils.map("v", "<leader>d", function()
     local lines = vim.api.nvim_buf_get_lines(0, visual_selection.start_pos - 1, visual_selection.end_pos, true)
     vim.api.nvim_buf_set_lines(0, visual_selection.end_pos, visual_selection.end_pos, true, lines)
 end)
+--}}}
 
 vim.cmd.colorscheme "habamax"
