@@ -359,20 +359,36 @@ return {
     -- Treesitter related plugins
     {
         "nvim-treesitter/nvim-treesitter",
+        version = false,
+        branch = "main",
+        cmd = { "TSInstall", "TSLog", "TSUninstall", "TSUpdate" },
         event = { "BufReadPost", "BufNewFile" },
-        cmd = "TSUpdate",
-        build = function()
-            if not _G.HeadlessMode() then
-                vim.cmd.TSUpdate()
+        build = ":TSUpdate",
+        enabled = function()
+            if vim.fn.executable "tree-sitter" == 0 then
+                vim.notify(
+                    table.concat({
+                        "Treesitter main branch requires 'tree-sitter' CLI to be installed.",
+                        "See: https://github.com/tree-sitter/tree-sitter/blob/master/crates/cli/README.md",
+                    }, "\n"),
+                    "error"
+                )
+                return false
             end
+            return true
         end,
         dependencies = {
-            { "nvim-treesitter/nvim-treesitter-textobjects" },
-            { "nvim-treesitter/nvim-treesitter-refactor" },
+            {
+                "nvim-treesitter/nvim-treesitter-textobjects",
+                branch = "main",
+                config = function()
+                    require("tt._plugins.treesitter").setup_treesitter_textobjects()
+                end,
+            },
             { "RRethy/nvim-treesitter-endwise" },
         },
         config = function()
-            require("tt._plugins.treesitter").setup()
+            require("tt._plugins.treesitter").setup_treesitter()
         end,
     },
 
