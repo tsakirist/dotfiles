@@ -172,21 +172,6 @@ return {
                 require("tt._plugins.lsp.lsp-saga").setup()
             end,
         },
-        -- Vscode like floating window with LSP locations
-        {
-            "dnlhc/glance.nvim",
-            cmd = "Glance",
-            keys = {
-                {
-                    "gr",
-                    "<Cmd>Glance references<CR>",
-                    desc = "Glance references",
-                },
-            },
-            opts = {
-                border = { enable = true },
-            },
-        },
         -- Pretty diagnostics
         {
             "rachartier/tiny-inline-diagnostic.nvim",
@@ -652,7 +637,7 @@ return {
     {
         "folke/trouble.nvim",
         cmd = "Trouble",
-        keys = "<leader>t",
+        keys = { "<leader>t", "gr" },
         dependencies = "nvim-tree/nvim-web-devicons",
         config = function()
             require("tt._plugins.trouble").setup()
