@@ -195,6 +195,7 @@ return {
                 require("symbols").setup(recipes.DefaultFilters, {
                     sidebar = {
                         auto_peek = true,
+                        open_direction = "right",
                         close_on_goto = true,
                         cursor_follow = false,
                         keymaps = {
