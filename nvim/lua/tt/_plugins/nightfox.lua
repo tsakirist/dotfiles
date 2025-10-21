@@ -1,6 +1,6 @@
 local M = {}
 
-M.theme = "duskfox"
+M.theme = "carbonfox"
 
 function M.setup()
     local colors = M.colors()
