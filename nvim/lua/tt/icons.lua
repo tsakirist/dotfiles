@@ -1,5 +1,5 @@
 --- Defines which kind source to use
-local kind_source = _G.IsWSL() and "default" or "vscode"
+local kind_source = (_G.IsWSL and _G.IsWSL() and "default") or "vscode"
 
 local kind = {
     default = {
