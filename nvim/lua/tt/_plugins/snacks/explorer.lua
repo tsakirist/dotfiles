@@ -3,19 +3,13 @@ local M = {}
 ---Source code adapted from: https://github.com/folke/snacks.nvim/discussions/1306#discussioncomment-12248922
 ---@type snacks.picker.Config
 M.explorer = {
-    -- Layout with removed input field
     layout = {
-        preview = "main",
-        layout = {
-            backdrop = false,
-            width = 40,
-            min_width = 40,
-            height = 0,
-            position = "left",
-            border = "none",
-            box = "vertical",
-            { win = "list", border = "none" },
-        },
+        -- This is the intended setting to keep the input automatically hidden if un-focused,
+        -- but for some weird reason after confirming the filter, it's stuck in insert mode,
+        -- so for now keep it commented out.
+        -- auto_hide = { "input" },
+
+        hidden = { "input" },
     },
     on_show = function(picker)
         local window_gap = 1
@@ -89,6 +83,7 @@ M.explorer = {
                 ["O"] = "explorer_open",
                 ["?"] = "toggle_help_list",
                 ["<C-t>"] = "tab",
+                ["<C-f>"] = "focus_input",
                 ["<M-h>"] = false,
                 ["/"] = false,
             },
