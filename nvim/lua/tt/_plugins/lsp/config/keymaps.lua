@@ -43,7 +43,6 @@ function M.on_attach(_, bufnr)
     utils.map("n", "<C-LeftMouse>", "<Cmd>TroubleToggle lsp_references<CR>", opts "Open lsp references in Trouble")
     utils.map("n", "K", vim.lsp.buf.hover, opts "Display hover information about symbol")
     utils.map("n", "<leader>K", hover_on_new_window, opts "Display hover information about symbol on new window")
-    utils.map("n", "gi", "<Cmd>lua vim.lsp.buf.implementation()<CR>", opts "Go to the implementation of the symbol")
     utils.map("n", "dl", "<Cmd>lua vim.diagnostic.setloclist()<CR>", opts "Add buffer diagnostics to the loclist")
     utils.map("n", "dq", "<Cmd>lua vim.diagnostic.setqflist()<CR>", opts "Add buffer diagnostics to the qflist")
 
