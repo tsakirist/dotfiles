@@ -30,7 +30,7 @@ M.lsp_servers = {
         on_attach = function(client, bufnr)
             base_on_attach.eslint(client, bufnr)
             vim.api.nvim_create_autocmd("BufWritePre", {
-                group = vim.api.nvim_create_augroup("tt.Eslint", { clear = true }),
+                group = vim.api.nvim_create_augroup("tt.Eslint", { clear = false }),
                 buffer = bufnr,
                 command = "LspEslintFixAll",
                 desc = "Fixes all eslint errors on save",
