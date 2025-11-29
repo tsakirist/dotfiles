@@ -110,6 +110,7 @@ function M.setup()
     utils.map("n", "<leader>ts", "<Cmd>Trouble lsp_document_symbols_float toggle<CR>", { desc = "Trouble lsp document symbols float" })
     utils.map("n", "gr", "<Cmd>Trouble lsp_references toggle<CR>", { desc = "Trouble lsp references" })
     utils.map("n", "gi", "<Cmd>Trouble lsp_implementations toggle<CR>", { desc = "Trouble lsp implementations" })
+    utils.map("n", "<C-LeftMouse>", "<Cmd>Trouble lsp_references toggle<CR>", { desc = "Trouble lsp references" })
     -- stylua: ignore end
 end
 

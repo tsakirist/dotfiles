@@ -637,7 +637,7 @@ return {
     {
         "folke/trouble.nvim",
         cmd = "Trouble",
-        keys = { "<leader>t", "gr", "gi" },
+        keys = { "<leader>t", "gr", "gi", "<C-LeftMouse>" },
         dependencies = "nvim-tree/nvim-web-devicons",
         config = function()
             require("tt._plugins.trouble").setup()
