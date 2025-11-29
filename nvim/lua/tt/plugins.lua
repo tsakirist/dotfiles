@@ -483,7 +483,6 @@ return {
         cmd = "Telescope",
         keys = {
             "<leader>fp",
-            "<leader>fo",
             "<leader>T",
         },
         dependencies = {

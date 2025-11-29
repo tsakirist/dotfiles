@@ -10,8 +10,8 @@ function M.setup()
     -- stylua: ignore
     utils.map("n", "<leader>T", builtin.builtin, { desc = "Show telescope builtin" })
     utils.map("n", "<leader>fp", extensions.lazy.lazy, { desc = "Search for installed plugins and perform actions" })
-    utils.map("n", "<leader>fo", builtin.oldfiles, { desc = "Search for oldfiles" })
 
+    -- utils.map("n", "<leader>fo", builtin.oldfiles, { desc = "Search for oldfiles" })
     -- utils.map("n", "<leader>fS", custom_pickers.show_sessions, { desc = "Search for saved sessions" })
     -- utils.map("n", "<leader>fb", builtin.buffers, { desc = "Search for open buffers " })
     -- utils.map("n", "<leader>fc", builtin.commands, { desc = "Search for commands" })

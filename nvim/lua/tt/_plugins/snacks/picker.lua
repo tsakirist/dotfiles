@@ -66,6 +66,32 @@ local common_keys = {
     ["?"] = { "toggle_preview", mode = { "n", "i" } },
 }
 
+---Recent picker filter to avoid excluding files that reside in the stdpath("data") directory
+---@return fun(item: snacks.picker.finder.Item, filter:snacks.picker.Filter): boolean
+local function get_recent_filter()
+    local excluded_dirs = { vim.fn.stdpath "cache", vim.fn.stdpath "state" }
+
+    return function(item, filter)
+        -- Workaround hack to enable stdpath("data") entries as well,
+        -- requires clearing out the Filter paths property
+        if not filter.paths_cleared then
+            filter.paths = {}
+            ---@diagnostic disable-next-line: inject-field
+            filter.paths_cleared = true
+        end
+
+        if not item or not item.file then
+            return false
+        end
+
+        local excluded = vim.iter(excluded_dirs):any(function(dir)
+            return vim.startswith(item.file, dir)
+        end)
+
+        return not excluded
+    end
+end
+
 ---@type snacks.picker.Config|{}
 M.picker = {
     layouts = layouts,
@@ -99,6 +125,11 @@ M.picker = {
         },
     },
     sources = {
+        recent = {
+            filter = {
+                filter = get_recent_filter(),
+            },
+        },
         files = {
             actions = {
                 switch_grep = function(picker)
