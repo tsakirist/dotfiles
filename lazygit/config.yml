@@ -25,9 +25,9 @@ gui:
       - "#7b7c7e"
 
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never
+  pagers:
+    - pager: delta --dark --paging=never
+      colorArg: always
 
 keybinding:
   universal:
