@@ -2,23 +2,10 @@ local M = {}
 
 function M.setup()
     require("gitsigns").setup {
-        signs = {
-            add = { text = "│" },
-            change = { text = "│" },
-            delete = { text = "-" },
-            topdelete = { text = "‾" },
-            changedelete = { text = "~" },
-            untracked = { text = "┆" },
-        },
         signcolumn = true, -- Add signs in the signcolumn
         numhl = true, -- Highlights just the number part of the number column
         linehl = false, -- Highlights the whole line
         word_diff = false, -- Highlights just the part of the line that has changed
-        watch_gitdir = { -- Add a watcher for the .git directory to detect changes
-            enable = true, -- Whether the watcher is enabled
-            interval = 1000, -- Interval to wait before polling gitdir in (ms)
-            follow_files = true, -- Follow files e.g. git mv
-        },
         attach_to_untracked = true, -- Attach to untracked files
         current_line_blame = false, -- Add current line blame
         current_line_blame_opts = { -- Options for lineblame
@@ -28,10 +15,6 @@ function M.setup()
             ignore_whitespace = false, -- Ignore whitespaces
         },
         current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>", -- Line blame formatter
-        sign_priority = 6, -- Sign priority
-        update_debounce = 100, -- Debounce time for updates in (ms)
-        status_formatter = nil, -- Use default status_formatter
-        max_file_length = 40000, -- Max file length to attach to
         preview_config = { -- Options to pass to nvim_open_win
             border = "rounded",
             style = "minimal",
