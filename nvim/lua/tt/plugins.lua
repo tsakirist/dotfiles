@@ -275,6 +275,27 @@ return {
                 require("tt._plugins.git.diffview").setup()
             end,
         },
+        -- VSCode style diff
+        {
+            "esmuellert/codediff.nvim",
+            dependencies = "MunifTanjim/nui.nvim",
+            cmd = "CodeDiff",
+            keys = {
+                { "<leader>cd", "<Cmd>CodeDiff<CR>", mode = "n", desc = "Open CodeDiff" },
+            },
+            opts = {
+                keymaps = {
+                    view = {
+                        toggle_explorer = "<leader>e",
+                    },
+                    explorer = {
+                        select = "o",
+                        toggle_view_mode = "<leader>v",
+                        toggle_stage = "s",
+                    },
+                },
+            },
+        },
         -- Popup about the commit message under cursor
         {
             "rhysd/git-messenger.vim",
