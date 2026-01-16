@@ -103,6 +103,8 @@ local function setup_picker_keymaps()
     utils.map("n", "<leader>gb", Snacks.picker.grep_buffers, { desc = "Live grep in open buffers" })
     utils.map("n", "<leader>so", Snacks.picker.smart, { desc = "Smart open" })
 
+    utils.map("n", "<leader>G", custom_pickers.git_pickers, { desc = "Snacks git pickers" })
+
     utils.map("n", "<leader>fv", function()
         custom_pickers.config_action "files"
     end, { desc = "Find files in config" })

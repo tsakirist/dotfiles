@@ -53,4 +53,55 @@ function M.show_sessions()
     }
 end
 
+function M.git_pickers()
+    local pickers = {
+        {
+            label = "Git status",
+            action = function()
+                Snacks.picker.git_status()
+            end,
+        },
+        {
+            label = "Git stash",
+            action = function()
+                Snacks.picker.git_stash()
+            end,
+        },
+        {
+            label = "Git log",
+            action = function()
+                Snacks.picker.git_log()
+            end,
+        },
+        {
+            label = "Git log file",
+            action = function()
+                Snacks.picker.git_log_file()
+            end,
+        },
+        {
+            label = "Git branches",
+            action = function()
+                Snacks.picker.git_branches()
+            end,
+        },
+    }
+
+    Snacks.picker.select(pickers, {
+        prompt = "Select a Git picker",
+        format_item = function(item)
+            return item.label
+        end,
+        snacks = {
+            layout = {
+                preset = "vscode",
+            },
+        },
+    }, function(item)
+        if item then
+            item.action()
+        end
+    end)
+end
+
 return M
