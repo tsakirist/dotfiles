@@ -1,3 +1,6 @@
+local Actions = require "snacks.explorer.actions"
+local Tree = require "snacks.explorer.tree"
+
 local M = {}
 
 ---Source code adapted from: https://github.com/folke/snacks.nvim/discussions/1306#discussioncomment-12248922
@@ -72,6 +75,35 @@ M.explorer = {
             picker.preview.win:close()
             explorer_actions.actions.confirm(picker, ...)
         end,
+        expand_recursive = function(picker, item)
+            local item_node = Tree:node(item.file)
+            if not item_node then
+                return
+            end
+
+            Tree:walk(item_node, function(node)
+                if node.dir then
+                    Tree:open(node.path)
+                    Tree:expand(node)
+                end
+            end, { all = true })
+
+            Actions.update(picker, { refresh = true })
+        end,
+        collapse_recursive = function(picker, item)
+            local item_node = Tree:node(item.file)
+            if not item_node then
+                return
+            end
+
+            Tree:walk(item_node, function(node)
+                if node.dir then
+                    Tree:close(node.path)
+                end
+            end, { all = true })
+
+            Actions.update(picker, { refresh = true })
+        end,
     },
     win = {
         list = {
@@ -82,6 +114,8 @@ M.explorer = {
                 ["+"] = "open",
                 ["O"] = "explorer_open",
                 ["?"] = "toggle_help_list",
+                ["L"] = "expand_recursive",
+                ["H"] = "collapse_recursive",
                 ["<C-t>"] = "tab",
                 ["<C-f>"] = "focus_input",
                 ["<M-h>"] = false,
