@@ -245,6 +245,19 @@ return {
                 autoEnableHints = false,
             },
         },
+        {
+            "yioneko/nvim-vtsls",
+            ft = {
+                "javascript",
+                "javascriptreact",
+                "typescript",
+                "typescriptreact",
+            },
+            cmd = {
+                "VtsExec",
+                "VtsRename",
+            },
+        },
     },
 
     -- Git related plugins
