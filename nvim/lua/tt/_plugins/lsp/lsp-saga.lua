@@ -80,7 +80,6 @@ function M.on_attach(_, bufnr)
 
     local utils = require "tt.utils"
     utils.map("n", "<leader>ca", "<Cmd>Lspsaga code_action<CR>", opts "Open code action menu")
-    utils.map("n", "gd", "<Cmd>Lspsaga goto_definition<CR>", opts "Goto definition")
     utils.map("n", "gD", "<Cmd>Lspsaga goto_type_definition<CR>", opts "Goto type definition")
     utils.map("n", "gp", "<Cmd>Lspsaga peek_definition<CR>", opts "Peek definition")
     utils.map("n", "dA", "<Cmd>Lspsaga show_buf_diagnostics<CR>", opts "Show buffer diagnostics")
